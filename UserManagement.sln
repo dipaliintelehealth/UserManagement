@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.31129.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserManagement.Domain", "UserManagement.Domain\UserManagement.Domain.csproj", "{237A19D1-BBAA-472C-BDFD-CF89EBA0B0EA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserManagement.Contract", "UserManagement.Repository.Contract\UserManagement.Contract.csproj", "{6A5DB8B5-21F8-40D1-9936-A9A91FA7D3FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserManagement.Contract", "UserManagement.Contract\UserManagement.Contract.csproj", "{6A5DB8B5-21F8-40D1-9936-A9A91FA7D3FD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserManagement.Infrastructure", "UserManagement.Repository\UserManagement.Infrastructure.csproj", "{86015786-784C-499A-8D75-3232FF43C6DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserManagement.Infrastructure", "UserManagement.Infrastructure\UserManagement.Infrastructure.csproj", "{86015786-784C-499A-8D75-3232FF43C6DB}"
 	ProjectSection(ProjectDependencies) = postProject
 		{6A5DB8B5-21F8-40D1-9936-A9A91FA7D3FD} = {6A5DB8B5-21F8-40D1-9936-A9A91FA7D3FD}
 		{237A19D1-BBAA-472C-BDFD-CF89EBA0B0EA} = {237A19D1-BBAA-472C-BDFD-CF89EBA0B0EA}
