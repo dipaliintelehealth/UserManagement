@@ -1,0 +1,235 @@
+﻿@{
+   Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<form id="form" name="form" action="/Villagemapping/upload" enctype="multipart/form-data" method="post">
+
+
+    <table class="style1" border="0" cellpadding="4px" cellspacing="0">
+        <tr>
+            <td>
+                &nbsp;
+            </td>
+            <td>
+                &nbsp;
+            </td>
+            <td align="right">
+                <label id="label1" runat="server"> Select File to Upload Bulk Data</label>
+            </td>
+            <td>
+                <input id="files" type="file" accept=".xlsx" name="files" class="form-control-file">
+            </td>
+            <td>
+                <a href="~/UserRegistrationTemplate.xlsx" Target="_blank">Download Template</a>
+            </td>
+            <td>
+                &nbsp;
+            </td>
+            <td>
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td>
+                &nbsp;
+            </td>
+            <td>
+                &nbsp;
+            </td>
+            <td>
+                &nbsp;
+            </td>
+            <td>
+                <input type="button" value="Import" onclick="UploadFile()" class="btn btn-info">
+                @*<asp:Button ID="Button1" runat="server" onclick="Button1_Click" Text="Import" ForeColor="White" BackColor="#009900" class="" />*@
+            </td>
+            <td>
+                <input type="button" id="btnExport" value="Export Users" class="btn btn-success" onclick="Export()" />
+                &nbsp;
+            </td>
+            <td>
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td id="tdResult" colspan="6">
+
+
+                @*<asp:GridView ID="GridView1" runat="server">
+                    </asp:GridView>*@
+            </td>
+        </tr>
+        <tr>
+            <td class="auto-style1">
+            </td>
+            <td class="auto-style1">
+            </td>
+            <td class="auto-style1">
+            </td>
+            <td class="auto-style1">
+                <label id="lblErrorMsg" class="col-12 col-md-2 col-xl-2 control-label"></label>
+                @*<asp:Label ID="lblMessage" runat="server" Text=""></asp:Label>*@
+            </td>
+            <td class="auto-style1">
+            </td>
+            <td class="auto-style1">
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                &nbsp;
+            </td>
+            <td>
+                &nbsp;
+            </td>
+            <td colspan="3">
+                @*<div runat="server" id="divError"></div>*@
+            </td>
+            <td>
+                &nbsp;
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                &nbsp;
+            </td>
+            <td>
+                &nbsp;
+            </td>
+            <td>
+                &nbsp;
+            </td>
+            <td>
+                &nbsp;
+            </td>
+            <td>
+                &nbsp;
+            </td>
+            <td>
+                &nbsp;
+            </td>
+        </tr>
+    </table>
+
+
+</form>
+<div class="table-responsive">
+
+    @*<table id="tblCustomers" cellspacing="0" cellpadding="0">
+            <tr>
+                <th>Customer Id</th>
+                <th>Name</th>
+                <th>Country</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>John Hammond</td>
+                <td>United States</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Mudassar Khan</td>
+                <td>India</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Suzanne Mathews</td>
+                <td>France</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Robert Schidner</td>
+                <td>Russia</td>
+            </tr>
+        </table>
+        <br />*@
+
+
+    @*<table data-toggle="table" class="table table-hover" id="tblHealthFacility">
+            <thead>
+                <tr>
+                    <th>Sl No.</th>
+                    <th>
+                        HF Name
+                    </th>
+                    <th>
+                        HF Phone
+                    </th>
+                    <th>
+                        HF Type
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+            </tbody>
+        </table>*@
+</div>
+
+@section Scripts{
+    <script>
+        function UploadFile() {
+            if ($('#files').val() === "") {
+                bootbox.alert("Please Upload Files.");
+                $('#files').focus();
+                return false;
+            }
+            var fileExtension = ['xls', 'xlsx'];
+            var file_name = $('#files')[0].files[0].name;
+            var fileNameExt = file_name.substr(file_name.lastIndexOf('.') + 1);
+            if ($.inArray(fileNameExt.toLowerCase(), fileExtension) == -1) {
+                bootbox.alert("Only 'xls','xlsx' formats are allowed.");
+                return;
+            }
+            else {
+                var fileUpload = $("#files").get(0);
+                var files = fileUpload.files;
+                var data = new FormData();
+                data.append(files[0].name, files[0]);
+                $.ajax({
+                    type: "POST",
+                    url: "/Home/UploadUserFile",
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data
+                    data: data,
+                    async: false,
+                    success: function (res) {
+                        if (res.length != 0) {
+                            var html = '';
+                            var count = 1;
+                            //$.each(res, function (key, item) {
+
+                            //    alert(item.strHFName);
+                            //    html += '<tr>';
+                            //    html += '<td>' + count + '</td>';
+                            //    html += '<td>' + item.strHFName + '</td>';
+                            //    html += '<td>' + item.strHFNameActual + '</td>';
+                            //    html += '<td>' + item.strHFPhone + '</td>';
+                            //    html += '</tr>';
+                            //    count++;
+                            //});
+                            $('#tdResult').html(res);
+                        }
+                        //$('#lblErrorMsg').text(message);
+                        //alert(message)
+                    },
+                    error: function () {
+                        alert(res);
+                    }
+                });
+            }
+        }
+
+    </script>
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="table2excel.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        function Export() {
+            $("#tblCustomers").table2excel({
+                filename: "UserList.xls"
+            });
+        }
+    </script>
+
+}
