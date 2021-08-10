@@ -9,9 +9,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\UserManagement.Contract\UserManagement.Contract.csproj" />
     <ProjectReference Include="..\UserManagement.Domain\UserManagement.Domain.csproj" />
-    <ProjectReference Include="..\UserManagement.Repository.Contract\UserManagement.Contract.csproj" />
-    <ProjectReference Include="..\usermanagement.Repository\UserManagement.Infrastructure.csproj" />
+    <ProjectReference Include="..\UserManagement.Infrastructure\UserManagement.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
