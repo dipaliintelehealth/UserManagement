@@ -11,9 +11,9 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
- 
+
+using MySql.Data.MySqlClient;
 using System.Data;
-using System.Data.SqlClient;
 using UserManagement.Contract.Factory;
 
 namespace UserManagement.Infrastructure.Factory
@@ -43,7 +43,7 @@ namespace UserManagement.Infrastructure.Factory
         /// </summary>
         /// <value>The get connection.</value>
         //public IDbConnection GetOraConnection => new OracleConnection(_connectionString);
-        public IDbConnection GetConnection => new SqlConnection(_connectionString);
+        public IDbConnection GetConnection => new MySqlConnection(_connectionString);
     }
 
 }

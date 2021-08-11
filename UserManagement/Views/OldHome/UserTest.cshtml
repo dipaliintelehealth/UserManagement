@@ -188,7 +188,7 @@
                 data.append(files[0].name, files[0]);
                 $.ajax({
                     type: "POST",
-                    url: "/Home/UploadUserFile",
+                    url: "/OldHome/UploadUserFile",
                     contentType: false, // Not to set any content header
                     processData: false, // Not to process data
                     data: data,
@@ -223,7 +223,7 @@
     </script>
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-    <script src="table2excel.js" type="text/javascript"></script>
+    <script src="~/table2excel.js" type="text/javascript"></script>
     <script type="text/javascript">
         function Export() {
             $("#tblCustomers").table2excel({

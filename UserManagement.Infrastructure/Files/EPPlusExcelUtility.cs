@@ -17,7 +17,7 @@ namespace UserManagement.Infrastructure.Files
             var returnList = Enumerable.Empty<T>();
             var obj = new T();
             var properties = obj.GetType().GetProperties();
-            //ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             using (var excelPack = new ExcelPackage())
             {
                 excelPack.Load(stream);
@@ -50,7 +50,7 @@ namespace UserManagement.Infrastructure.Files
             if (actualColumns == 0)
                 return null;
 
-            foreach (var firstRowCell in ws.Cells[1, 1, 1, ws.Dimension.End.Column])
+            foreach (var firstRowCell in ws.Cells[2, 1, 1, ws.Dimension.End.Column])
             {
                 string firstColumn = firstRowCell.Text;
                 excelColumnHeaders.Add(firstColumn);
@@ -101,17 +101,17 @@ namespace UserManagement.Infrastructure.Files
         private IEnumerable<T> GetDataForMappedColumns(ExcelWorksheet ws, List<string> excelColumnHeaders, IEnumerable<System.Reflection.PropertyInfo> properties)
         {
             List<T> returnList = new List<T>();
-            for (int rowNum = 2; rowNum <= ws.Dimension.End.Row; rowNum++)
+            for (int rowNum = 3; rowNum <= ws.Dimension.End.Row; rowNum++)
             {
                 var returnObject = new T();
 
                 foreach (var mappedPair in _configuration.ColumnPropertyMapping)
                 {
-                    if (excelColumnHeaders.Contains(mappedPair.Value))
+                    if (excelColumnHeaders.Contains(mappedPair.Key))
                     {
-                        var excelHeaderColumnIndex = excelColumnHeaders.IndexOf(mappedPair.Value);
-                        var property = properties.FirstOrDefault(x => x.Name == mappedPair.Key);
-                        var excelCellText = ws.Cells[rowNum, excelHeaderColumnIndex + 1].Value.ToString();
+                        var excelHeaderColumnIndex = excelColumnHeaders.IndexOf(mappedPair.Key);
+                        var property = properties.FirstOrDefault(x => x.Name == mappedPair.Value);
+                        var excelCellText = Convert.ToString(ws.Cells[rowNum, excelHeaderColumnIndex + 1].Value);
                         if (property != null)
                         {
                             if (property.PropertyType == typeof(DateTime))

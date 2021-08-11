@@ -3,15 +3,6 @@
     ViewData["Title"] = "Add";
 }
 
-<h1>@ViewBag.Message</h1>
-@if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
-{
-    <div class="text-success">@ViewBag.SuccessMessage</div>
-}
-@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
-{
-    <div class="text-danger">@ViewBag.ErrorMessage</div>
-}
 <form enctype="multipart/form-data" asp-action="BulkImport">
     <table class="style1" border="0" cellpadding="4px" cellspacing="0">
         <tr>
@@ -25,7 +16,7 @@
                 <label id="label1" runat="server"> Select File to Upload Bulk Data</label>
             </td>
             <td>
-                <input id="files" type="file" accept=".xlsx" name="formFile" class="form-control-file">
+                <input id="files" type="file" accept=".xlsx" required name="formFile" class="form-control-file">
             </td>
             <td>
                 <a href="~/UserRegistrationTemplate.xlsx" Target="_blank">Download Template</a>
@@ -121,3 +112,4 @@
         </tr>
     </table>
 </form>
+

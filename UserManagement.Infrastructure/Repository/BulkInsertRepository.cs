@@ -113,7 +113,7 @@ namespace UserManagement.Infrastructure.Repository
         public async Task<IEnumerable<StateDistrictCity>> GetStateDistrictCities()
         {
             var sql = "SELECT S.StateId, S.StateName,S.StateCode " +
-                        ", D.DistrictId, D.DistrictName, " +
+                        ", D.DistrictId, D.DistrictName " +
                         ", (SELECT ShortDistCode FROM lgd_dist AS L WHERE L.DistrictNameE = D.DistrictName LIMIT 1) AS DistrictShortCode " +
                         ", C.CityId, C.CityName, C.CityCode " +
                         " FROM md_state AS S " +
