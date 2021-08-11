@@ -23,7 +23,7 @@ namespace UserManagement.Controllers
         // GET: HomeController
         public ActionResult Index()
         {
-            return View();
+            return View(resultModels);
         }
 
 
@@ -41,8 +41,8 @@ namespace UserManagement.Controllers
                 var stream = new MemoryStream();
                 await formFile.CopyToAsync(stream);
                 resultModels = await bulkDataImportService.ImportData(stream);
-                return RedirectToAction(nameof(Index));
-            }
+                return View(resultModels);
+            }                                         
             catch(Exception ex)
             {
                 return View();

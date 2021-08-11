@@ -1,0 +1,31 @@
+﻿@model IEnumerable<UserManagement.Domain.ResultModel<MemberBulkImportVM>>
+@using  UserManagement.Domain.ViewModel
+@if(Model != null && Model.Count()>0)
+{
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Model.HFName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Model.UserName)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Model.HFName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Model.UserName)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+}
+

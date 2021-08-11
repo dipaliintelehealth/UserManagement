@@ -23,7 +23,7 @@ namespace UserManagement.Repository
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IMemberBulkInsertRepository, BulkInsertRepository>();
 
-            services.AddScoped(typeof(ICsvFileUtility<>), typeof(CsvUtility<>));
+           // services.AddScoped(typeof(ICsvFileUtility<>), typeof(InstitutionModelCsvUtility<>));
             services.AddScoped(typeof(IExcelFileUtility<>), typeof(EPPlusExcelUtility<>));
             return services;
         }

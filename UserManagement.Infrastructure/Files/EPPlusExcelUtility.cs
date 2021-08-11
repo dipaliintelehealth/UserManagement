@@ -37,7 +37,7 @@ namespace UserManagement.Infrastructure.Files
             return returnList;
         }
 
-        public virtual Stream Write(IEnumerable<T> data)
+        public virtual bool Write(IEnumerable<T> data,Stream stream)
         {
             throw new NotImplementedException();
         }
@@ -132,6 +132,11 @@ namespace UserManagement.Infrastructure.Files
                 returnList.Add(returnObject);
             }
             return returnList;
+        }
+
+        public Stream Write(IEnumerable<T> data)
+        {
+            throw new NotImplementedException();
         }
     }
 

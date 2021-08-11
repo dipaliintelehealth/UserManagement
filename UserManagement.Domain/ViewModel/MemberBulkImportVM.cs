@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.ComponentModel.DataAnnotations;
 
 namespace UserManagement.Domain.ViewModel
 {
     public class MemberBulkImportVM
     {
+        [Display(Name = "HF Name")]
         public string HFName { get; set; }
         public string HFNameActual { get; set; }
         public string HFPhone { get; set; }
         public string HFType { get; set; }
         public string NIN { get; set; }
+        [Display(Name = "HF Email")]
         public string HFEmail { get; set; }
         public string State { get; set; }
         public string District { get; set; }
@@ -85,6 +88,7 @@ namespace UserManagement.Domain.ViewModel
         public string InstituteID { get; set; }
         public string MemberId { get; set; }
         public string UserDistrictShortCode { get; set; }
+        [Display(Name = "User Name")]
         public string UserName { get; set; }
         public string ComputedHFName
         {

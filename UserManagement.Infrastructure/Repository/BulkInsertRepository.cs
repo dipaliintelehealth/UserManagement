@@ -27,21 +27,46 @@ namespace UserManagement.Infrastructure.Repository
 
         public async Task<int> BulkInsertInstitution(Stream stream)
         {
-            var connection = new MySqlConnection(Connection.ConnectionString);
-            MySqlBulkLoader bulkLoader = new MySqlBulkLoader(connection);
+            var connection = new MySqlConnection($"{Connection.ConnectionString};AllowLoadLocalInfile=True");
+            MySqlBulkLoader bulkLoader = new MySqlBulkLoader(connection)
+            {
+                Columns = {
+                    "Name",
+                    "AddressLine1",
+                    "AddressLine2",
+                    "ReferenceNumber",
+                    "CountryId",
+                    "StateId",
+                    "DistrictId",
+                    "CityId",
+                    "PinCode",
+                    "Mobile",
+                    "Email",
+                    "ImagePath",
+                    "InstitutionTypeId",
+                    "IsActive",
+                    "Fax",
+                    "CreatedDate",
+                    "SourceId",
+                    "StatusId"
+                }
+            };
+
             bulkLoader.Local = true;
             bulkLoader.TableName = "md_institution";
             bulkLoader.FieldTerminator = ",";
             bulkLoader.LineTerminator = "\n";
-            bulkLoader.FieldQuotationCharacter = '"';
+            //bulkLoader.FieldQuotationCharacter = '"';
             bulkLoader.SourceStream = stream;
             bulkLoader.NumberOfLinesToSkip = 1;
+
+
             return await bulkLoader.LoadAsync();
         }
 
         public async Task<int> BulkInsertMembers(Stream stream)
         {
-            var connection = new MySqlConnection(Connection.ConnectionString);
+            var connection = new MySqlConnection($"{Connection.ConnectionString};AllowLoadLocalInfile=True");
             MySqlBulkLoader bulkLoader = new MySqlBulkLoader(connection);
             bulkLoader.Local = true;
             bulkLoader.TableName = "md_members";
@@ -126,7 +151,7 @@ namespace UserManagement.Infrastructure.Repository
 
         public async Task<int> BulkInsertLogin(Stream stream)
         {
-            var connection = new MySqlConnection(Connection.ConnectionString);
+            var connection = new MySqlConnection($"{Connection.ConnectionString};AllowLoadLocalInfile=True");
             MySqlBulkLoader bulkLoader = new MySqlBulkLoader(connection);
             bulkLoader.Local = true;
             bulkLoader.TableName = "md_login";
@@ -140,7 +165,7 @@ namespace UserManagement.Infrastructure.Repository
 
         public async Task<int> BulkInsertMemberSlot(Stream stream)
         {
-            var connection = new MySqlConnection(Connection.ConnectionString);
+            var connection = new MySqlConnection($"{Connection.ConnectionString};AllowLoadLocalInfile=True");
             MySqlBulkLoader bulkLoader = new MySqlBulkLoader(connection);
             bulkLoader.Local = true;
             bulkLoader.TableName = "md_members_slot";
@@ -154,7 +179,7 @@ namespace UserManagement.Infrastructure.Repository
 
         public async Task<int> BulkInsertMemberInstitution(Stream stream)
         {
-            var connection = new MySqlConnection(Connection.ConnectionString);
+            var connection = new MySqlConnection($"{Connection.ConnectionString};AllowLoadLocalInfile=True");
             MySqlBulkLoader bulkLoader = new MySqlBulkLoader(connection);
             bulkLoader.Local = true;
             bulkLoader.TableName = "mp_member_institution";

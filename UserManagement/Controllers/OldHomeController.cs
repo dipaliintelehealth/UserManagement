@@ -334,7 +334,7 @@ namespace UserManagement.Controllers
         }
         private static DataTable GetDataTableFromExcel(string path, bool hasHeader = true)
         {
-           // ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+           ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             using (var pck = new OfficeOpenXml.ExcelPackage())
             {
                 using (var stream = System.IO.File.OpenRead(path))

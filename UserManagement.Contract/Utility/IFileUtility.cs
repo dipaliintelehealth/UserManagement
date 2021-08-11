@@ -7,5 +7,6 @@ namespace UserManagement.Contract.Utility
     {
         IEnumerable<T> Read(Stream stream);
         Stream Write(IEnumerable<T> data);
+     
     }
 }
