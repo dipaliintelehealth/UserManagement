@@ -16,5 +16,4 @@ namespace UserManagement.Infrastructure.Mapper.CSV
             Map(m => m.SourceId).Index(5);
         }
     }
-
 }

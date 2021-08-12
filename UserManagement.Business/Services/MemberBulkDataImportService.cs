@@ -370,7 +370,7 @@ namespace UserManagement.Business
 
                 var result = modelReturns.Select(x =>
                 {
-                    var find = results.FirstOrDefault(r => r.FirstName == x.Model.FirstName && r.LastName == x.Model.LastName && r.DOB == x.Model.DOB);
+                    var find = results.FirstOrDefault(r => r.Email == x.Model.UserEmail);
                     if (find != null)
                     {
                         x.Model.MemberId = Convert.ToString(find.MemberId);

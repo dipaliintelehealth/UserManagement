@@ -67,9 +67,117 @@ namespace UserManagement.Infrastructure.Repository
         public async Task<int> BulkInsertMembers(Stream stream)
         {
             var connection = new MySqlConnection($"{Connection.ConnectionString};AllowLoadLocalInfile=True");
-            MySqlBulkLoader bulkLoader = new MySqlBulkLoader(connection);
+            MySqlBulkLoader bulkLoader = new MySqlBulkLoader(connection)
+            {
+                Columns = {
+                    "FirstName",
+                    "MiddleName",
+                    "LastName",
+                    "AgeType",
+                    "DOB",
+                    "Age",
+                    "Mobile",
+                    "Email",
+                    "CreatedBy",
+                    "CreatedDate",
+                    "IsActive",
+                    "GenderId",
+                    "RegistrationNumber",
+                    "AddressLine1",
+                    "AddressLine2",
+                    "StateId",
+                    "DistrictId",
+                    "CityId",
+                    "SpecializationId",
+                    "QualificationId",
+                    "PinCode",
+                    "Fax",
+                    "LoginOTP",
+                    "IsLoginOTPActive",
+                    "SignaturePath",
+                    "CountryId",
+                    "StatusId",
+                    "RatingMasterId",
+                    "SourceId",
+                    "IsMaster",
+                    "ImagePath",
+                    "FileName",
+                    "FileFlag",
+                    "IsAvailable",
+                    "Prefix",
+                    "CreationRole"
+                }
+            };
             bulkLoader.Local = true;
             bulkLoader.TableName = "md_members";
+            bulkLoader.FieldTerminator = ",";
+            bulkLoader.LineTerminator = "\n";
+            bulkLoader.FieldQuotationCharacter = '"';
+            bulkLoader.SourceStream = stream;
+            bulkLoader.NumberOfLinesToSkip = 1;
+            return await bulkLoader.LoadAsync();
+        }
+        public async Task<int> BulkInsertLogin(Stream stream)
+        {
+            var connection = new MySqlConnection($"{Connection.ConnectionString};AllowLoadLocalInfile=True");
+            MySqlBulkLoader bulkLoader = new MySqlBulkLoader(connection)
+            {
+                Columns = {
+                    "UserName",
+                    "Password",
+                    "ReferenceId",
+                    "IsActive",
+                    "SourceId"
+                }
+            };
+            bulkLoader.Local = true;
+            bulkLoader.TableName = "md_login";
+            bulkLoader.FieldTerminator = ",";
+            bulkLoader.LineTerminator = "\n";
+            bulkLoader.FieldQuotationCharacter = '"';
+            bulkLoader.SourceStream = stream;
+            bulkLoader.NumberOfLinesToSkip = 1;
+            return await bulkLoader.LoadAsync();
+        }
+        public async Task<int> BulkInsertMemberSlot(Stream stream)
+        {
+            var connection = new MySqlConnection($"{Connection.ConnectionString};AllowLoadLocalInfile=True");
+            MySqlBulkLoader bulkLoader = new MySqlBulkLoader(connection)
+            {
+                Columns = {
+                    "MemberId",
+                    "Day",
+                    "SlotTo",
+                    "SlotFrom",
+                    "CreatedDate",
+                    "IsActive",
+                    "SourceId"
+                }
+            };
+            bulkLoader.Local = true;
+            bulkLoader.TableName = "md_members_slot";
+            bulkLoader.FieldTerminator = ",";
+            bulkLoader.LineTerminator = "\n";
+            bulkLoader.FieldQuotationCharacter = '"';
+            bulkLoader.SourceStream = stream;
+            bulkLoader.NumberOfLinesToSkip = 1;
+            return await bulkLoader.LoadAsync();
+        }
+
+        public async Task<int> BulkInsertMemberInstitution(Stream stream)
+        {
+            var connection = new MySqlConnection($"{Connection.ConnectionString};AllowLoadLocalInfile=True");
+            MySqlBulkLoader bulkLoader = new MySqlBulkLoader(connection)
+            {
+                Columns = {
+                   "MemberId",
+                    "InstitutionId",
+                    "IsActive",
+                    "SourceId"
+                }
+            };
+            bulkLoader.Local = true;
+            bulkLoader.TableName = "mp_member_institution";
             bulkLoader.FieldTerminator = ",";
             bulkLoader.LineTerminator = "\n";
             bulkLoader.FieldQuotationCharacter = '"';
@@ -86,7 +194,6 @@ namespace UserManagement.Infrastructure.Repository
             var result = await Connection.QueryAsync<string>(sql);
             return result;
         }
-
         public async Task<IEnumerable<string>> FindMobiles(IEnumerable<string> mobiles)
         {
             var singleQuotedMobiles = mobiles.Select(x => { return $"'{x}'"; });
@@ -134,7 +241,6 @@ namespace UserManagement.Infrastructure.Repository
             var result = await Connection.QueryAsync<QualificationModel>(sql);
             return result;
         }
-
         public async Task<IEnumerable<StateDistrictCity>> GetStateDistrictCities()
         {
             var sql = "SELECT S.StateId, S.StateName,S.StateCode " +
@@ -148,49 +254,6 @@ namespace UserManagement.Infrastructure.Repository
             var result = await Connection.QueryAsync<StateDistrictCity>(sql);
             return result;
         }
-
-        public async Task<int> BulkInsertLogin(Stream stream)
-        {
-            var connection = new MySqlConnection($"{Connection.ConnectionString};AllowLoadLocalInfile=True");
-            MySqlBulkLoader bulkLoader = new MySqlBulkLoader(connection);
-            bulkLoader.Local = true;
-            bulkLoader.TableName = "md_login";
-            bulkLoader.FieldTerminator = ",";
-            bulkLoader.LineTerminator = "\n";
-            bulkLoader.FieldQuotationCharacter = '"';
-            bulkLoader.SourceStream = stream;
-            bulkLoader.NumberOfLinesToSkip = 1;
-            return await bulkLoader.LoadAsync();
-        }
-
-        public async Task<int> BulkInsertMemberSlot(Stream stream)
-        {
-            var connection = new MySqlConnection($"{Connection.ConnectionString};AllowLoadLocalInfile=True");
-            MySqlBulkLoader bulkLoader = new MySqlBulkLoader(connection);
-            bulkLoader.Local = true;
-            bulkLoader.TableName = "md_members_slot";
-            bulkLoader.FieldTerminator = ",";
-            bulkLoader.LineTerminator = "\n";
-            bulkLoader.FieldQuotationCharacter = '"';
-            bulkLoader.SourceStream = stream;
-            bulkLoader.NumberOfLinesToSkip = 1;
-            return await bulkLoader.LoadAsync();
-        }
-
-        public async Task<int> BulkInsertMemberInstitution(Stream stream)
-        {
-            var connection = new MySqlConnection($"{Connection.ConnectionString};AllowLoadLocalInfile=True");
-            MySqlBulkLoader bulkLoader = new MySqlBulkLoader(connection);
-            bulkLoader.Local = true;
-            bulkLoader.TableName = "mp_member_institution";
-            bulkLoader.FieldTerminator = ",";
-            bulkLoader.LineTerminator = "\n";
-            bulkLoader.FieldQuotationCharacter = '"';
-            bulkLoader.SourceStream = stream;
-            bulkLoader.NumberOfLinesToSkip = 1;
-            return await bulkLoader.LoadAsync();
-        }
-
         public async Task<string> AddAuditLog()
         {
             var sql = "INSERT INTO  `md_audittrail` ( " +
