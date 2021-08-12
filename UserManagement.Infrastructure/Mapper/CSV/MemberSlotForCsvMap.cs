@@ -12,8 +12,8 @@ namespace UserManagement.Infrastructure.Mapper.CSV
             Map(m => m.SlotTo).Index(3);
             Map(m => m.SlotFrom).Index(4);
             Map(m => m.CreatedDate).Index(5);
-            Map(m => m.IsActive).Index(4);
-            Map(m => m.SourceId).Index(5);
+            Map(m => m.IsActive).Index(6);
+            Map(m => m.SourceId).Index(7);
         }
     }
 }

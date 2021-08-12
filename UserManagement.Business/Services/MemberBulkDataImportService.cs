@@ -207,7 +207,7 @@ namespace UserManagement.Business
             }
             var hf = new List<string>()
             {
-                "HSC","PHC","HUB","SC","UPHC"
+                "UPHC","HSC","PHC","HUB","SC"
             };
 
             string strHFname = HFName;
