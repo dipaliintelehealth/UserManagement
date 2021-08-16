@@ -8,4 +8,5 @@ namespace UserManagement.Contract.Utility
     {
         IExcelFileUtility<T> Configure(ExcelConfiguration excelConfiguration);
     }
+
 }

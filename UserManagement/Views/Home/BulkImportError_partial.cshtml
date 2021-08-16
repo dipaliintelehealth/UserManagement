@@ -2,75 +2,81 @@
 @using  UserManagement.Domain.ViewModel
 @if (Model != null && Model.Count() > 0)
 {
-    
-        <div class="text-center"><b>Error Data</b></div>
-        <table class="table table-striped"  id="tblError">
-            <thead>
-                <tr>
-                    <th>
-                        Errors
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Model.HFName)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Model.HFEmail)
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
+    <div class="card mb-2" >
+        <div class="card-header text-danger">
+            Error Data
+        </div>
+        <div class="card-body">
+            <table class="table table-striped" id="tblError">
+                <thead>
                     <tr>
-                        <td>
-                            <ul>
-                                @foreach (var message in item.Messages)
-                                {
-                                    <li>@message</li>
-                                }
-                            </ul>
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Model.HFName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Model.HFEmail)
-                        </td>
+                        <th>
+                            Errors
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Model.HFName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Model.HFEmail)
+                        </th>
                     </tr>
-                }
-            </tbody>
-        </table>
-      
-        }
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $('#tblError').DataTable({
-                    dom: 'Bfrtip',
-                    buttons: [
-                        'copy',
-                        {
-                            extend: 'csv',
-                            title: 'Export - User List Error',
-                            footer: true
-                        },
-                        {
-                            extend: 'excel',
-                            title: 'Export - User List Error',
-                            footer: true
-                        },
-                        {
-                            extend: 'pdfHtml5',
-                            orientation: 'landscape',
-                            pageSize: 'LEGAL',
-                            title: 'Export - User List Error',
-                            footer: true
-                        },
-                        //'print',
-                    ],
-                });
-            });
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <ul>
+                                    @foreach (var message in item.Messages)
+                                    {
+                                        <li>@message</li>
+                                    }
+                                </ul>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Model.HFName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Model.HFEmail)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-        </script>
+
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#tblError').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'copy',
+                {
+                    extend: 'csv',
+                    title: 'Export - User List Error',
+                    footer: true
+                },
+                {
+                    extend: 'excel',
+                    title: 'Export - User List Error',
+                    footer: true
+                },
+                {
+                    extend: 'pdfHtml5',
+                    orientation: 'landscape',
+                    pageSize: 'LEGAL',
+                    title: 'Export - User List Error',
+                    footer: true
+                },
+                //'print',
+            ],
+        });
+    });
+
+</script>
 
 
 

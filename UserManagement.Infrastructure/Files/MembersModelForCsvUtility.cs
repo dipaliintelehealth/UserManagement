@@ -3,20 +3,19 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using UserManagement.Contract.Utility;
 using UserManagement.Domain;
 using UserManagement.Infrastructure.Mapper.CSV;
 
 namespace UserManagement.Infrastructure.Files
 {
-    public class MembersModelForCsvUtility : ICsvFileUtility<MembersModelForCsv>
+    public class MembersModelForCsvUtility :CsvUtilityBase<MembersModelForCsv>
     {
-        public IEnumerable<MembersModelForCsv> Read(Stream stream)
+        public override IEnumerable<MembersModelForCsv> Read(Stream stream)
         {
             throw new NotImplementedException();
         }
 
-        public Stream Write(IEnumerable<MembersModelForCsv> data)
+        public override Stream  Write(IEnumerable<MembersModelForCsv> data)
         {
             var stream = new MemoryStream();
             var writer = new StreamWriter(stream);
@@ -25,9 +24,9 @@ namespace UserManagement.Infrastructure.Files
             csv.WriteRecords(data);
             writer.Flush();
             stream.Position = 0;
-            var fs = new FileStream($"c:\\Dipali\\MembersModelForCsv_{DateTime.Now.ToString("ddMMyyyHHmmss")}.csv", FileMode.Create);
-            fs.Write(stream.ToArray());
-            fs.Close();
+            var fileName = $"{_configuration.CsvLogPath}\\MembersModelForCsv_{DateTime.Now.ToString("ddMMyyyHHmmss")}.csv";
+            Log(fileName, stream.ToArray());
+
             return new MemoryStream(stream.ToArray());
         }
     }

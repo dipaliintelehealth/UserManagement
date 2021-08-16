@@ -17,6 +17,7 @@ namespace UserManagement.Contract.Repository
         Task<int> BulkInsertMemberInstitution(Stream stream);
         Task<IEnumerable<string>> FindEmails(IEnumerable<string> emails);
         Task<IEnumerable<string>> FindMobiles(IEnumerable<string> mobiles);
+        Task<IEnumerable<string>> FindUsers(IEnumerable<string> users);
         Task<IEnumerable<InstitutionModel>> GetInstitution();
         Task<IEnumerable<QualificationModel>> GetQualification();
         Task<int> GetMaxInstituteId();

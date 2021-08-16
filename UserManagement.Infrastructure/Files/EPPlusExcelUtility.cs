@@ -17,7 +17,7 @@ namespace UserManagement.Infrastructure.Files
             var returnList = Enumerable.Empty<T>();
             var obj = new T();
             var properties = obj.GetType().GetProperties();
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            //ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             using (var excelPack = new ExcelPackage())
             {
                 excelPack.Load(stream);

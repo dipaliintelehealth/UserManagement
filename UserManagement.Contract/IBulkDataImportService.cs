@@ -20,6 +20,6 @@ namespace UserManagement.Contract
 {
     public interface IBulkDataImportService<T> where T :class
     {
-        Task<IEnumerable<ResultModel<T>>> ImportData(Stream stream);
+        Task<IEnumerable<ResultModel<T>>> ImportData(Stream stream,string pathForCsvLog);
     }
 }

@@ -9,14 +9,14 @@ using UserManagement.Infrastructure.Mapper.CSV;
 
 namespace UserManagement.Infrastructure.Files
 {
-    public class MemberSlotModelCsvUtility : ICsvFileUtility<MemberSlotModelForCsv>
+    public class MemberSlotModelCsvUtility : CsvUtilityBase<MemberSlotModelForCsv>
     {
-        public IEnumerable<MemberSlotModelForCsv> Read(Stream stream)
+       public override IEnumerable<MemberSlotModelForCsv> Read(Stream stream)
         {
             throw new NotImplementedException();
         }
 
-        public Stream Write(IEnumerable<MemberSlotModelForCsv> data)
+        public override Stream Write(IEnumerable<MemberSlotModelForCsv> data)
         {
             var stream = new MemoryStream();
             var writer = new StreamWriter(stream);
@@ -25,9 +25,8 @@ namespace UserManagement.Infrastructure.Files
             csv.WriteRecords(data);
             writer.Flush();
             stream.Position = 0;
-            var fs = new FileStream($"c:\\Dipali\\MemberSlotModelForCsv_{DateTime.Now.ToString("ddMMyyyHHmmss")}.csv", FileMode.Create);
-            fs.Write(stream.ToArray());
-            fs.Close();
+            var fileName = $"{_configuration.CsvLogPath}\\MemberSlotModelForCsv_{DateTime.Now.ToString("ddMMyyyHHmmss")}.csv";
+            Log(fileName, stream.ToArray());
             return new MemoryStream(stream.ToArray());
         }
     }

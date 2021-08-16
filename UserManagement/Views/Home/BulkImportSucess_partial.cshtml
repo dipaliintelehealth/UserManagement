@@ -2,34 +2,41 @@
 @using  UserManagement.Domain.ViewModel
 @if (Model != null && Model.Count() > 0)
 {
-    <div class="text-center"><b>Sucess Data</b></div>
+    <div class="card mb-2">
+        <div class="card-header text-success">
+            Sucess Data
+        </div>
+        <div class="card-body">
 
-    <table class="table table-striped" id="tblSucess">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Model.HFName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Model.UserName)
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Model.HFName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Model.UserName)
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-    
+            <table class="table table-striped" id="tblSucess">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Model.HFName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Model.UserName)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Model.HFName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Model.UserName)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+  
+  
 }
 <script type="text/javascript">
     $(document).ready(function () {

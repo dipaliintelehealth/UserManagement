@@ -77,7 +77,7 @@ namespace UserManagement.Business.Tests
 
             #region Act
 
-            var result = await service.ImportData(new MemoryStream());
+            var result = await service.ImportData(new MemoryStream(),string.Empty);
 
             #endregion
 

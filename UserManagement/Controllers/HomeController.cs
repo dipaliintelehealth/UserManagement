@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,11 +16,15 @@ namespace UserManagement.Controllers
     public class HomeController : Controller
     {
         private readonly IBulkDataImportService<MemberBulkImportVM> bulkDataImportService;
+        private readonly IHostingEnvironment hostingEnvironment;
+        private readonly ILogger<HomeController> logger;
         private IEnumerable<ResultModel<MemberBulkImportVM>> resultModels = new List<ResultModel<MemberBulkImportVM>>();
 
-        public HomeController(IBulkDataImportService<MemberBulkImportVM> bulkDataImportService)
+        public HomeController(IBulkDataImportService<MemberBulkImportVM> bulkDataImportService, IHostingEnvironment hostingEnvironment, ILogger<HomeController> logger)
         {
             this.bulkDataImportService = bulkDataImportService;
+            this.hostingEnvironment = hostingEnvironment;
+            this.logger = logger;
         }
         // GET: HomeController
         public ActionResult Index()
@@ -29,6 +35,9 @@ namespace UserManagement.Controllers
 
         public ActionResult BulkImport()
         {
+            logger.LogInformation("Bulk import called");
+            var d = 0;
+            var t = 1 / d;
             return View();
         }
 
@@ -36,17 +45,12 @@ namespace UserManagement.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> BulkImport(IFormFile formFile)
         {
-            try
-            {
-                var stream = new MemoryStream();
-                await formFile.CopyToAsync(stream);
-                resultModels = await bulkDataImportService.ImportData(stream);
-                return View(resultModels);
-            }                                         
-            catch(Exception ex)
-            {
-                return View();
-            }
+
+            var stream = new MemoryStream();
+            await formFile.CopyToAsync(stream);
+            var path = hostingEnvironment.WebRootPath + "\\CsvLogs";
+            resultModels = await bulkDataImportService.ImportData(stream, path);
+            return View(resultModels);
         }
     }
 }

@@ -202,6 +202,14 @@ namespace UserManagement.Infrastructure.Repository
             var result = await Connection.QueryAsync<string>(sql);
             return result;
         }
+        public async Task<IEnumerable<string>> FindUsers(IEnumerable<string> users)
+        {
+            var singleQuotedMobiles = users.Select(x => { return $"'{x}'"; });
+            var userString = string.Join(',', singleQuotedMobiles);
+            var sql = "Select UserName from md_login where UserName IN( " + userString + ")";
+            var result = await Connection.QueryAsync<string>(sql);
+            return result;
+        }
 
         public async Task<IEnumerable<InstitutionModel>> GetInstituations(int minId, int maxId)
         {
@@ -266,5 +274,7 @@ namespace UserManagement.Infrastructure.Repository
             var result = await Connection.QueryFirstAsync<string>(sql);
             return result;
         }
+
+       
     }
 }

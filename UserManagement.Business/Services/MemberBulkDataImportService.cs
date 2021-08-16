@@ -20,7 +20,7 @@ namespace UserManagement.Business
         private readonly IMemberBulkInsertRepository bulkInsertRepository;
         private MemberBulkImportVM obj = new MemberBulkImportVM();
         private ExcelConfiguration excelConfiguration;
-
+        private string _pathForCsv;
 
         public MemberBulkDataImportService(IExcelFileUtility<MemberBulkImportVM> excelFileUtility, IMemberBulkInsertRepository bulkInsertRepository)
         {
@@ -67,8 +67,9 @@ namespace UserManagement.Business
                 DateTimeFormat = "dd-MM-yyyy"
             };
         }
-        public async Task<IEnumerable<ResultModel<MemberBulkImportVM>>> ImportData(Stream stream)
+        public async Task<IEnumerable<ResultModel<MemberBulkImportVM>>> ImportData(Stream stream,string pathForCsvLog)
         {
+            this._pathForCsv = pathForCsvLog;
             excelFileUtility.Configure(excelConfiguration);
             var models = excelFileUtility.Read(stream);
             var results = Enumerable.Empty<ResultModel<MemberBulkImportVM>>();
@@ -101,8 +102,11 @@ namespace UserManagement.Business
             var results = new List<ResultModel<MemberBulkImportVM>>();
             var emails = await bulkInsertRepository.FindEmails(models.Select(mdel => mdel.UserEmail));
             var mobiles = await bulkInsertRepository.FindMobiles(models.Select(mdel => mdel.UserMobile));
-            var invalidModels = models.Where(model => emails.Contains(model.UserEmail) || mobiles.Contains(model.UserMobile));
-            var validModels = models.Where(model => !(emails.Contains(model.UserEmail) || mobiles.Contains(model.UserMobile)));
+            var users = await bulkInsertRepository.FindUsers(models.Select(mdel => mdel.UserName));
+
+            var invalidModels = models.Where(model => emails.Contains(model.UserEmail) || mobiles.Contains(model.UserMobile) || users.Contains(model.UserName));
+            var validModels = models.Where(model => !(emails.Contains(model.UserEmail) || mobiles.Contains(model.UserMobile) || users.Contains(model.UserName)));
+
             results.AddRange(invalidModels.Select(model => new ResultModel<MemberBulkImportVM>()
             {
                 Model = model,
@@ -299,6 +303,10 @@ namespace UserManagement.Business
             if (institutes != null && institutes.Count() > 0)
             {
                 var csvUtility = new InstitutionModelCsvUtility();
+                csvUtility.Configure(new CsvConfiguration()
+                {
+                    CsvLogPath = this._pathForCsv
+                });
                 var stream =csvUtility.Write(institutes);
                 var records = await bulkInsertRepository.BulkInsertInstitution(stream);
                 var maxInstituteId = await bulkInsertRepository.GetMaxInstituteId();
@@ -362,6 +370,10 @@ namespace UserManagement.Business
             if (members != null && members.Count() > 0)
             {
                 var csvUtility = new MembersModelForCsvUtility();
+                csvUtility.Configure(new CsvConfiguration()
+                {
+                    CsvLogPath = this._pathForCsv
+                });
                 var stream = csvUtility.Write(members);
 
                 var records = await bulkInsertRepository.BulkInsertMembers(stream);
@@ -397,6 +409,10 @@ namespace UserManagement.Business
             if (logins != null && logins.Count() > 0)
             {
                 var csvUtility = new LoginModelCsvUtility();
+                csvUtility.Configure(new CsvConfiguration()
+                {
+                    CsvLogPath = this._pathForCsv
+                });
                 var stream = csvUtility.Write(logins);
                 var records = await bulkInsertRepository.BulkInsertLogin(stream);
             }
@@ -419,6 +435,10 @@ namespace UserManagement.Business
             if (memberSlots != null && memberSlots.Count() > 0)
             {
                 var csvUtility = new MemberSlotModelCsvUtility();
+                csvUtility.Configure(new CsvConfiguration()
+                {
+                    CsvLogPath = this._pathForCsv
+                });
                 var stream = csvUtility.Write(memberSlots);
                 var records = await bulkInsertRepository.BulkInsertMemberSlot(stream);
             }
@@ -438,6 +458,10 @@ namespace UserManagement.Business
             if (memberInstitutions != null && memberInstitutions.Count() > 0)
             {
                 var csvUtility = new MemberInstitutionModelCsvUtility();
+                csvUtility.Configure(new CsvConfiguration()
+                {
+                    CsvLogPath = this._pathForCsv
+                });
                 var stream = csvUtility.Write(memberInstitutions);
                 var records = await bulkInsertRepository.BulkInsertMemberInstitution(stream);
             }

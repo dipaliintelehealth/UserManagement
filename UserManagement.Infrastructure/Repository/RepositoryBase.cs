@@ -43,16 +43,11 @@ namespace UserManagement.Infrastructure.Repository
         /// <param name="connectionFactory">The connection factory.</param>
         protected RepositoryBase(IConnectionFactory connectionFactory)
         {
-            try
-            {
+           
                 Connection = connectionFactory.GetConnection;
                 //Not required to open the connection, it will automatically managed by DAPPER
                 //Connection.Open();
-            }
-            catch(Exception ex)
-            {
-                throw ex;
-            }
+           
         }        
 
         /// <summary>
