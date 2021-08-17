@@ -10,37 +10,66 @@ namespace UserManagement.Domain.ViewModel
         [Display(Name = "HF Name")]
         public string HFName { get; set; }
         public string HFNameActual { get; set; }
+        [Display(Name = "HF Phone")]
         public string HFPhone { get; set; }
+        [Display(Name = "HF Type")]
         public string HFType { get; set; }
         public string NIN { get; set; }
         [Display(Name = "HF Email")]
         public string HFEmail { get; set; }
+        [Display(Name = "State")]
         public string State { get; set; }
+        [Display(Name = "District")]
         public string District { get; set; }
+        [Display(Name = "City")]
         public string City { get; set; }
+        [Display(Name = "Address")]
         public string Address { get; set; }
+        [Display(Name = "PIN")]
         public string PIN { get; set; }
+        [Display(Name = "First Name")]
         public string FirstName { get; set; }
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
+        [Display(Name = "User Mobile")]
         public string UserMobile { get; set; }
+        [Display(Name = "Gender")]
         public string Gender { get; set; }
+        [Display(Name = "Qualification")]
         public string Qualification { get; set; }
+        [Display(Name = "Experience (in yrs)")]
         public string Experience { get; set; }
+        [Display(Name = "Dr Reg No")]
         public string DRRegNo { get; set; }
+        [Display(Name = "User Email")]
         public string UserEmail { get; set; }
+        [Display(Name = "Specialization / Designation")]
         public string Designation { get; set; }
+        [Display(Name = "Date of Birth DD-MM-YYYY")]
         public string DOB { get; set; }
+        [Display(Name = "User State")]
         public string UserState { get; set; }
+        [Display(Name = "User District")]
         public string UserDistrict { get; set; }
+        [Display(Name = "User City")]
         public string UserCity { get; set; }
+        [Display(Name = "User Address")]
         public string UserAddress { get; set; }
+        [Display(Name = "User PIN")]
         public string UserPin { get; set; }
+        [Display(Name = "User Prefix")]
         public string UserPrefix { get; set; }
+        [Display(Name = "Day and Time (Availability)")]
         public string UserAvilableDay { get; set; }
+        [Display(Name = "FromTime")]
         public string UserAvilableFromTime { get; set; }
+        [Display(Name = "To Time")]
         public string UserAvilableToTime { get; set; }
+        [Display(Name = "Role")]
         public string UserRole { get; set; }
+        [Display(Name = "Assign Type")]
         public string AssignedHFType { get; set; }
+        [Display(Name = "Assign PHC Or Hub")]
         public string AssignHF { get; set; }
         public int StateId { get; set; }
         public int DistrictId { get; set; }

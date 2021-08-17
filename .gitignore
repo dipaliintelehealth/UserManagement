@@ -341,3 +341,5 @@ healthchecksdb
 /Coverage
 /UserManagement/.config
 /Doxyfile
+/UserManagement/wwwroot/CsvLogs
+/UserManagement/Exceptionlogs/*

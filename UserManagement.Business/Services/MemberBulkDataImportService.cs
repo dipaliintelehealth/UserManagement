@@ -11,6 +11,7 @@ using UserManagement.Business.Validators;
 using System.Linq;
 using System.Threading.Tasks;
 using UserManagement.Infrastructure.Files;
+using System.Globalization;
 
 namespace UserManagement.Business
 {
@@ -53,7 +54,7 @@ namespace UserManagement.Business
                     { "User State", nameof(obj.UserState)},
                     { "User District", nameof(obj.UserDistrict)},
                     { "User City", nameof(obj.UserCity)},
-                    { "User Address", nameof(obj.UserAddress) },
+                    { "User Address ", nameof(obj.UserAddress) },
                     { "User PIN", nameof(obj.UserPin) },
                     { "User Prefix", nameof(obj.UserPrefix) },
                     { "Day and Time (Availability)", nameof(obj.UserAvilableDay) },
