@@ -12,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using UserManagement.Infrastructure.Files;
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace UserManagement.Business
 {
@@ -75,7 +76,8 @@ namespace UserManagement.Business
             var models = excelFileUtility.Read(stream);
             var results = Enumerable.Empty<ResultModel<MemberBulkImportVM>>();
             var validator = new MemberBulkImportVMValidator();
-            models = await GetModelsWithStateDistrictAndCityId(models);
+            var states = await bulkInsertRepository.GetStateDistrictCities();
+            models = await GetModelsWithStateDistrictAndCityId(models,states);
             results = await CheckDuplicate(models);
             foreach (var result in results)
             {
@@ -89,6 +91,9 @@ namespace UserManagement.Business
             var validatedModels = results.Where(x => x.Success);
             if (validatedModels.Count() > 0)
             {
+                var users = await bulkInsertRepository.FindUsers(validatedModels.Select(x => x.Model.HFName).Distinct());
+                validatedModels = await this.CreateUserName(validatedModels, users,states);
+
                 validatedModels = await this.CreateServiceProvider(validatedModels);
                 validatedModels = await this.CreateMember(validatedModels);
                 validatedModels = await this.CreateLogin(validatedModels);
@@ -98,15 +103,56 @@ namespace UserManagement.Business
             }
             return results;
         }
+
+        public Task<IEnumerable<ResultModel<MemberBulkImportVM>>> CreateUserName(IEnumerable<ResultModel<MemberBulkImportVM>> validatedModels, IEnumerable<string> users, IEnumerable<StateDistrictCity> states)
+        {
+            var modelReturns = validatedModels;
+            var duplicateUsersGroups = modelReturns.GroupBy(x => x.Model.UserName);
+            foreach (var duplicateUserGroup in duplicateUsersGroups)
+            {
+                var initialCount = 0;
+                var user = duplicateUserGroup.FirstOrDefault();//mhdipali[0-9]*slrhub
+                string stateShortCode = GetStateShortCode(user.Model.UserState);
+
+                string distShortCode = GetDistrictShortCode(states, user.Model.UserDistrict);
+                string strHFname = GetHFNameForLogin(user.Model.HFName);
+                var strTypeShortCode = GetHFTypeCode(user.Model.HFType);
+                var firstpart = $"{stateShortCode.ToLower()}{strHFname.ToLower()}";
+                var secondpart = $"{distShortCode.ToLower()}{strTypeShortCode.ToLower()}";
+
+                var pattern = $"{firstpart}[0-9]+{secondpart}";
+
+                if (users.Contains(duplicateUserGroup.Key))
+                {
+                    initialCount = 1;
+                    var lastFounduser = users.Where(x => Regex.IsMatch(x, pattern))?.OrderByDescending(x => x).FirstOrDefault();
+                    if (!string.IsNullOrEmpty(lastFounduser))
+                    {
+                        var numberToincrement = lastFounduser.Replace(firstpart, string.Empty).Replace(secondpart, string.Empty);
+                        initialCount = string.IsNullOrEmpty(numberToincrement) ? initialCount : int.Parse(numberToincrement)+1;
+                    }
+                }
+                foreach (var item in duplicateUserGroup)
+                {
+                    if (initialCount > 0)
+                    {
+                        item.Model.UserName = $"{firstpart}{initialCount}{secondpart}";
+                    }
+                    initialCount++;
+                }
+            }
+            return Task.FromResult(modelReturns);
+        }
+
         private async Task<IEnumerable<ResultModel<MemberBulkImportVM>>> CheckDuplicate(IEnumerable<MemberBulkImportVM> models)
         {
             var results = new List<ResultModel<MemberBulkImportVM>>();
             var emails = await bulkInsertRepository.FindEmails(models.Select(mdel => mdel.UserEmail));
             var mobiles = await bulkInsertRepository.FindMobiles(models.Select(mdel => mdel.UserMobile));
-            var users = await bulkInsertRepository.FindUsers(models.Select(mdel => mdel.UserName));
+           // var users = await bulkInsertRepository.FindUsers(models.Select(mdel => mdel.UserName));
 
-            var invalidModels = models.Where(model => emails.Contains(model.UserEmail) || mobiles.Contains(model.UserMobile) || users.Contains(model.UserName));
-            var validModels = models.Where(model => !(emails.Contains(model.UserEmail) || mobiles.Contains(model.UserMobile) || users.Contains(model.UserName)));
+            var invalidModels = models.Where(model => emails.Contains(model.UserEmail) || mobiles.Contains(model.UserMobile));
+            var validModels = models.Where(model => !(emails.Contains(model.UserEmail) || mobiles.Contains(model.UserMobile)));
 
             results.AddRange(invalidModels.Select(model => new ResultModel<MemberBulkImportVM>()
             {
@@ -120,9 +166,8 @@ namespace UserManagement.Business
             }));
             return results;
         }
-        private async Task<IEnumerable<MemberBulkImportVM>> GetModelsWithStateDistrictAndCityId(IEnumerable<MemberBulkImportVM> bulkImportVMs)
+        private async Task<IEnumerable<MemberBulkImportVM>> GetModelsWithStateDistrictAndCityId(IEnumerable<MemberBulkImportVM> bulkImportVMs, IEnumerable<StateDistrictCity> states)
         {
-            var states = await bulkInsertRepository.GetStateDistrictCities();
             var qualifications = await bulkInsertRepository.GetQualification();
             var institutions = await bulkInsertRepository.GetInstitution();
             var models = bulkImportVMs.Select(x =>
@@ -146,6 +191,73 @@ namespace UserManagement.Business
         public string GetUsersName(IEnumerable<StateDistrictCity> states, string StateName, string DistrictName, string HFName, string Type)
         {
             //State Code (2 alphabet)______Name of HF_____District Code (3 alphabet)______Type of HF (hub/phc/uphc/sc)
+            string StateShortCode = GetStateShortCode(StateName);
+
+            string DistShortCode = GetDistrictShortCode(states, DistrictName);
+            string strHFname = GetHFNameForLogin(HFName);
+            var strTypeShortCode = "";
+            string stRes = "";
+
+            strTypeShortCode = GetHFTypeCode(Type);
+            var firstpart = $"{StateShortCode.ToLower()}{strHFname.ToLower()}";
+            var secondpart = $"{DistShortCode.ToLower()}{strTypeShortCode.ToLower()}";
+
+            var userName = $"{firstpart}{secondpart}";
+            //strHFname
+            return userName;
+        }
+
+        private static string GetHFTypeCode(string Type)
+        {
+            string strTypeShortCode;
+            if (Type == "SubCentre")
+            {
+                strTypeShortCode = "SC";
+            }
+            else
+            {
+                strTypeShortCode = Type;
+            }
+
+            return strTypeShortCode;
+        }
+
+        private static string GetHFNameForLogin(string HFName)
+        {
+            var hf = new List<string>()
+            {
+                "UPHC","HSC","PHC","HUB","SC"
+            };
+
+            string strHFname = HFName;
+            hf.ForEach((item) =>
+            {
+                strHFname = strHFname.Replace(item, "");
+            });
+            strHFname = strHFname.Trim();
+            return strHFname;
+        }
+
+        private static string GetDistrictShortCode(IEnumerable<StateDistrictCity> states, string DistrictName)
+        {
+            var DistShortCode = states.FirstOrDefault(x => x.DistrictName == DistrictName)?.DistrictShortCode;
+            if (!string.IsNullOrWhiteSpace(DistrictName) && (string.IsNullOrEmpty(DistShortCode) || DistShortCode.Length < 2))
+            {
+                if (DistrictName.Replace(" ", "").Length > 2)
+                {
+                    DistShortCode = DistrictName.Replace(" ", "").Substring(0, DistrictName.Length - 1);
+                }
+                else
+                {
+                    DistShortCode = DistrictName.Replace(" ", "");
+                }
+            }
+
+            return DistShortCode;
+        }
+
+        private static string GetStateShortCode(string StateName)
+        {
             Dictionary<string, string> StateAndCodes = new Dictionary<string, string>()
             {
                     {"ANDHRA PRADESH","AP"},
@@ -198,44 +310,9 @@ namespace UserManagement.Business
                 StateShortCode = StateName?.ToUpper().Substring(0, 2);
             }
 
-            var DistShortCode = states.FirstOrDefault(x => x.DistrictName == DistrictName)?.DistrictShortCode;
-            if (!string.IsNullOrWhiteSpace(DistrictName) && (string.IsNullOrEmpty(DistShortCode) || DistShortCode.Length < 2))
-            {
-                if (DistrictName.Replace(" ", "").Length > 2)
-                {
-                    DistShortCode = DistrictName.Replace(" ", "").Substring(0, DistrictName.Length - 1);
-                }
-                else
-                {
-                    DistShortCode = DistrictName.Replace(" ", "");
-                }
-            }
-            var hf = new List<string>()
-            {
-                "UPHC","HSC","PHC","HUB","SC"
-            };
-
-            string strHFname = HFName;
-            hf.ForEach((item) =>
-            {
-                strHFname = strHFname.Replace(item, "");
-            });
-            strHFname = strHFname.Trim();
-            var strTypeShortCode = "";
-            string stRes = "";
-
-            if (Type == "SubCentre")
-            {
-                strTypeShortCode = "SC";
-            }
-            else
-            {
-                strTypeShortCode = Type;
-            }
-            stRes = (StateShortCode + strHFname + DistShortCode + strTypeShortCode).ToLower();
-            //strHFname
-            return stRes;
+            return StateShortCode;
         }
+
         private int GetStateId(IEnumerable<StateDistrictCity> states, string stateName)
         {
             return states.Where(x => x.StateName.ToUpper() == stateName?.ToUpper())

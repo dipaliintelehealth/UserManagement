@@ -204,9 +204,9 @@ namespace UserManagement.Infrastructure.Repository
         }
         public async Task<IEnumerable<string>> FindUsers(IEnumerable<string> users)
         {
-            var singleQuotedMobiles = users.Select(x => { return $"'{x}'"; });
-            var userString = string.Join(',', singleQuotedMobiles);
-            var sql = "Select UserName from md_login where UserName IN( " + userString + ")";
+            var singleQuotedUsers = users.Select(x => { return $" UserName like '%{x}%'"; });
+            var userString = string.Join(" OR ", singleQuotedUsers);
+            var sql = $"Select UserName from md_login Where {userString }";
             var result = await Connection.QueryAsync<string>(sql);
             return result;
         }
