@@ -111,7 +111,7 @@ namespace UserManagement.Business
             foreach (var duplicateUserGroup in duplicateUsersGroups)
             {
                 var initialCount = 0;
-                var user = duplicateUserGroup.FirstOrDefault();//mhdipali[0-9]*slrhub
+                var user = duplicateUserGroup.FirstOrDefault();
                 string stateShortCode = GetStateShortCode(user.Model.UserState);
 
                 string distShortCode = GetDistrictShortCode(states, user.Model.UserDistrict);

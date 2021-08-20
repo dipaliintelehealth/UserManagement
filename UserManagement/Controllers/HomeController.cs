@@ -36,8 +36,8 @@ namespace UserManagement.Controllers
         public ActionResult BulkImport()
         {
             logger.LogInformation("Bulk import called");
-           // var d = 0;
-           // var t = 1 / d;
+            // var d = 0;
+            // var t = 1 / d;
             return View();
         }
 
@@ -45,7 +45,6 @@ namespace UserManagement.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> BulkImport(IFormFile formFile)
         {
-
             var stream = new MemoryStream();
             await formFile.CopyToAsync(stream);
             var path = hostingEnvironment.WebRootPath + "\\CsvLogs";
