@@ -238,22 +238,22 @@ namespace UserManagement.Business
             return strHFname;
         }
 
-        private static string GetDistrictShortCode(IEnumerable<StateDistrictCity> states, string DistrictName)
+        private static string GetDistrictShortCode(IEnumerable<StateDistrictCity> states, string districtName)
         {
-            var DistShortCode = states.FirstOrDefault(x => x.DistrictName == DistrictName)?.DistrictShortCode;
-            if (!string.IsNullOrWhiteSpace(DistrictName) && (string.IsNullOrEmpty(DistShortCode) || DistShortCode.Length < 2))
+            var distShortCode = states.FirstOrDefault(x => x.DistrictName == districtName)?.DistrictShortCode;
+            if (!string.IsNullOrWhiteSpace(districtName) && (string.IsNullOrEmpty(distShortCode) || distShortCode.Length < 2))
             {
-                if (DistrictName.Replace(" ", "").Length > 2)
+                if (districtName.Replace(" ", "").Length > 2)
                 {
-                    DistShortCode = DistrictName.Replace(" ", "").Substring(0, DistrictName.Length - 1);
+                    distShortCode = districtName.Replace(" ", "").Substring(0, districtName.Length - 1);
                 }
                 else
                 {
-                    DistShortCode = DistrictName.Replace(" ", "");
+                    distShortCode = districtName.Replace(" ", "");
                 }
             }
 
-            return DistShortCode;
+            return distShortCode ?? string.Empty;
         }
 
         private static string GetStateShortCode(string StateName)
@@ -301,11 +301,12 @@ namespace UserManagement.Business
             };
 
             string StateShortCode = "";
+            
             if (StateAndCodes.ContainsKey(StateName.ToUpper()))
             {
                 StateShortCode = StateAndCodes[StateName.ToUpper()];
             }
-            else
+            else if(!string.IsNullOrEmpty(StateName) && StateName.Length>2)
             {
                 StateShortCode = StateName?.ToUpper().Substring(0, 2);
             }

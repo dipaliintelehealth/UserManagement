@@ -95,6 +95,9 @@ namespace UserManagement.Business.Tests
         [Theory]
         [InlineData("Maharashtra", "Pune", "SC Siddapura", "SubCentre", "mhsiddapurapnsc")]
         [InlineData("PUNJAB", "FAZILKA", "HSC ABOHAR1", "SubCentre", "pbabohar1fazsc")]
+        [InlineData("", "FAZILKA", "HSC ABOHAR1", "SubCentre", "abohar1fazsc")]
+        [InlineData("", "", "HSC ABOHAR1", "SubCentre", "abohar1sc")]
+
         public void GetUserName_Should_Give_Proper_UserName(string state, string district, string hfname, string type, string expected)
         {
             var repoMock = new Mock<IMemberBulkInsertRepository>();
