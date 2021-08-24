@@ -68,7 +68,7 @@ namespace UserManagement
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                //app.UseDeveloperExceptionPage();
                 app.UseExceptionHandler("/Error/Error");
             }
             else

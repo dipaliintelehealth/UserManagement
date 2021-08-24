@@ -33,14 +33,14 @@ namespace UserManagement.Domain
         public string PinCode { get; set; }
         public string Fax { get; set; }
         public int LoginOTP { get; set; }
-        public int IsLoginOTPActive { get; set; }
+        public string IsLoginOTPActive { get; set; }
         public string SignaturePath { get; set; }
         public int CountryId { get; set; }
         
         public int StatusId { get; set; }
         
         public int RatingMasterId { get; set; }
-        public int IsMaster { get; set; }
+        public string IsMaster { get; set; }
         public string CreationRole { get; set; }
         public string UserName { get; set; }
         public int InstitutionId { get; set; }
@@ -77,14 +77,14 @@ namespace UserManagement.Domain
         public string PinCode { get; set; }
         public string Fax { get; set; }
         public int LoginOTP { get; set; }
-        public int IsLoginOTPActive { get; set; }
+        public string IsLoginOTPActive { get; set; }
         public string SignaturePath { get; set; }
         public int CountryId { get; set; }
 
         public int StatusId { get; set; }
 
         public int RatingMasterId { get; set; }
-        public int IsMaster { get; set; }
+        public string IsMaster { get; set; }
         public string CreationRole { get; set; }
         public string UserName { get; set; }
         public int InstitutionId { get; set; }

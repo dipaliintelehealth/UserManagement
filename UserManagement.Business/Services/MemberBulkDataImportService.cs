@@ -91,7 +91,7 @@ namespace UserManagement.Business
             var validatedModels = results.Where(x => x.Success);
             if (validatedModels.Count() > 0)
             {
-                var users = await bulkInsertRepository.FindUsers(validatedModels.Select(x => x.Model.HFName).Distinct());
+                var users = await bulkInsertRepository.FindUsers(validatedModels.Select(x => GetHFNameForLogin(x.Model.HFName)).Distinct());
                 validatedModels = await this.CreateUserName(validatedModels, users,states);
 
                 validatedModels = await this.CreateServiceProvider(validatedModels);
@@ -117,8 +117,8 @@ namespace UserManagement.Business
                 string distShortCode = GetDistrictShortCode(states, user.Model.UserDistrict);
                 string strHFname = GetHFNameForLogin(user.Model.HFName);
                 var strTypeShortCode = GetHFTypeCode(user.Model.HFType);
-                var firstpart = $"{stateShortCode.ToLower()}{strHFname.ToLower()}";
-                var secondpart = $"{distShortCode.ToLower()}{strTypeShortCode.ToLower()}";
+                var firstpart = $"{stateShortCode}{strHFname}";
+                var secondpart = $"{distShortCode}{strTypeShortCode}";
 
                 var pattern = $"{firstpart}[0-9]+{secondpart}";
 
@@ -199,8 +199,8 @@ namespace UserManagement.Business
             string stRes = "";
 
             strTypeShortCode = GetHFTypeCode(Type);
-            var firstpart = $"{StateShortCode.ToLower()}{strHFname.ToLower()}";
-            var secondpart = $"{DistShortCode.ToLower()}{strTypeShortCode.ToLower()}";
+            var firstpart = $"{StateShortCode}{strHFname}";
+            var secondpart = $"{DistShortCode}{strTypeShortCode}";
 
             var userName = $"{firstpart}{secondpart}";
             //strHFname
@@ -219,7 +219,7 @@ namespace UserManagement.Business
                 strTypeShortCode = Type;
             }
 
-            return strTypeShortCode;
+            return strTypeShortCode?.ToLower();
         }
 
         private static string GetHFNameForLogin(string HFName)
@@ -232,9 +232,9 @@ namespace UserManagement.Business
             string strHFname = HFName;
             hf.ForEach((item) =>
             {
-                strHFname = strHFname.Replace(item, "");
+                strHFname = strHFname?.Replace(item, "");
             });
-            strHFname = strHFname.Trim();
+            strHFname = strHFname?.Trim().ToLower();
             return strHFname;
         }
 
@@ -253,7 +253,7 @@ namespace UserManagement.Business
                 }
             }
 
-            return distShortCode ?? string.Empty;
+            return distShortCode?.ToLower() ?? string.Empty;
         }
 
         private static string GetStateShortCode(string StateName)
@@ -311,7 +311,7 @@ namespace UserManagement.Business
                 StateShortCode = StateName?.ToUpper().Substring(0, 2);
             }
 
-            return StateShortCode;
+            return StateShortCode?.ToLower();
         }
 
         private int GetStateId(IEnumerable<StateDistrictCity> states, string stateName)
@@ -436,13 +436,13 @@ namespace UserManagement.Business
                 PinCode = x.Model.UserPin,
                 Fax = string.Empty,
                 LoginOTP = 0,
-                IsLoginOTPActive = 0,
+                IsLoginOTPActive = "",
                 SignaturePath = string.Empty,
                 CountryId = 1,
                 StatusId = 1,
                 RatingMasterId = 0,
-                SourceId = 0,
-                IsMaster = 0,
+                SourceId = 99,
+                IsMaster = "",
                 Prefix = string.Empty,
                 CreationRole = x.Model.UserRole
             });
@@ -481,7 +481,7 @@ namespace UserManagement.Business
                 UserName = x.Model.UserName,
                 Password = "ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413",
                 ReferenceId = x.Model.MemberId,
-                IsActive = false,
+                IsActive = "",
                 SourceId = "99"
             });
 
