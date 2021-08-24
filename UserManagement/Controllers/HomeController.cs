@@ -47,7 +47,7 @@ namespace UserManagement.Controllers
         {
             var stream = new MemoryStream();
             await formFile.CopyToAsync(stream);
-            var path = hostingEnvironment.WebRootPath + "\\CsvLogs";
+            var path = hostingEnvironment.WebRootPath + "/CsvLogs";
             resultModels = await bulkDataImportService.ImportData(stream, path);
             return View(resultModels);
         }
