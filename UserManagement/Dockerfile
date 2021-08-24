@@ -1,0 +1,26 @@
+#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
+
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.2-stretch-slim AS base
+WORKDIR /app
+EXPOSE 80
+EXPOSE 443
+
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2-stretch AS build
+WORKDIR /src
+COPY ["UserManagement/UserManagement.csproj", "UserManagement/"]
+COPY ["UserManagement.Business/UserManagement.Business.csproj", "UserManagement.Business/"]
+COPY ["UserManagement.Contract/UserManagement.Contract.csproj", "UserManagement.Contract/"]
+COPY ["UserManagement.Domain/UserManagement.Domain.csproj", "UserManagement.Domain/"]
+COPY ["UserManagement.Infrastructure/UserManagement.Infrastructure.csproj", "UserManagement.Infrastructure/"]
+RUN dotnet restore "UserManagement/UserManagement.csproj"
+COPY . .
+WORKDIR "/src/UserManagement"
+RUN dotnet build "UserManagement.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "UserManagement.csproj" -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "UserManagement.dll"]
