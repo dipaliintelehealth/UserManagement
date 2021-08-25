@@ -1,13 +1,22 @@
 ﻿@model ProblemDetails
 
-    <div class="text-center">
-        <h1 class="text-danger">Error.</h1>
+<div class="text-center">
+    <h1 class="text-danger">Error.</h1>
 
-        <h2 class="text-danger">An error occurred while processing your request.</h2>
+    <h2 class="text-danger">@Html.DisplayFor(model => model.Title)</h2>
+    <p>
+        <strong>Error Code: </strong>  @Html.DisplayFor(model => model.Status)
+    </p>
+    @if (!string.IsNullOrWhiteSpace(Model.Detail))
+    {
         <p>
-            <strong>Error Code: </strong>  @Html.DisplayFor(model => model.Status)
+            <strong>Instance : </strong>  @Html.DisplayFor(model => model.Instance)
         </p>
-    </div>
+        <p>
+            <strong>Detail: </strong>  @Html.DisplayFor(model => model.Detail)
+        </p>
+    }
+</div>
 
 
 

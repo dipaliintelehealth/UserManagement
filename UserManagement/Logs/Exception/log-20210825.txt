@@ -561,3 +561,475 @@ System.IO.DirectoryNotFoundException: Could not find a part of the path 'C:\Logs
 2021-08-25 12:59:49.647 +10:00 [INF] Sending file. Request path: '/Images/Panel_ConsultationLogo.JPG'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\Images\Panel_ConsultationLogo.JPG'
 2021-08-25 12:59:49.647 +10:00 [INF] Request finished in 1.9194ms 200 image/png
 2021-08-25 12:59:49.647 +10:00 [INF] Request finished in 3.5736ms 200 image/jpeg
+2021-08-25 13:24:12.690 +10:00 [INF] Starting up
+2021-08-25 13:24:14.347 +10:00 [INF] User profile is available. Using 'C:\Users\Laxman Nagtilak\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2021-08-25 13:24:14.735 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/  
+2021-08-25 13:24:14.796 +10:00 [INF] Executing endpoint 'UserManagement.Controllers.HomeController.BulkImport (UserManagement)'
+2021-08-25 13:24:14.809 +10:00 [INF] Route matched with {action = "BulkImport", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult BulkImport() on controller UserManagement.Controllers.HomeController (UserManagement).
+2021-08-25 13:24:14.875 +10:00 [INF] BulkInsertRepository initialized
+2021-08-25 13:24:14.883 +10:00 [INF] Executing action method UserManagement.Controllers.HomeController.BulkImport (UserManagement) - Validation state: "Valid"
+2021-08-25 13:24:14.889 +10:00 [INF] Bulk import called
+2021-08-25 13:24:14.892 +10:00 [INF] Executed action method UserManagement.Controllers.HomeController.BulkImport (UserManagement), returned result Microsoft.AspNetCore.Mvc.ViewResult in 0.88530000000000009ms.
+2021-08-25 13:24:14.921 +10:00 [INF] Executing ViewResult, running view BulkImport.
+2021-08-25 13:24:15.061 +10:00 [INF] Executed ViewResult - view BulkImport executed in 161.9764ms.
+2021-08-25 13:24:15.061 +10:00 [INF] Executed action UserManagement.Controllers.HomeController.BulkImport (UserManagement) in 252.4259ms
+2021-08-25 13:24:15.062 +10:00 [INF] Executed endpoint 'UserManagement.Controllers.HomeController.BulkImport (UserManagement)'
+2021-08-25 13:24:15.068 +10:00 [INF] Request finished in 334.9472ms 200 text/html; charset=utf-8
+2021-08-25 13:24:15.103 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/css/site.css  
+2021-08-25 13:24:15.103 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/lib/jquery/dist/jquery.min.js  
+2021-08-25 13:24:15.107 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/lib/bootstrap/dist/css/bootstrap.min.css  
+2021-08-25 13:24:15.144 +10:00 [INF] Sending file. Request path: '/css/site.css'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\css\site.css'
+2021-08-25 13:24:15.145 +10:00 [INF] Request finished in 43.4185ms 200 text/css
+2021-08-25 13:24:15.148 +10:00 [INF] Sending file. Request path: '/lib/jquery/dist/jquery.min.js'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\lib\jquery\dist\jquery.min.js'
+2021-08-25 13:24:15.149 +10:00 [INF] Request finished in 46.8014ms 200 application/javascript
+2021-08-25 13:24:15.149 +10:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/css/bootstrap.min.css'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css'
+2021-08-25 13:24:15.149 +10:00 [INF] Request finished in 42.5137ms 200 text/css
+2021-08-25 13:24:15.166 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/lib/bootstrap/dist/js/bootstrap.bundle.min.js  
+2021-08-25 13:24:15.176 +10:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/js/bootstrap.bundle.min.js'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js'
+2021-08-25 13:24:15.176 +10:00 [INF] Request finished in 10.1006ms 200 application/javascript
+2021-08-25 13:24:15.370 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/Images/Panel_ConsultationLogo.JPG  
+2021-08-25 13:24:15.371 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/js/site.js?v=4q1jwFhaPaZgr8WAUSrux6hAuh0XDg9kPS3xIVq36I0  
+2021-08-25 13:24:15.372 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/Images/eSanjeevani_HWCLogo.png  
+2021-08-25 13:24:15.374 +10:00 [INF] Sending file. Request path: '/Images/Panel_ConsultationLogo.JPG'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\Images\Panel_ConsultationLogo.JPG'
+2021-08-25 13:24:15.374 +10:00 [INF] Request finished in 4.2755ms 200 image/jpeg
+2021-08-25 13:24:15.379 +10:00 [INF] Sending file. Request path: '/js/site.js'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\js\site.js'
+2021-08-25 13:24:15.379 +10:00 [INF] Request finished in 8.0282ms 200 application/javascript
+2021-08-25 13:24:15.381 +10:00 [INF] Sending file. Request path: '/Images/eSanjeevani_HWCLogo.png'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\Images\eSanjeevani_HWCLogo.png'
+2021-08-25 13:24:15.382 +10:00 [INF] Request finished in 9.746ms 200 image/png
+2021-08-25 13:24:22.672 +10:00 [INF] Request starting HTTP/2.0 POST https://localhost:44324/ multipart/form-data; boundary=----WebKitFormBoundaryDujZ4OUYiloG9j8n 10908
+2021-08-25 13:24:22.675 +10:00 [INF] CORS policy execution successful.
+2021-08-25 13:24:22.677 +10:00 [INF] Executing endpoint 'UserManagement.Controllers.HomeController.BulkImport (UserManagement)'
+2021-08-25 13:24:22.693 +10:00 [INF] Route matched with {action = "BulkImport", controller = "Home"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] BulkImport(Microsoft.AspNetCore.Http.IFormFile) on controller UserManagement.Controllers.HomeController (UserManagement).
+2021-08-25 13:24:22.721 +10:00 [INF] BulkInsertRepository initialized
+2021-08-25 13:24:22.739 +10:00 [INF] Executing action method UserManagement.Controllers.HomeController.BulkImport (UserManagement) - Validation state: "Valid"
+2021-08-25 13:24:23.554 +10:00 [INF] Executed action UserManagement.Controllers.HomeController.BulkImport (UserManagement) in 860.4439ms
+2021-08-25 13:24:23.554 +10:00 [INF] Executed endpoint 'UserManagement.Controllers.HomeController.BulkImport (UserManagement)'
+2021-08-25 13:24:23.555 +10:00 [ERR] An unhandled exception has occurred while executing the request.
+MySql.Data.MySqlClient.MySqlException (0x80004005): Authentication to host '127.0.0.1' for user 'root' using method 'mysql_native_password' failed with message: Access denied for user 'root'@'localhost' (using password: YES) ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Access denied for user 'root'@'localhost' (using password: YES)
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at MySql.Data.MySqlClient.Authentication.MySqlAuthenticationPlugin.ReadPacket()
+   at MySql.Data.MySqlClient.Authentication.MySqlAuthenticationPlugin.AuthenticationFailed(Exception ex)
+   at MySql.Data.MySqlClient.Authentication.MySqlAuthenticationPlugin.ReadPacket()
+   at MySql.Data.MySqlClient.Authentication.MySqlAuthenticationPlugin.Authenticate(Boolean reset)
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+   at MySql.Data.MySqlClient.Driver.Open()
+   at MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()
+   at MySql.Data.MySqlClient.MySqlPool.GetConnection()
+   at MySql.Data.MySqlClient.MySqlConnection.Open()
+   at System.Data.Common.DbConnection.OpenAsync(CancellationToken cancellationToken)
+--- End of stack trace from previous location where exception was thrown ---
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 418
+   at UserManagement.Infrastructure.Repository.BulkInsertRepository.GetStateDistrictCities() in C:\Dipali\Intelehealth\Project\UserManagement\UserManagement.Infrastructure\Repository\BulkInsertRepository.cs:line 262
+   at UserManagement.Business.MemberBulkDataImportService.ImportData(Stream stream, String pathForCsvLog) in C:\Dipali\Intelehealth\Project\UserManagement\UserManagement.Business\Services\MemberBulkDataImportService.cs:line 79
+   at UserManagement.Controllers.HomeController.BulkImport(IFormFile formFile) in C:\Dipali\Intelehealth\Project\UserManagement\usermanagement\Controllers\HomeController.cs:line 56
+   at lambda_method(Closure , Object )
+   at Microsoft.Extensions.Internal.ObjectMethodExecutorAwaitable.Awaiter.GetResult()
+   at Microsoft.AspNetCore.Mvc.Internal.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Cors.Infrastructure.CorsMiddleware.InvokeCore(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware.Invoke(HttpContext context)
+2021-08-25 13:24:23.648 +10:00 [INF] CORS policy execution successful.
+2021-08-25 13:24:23.651 +10:00 [INF] Executing endpoint 'UserManagement.Controllers.ErrorController.Error (UserManagement)'
+2021-08-25 13:24:23.654 +10:00 [INF] Route matched with {action = "Error", controller = "Error"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult Error(Microsoft.AspNetCore.Hosting.IHostingEnvironment) on controller UserManagement.Controllers.ErrorController (UserManagement).
+2021-08-25 13:24:23.662 +10:00 [INF] Executing action method UserManagement.Controllers.ErrorController.Error (UserManagement) - Validation state: "Valid"
+2021-08-25 13:24:23.685 +10:00 [ERR] Error! {"Type":null,"Title":"MySqlException: Authentication to host '127.0.0.1' for user 'root' using method 'mysql_native_password' failed with message: Access denied for user 'root'@'localhost' (using password: YES)","Status":500,"Detail":"   at MySql.Data.MySqlClient.Authentication.MySqlAuthenticationPlugin.AuthenticationFailed(Exception ex)\r\n   at MySql.Data.MySqlClient.Authentication.MySqlAuthenticationPlugin.ReadPacket()\r\n   at MySql.Data.MySqlClient.Authentication.MySqlAuthenticationPlugin.Authenticate(Boolean reset)\r\n   at MySql.Data.MySqlClient.NativeDriver.Open()\r\n   at MySql.Data.MySqlClient.Driver.Open()\r\n   at MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)\r\n   at MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()\r\n   at MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()\r\n   at MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()\r\n   at MySql.Data.MySqlClient.MySqlPool.GetConnection()\r\n   at MySql.Data.MySqlClient.MySqlConnection.Open()\r\n   at System.Data.Common.DbConnection.OpenAsync(CancellationToken cancellationToken)\r\n--- End of stack trace from previous location where exception was thrown ---\r\n   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 418\r\n   at UserManagement.Infrastructure.Repository.BulkInsertRepository.GetStateDistrictCities() in C:\\Dipali\\Intelehealth\\Project\\UserManagement\\UserManagement.Infrastructure\\Repository\\BulkInsertRepository.cs:line 262\r\n   at UserManagement.Business.MemberBulkDataImportService.ImportData(Stream stream, String pathForCsvLog) in C:\\Dipali\\Intelehealth\\Project\\UserManagement\\UserManagement.Business\\Services\\MemberBulkDataImportService.cs:line 79\r\n   at UserManagement.Controllers.HomeController.BulkImport(IFormFile formFile) in C:\\Dipali\\Intelehealth\\Project\\UserManagement\\usermanagement\\Controllers\\HomeController.cs:line 56\r\n   at lambda_method(Closure , Object )\r\n   at Microsoft.Extensions.Internal.ObjectMethodExecutorAwaitable.Awaiter.GetResult()\r\n   at Microsoft.AspNetCore.Mvc.Internal.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)\r\n   at System.Threading.Tasks.ValueTask`1.get_Result()\r\n   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()\r\n   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()\r\n   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)\r\n   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)\r\n   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()\r\n   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()\r\n   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)\r\n   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)\r\n   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()\r\n   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()\r\n   at Microsoft.AspNetCore.Routing.EndpointMiddleware.Invoke(HttpContext httpContext)\r\n   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)\r\n   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)\r\n   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)\r\n   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)\r\n   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)\r\n   at Microsoft.AspNetCore.Cors.Infrastructure.CorsMiddleware.InvokeCore(HttpContext context)\r\n   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware.Invoke(HttpContext context)","Instance":"/","Extensions":{},"$type":"ProblemDetails"}
+2021-08-25 13:24:23.693 +10:00 [INF] Executed action method UserManagement.Controllers.ErrorController.Error (UserManagement), returned result Microsoft.AspNetCore.Mvc.ViewResult in 31.585600000000003ms.
+2021-08-25 13:24:23.696 +10:00 [INF] Executing ViewResult, running view Error.
+2021-08-25 13:24:23.724 +10:00 [INF] Executed ViewResult - view Error executed in 30.590300000000003ms.
+2021-08-25 13:24:23.724 +10:00 [INF] Executed action UserManagement.Controllers.ErrorController.Error (UserManagement) in 69.8379ms
+2021-08-25 13:24:23.724 +10:00 [INF] Executed endpoint 'UserManagement.Controllers.ErrorController.Error (UserManagement)'
+2021-08-25 13:24:23.725 +10:00 [INF] Request finished in 1052.9573ms 500 text/html; charset=utf-8
+2021-08-25 13:24:23.745 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/lib/bootstrap/dist/css/bootstrap.min.css  
+2021-08-25 13:24:23.745 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/css/site.css  
+2021-08-25 13:24:23.752 +10:00 [INF] Sending file. Request path: '/css/site.css'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\css\site.css'
+2021-08-25 13:24:23.752 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/lib/jquery/dist/jquery.min.js  
+2021-08-25 13:24:23.752 +10:00 [INF] Request finished in 7.7433ms 200 text/css
+2021-08-25 13:24:23.764 +10:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/css/bootstrap.min.css'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css'
+2021-08-25 13:24:23.764 +10:00 [INF] Request finished in 19.2078ms 200 text/css
+2021-08-25 13:24:23.766 +10:00 [INF] Sending file. Request path: '/lib/jquery/dist/jquery.min.js'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\lib\jquery\dist\jquery.min.js'
+2021-08-25 13:24:23.766 +10:00 [INF] Request finished in 15.2255ms 200 application/javascript
+2021-08-25 13:24:23.773 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/lib/bootstrap/dist/js/bootstrap.bundle.min.js  
+2021-08-25 13:24:23.778 +10:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/js/bootstrap.bundle.min.js'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js'
+2021-08-25 13:24:23.778 +10:00 [INF] Request finished in 5.0816ms 200 application/javascript
+2021-08-25 13:24:23.808 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/js/site.js?v=4q1jwFhaPaZgr8WAUSrux6hAuh0XDg9kPS3xIVq36I0  
+2021-08-25 13:24:23.808 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/Images/Panel_ConsultationLogo.JPG  
+2021-08-25 13:24:23.810 +10:00 [INF] Sending file. Request path: '/Images/Panel_ConsultationLogo.JPG'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\Images\Panel_ConsultationLogo.JPG'
+2021-08-25 13:24:23.810 +10:00 [INF] Sending file. Request path: '/js/site.js'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\js\site.js'
+2021-08-25 13:24:23.810 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/Images/eSanjeevani_HWCLogo.png  
+2021-08-25 13:24:23.810 +10:00 [INF] Request finished in 1.8566ms 200 image/jpeg
+2021-08-25 13:24:23.810 +10:00 [INF] Request finished in 1.9167ms 200 application/javascript
+2021-08-25 13:24:23.811 +10:00 [INF] Sending file. Request path: '/Images/eSanjeevani_HWCLogo.png'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\Images\eSanjeevani_HWCLogo.png'
+2021-08-25 13:24:23.811 +10:00 [INF] Request finished in 2.0575ms 200 image/png
+2021-08-25 13:26:09.884 +10:00 [INF] Starting up
+2021-08-25 13:26:11.053 +10:00 [INF] User profile is available. Using 'C:\Users\Laxman Nagtilak\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2021-08-25 13:26:11.607 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/  
+2021-08-25 13:26:11.691 +10:00 [INF] Executing endpoint 'UserManagement.Controllers.HomeController.BulkImport (UserManagement)'
+2021-08-25 13:26:11.709 +10:00 [INF] Route matched with {action = "BulkImport", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult BulkImport() on controller UserManagement.Controllers.HomeController (UserManagement).
+2021-08-25 13:26:11.806 +10:00 [INF] BulkInsertRepository initialized
+2021-08-25 13:26:11.820 +10:00 [INF] Executing action method UserManagement.Controllers.HomeController.BulkImport (UserManagement) - Validation state: "Valid"
+2021-08-25 13:26:11.829 +10:00 [INF] Bulk import called
+2021-08-25 13:26:11.834 +10:00 [INF] Executed action method UserManagement.Controllers.HomeController.BulkImport (UserManagement), returned result Microsoft.AspNetCore.Mvc.ViewResult in 1.7909000000000002ms.
+2021-08-25 13:26:11.888 +10:00 [INF] Executing ViewResult, running view BulkImport.
+2021-08-25 13:26:12.032 +10:00 [INF] Executed ViewResult - view BulkImport executed in 186.24630000000002ms.
+2021-08-25 13:26:12.033 +10:00 [INF] Executed action UserManagement.Controllers.HomeController.BulkImport (UserManagement) in 322.4323ms
+2021-08-25 13:26:12.033 +10:00 [INF] Executed endpoint 'UserManagement.Controllers.HomeController.BulkImport (UserManagement)'
+2021-08-25 13:26:12.039 +10:00 [INF] Request finished in 435.3395ms 200 text/html; charset=utf-8
+2021-08-25 13:26:12.070 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/css/site.css  
+2021-08-25 13:26:12.070 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/lib/jquery/dist/jquery.min.js  
+2021-08-25 13:26:12.070 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/lib/bootstrap/dist/css/bootstrap.min.css  
+2021-08-25 13:26:12.104 +10:00 [INF] Sending file. Request path: '/css/site.css'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\css\site.css'
+2021-08-25 13:26:12.106 +10:00 [INF] Request finished in 36.2267ms 200 text/css
+2021-08-25 13:26:12.113 +10:00 [INF] Sending file. Request path: '/lib/jquery/dist/jquery.min.js'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\lib\jquery\dist\jquery.min.js'
+2021-08-25 13:26:12.113 +10:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/css/bootstrap.min.css'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css'
+2021-08-25 13:26:12.113 +10:00 [INF] Request finished in 42.8215ms 200 application/javascript
+2021-08-25 13:26:12.113 +10:00 [INF] Request finished in 42.8358ms 200 text/css
+2021-08-25 13:26:12.123 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/lib/bootstrap/dist/js/bootstrap.bundle.min.js  
+2021-08-25 13:26:12.126 +10:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/js/bootstrap.bundle.min.js'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js'
+2021-08-25 13:26:12.126 +10:00 [INF] Request finished in 2.7692ms 200 application/javascript
+2021-08-25 13:26:12.319 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/Images/eSanjeevani_HWCLogo.png  
+2021-08-25 13:26:12.319 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/Images/Panel_ConsultationLogo.JPG  
+2021-08-25 13:26:12.324 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/js/site.js?v=4q1jwFhaPaZgr8WAUSrux6hAuh0XDg9kPS3xIVq36I0  
+2021-08-25 13:26:12.325 +10:00 [INF] Sending file. Request path: '/Images/Panel_ConsultationLogo.JPG'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\Images\Panel_ConsultationLogo.JPG'
+2021-08-25 13:26:12.325 +10:00 [INF] Sending file. Request path: '/Images/eSanjeevani_HWCLogo.png'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\Images\eSanjeevani_HWCLogo.png'
+2021-08-25 13:26:12.332 +10:00 [INF] Request finished in 12.3264ms 200 image/jpeg
+2021-08-25 13:26:12.332 +10:00 [INF] Request finished in 12.7969ms 200 image/png
+2021-08-25 13:26:12.333 +10:00 [INF] Sending file. Request path: '/js/site.js'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\js\site.js'
+2021-08-25 13:26:12.334 +10:00 [INF] Request finished in 9.4582ms 200 application/javascript
+2021-08-25 13:26:20.536 +10:00 [INF] Request starting HTTP/2.0 POST https://localhost:44324/ multipart/form-data; boundary=----WebKitFormBoundaryZzwEDYSCdPxV67TS 10908
+2021-08-25 13:26:20.542 +10:00 [INF] CORS policy execution successful.
+2021-08-25 13:26:20.544 +10:00 [INF] Executing endpoint 'UserManagement.Controllers.HomeController.BulkImport (UserManagement)'
+2021-08-25 13:26:20.562 +10:00 [INF] Route matched with {action = "BulkImport", controller = "Home"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] BulkImport(Microsoft.AspNetCore.Http.IFormFile) on controller UserManagement.Controllers.HomeController (UserManagement).
+2021-08-25 13:26:20.598 +10:00 [INF] BulkInsertRepository initialized
+2021-08-25 13:26:20.616 +10:00 [INF] Executing action method UserManagement.Controllers.HomeController.BulkImport (UserManagement) - Validation state: "Valid"
+2021-08-25 13:26:21.442 +10:00 [INF] Executed action UserManagement.Controllers.HomeController.BulkImport (UserManagement) in 879.2238000000001ms
+2021-08-25 13:26:21.442 +10:00 [INF] Executed endpoint 'UserManagement.Controllers.HomeController.BulkImport (UserManagement)'
+2021-08-25 13:26:21.444 +10:00 [ERR] An unhandled exception has occurred while executing the request.
+MySql.Data.MySqlClient.MySqlException (0x80004005): Authentication to host '127.0.0.1' for user 'root' using method 'mysql_native_password' failed with message: Access denied for user 'root'@'localhost' (using password: YES) ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Access denied for user 'root'@'localhost' (using password: YES)
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at MySql.Data.MySqlClient.Authentication.MySqlAuthenticationPlugin.ReadPacket()
+   at MySql.Data.MySqlClient.Authentication.MySqlAuthenticationPlugin.AuthenticationFailed(Exception ex)
+   at MySql.Data.MySqlClient.Authentication.MySqlAuthenticationPlugin.ReadPacket()
+   at MySql.Data.MySqlClient.Authentication.MySqlAuthenticationPlugin.Authenticate(Boolean reset)
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+   at MySql.Data.MySqlClient.Driver.Open()
+   at MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()
+   at MySql.Data.MySqlClient.MySqlPool.GetConnection()
+   at MySql.Data.MySqlClient.MySqlConnection.Open()
+   at System.Data.Common.DbConnection.OpenAsync(CancellationToken cancellationToken)
+--- End of stack trace from previous location where exception was thrown ---
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 418
+   at UserManagement.Infrastructure.Repository.BulkInsertRepository.GetStateDistrictCities() in C:\Dipali\Intelehealth\Project\UserManagement\UserManagement.Infrastructure\Repository\BulkInsertRepository.cs:line 262
+   at UserManagement.Business.MemberBulkDataImportService.ImportData(Stream stream, String pathForCsvLog) in C:\Dipali\Intelehealth\Project\UserManagement\UserManagement.Business\Services\MemberBulkDataImportService.cs:line 79
+   at UserManagement.Controllers.HomeController.BulkImport(IFormFile formFile) in C:\Dipali\Intelehealth\Project\UserManagement\usermanagement\Controllers\HomeController.cs:line 56
+   at lambda_method(Closure , Object )
+   at Microsoft.Extensions.Internal.ObjectMethodExecutorAwaitable.Awaiter.GetResult()
+   at Microsoft.AspNetCore.Mvc.Internal.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Cors.Infrastructure.CorsMiddleware.InvokeCore(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware.Invoke(HttpContext context)
+2021-08-25 13:26:21.533 +10:00 [INF] CORS policy execution successful.
+2021-08-25 13:26:21.538 +10:00 [INF] Executing endpoint 'UserManagement.Controllers.ErrorController.Error (UserManagement)'
+2021-08-25 13:26:21.540 +10:00 [INF] Route matched with {action = "Error", controller = "Error"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult Error(Microsoft.AspNetCore.Hosting.IHostingEnvironment) on controller UserManagement.Controllers.ErrorController (UserManagement).
+2021-08-25 13:26:21.545 +10:00 [INF] Executing action method UserManagement.Controllers.ErrorController.Error (UserManagement) - Validation state: "Valid"
+2021-08-25 13:26:21.578 +10:00 [ERR] Error! {"Type":null,"Title":"MySqlException: Authentication to host '127.0.0.1' for user 'root' using method 'mysql_native_password' failed with message: Access denied for user 'root'@'localhost' (using password: YES)","Status":500,"Detail":"   at MySql.Data.MySqlClient.Authentication.MySqlAuthenticationPlugin.AuthenticationFailed(Exception ex)\r\n   at MySql.Data.MySqlClient.Authentication.MySqlAuthenticationPlugin.ReadPacket()\r\n   at MySql.Data.MySqlClient.Authentication.MySqlAuthenticationPlugin.Authenticate(Boolean reset)\r\n   at MySql.Data.MySqlClient.NativeDriver.Open()\r\n   at MySql.Data.MySqlClient.Driver.Open()\r\n   at MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)\r\n   at MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()\r\n   at MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()\r\n   at MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()\r\n   at MySql.Data.MySqlClient.MySqlPool.GetConnection()\r\n   at MySql.Data.MySqlClient.MySqlConnection.Open()\r\n   at System.Data.Common.DbConnection.OpenAsync(CancellationToken cancellationToken)\r\n--- End of stack trace from previous location where exception was thrown ---\r\n   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 418\r\n   at UserManagement.Infrastructure.Repository.BulkInsertRepository.GetStateDistrictCities() in C:\\Dipali\\Intelehealth\\Project\\UserManagement\\UserManagement.Infrastructure\\Repository\\BulkInsertRepository.cs:line 262\r\n   at UserManagement.Business.MemberBulkDataImportService.ImportData(Stream stream, String pathForCsvLog) in C:\\Dipali\\Intelehealth\\Project\\UserManagement\\UserManagement.Business\\Services\\MemberBulkDataImportService.cs:line 79\r\n   at UserManagement.Controllers.HomeController.BulkImport(IFormFile formFile) in C:\\Dipali\\Intelehealth\\Project\\UserManagement\\usermanagement\\Controllers\\HomeController.cs:line 56\r\n   at lambda_method(Closure , Object )\r\n   at Microsoft.Extensions.Internal.ObjectMethodExecutorAwaitable.Awaiter.GetResult()\r\n   at Microsoft.AspNetCore.Mvc.Internal.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)\r\n   at System.Threading.Tasks.ValueTask`1.get_Result()\r\n   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()\r\n   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()\r\n   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)\r\n   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)\r\n   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()\r\n   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()\r\n   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)\r\n   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)\r\n   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()\r\n   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()\r\n   at Microsoft.AspNetCore.Routing.EndpointMiddleware.Invoke(HttpContext httpContext)\r\n   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)\r\n   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)\r\n   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)\r\n   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)\r\n   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)\r\n   at Microsoft.AspNetCore.Cors.Infrastructure.CorsMiddleware.InvokeCore(HttpContext context)\r\n   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware.Invoke(HttpContext context)","Instance":"/","Extensions":{},"$type":"ProblemDetails"}
+2021-08-25 13:26:21.587 +10:00 [INF] Executed action method UserManagement.Controllers.ErrorController.Error (UserManagement), returned result Microsoft.AspNetCore.Mvc.ViewResult in 42.306400000000004ms.
+2021-08-25 13:26:21.591 +10:00 [INF] Executing ViewResult, running view Error.
+2021-08-25 13:26:21.618 +10:00 [INF] Executed ViewResult - view Error executed in 30.218700000000002ms.
+2021-08-25 13:26:21.618 +10:00 [INF] Executed action UserManagement.Controllers.ErrorController.Error (UserManagement) in 77.8657ms
+2021-08-25 13:26:21.618 +10:00 [INF] Executed endpoint 'UserManagement.Controllers.ErrorController.Error (UserManagement)'
+2021-08-25 13:26:21.618 +10:00 [INF] Request finished in 1083.7937ms 500 text/html; charset=utf-8
+2021-08-25 13:26:21.650 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/lib/jquery/dist/jquery.min.js  
+2021-08-25 13:26:21.651 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/lib/bootstrap/dist/css/bootstrap.min.css  
+2021-08-25 13:26:21.650 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/css/site.css  
+2021-08-25 13:26:21.653 +10:00 [INF] Sending file. Request path: '/css/site.css'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\css\site.css'
+2021-08-25 13:26:21.654 +10:00 [INF] Request finished in 3.5864ms 200 text/css
+2021-08-25 13:26:21.657 +10:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/css/bootstrap.min.css'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css'
+2021-08-25 13:26:21.657 +10:00 [INF] Sending file. Request path: '/lib/jquery/dist/jquery.min.js'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\lib\jquery\dist\jquery.min.js'
+2021-08-25 13:26:21.657 +10:00 [INF] Request finished in 6.3454ms 200 text/css
+2021-08-25 13:26:21.657 +10:00 [INF] Request finished in 6.6347ms 200 application/javascript
+2021-08-25 13:26:21.673 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/lib/bootstrap/dist/js/bootstrap.bundle.min.js  
+2021-08-25 13:26:21.677 +10:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/js/bootstrap.bundle.min.js'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js'
+2021-08-25 13:26:21.677 +10:00 [INF] Request finished in 4.2297ms 200 application/javascript
+2021-08-25 13:26:21.702 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/js/site.js?v=4q1jwFhaPaZgr8WAUSrux6hAuh0XDg9kPS3xIVq36I0  
+2021-08-25 13:26:21.702 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/Images/Panel_ConsultationLogo.JPG  
+2021-08-25 13:26:21.703 +10:00 [INF] Sending file. Request path: '/Images/Panel_ConsultationLogo.JPG'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\Images\Panel_ConsultationLogo.JPG'
+2021-08-25 13:26:21.703 +10:00 [INF] Request finished in 1.3727ms 200 image/jpeg
+2021-08-25 13:26:21.702 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/Images/eSanjeevani_HWCLogo.png  
+2021-08-25 13:26:21.704 +10:00 [INF] Sending file. Request path: '/js/site.js'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\js\site.js'
+2021-08-25 13:26:21.704 +10:00 [INF] Request finished in 2.2617ms 200 application/javascript
+2021-08-25 13:26:21.705 +10:00 [INF] Sending file. Request path: '/Images/eSanjeevani_HWCLogo.png'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\Images\eSanjeevani_HWCLogo.png'
+2021-08-25 13:26:21.705 +10:00 [INF] Request finished in 3.5571ms 200 image/png
+2021-08-25 13:26:40.507 +10:00 [INF] Starting up
+2021-08-25 13:26:42.281 +10:00 [INF] User profile is available. Using 'C:\Users\Laxman Nagtilak\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2021-08-25 13:26:42.719 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/  
+2021-08-25 13:26:42.782 +10:00 [INF] Executing endpoint 'UserManagement.Controllers.HomeController.BulkImport (UserManagement)'
+2021-08-25 13:26:42.796 +10:00 [INF] Route matched with {action = "BulkImport", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult BulkImport() on controller UserManagement.Controllers.HomeController (UserManagement).
+2021-08-25 13:26:42.860 +10:00 [INF] BulkInsertRepository initialized
+2021-08-25 13:26:42.867 +10:00 [INF] Executing action method UserManagement.Controllers.HomeController.BulkImport (UserManagement) - Validation state: "Valid"
+2021-08-25 13:26:42.875 +10:00 [INF] Bulk import called
+2021-08-25 13:26:42.879 +10:00 [INF] Executed action method UserManagement.Controllers.HomeController.BulkImport (UserManagement), returned result Microsoft.AspNetCore.Mvc.ViewResult in 1.1923000000000001ms.
+2021-08-25 13:26:42.913 +10:00 [INF] Executing ViewResult, running view BulkImport.
+2021-08-25 13:26:43.084 +10:00 [INF] Executed ViewResult - view BulkImport executed in 197.4496ms.
+2021-08-25 13:26:43.085 +10:00 [INF] Executed action UserManagement.Controllers.HomeController.BulkImport (UserManagement) in 287.72720000000004ms
+2021-08-25 13:26:43.085 +10:00 [INF] Executed endpoint 'UserManagement.Controllers.HomeController.BulkImport (UserManagement)'
+2021-08-25 13:26:43.093 +10:00 [INF] Request finished in 374.8346ms 200 text/html; charset=utf-8
+2021-08-25 13:26:43.128 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/css/site.css  
+2021-08-25 13:26:43.128 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/lib/jquery/dist/jquery.min.js  
+2021-08-25 13:26:43.128 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/lib/bootstrap/dist/css/bootstrap.min.css  
+2021-08-25 13:26:43.155 +10:00 [INF] Sending file. Request path: '/css/site.css'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\css\site.css'
+2021-08-25 13:26:43.160 +10:00 [INF] Request finished in 31.9468ms 200 text/css
+2021-08-25 13:26:43.167 +10:00 [INF] Sending file. Request path: '/lib/jquery/dist/jquery.min.js'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\lib\jquery\dist\jquery.min.js'
+2021-08-25 13:26:43.167 +10:00 [INF] Request finished in 38.9897ms 200 application/javascript
+2021-08-25 13:26:43.167 +10:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/css/bootstrap.min.css'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css'
+2021-08-25 13:26:43.167 +10:00 [INF] Request finished in 39.2666ms 200 text/css
+2021-08-25 13:26:43.181 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/lib/bootstrap/dist/js/bootstrap.bundle.min.js  
+2021-08-25 13:26:43.193 +10:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/js/bootstrap.bundle.min.js'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js'
+2021-08-25 13:26:43.193 +10:00 [INF] Request finished in 12.1242ms 200 application/javascript
+2021-08-25 13:26:43.366 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/Images/Panel_ConsultationLogo.JPG  
+2021-08-25 13:26:43.366 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/Images/eSanjeevani_HWCLogo.png  
+2021-08-25 13:26:43.366 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/js/site.js?v=4q1jwFhaPaZgr8WAUSrux6hAuh0XDg9kPS3xIVq36I0  
+2021-08-25 13:26:43.367 +10:00 [INF] Sending file. Request path: '/Images/eSanjeevani_HWCLogo.png'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\Images\eSanjeevani_HWCLogo.png'
+2021-08-25 13:26:43.368 +10:00 [INF] Request finished in 1.1859ms 200 image/png
+2021-08-25 13:26:43.369 +10:00 [INF] Sending file. Request path: '/js/site.js'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\js\site.js'
+2021-08-25 13:26:43.369 +10:00 [INF] Sending file. Request path: '/Images/Panel_ConsultationLogo.JPG'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\Images\Panel_ConsultationLogo.JPG'
+2021-08-25 13:26:43.369 +10:00 [INF] Request finished in 2.975ms 200 application/javascript
+2021-08-25 13:26:43.370 +10:00 [INF] Request finished in 2.9361ms 200 image/jpeg
+2021-08-25 13:26:50.389 +10:00 [INF] Request starting HTTP/2.0 POST https://localhost:44324/ multipart/form-data; boundary=----WebKitFormBoundaryKUeJIBL6i65pnYBx 10908
+2021-08-25 13:26:50.391 +10:00 [INF] CORS policy execution successful.
+2021-08-25 13:26:50.394 +10:00 [INF] Executing endpoint 'UserManagement.Controllers.HomeController.BulkImport (UserManagement)'
+2021-08-25 13:26:50.407 +10:00 [INF] Route matched with {action = "BulkImport", controller = "Home"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] BulkImport(Microsoft.AspNetCore.Http.IFormFile) on controller UserManagement.Controllers.HomeController (UserManagement).
+2021-08-25 13:26:50.436 +10:00 [INF] BulkInsertRepository initialized
+2021-08-25 13:26:50.455 +10:00 [INF] Executing action method UserManagement.Controllers.HomeController.BulkImport (UserManagement) - Validation state: "Valid"
+2021-08-25 13:26:56.197 +10:00 [INF] Executed action UserManagement.Controllers.HomeController.BulkImport (UserManagement) in 5790.296ms
+2021-08-25 13:26:56.197 +10:00 [INF] Executed endpoint 'UserManagement.Controllers.HomeController.BulkImport (UserManagement)'
+2021-08-25 13:26:56.199 +10:00 [ERR] An unhandled exception has occurred while executing the request.
+MySql.Data.MySqlClient.MySqlException (0x80004005): Authentication to host '127.0.0.1' for user 'root' using method 'mysql_native_password' failed with message: Access denied for user 'root'@'localhost' (using password: YES) ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Access denied for user 'root'@'localhost' (using password: YES)
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at MySql.Data.MySqlClient.Authentication.MySqlAuthenticationPlugin.ReadPacket()
+   at MySql.Data.MySqlClient.Authentication.MySqlAuthenticationPlugin.AuthenticationFailed(Exception ex)
+   at MySql.Data.MySqlClient.Authentication.MySqlAuthenticationPlugin.ReadPacket()
+   at MySql.Data.MySqlClient.Authentication.MySqlAuthenticationPlugin.Authenticate(Boolean reset)
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+   at MySql.Data.MySqlClient.Driver.Open()
+   at MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()
+   at MySql.Data.MySqlClient.MySqlPool.GetConnection()
+   at MySql.Data.MySqlClient.MySqlConnection.Open()
+   at System.Data.Common.DbConnection.OpenAsync(CancellationToken cancellationToken)
+--- End of stack trace from previous location where exception was thrown ---
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 418
+   at UserManagement.Infrastructure.Repository.BulkInsertRepository.GetStateDistrictCities() in C:\Dipali\Intelehealth\Project\UserManagement\UserManagement.Infrastructure\Repository\BulkInsertRepository.cs:line 262
+   at UserManagement.Business.MemberBulkDataImportService.ImportData(Stream stream, String pathForCsvLog) in C:\Dipali\Intelehealth\Project\UserManagement\UserManagement.Business\Services\MemberBulkDataImportService.cs:line 79
+   at UserManagement.Controllers.HomeController.BulkImport(IFormFile formFile) in C:\Dipali\Intelehealth\Project\UserManagement\usermanagement\Controllers\HomeController.cs:line 56
+   at lambda_method(Closure , Object )
+   at Microsoft.Extensions.Internal.ObjectMethodExecutorAwaitable.Awaiter.GetResult()
+   at Microsoft.AspNetCore.Mvc.Internal.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Cors.Infrastructure.CorsMiddleware.InvokeCore(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware.Invoke(HttpContext context)
+2021-08-25 13:26:56.287 +10:00 [INF] CORS policy execution successful.
+2021-08-25 13:26:56.292 +10:00 [INF] Executing endpoint 'UserManagement.Controllers.ErrorController.Error (UserManagement)'
+2021-08-25 13:26:56.299 +10:00 [INF] Route matched with {action = "Error", controller = "Error"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult Error(Microsoft.AspNetCore.Hosting.IHostingEnvironment) on controller UserManagement.Controllers.ErrorController (UserManagement).
+2021-08-25 13:26:56.315 +10:00 [INF] Executing action method UserManagement.Controllers.ErrorController.Error (UserManagement) - Validation state: "Valid"
+2021-08-25 13:27:11.336 +10:00 [ERR] Error! {"Type":null,"Title":"MySqlException: Authentication to host '127.0.0.1' for user 'root' using method 'mysql_native_password' failed with message: Access denied for user 'root'@'localhost' (using password: YES)","Status":500,"Detail":"   at MySql.Data.MySqlClient.Authentication.MySqlAuthenticationPlugin.AuthenticationFailed(Exception ex)\r\n   at MySql.Data.MySqlClient.Authentication.MySqlAuthenticationPlugin.ReadPacket()\r\n   at MySql.Data.MySqlClient.Authentication.MySqlAuthenticationPlugin.Authenticate(Boolean reset)\r\n   at MySql.Data.MySqlClient.NativeDriver.Open()\r\n   at MySql.Data.MySqlClient.Driver.Open()\r\n   at MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)\r\n   at MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()\r\n   at MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()\r\n   at MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()\r\n   at MySql.Data.MySqlClient.MySqlPool.GetConnection()\r\n   at MySql.Data.MySqlClient.MySqlConnection.Open()\r\n   at System.Data.Common.DbConnection.OpenAsync(CancellationToken cancellationToken)\r\n--- End of stack trace from previous location where exception was thrown ---\r\n   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 418\r\n   at UserManagement.Infrastructure.Repository.BulkInsertRepository.GetStateDistrictCities() in C:\\Dipali\\Intelehealth\\Project\\UserManagement\\UserManagement.Infrastructure\\Repository\\BulkInsertRepository.cs:line 262\r\n   at UserManagement.Business.MemberBulkDataImportService.ImportData(Stream stream, String pathForCsvLog) in C:\\Dipali\\Intelehealth\\Project\\UserManagement\\UserManagement.Business\\Services\\MemberBulkDataImportService.cs:line 79\r\n   at UserManagement.Controllers.HomeController.BulkImport(IFormFile formFile) in C:\\Dipali\\Intelehealth\\Project\\UserManagement\\usermanagement\\Controllers\\HomeController.cs:line 56\r\n   at lambda_method(Closure , Object )\r\n   at Microsoft.Extensions.Internal.ObjectMethodExecutorAwaitable.Awaiter.GetResult()\r\n   at Microsoft.AspNetCore.Mvc.Internal.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)\r\n   at System.Threading.Tasks.ValueTask`1.get_Result()\r\n   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()\r\n   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()\r\n   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)\r\n   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)\r\n   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()\r\n   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()\r\n   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)\r\n   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)\r\n   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()\r\n   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()\r\n   at Microsoft.AspNetCore.Routing.EndpointMiddleware.Invoke(HttpContext httpContext)\r\n   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)\r\n   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)\r\n   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)\r\n   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)\r\n   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)\r\n   at Microsoft.AspNetCore.Cors.Infrastructure.CorsMiddleware.InvokeCore(HttpContext context)\r\n   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware.Invoke(HttpContext context)","Instance":"/","Extensions":{},"$type":"ProblemDetails"}
+2021-08-25 13:27:11.342 +10:00 [INF] Executed action method UserManagement.Controllers.ErrorController.Error (UserManagement), returned result Microsoft.AspNetCore.Mvc.ViewResult in 15026.9154ms.
+2021-08-25 13:27:11.351 +10:00 [INF] Executing ViewResult, running view Error.
+2021-08-25 13:27:11.374 +10:00 [INF] Executed ViewResult - view Error executed in 31.101000000000003ms.
+2021-08-25 13:27:11.374 +10:00 [INF] Executed action UserManagement.Controllers.ErrorController.Error (UserManagement) in 15072.4768ms
+2021-08-25 13:27:11.374 +10:00 [INF] Executed endpoint 'UserManagement.Controllers.ErrorController.Error (UserManagement)'
+2021-08-25 13:27:11.374 +10:00 [INF] Request finished in 20985.8405ms 500 text/html; charset=utf-8
+2021-08-25 13:27:11.395 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/lib/bootstrap/dist/css/bootstrap.min.css  
+2021-08-25 13:27:11.408 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/css/site.css  
+2021-08-25 13:27:11.408 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/lib/jquery/dist/jquery.min.js  
+2021-08-25 13:27:11.414 +10:00 [INF] Sending file. Request path: '/css/site.css'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\css\site.css'
+2021-08-25 13:27:11.420 +10:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/css/bootstrap.min.css'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css'
+2021-08-25 13:27:11.421 +10:00 [INF] Request finished in 25.3945ms 200 text/css
+2021-08-25 13:27:11.421 +10:00 [INF] Request finished in 6.9455ms 200 text/css
+2021-08-25 13:27:11.429 +10:00 [INF] Sending file. Request path: '/lib/jquery/dist/jquery.min.js'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\lib\jquery\dist\jquery.min.js'
+2021-08-25 13:27:11.429 +10:00 [INF] Request finished in 22.103ms 200 application/javascript
+2021-08-25 13:27:11.431 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/lib/bootstrap/dist/js/bootstrap.bundle.min.js  
+2021-08-25 13:27:11.438 +10:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/js/bootstrap.bundle.min.js'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js'
+2021-08-25 13:27:11.439 +10:00 [INF] Request finished in 7.5167ms 200 application/javascript
+2021-08-25 13:27:11.473 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/Images/Panel_ConsultationLogo.JPG  
+2021-08-25 13:27:11.473 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/js/site.js?v=4q1jwFhaPaZgr8WAUSrux6hAuh0XDg9kPS3xIVq36I0  
+2021-08-25 13:27:11.474 +10:00 [INF] Sending file. Request path: '/js/site.js'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\js\site.js'
+2021-08-25 13:27:11.475 +10:00 [INF] Request finished in 2.0216ms 200 application/javascript
+2021-08-25 13:27:11.475 +10:00 [INF] Sending file. Request path: '/Images/Panel_ConsultationLogo.JPG'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\Images\Panel_ConsultationLogo.JPG'
+2021-08-25 13:27:11.475 +10:00 [INF] Request finished in 2.3019ms 200 image/jpeg
+2021-08-25 13:27:11.475 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/Images/eSanjeevani_HWCLogo.png  
+2021-08-25 13:27:11.477 +10:00 [INF] Sending file. Request path: '/Images/eSanjeevani_HWCLogo.png'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\Images\eSanjeevani_HWCLogo.png'
+2021-08-25 13:27:11.477 +10:00 [INF] Request finished in 1.4994ms 200 image/png
+2021-08-25 13:27:52.644 +10:00 [INF] Starting up
+2021-08-25 13:27:54.534 +10:00 [INF] User profile is available. Using 'C:\Users\Laxman Nagtilak\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2021-08-25 13:27:54.943 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/  
+2021-08-25 13:27:55.005 +10:00 [INF] Executing endpoint 'UserManagement.Controllers.HomeController.BulkImport (UserManagement)'
+2021-08-25 13:27:55.017 +10:00 [INF] Route matched with {action = "BulkImport", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult BulkImport() on controller UserManagement.Controllers.HomeController (UserManagement).
+2021-08-25 13:27:55.074 +10:00 [INF] BulkInsertRepository initialized
+2021-08-25 13:27:55.082 +10:00 [INF] Executing action method UserManagement.Controllers.HomeController.BulkImport (UserManagement) - Validation state: "Valid"
+2021-08-25 13:27:55.090 +10:00 [INF] Bulk import called
+2021-08-25 13:27:55.093 +10:00 [INF] Executed action method UserManagement.Controllers.HomeController.BulkImport (UserManagement), returned result Microsoft.AspNetCore.Mvc.ViewResult in 1.2705ms.
+2021-08-25 13:27:55.126 +10:00 [INF] Executing ViewResult, running view BulkImport.
+2021-08-25 13:27:55.289 +10:00 [INF] Executed ViewResult - view BulkImport executed in 187.70420000000001ms.
+2021-08-25 13:27:55.289 +10:00 [INF] Executed action UserManagement.Controllers.HomeController.BulkImport (UserManagement) in 271.4194ms
+2021-08-25 13:27:55.290 +10:00 [INF] Executed endpoint 'UserManagement.Controllers.HomeController.BulkImport (UserManagement)'
+2021-08-25 13:27:55.297 +10:00 [INF] Request finished in 355.8269ms 200 text/html; charset=utf-8
+2021-08-25 13:27:55.331 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/lib/jquery/dist/jquery.min.js  
+2021-08-25 13:27:55.331 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/css/site.css  
+2021-08-25 13:27:55.336 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/lib/bootstrap/dist/css/bootstrap.min.css  
+2021-08-25 13:27:55.346 +10:00 [INF] Sending file. Request path: '/css/site.css'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\css\site.css'
+2021-08-25 13:27:55.346 +10:00 [INF] Request finished in 15.4649ms 200 text/css
+2021-08-25 13:27:55.378 +10:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/css/bootstrap.min.css'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css'
+2021-08-25 13:27:55.378 +10:00 [INF] Sending file. Request path: '/lib/jquery/dist/jquery.min.js'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\lib\jquery\dist\jquery.min.js'
+2021-08-25 13:27:55.379 +10:00 [INF] Request finished in 43.0417ms 200 text/css
+2021-08-25 13:27:55.379 +10:00 [INF] Request finished in 48.2253ms 200 application/javascript
+2021-08-25 13:27:55.394 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/lib/bootstrap/dist/js/bootstrap.bundle.min.js  
+2021-08-25 13:27:55.398 +10:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/js/bootstrap.bundle.min.js'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js'
+2021-08-25 13:27:55.398 +10:00 [INF] Request finished in 3.9895ms 200 application/javascript
+2021-08-25 13:27:55.576 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/js/site.js?v=4q1jwFhaPaZgr8WAUSrux6hAuh0XDg9kPS3xIVq36I0  
+2021-08-25 13:27:55.576 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/Images/eSanjeevani_HWCLogo.png  
+2021-08-25 13:27:55.576 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/Images/Panel_ConsultationLogo.JPG  
+2021-08-25 13:27:55.576 +10:00 [INF] Sending file. Request path: '/js/site.js'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\js\site.js'
+2021-08-25 13:27:55.577 +10:00 [INF] Request finished in 1.078ms 200 application/javascript
+2021-08-25 13:27:55.578 +10:00 [INF] Sending file. Request path: '/Images/Panel_ConsultationLogo.JPG'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\Images\Panel_ConsultationLogo.JPG'
+2021-08-25 13:27:55.578 +10:00 [INF] Request finished in 2.5956ms 200 image/jpeg
+2021-08-25 13:27:55.578 +10:00 [INF] Sending file. Request path: '/Images/eSanjeevani_HWCLogo.png'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\Images\eSanjeevani_HWCLogo.png'
+2021-08-25 13:27:55.578 +10:00 [INF] Request finished in 2.9267ms 200 image/png
+2021-08-25 13:28:00.325 +10:00 [INF] Request starting HTTP/2.0 POST https://localhost:44324/ multipart/form-data; boundary=----WebKitFormBoundaryBCKNazLrc7pCjaxC 10908
+2021-08-25 13:28:00.327 +10:00 [INF] CORS policy execution successful.
+2021-08-25 13:28:00.330 +10:00 [INF] Executing endpoint 'UserManagement.Controllers.HomeController.BulkImport (UserManagement)'
+2021-08-25 13:28:00.353 +10:00 [INF] Route matched with {action = "BulkImport", controller = "Home"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] BulkImport(Microsoft.AspNetCore.Http.IFormFile) on controller UserManagement.Controllers.HomeController (UserManagement).
+2021-08-25 13:28:00.391 +10:00 [INF] BulkInsertRepository initialized
+2021-08-25 13:28:00.409 +10:00 [INF] Executing action method UserManagement.Controllers.HomeController.BulkImport (UserManagement) - Validation state: "Valid"
+2021-08-25 13:28:01.192 +10:00 [INF] Executed action UserManagement.Controllers.HomeController.BulkImport (UserManagement) in 838.3413ms
+2021-08-25 13:28:01.192 +10:00 [INF] Executed endpoint 'UserManagement.Controllers.HomeController.BulkImport (UserManagement)'
+2021-08-25 13:28:01.194 +10:00 [ERR] An unhandled exception has occurred while executing the request.
+MySql.Data.MySqlClient.MySqlException (0x80004005): Authentication to host '127.0.0.1' for user 'root' using method 'mysql_native_password' failed with message: Access denied for user 'root'@'localhost' (using password: YES) ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Access denied for user 'root'@'localhost' (using password: YES)
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at MySql.Data.MySqlClient.Authentication.MySqlAuthenticationPlugin.ReadPacket()
+   at MySql.Data.MySqlClient.Authentication.MySqlAuthenticationPlugin.AuthenticationFailed(Exception ex)
+   at MySql.Data.MySqlClient.Authentication.MySqlAuthenticationPlugin.ReadPacket()
+   at MySql.Data.MySqlClient.Authentication.MySqlAuthenticationPlugin.Authenticate(Boolean reset)
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+   at MySql.Data.MySqlClient.Driver.Open()
+   at MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()
+   at MySql.Data.MySqlClient.MySqlPool.GetConnection()
+   at MySql.Data.MySqlClient.MySqlConnection.Open()
+   at System.Data.Common.DbConnection.OpenAsync(CancellationToken cancellationToken)
+--- End of stack trace from previous location where exception was thrown ---
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 418
+   at UserManagement.Infrastructure.Repository.BulkInsertRepository.GetStateDistrictCities() in C:\Dipali\Intelehealth\Project\UserManagement\UserManagement.Infrastructure\Repository\BulkInsertRepository.cs:line 262
+   at UserManagement.Business.MemberBulkDataImportService.ImportData(Stream stream, String pathForCsvLog) in C:\Dipali\Intelehealth\Project\UserManagement\UserManagement.Business\Services\MemberBulkDataImportService.cs:line 79
+   at UserManagement.Controllers.HomeController.BulkImport(IFormFile formFile) in C:\Dipali\Intelehealth\Project\UserManagement\usermanagement\Controllers\HomeController.cs:line 56
+   at lambda_method(Closure , Object )
+   at Microsoft.Extensions.Internal.ObjectMethodExecutorAwaitable.Awaiter.GetResult()
+   at Microsoft.AspNetCore.Mvc.Internal.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Cors.Infrastructure.CorsMiddleware.InvokeCore(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware.Invoke(HttpContext context)
+2021-08-25 13:28:01.287 +10:00 [INF] CORS policy execution successful.
+2021-08-25 13:28:01.290 +10:00 [INF] Executing endpoint 'UserManagement.Controllers.ErrorController.Error (UserManagement)'
+2021-08-25 13:28:01.291 +10:00 [INF] Route matched with {action = "Error", controller = "Error"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult Error(Microsoft.AspNetCore.Hosting.IHostingEnvironment) on controller UserManagement.Controllers.ErrorController (UserManagement).
+2021-08-25 13:28:01.293 +10:00 [INF] Executing action method UserManagement.Controllers.ErrorController.Error (UserManagement) - Validation state: "Valid"
+2021-08-25 13:28:01.318 +10:00 [ERR] Error! {"Type":null,"Title":"An error occurred.","Status":500,"Detail":null,"Instance":"/","Extensions":{},"$type":"ProblemDetails"}
+2021-08-25 13:28:01.325 +10:00 [INF] Executed action method UserManagement.Controllers.ErrorController.Error (UserManagement), returned result Microsoft.AspNetCore.Mvc.ViewResult in 32.431200000000004ms.
+2021-08-25 13:28:01.329 +10:00 [INF] Executing ViewResult, running view Error.
+2021-08-25 13:28:01.353 +10:00 [INF] Executed ViewResult - view Error executed in 27.445800000000002ms.
+2021-08-25 13:28:01.353 +10:00 [INF] Executed action UserManagement.Controllers.ErrorController.Error (UserManagement) in 62.0311ms
+2021-08-25 13:28:01.353 +10:00 [INF] Executed endpoint 'UserManagement.Controllers.ErrorController.Error (UserManagement)'
+2021-08-25 13:28:01.354 +10:00 [INF] Request finished in 1029.2298ms 500 text/html; charset=utf-8
+2021-08-25 13:28:01.371 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/lib/bootstrap/dist/css/bootstrap.min.css  
+2021-08-25 13:28:01.371 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/css/site.css  
+2021-08-25 13:28:01.374 +10:00 [INF] Sending file. Request path: '/css/site.css'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\css\site.css'
+2021-08-25 13:28:01.374 +10:00 [INF] Request finished in 2.7023ms 200 text/css
+2021-08-25 13:28:01.375 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/lib/jquery/dist/jquery.min.js  
+2021-08-25 13:28:01.378 +10:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/css/bootstrap.min.css'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css'
+2021-08-25 13:28:01.378 +10:00 [INF] Request finished in 6.8445ms 200 text/css
+2021-08-25 13:28:01.380 +10:00 [INF] Sending file. Request path: '/lib/jquery/dist/jquery.min.js'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\lib\jquery\dist\jquery.min.js'
+2021-08-25 13:28:01.380 +10:00 [INF] Request finished in 5.7479ms 200 application/javascript
+2021-08-25 13:28:01.394 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/lib/bootstrap/dist/js/bootstrap.bundle.min.js  
+2021-08-25 13:28:01.408 +10:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/js/bootstrap.bundle.min.js'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js'
+2021-08-25 13:28:01.408 +10:00 [INF] Request finished in 14.6951ms 200 application/javascript
+2021-08-25 13:28:01.416 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/js/site.js?v=4q1jwFhaPaZgr8WAUSrux6hAuh0XDg9kPS3xIVq36I0  
+2021-08-25 13:28:01.425 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/Images/eSanjeevani_HWCLogo.png  
+2021-08-25 13:28:01.425 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/Images/Panel_ConsultationLogo.JPG  
+2021-08-25 13:28:01.433 +10:00 [INF] Sending file. Request path: '/Images/Panel_ConsultationLogo.JPG'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\Images\Panel_ConsultationLogo.JPG'
+2021-08-25 13:28:01.433 +10:00 [INF] Sending file. Request path: '/js/site.js'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\js\site.js'
+2021-08-25 13:28:01.433 +10:00 [INF] Request finished in 8.2478ms 200 image/jpeg
+2021-08-25 13:28:01.434 +10:00 [INF] Request finished in 17.6342ms 200 application/javascript
+2021-08-25 13:28:01.433 +10:00 [INF] Sending file. Request path: '/Images/eSanjeevani_HWCLogo.png'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\Images\eSanjeevani_HWCLogo.png'
+2021-08-25 13:28:01.434 +10:00 [INF] Request finished in 9.0174ms 200 image/png

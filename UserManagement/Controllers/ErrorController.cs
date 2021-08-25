@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using System;
@@ -15,16 +16,18 @@ namespace UserManagement.Controllers
     public class ErrorController : Controller
     {
         private readonly ILogger<ErrorController> logger;
+        private readonly IConfiguration configuration;
 
-        public ErrorController(ILogger<ErrorController> logger)
+        public ErrorController(ILogger<ErrorController> logger , IConfiguration configuration)
         {
             this.logger = logger;
+            this.configuration = configuration;
         }
         public ActionResult Error([FromServices] IHostingEnvironment webHostEnvironment)
         {
             var feature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
             var ex = feature?.Error;
-            var isDev = webHostEnvironment.IsDevelopment();
+            var isDev = configuration.GetValue<bool>("ShowException"); //webHostEnvironment.IsDevelopment();
             var problemDetails = new ProblemDetails
             {
                 Status = (int)HttpStatusCode.InternalServerError,
