@@ -18,7 +18,7 @@ namespace UserManagement
             Log.Logger = new LoggerConfiguration()
                 .Enrich.FromLogContext()
                 .WriteTo.Console()
-                .WriteTo.File("Exceptionlogs\\log-.txt", rollingInterval: RollingInterval.Day)
+                .WriteTo.File("Logs/Exception/log-.txt", rollingInterval: RollingInterval.Day)
                 .CreateLogger();
 
             try
