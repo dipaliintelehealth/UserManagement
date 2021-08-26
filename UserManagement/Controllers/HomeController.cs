@@ -36,8 +36,8 @@ namespace UserManagement.Controllers
         public ActionResult BulkImport()
         {
             logger.LogInformation("Bulk import called");
-           // var d = 0;
-           // var t = 1 / d;
+          // var d = 0;
+           //var t = 1 / d;
             return View();
         }
 

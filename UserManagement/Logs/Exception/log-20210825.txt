@@ -1033,3 +1033,67 @@ MySql.Data.MySqlClient.MySqlException (0x80004005): Authentication to host '127.
 2021-08-25 13:28:01.434 +10:00 [INF] Request finished in 17.6342ms 200 application/javascript
 2021-08-25 13:28:01.433 +10:00 [INF] Sending file. Request path: '/Images/eSanjeevani_HWCLogo.png'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\Images\eSanjeevani_HWCLogo.png'
 2021-08-25 13:28:01.434 +10:00 [INF] Request finished in 9.0174ms 200 image/png
+2021-08-25 18:36:31.267 +10:00 [INF] Starting up
+2021-08-25 18:36:33.306 +10:00 [INF] User profile is available. Using 'C:\Users\Laxman Nagtilak\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2021-08-25 18:36:33.696 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/  
+2021-08-25 18:36:33.760 +10:00 [INF] Executing endpoint 'UserManagement.Controllers.HomeController.BulkImport (UserManagement)'
+2021-08-25 18:36:33.774 +10:00 [INF] Route matched with {action = "BulkImport", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult BulkImport() on controller UserManagement.Controllers.HomeController (UserManagement).
+2021-08-25 18:36:33.829 +10:00 [INF] BulkInsertRepository initialized
+2021-08-25 18:36:33.837 +10:00 [INF] Executing action method UserManagement.Controllers.HomeController.BulkImport (UserManagement) - Validation state: "Valid"
+2021-08-25 18:36:33.844 +10:00 [INF] Bulk import called
+2021-08-25 18:36:33.857 +10:00 [INF] Executed action UserManagement.Controllers.HomeController.BulkImport (UserManagement) in 79.9233ms
+2021-08-25 18:36:33.858 +10:00 [INF] Executed endpoint 'UserManagement.Controllers.HomeController.BulkImport (UserManagement)'
+2021-08-25 18:36:33.862 +10:00 [ERR] An unhandled exception has occurred while executing the request.
+System.DivideByZeroException: Attempted to divide by zero.
+   at UserManagement.Controllers.HomeController.BulkImport() in C:\Dipali\Intelehealth\Project\UserManagement\usermanagement\Controllers\HomeController.cs:line 40
+   at lambda_method(Closure , Object , Object[] )
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor.Execute(Object target, Object[] parameters)
+   at Microsoft.AspNetCore.Mvc.Internal.ActionMethodExecutor.SyncActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware.Invoke(HttpContext context)
+2021-08-25 18:36:33.921 +10:00 [INF] Executing endpoint 'UserManagement.Controllers.ErrorController.Error (UserManagement)'
+2021-08-25 18:36:33.940 +10:00 [INF] Route matched with {action = "Error", controller = "Error"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult Error(Microsoft.AspNetCore.Hosting.IHostingEnvironment) on controller UserManagement.Controllers.ErrorController (UserManagement).
+2021-08-25 18:36:33.961 +10:00 [INF] Executing action method UserManagement.Controllers.ErrorController.Error (UserManagement) - Validation state: "Valid"
+2021-08-25 18:36:33.986 +10:00 [ERR] Error! {"Type":null,"Title":"An error occurred.","Status":500,"Detail":null,"Instance":"/","Extensions":{},"$type":"ProblemDetails"}
+2021-08-25 18:36:33.996 +10:00 [INF] Executed action method UserManagement.Controllers.ErrorController.Error (UserManagement), returned result Microsoft.AspNetCore.Mvc.ViewResult in 32.7695ms.
+2021-08-25 18:36:34.038 +10:00 [INF] Executing ViewResult, running view Error.
+2021-08-25 18:36:34.147 +10:00 [INF] Executed ViewResult - view Error executed in 142.901ms.
+2021-08-25 18:36:34.148 +10:00 [INF] Executed action UserManagement.Controllers.ErrorController.Error (UserManagement) in 207.7516ms
+2021-08-25 18:36:34.148 +10:00 [INF] Executed endpoint 'UserManagement.Controllers.ErrorController.Error (UserManagement)'
+2021-08-25 18:36:34.153 +10:00 [INF] Request finished in 458.9218ms 500 text/html; charset=utf-8
+2021-08-25 18:36:34.194 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/css/site.css  
+2021-08-25 18:36:34.200 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/lib/jquery/dist/jquery.min.js  
+2021-08-25 18:36:34.200 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/lib/bootstrap/dist/css/bootstrap.min.css  
+2021-08-25 18:36:34.211 +10:00 [INF] Sending file. Request path: '/css/site.css'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\css\site.css'
+2021-08-25 18:36:34.212 +10:00 [INF] Request finished in 17.8899ms 200 text/css
+2021-08-25 18:36:34.252 +10:00 [INF] Sending file. Request path: '/lib/jquery/dist/jquery.min.js'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\lib\jquery\dist\jquery.min.js'
+2021-08-25 18:36:34.252 +10:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/css/bootstrap.min.css'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css'
+2021-08-25 18:36:34.254 +10:00 [INF] Request finished in 54.4098ms 200 text/css
+2021-08-25 18:36:34.254 +10:00 [INF] Request finished in 54.4098ms 200 application/javascript
+2021-08-25 18:36:34.266 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/lib/bootstrap/dist/js/bootstrap.bundle.min.js  
+2021-08-25 18:36:34.277 +10:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/js/bootstrap.bundle.min.js'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js'
+2021-08-25 18:36:34.277 +10:00 [INF] Request finished in 11.0047ms 200 application/javascript
+2021-08-25 18:36:34.429 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/Images/eSanjeevani_HWCLogo.png  
+2021-08-25 18:36:34.429 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/js/site.js?v=4q1jwFhaPaZgr8WAUSrux6hAuh0XDg9kPS3xIVq36I0  
+2021-08-25 18:36:34.429 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/Images/Panel_ConsultationLogo.JPG  
+2021-08-25 18:36:34.431 +10:00 [INF] Sending file. Request path: '/js/site.js'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\js\site.js'
+2021-08-25 18:36:34.431 +10:00 [INF] Sending file. Request path: '/Images/eSanjeevani_HWCLogo.png'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\Images\eSanjeevani_HWCLogo.png'
+2021-08-25 18:36:34.432 +10:00 [INF] Sending file. Request path: '/Images/Panel_ConsultationLogo.JPG'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\Images\Panel_ConsultationLogo.JPG'
+2021-08-25 18:36:34.432 +10:00 [INF] Request finished in 2.5616ms 200 application/javascript
+2021-08-25 18:36:34.432 +10:00 [INF] Request finished in 2.8519ms 200 image/png
+2021-08-25 18:36:34.432 +10:00 [INF] Request finished in 2.9506ms 200 image/jpeg
