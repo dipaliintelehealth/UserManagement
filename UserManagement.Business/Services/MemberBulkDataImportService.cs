@@ -235,7 +235,12 @@ namespace UserManagement.Business
                 strHFname = strHFname?.Replace(item, "");
             });
             strHFname = strHFname?.Trim().ToLower();
-            return strHFname;
+            if (string.IsNullOrEmpty(strHFname))
+            {
+                return string.Empty;
+            }
+            string strHFnametrimmed = String.Concat(strHFname?.Where(c => !Char.IsWhiteSpace(c)));
+            return strHFnametrimmed;
         }
 
         private static string GetDistrictShortCode(IEnumerable<StateDistrictCity> states, string districtName)
