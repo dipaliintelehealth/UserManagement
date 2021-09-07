@@ -94,9 +94,22 @@ namespace UserManagement.Business.Tests
         }
         [Theory]
         [InlineData("Maharashtra", "Pune", "SC Siddapura", "SubCentre", "mhsiddapurapnsc")]
+        [InlineData("Maharashtra", "Pune", "SC Siddapura", " SubCentre", "mhsiddapurapnsc")]
+        [InlineData("Maharashtra", "Pune", "SC Siddapura", "SubCentre ", "mhsiddapurapnsc")]
+        [InlineData("Maharashtra", "Pune", "SC Siddapura", " SubCentre ", "mhsiddapurapnsc")]
+        [InlineData("Maharashtra", "Pune", " SC Siddapura", " SubCentre ", "mhsiddapurapnsc")]
+        [InlineData("Maharashtra", "Pune", "SC Siddapura ", " SubCentre ", "mhsiddapurapnsc")]
+        [InlineData("Maharashtra", "Pune", " SC Siddapura ", " SubCentre ", "mhsiddapurapnsc")]
+        [InlineData("Haryana", "Palwal ", "SC Rampur Khor", "SC", "hrrampurkhorpwlsc")]
+        [InlineData("Haryana", "Palwal", "SC Rampur Khor", "SC", "hrrampurkhorpwlsc")]
+        [InlineData("Haryana ", "Palwal", "SC Rampur Khor", "SC", "hrrampurkhorpwlsc")]
+        [InlineData("Haryana ", "Palwal ", "SC Rampur Khor", "SC", "hrrampurkhorpwlsc")]
+        [InlineData(" Haryana ", " Palwal ", "SC Rampur Khor", "SC", "hrrampurkhorpwlsc")]
         [InlineData("PUNJAB", "FAZILKA", "HSC ABOHAR1", "SubCentre", "pbabohar1fazsc")]
         [InlineData("", "FAZILKA", "HSC ABOHAR1", "SubCentre", "abohar1fazsc")]
         [InlineData("", "", "HSC ABOHAR1", "SubCentre", "abohar1sc")]
+        [InlineData("", "", "", "SubCentre", "sc")]
+        [InlineData("", "", "", "", "")]
 
         public void GetUserName_Should_Give_Proper_UserName(string state, string district, string hfname, string type, string expected)
         {
@@ -104,6 +117,16 @@ namespace UserManagement.Business.Tests
             var excelMock = new Mock<IExcelFileUtility<MemberBulkImportVM>>();
             var states = new List<StateDistrictCity>
             {
+                 new StateDistrictCity()
+                {
+                    StateId =1234,
+                    StateName ="Haryana",
+                    DistrictId = 1234,
+                    DistrictName ="Palwal",
+                    DistrictShortCode ="PWL",
+                    CityId = 1,
+                    CityName ="Palwal"
+                },
                 new StateDistrictCity()
                 {
                     StateId =123,

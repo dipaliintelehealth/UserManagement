@@ -45,7 +45,7 @@ namespace UserManagement.Domain.ViewModel
         public string UserEmail { get; set; }
         [Display(Name = "Specialization / Designation")]
         public string Designation { get; set; }
-        [Display(Name = "Date of Birth DD-MM-YYYY")]
+        [Display(Name = "Date of Birth DD/MM/YYYY")]
         public string DOB { get; set; }
         [Display(Name = "User State")]
         public string UserState { get; set; }

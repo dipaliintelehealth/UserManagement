@@ -51,7 +51,7 @@ namespace UserManagement.Business
                     { "Dr Reg No", nameof(obj.DRRegNo)},
                     { "User Email", nameof(obj.UserEmail)},
                     { "Specialization / Designation", nameof(obj.Designation)},
-                    { "Date of Birth DD-MM-YYYY", nameof(obj.DOB)},
+                    { "Date of Birth DD/MM/YYYY", nameof(obj.DOB)},
                     { "User State", nameof(obj.UserState)},
                     { "User District", nameof(obj.UserDistrict)},
                     { "User City", nameof(obj.UserCity)},
@@ -66,7 +66,7 @@ namespace UserManagement.Business
                     { "Assign PHC Or Hub", nameof(obj.AssignHF) }
                 }
                 ,
-                DateTimeFormat = "dd-MM-yyyy"
+                DateTimeFormat = "dd/MM/yyyy"
             };
         }
         public async Task<IEnumerable<ResultModel<MemberBulkImportVM>>> ImportData(Stream stream,string pathForCsvLog)
@@ -210,7 +210,7 @@ namespace UserManagement.Business
         private static string GetHFTypeCode(string Type)
         {
             string strTypeShortCode;
-            if (Type == "SubCentre")
+            if (Type?.Trim().ToUpper() == "SUBCENTRE")
             {
                 strTypeShortCode = "SC";
             }
@@ -245,7 +245,7 @@ namespace UserManagement.Business
 
         private static string GetDistrictShortCode(IEnumerable<StateDistrictCity> states, string districtName)
         {
-            var distShortCode = states.FirstOrDefault(x => x.DistrictName == districtName)?.DistrictShortCode;
+            var distShortCode = states.FirstOrDefault(x => x.DistrictName.ToUpper() == districtName?.Trim().ToUpper())?.DistrictShortCode;
             if (!string.IsNullOrWhiteSpace(districtName) && (string.IsNullOrEmpty(distShortCode) || distShortCode.Length < 2))
             {
                 if (districtName.Replace(" ", "").Length > 2)
@@ -307,13 +307,13 @@ namespace UserManagement.Business
 
             string StateShortCode = "";
             
-            if (StateAndCodes.ContainsKey(StateName.ToUpper()))
+            if (StateAndCodes.ContainsKey(StateName.Trim().ToUpper()))
             {
-                StateShortCode = StateAndCodes[StateName.ToUpper()];
+                StateShortCode = StateAndCodes[StateName.Trim().ToUpper()];
             }
             else if(!string.IsNullOrEmpty(StateName) && StateName.Length>2)
             {
-                StateShortCode = StateName?.ToUpper().Substring(0, 2);
+                StateShortCode = StateName?.Trim().ToUpper().Substring(0, 2);
             }
 
             return StateShortCode?.ToLower();
@@ -321,34 +321,34 @@ namespace UserManagement.Business
 
         private int GetStateId(IEnumerable<StateDistrictCity> states, string stateName)
         {
-            return states.Where(x => x.StateName.ToUpper() == stateName?.ToUpper())
+            return states.Where(x => x.StateName.ToUpper() == stateName?.Trim().ToUpper())
                 .Select(state => state.StateId)
                 .FirstOrDefault();
         }
         private int GetDistrictId(IEnumerable<StateDistrictCity> states, string stateName, string districtName)
         {
-            return states.Where(x => x.StateName.ToUpper() == stateName?.ToUpper() && x.DistrictName.ToUpper() == districtName?.ToUpper())
+            return states.Where(x => x.StateName.ToUpper() == stateName?.Trim().ToUpper() && x.DistrictName.ToUpper() == districtName?.Trim().ToUpper())
                 .Select(state => state.DistrictId)
                 .FirstOrDefault();
         }
         private int GetCityId(IEnumerable<StateDistrictCity> states, string stateName, string districtName, string cityName)
         {
             return states
-                .Where(x => x.StateName.ToUpper() == stateName?.ToUpper() && x.DistrictName.ToUpper() == districtName?.ToUpper() && x.CityName.ToUpper() == cityName?.ToUpper())
+                .Where(x => x.StateName.ToUpper() == stateName?.Trim().ToUpper() && x.DistrictName.ToUpper() == districtName?.Trim().ToUpper() && x.CityName.ToUpper() == cityName?.Trim().ToUpper())
                 .Select(state => state.CityId)
                 .FirstOrDefault();
         }
         private string GetDistrictShortCode(IEnumerable<StateDistrictCity> states, string stateName, string districtName)
         {
             return states
-                .Where(x => x.StateName.ToUpper() == stateName?.ToUpper() && x.DistrictName.ToUpper() == districtName?.ToUpper())
+                .Where(x => x.StateName.ToUpper() == stateName?.Trim().ToUpper() && x.DistrictName.ToUpper() == districtName?.Trim().ToUpper())
                 .Select(state => state.DistrictShortCode)
                 .FirstOrDefault();
         }
         private string GetInstitutionId(IEnumerable<InstitutionModel> institutions, string institutionName)
         {
             var result =institutions
-                .Where(x => x.Name.ToUpper() == institutionName?.ToUpper())
+                .Where(x => x.Name.ToUpper() == institutionName?.Trim().ToUpper())
                 .Select(institution => Convert.ToString(institution.InstitutionId))
                 .FirstOrDefault();
             return result;
@@ -356,7 +356,7 @@ namespace UserManagement.Business
         private int GetQualificationId(IEnumerable<QualificationModel> qualifications, string qualificationName)
         {
             return qualifications
-                .Where(x => x.QualificationName.ToUpper() == qualificationName?.ToUpper())
+                .Where(x => x.QualificationName.ToUpper() == qualificationName?.Trim().ToUpper())
                 .Select(qualification => qualification.QualificationId)
                 .FirstOrDefault();
         }
