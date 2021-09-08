@@ -1,0 +1,70 @@
+2021-09-07 22:28:19.225 +10:00 [INF] Starting up
+2021-09-07 22:28:20.879 +10:00 [INF] User profile is available. Using 'C:\Users\Laxman Nagtilak\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2021-09-07 22:28:21.355 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/  
+2021-09-07 22:28:21.458 +10:00 [INF] Executing endpoint 'UserManagement.Controllers.HomeController.BulkImport (UserManagement)'
+2021-09-07 22:28:21.501 +10:00 [INF] Route matched with {action = "BulkImport", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult BulkImport() on controller UserManagement.Controllers.HomeController (UserManagement).
+2021-09-07 22:28:21.576 +10:00 [INF] BulkInsertRepository initialized
+2021-09-07 22:28:21.583 +10:00 [INF] Executing action method UserManagement.Controllers.HomeController.BulkImport (UserManagement) - Validation state: "Valid"
+2021-09-07 22:28:21.589 +10:00 [INF] Bulk import called
+2021-09-07 22:28:21.592 +10:00 [INF] Executed action method UserManagement.Controllers.HomeController.BulkImport (UserManagement), returned result Microsoft.AspNetCore.Mvc.ViewResult in 0.8ms.
+2021-09-07 22:28:21.623 +10:00 [INF] Executing ViewResult, running view BulkImport.
+2021-09-07 22:28:21.754 +10:00 [INF] Executed ViewResult - view BulkImport executed in 151.7259ms.
+2021-09-07 22:28:21.754 +10:00 [INF] Executed action UserManagement.Controllers.HomeController.BulkImport (UserManagement) in 252.59240000000003ms
+2021-09-07 22:28:21.755 +10:00 [INF] Executed endpoint 'UserManagement.Controllers.HomeController.BulkImport (UserManagement)'
+2021-09-07 22:28:21.763 +10:00 [INF] Request finished in 411.7974ms 200 text/html; charset=utf-8
+2021-09-07 22:28:21.810 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/lib/bootstrap/dist/css/bootstrap.min.css  
+2021-09-07 22:28:21.810 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/lib/jquery/dist/jquery.min.js  
+2021-09-07 22:28:21.810 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/css/site.css  
+2021-09-07 22:28:21.820 +10:00 [INF] Sending file. Request path: '/css/site.css'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\css\site.css'
+2021-09-07 22:28:21.820 +10:00 [INF] Request finished in 10.0917ms 200 text/css
+2021-09-07 22:28:21.846 +10:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/css/bootstrap.min.css'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css'
+2021-09-07 22:28:21.846 +10:00 [INF] Sending file. Request path: '/lib/jquery/dist/jquery.min.js'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\lib\jquery\dist\jquery.min.js'
+2021-09-07 22:28:21.848 +10:00 [INF] Request finished in 38.2374ms 200 text/css
+2021-09-07 22:28:21.848 +10:00 [INF] Request finished in 38.2909ms 200 application/javascript
+2021-09-07 22:28:21.858 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/lib/bootstrap/dist/js/bootstrap.bundle.min.js  
+2021-09-07 22:28:21.866 +10:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/js/bootstrap.bundle.min.js'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js'
+2021-09-07 22:28:21.867 +10:00 [INF] Request finished in 8.4184ms 200 application/javascript
+2021-09-07 22:28:22.051 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/Images/Panel_ConsultationLogo.JPG  
+2021-09-07 22:28:22.051 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/js/site.js?v=4q1jwFhaPaZgr8WAUSrux6hAuh0XDg9kPS3xIVq36I0  
+2021-09-07 22:28:22.051 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/Images/eSanjeevani_HWCLogo.png  
+2021-09-07 22:28:22.054 +10:00 [INF] Sending file. Request path: '/Images/Panel_ConsultationLogo.JPG'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\Images\Panel_ConsultationLogo.JPG'
+2021-09-07 22:28:22.054 +10:00 [INF] Sending file. Request path: '/js/site.js'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\js\site.js'
+2021-09-07 22:28:22.054 +10:00 [INF] Request finished in 2.915ms 200 image/jpeg
+2021-09-07 22:28:22.054 +10:00 [INF] Request finished in 2.9046ms 200 application/javascript
+2021-09-07 22:28:22.054 +10:00 [INF] Sending file. Request path: '/Images/eSanjeevani_HWCLogo.png'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\Images\eSanjeevani_HWCLogo.png'
+2021-09-07 22:28:22.055 +10:00 [INF] Request finished in 3.448ms 200 image/png
+2021-09-07 22:29:17.369 +10:00 [INF] Starting up
+2021-09-07 22:29:19.338 +10:00 [INF] User profile is available. Using 'C:\Users\Laxman Nagtilak\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2021-09-07 22:29:19.789 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/  
+2021-09-07 22:29:19.879 +10:00 [INF] Executing endpoint 'UserManagement.Controllers.HomeController.BulkImport (UserManagement)'
+2021-09-07 22:29:19.895 +10:00 [INF] Route matched with {action = "BulkImport", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult BulkImport() on controller UserManagement.Controllers.HomeController (UserManagement).
+2021-09-07 22:29:19.946 +10:00 [INF] BulkInsertRepository initialized
+2021-09-07 22:29:19.955 +10:00 [INF] Executing action method UserManagement.Controllers.HomeController.BulkImport (UserManagement) - Validation state: "Valid"
+2021-09-07 22:29:19.961 +10:00 [INF] Bulk import called
+2021-09-07 22:29:19.964 +10:00 [INF] Executed action method UserManagement.Controllers.HomeController.BulkImport (UserManagement), returned result Microsoft.AspNetCore.Mvc.ViewResult in 0.7769ms.
+2021-09-07 22:29:19.994 +10:00 [INF] Executing ViewResult, running view BulkImport.
+2021-09-07 22:29:20.151 +10:00 [INF] Executed ViewResult - view BulkImport executed in 175.90820000000002ms.
+2021-09-07 22:29:20.152 +10:00 [INF] Executed action UserManagement.Controllers.HomeController.BulkImport (UserManagement) in 256.3456ms
+2021-09-07 22:29:20.153 +10:00 [INF] Executed endpoint 'UserManagement.Controllers.HomeController.BulkImport (UserManagement)'
+2021-09-07 22:29:20.162 +10:00 [INF] Request finished in 374.6343ms 200 text/html; charset=utf-8
+2021-09-07 22:29:20.207 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/css/site.css  
+2021-09-07 22:29:20.207 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/lib/jquery/dist/jquery.min.js  
+2021-09-07 22:29:20.208 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/lib/bootstrap/dist/css/bootstrap.min.css  
+2021-09-07 22:29:20.242 +10:00 [INF] Sending file. Request path: '/css/site.css'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\css\site.css'
+2021-09-07 22:29:20.244 +10:00 [INF] Request finished in 39.7483ms 200 text/css
+2021-09-07 22:29:20.245 +10:00 [INF] Sending file. Request path: '/lib/jquery/dist/jquery.min.js'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\lib\jquery\dist\jquery.min.js'
+2021-09-07 22:29:20.245 +10:00 [INF] Request finished in 40.9064ms 200 application/javascript
+2021-09-07 22:29:20.245 +10:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/css/bootstrap.min.css'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css'
+2021-09-07 22:29:20.245 +10:00 [INF] Request finished in 37.9415ms 200 text/css
+2021-09-07 22:29:20.260 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/lib/bootstrap/dist/js/bootstrap.bundle.min.js  
+2021-09-07 22:29:20.269 +10:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/js/bootstrap.bundle.min.js'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js'
+2021-09-07 22:29:20.270 +10:00 [INF] Request finished in 10.0282ms 200 application/javascript
+2021-09-07 22:29:20.452 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/js/site.js?v=4q1jwFhaPaZgr8WAUSrux6hAuh0XDg9kPS3xIVq36I0  
+2021-09-07 22:29:20.453 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/Images/Panel_ConsultationLogo.JPG  
+2021-09-07 22:29:20.453 +10:00 [INF] Request starting HTTP/2.0 GET https://localhost:44324/Images/eSanjeevani_HWCLogo.png  
+2021-09-07 22:29:20.454 +10:00 [INF] Sending file. Request path: '/js/site.js'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\js\site.js'
+2021-09-07 22:29:20.455 +10:00 [INF] Sending file. Request path: '/Images/eSanjeevani_HWCLogo.png'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\Images\eSanjeevani_HWCLogo.png'
+2021-09-07 22:29:20.455 +10:00 [INF] Sending file. Request path: '/Images/Panel_ConsultationLogo.JPG'. Physical path: 'C:\Dipali\Intelehealth\Project\usermanagement\usermanagement\wwwroot\Images\Panel_ConsultationLogo.JPG'
+2021-09-07 22:29:20.456 +10:00 [INF] Request finished in 2.8903ms 200 image/png
+2021-09-07 22:29:20.456 +10:00 [INF] Request finished in 3.0539ms 200 image/jpeg
+2021-09-07 22:29:20.456 +10:00 [INF] Request finished in 3.5384ms 200 application/javascript
