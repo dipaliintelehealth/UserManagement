@@ -93,6 +93,21 @@ namespace UserManagement.Business.Tests
             #endregion
         }
         [Theory]
+        [InlineData("Hub Vantmuri MCH", "vantmurimch")]
+        [InlineData("HUB Vantmuri MCH", "vantmurimch")]
+        [InlineData("Uphc Vantmuri MCH", "vantmurimch")]
+        [InlineData("hsc Vantmuri MCH", "vantmurimch")]
+        [InlineData("Phc Vantmuri MCH", "vantmurimch")]
+        [InlineData("PHC Vantmuri MCH", "vantmurimch")]
+        [InlineData("Sc Vantmuri MCH", "vantmurimch")]
+        [InlineData(" Sc Vantmuri MCH ", "vantmurimch")]
+        [InlineData("Vantmuri MCH", "vantmurimch")]
+        public void GetHFNameForLogin_Should_Give_ProperName(string hfName,string expected)
+        {
+            var result = MemberBulkDataImportService.GetHFNameForLogin(hfName);
+            Assert.Equal(expected, result);
+        }
+        [Theory]
         [InlineData("Maharashtra", "Pune", "SC Siddapura", "SubCentre", "mhsiddapurapnsc")]
         [InlineData("Maharashtra", "Pune", "SC Siddapura", " SubCentre", "mhsiddapurapnsc")]
         [InlineData("Maharashtra", "Pune", "SC Siddapura", "SubCentre ", "mhsiddapurapnsc")]

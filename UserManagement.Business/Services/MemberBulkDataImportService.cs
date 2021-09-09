@@ -222,7 +222,7 @@ namespace UserManagement.Business
             return strTypeShortCode?.ToLower();
         }
 
-        private static string GetHFNameForLogin(string HFName)
+        public static string GetHFNameForLogin(string HFName)
         {
             var hf = new List<string>()
             {
@@ -230,11 +230,12 @@ namespace UserManagement.Business
             };
 
             string strHFname = HFName;
+            strHFname = strHFname?.Trim().ToLower();
             hf.ForEach((item) =>
             {
-                strHFname = strHFname?.Replace(item, "");
+                strHFname = strHFname?.Replace(item.ToLower(), "");
             });
-            strHFname = strHFname?.Trim().ToLower();
+           
             if (string.IsNullOrEmpty(strHFname))
             {
                 return string.Empty;
