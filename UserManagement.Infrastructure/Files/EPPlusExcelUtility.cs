@@ -77,7 +77,7 @@ namespace UserManagement.Infrastructure.Files
                 {
                     var excelHeaderColumnIndex = excelColumnHeaders.IndexOf(columnHeader);
                     var property = properties.FirstOrDefault(x => x.Name == columnHeader);
-                    var excelCellText = ws.Cells[rowNum, excelHeaderColumnIndex + 1].Value.ToString();
+                    var excelCellText = Convert.ToString(ws.Cells[rowNum, excelHeaderColumnIndex + 1].Value)?.Trim();
                     if (property != null)
                     {
                         if (property.PropertyType == typeof(DateTime))
@@ -111,7 +111,7 @@ namespace UserManagement.Infrastructure.Files
                     {
                         var excelHeaderColumnIndex = excelColumnHeaders.IndexOf(mappedPair.Key);
                         var property = properties.FirstOrDefault(x => x.Name == mappedPair.Value);
-                        var excelCellText = Convert.ToString(ws.Cells[rowNum, excelHeaderColumnIndex + 1].Value);
+                        var excelCellText = Convert.ToString(ws.Cells[rowNum, excelHeaderColumnIndex + 1].Value)?.Trim();
                         if (property != null)
                         {
                             if (property.PropertyType == typeof(DateTime))

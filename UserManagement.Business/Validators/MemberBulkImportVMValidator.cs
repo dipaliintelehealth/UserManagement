@@ -13,40 +13,31 @@ namespace UserManagement.Business.Validators
         public MemberBulkImportVMValidator()
         {
             DateTime dt;
+            //HF Validation
             RuleFor(x => x.HFName)
                 .NotEmpty()
-                .WithMessage("HFName can not be blank !");
+                .WithMessage("HF Name can not be blank !");
+
+            RuleFor(x => x.HFPhone)
+                .NotEmpty()
+                .WithMessage("HF Phone can not be blank !");
+
+            RuleFor(x => x.HFType)
+                .NotEmpty()
+                .WithMessage("HF Type can not be blank !");
+
+            RuleFor(x => x.NIN)
+                .NotEmpty()
+                .WithMessage("HF NIN can not be blank !");
+
+            RuleFor(x => x.HFEmail)
+                .NotEmpty()
+                .WithMessage("HF Email can not be blank !");
 
             RuleFor(x => x.HFEmail)
                 .EmailAddress()
                 .When(x => !string.IsNullOrWhiteSpace(x.HFEmail))
                 .WithMessage("Invalid HF Email !");
-
-            RuleFor(x => x.FirstName)
-                .NotEmpty()
-                .WithMessage("User First Name can not be blank !");
-
-            RuleFor(x => x.LastName)
-                .NotEmpty()
-                .WithMessage("User Last Name can not be blank !");
-
-            RuleFor(x => x.UserMobile)
-                .NotEmpty()
-                .WithMessage("User Mobile can not be blank !");
-
-            RuleFor(x => x.UserEmail)
-                .NotEmpty()
-                .WithMessage("User Email can not be blank !");
-
-            RuleFor(x => x.UserEmail)
-                .EmailAddress()
-                .When(x=>!string.IsNullOrWhiteSpace(x.UserEmail))
-                .WithMessage("Invalid User Email !");
-
-            RuleFor(x => x.UserMobile)
-                .Matches("^[0-9]{10}$")
-                .When(x=>!string.IsNullOrWhiteSpace(x.UserMobile))
-                .WithMessage("Invalid User Mobile !");
 
             RuleFor(x => x.StateId)
                 .NotEmpty()
@@ -60,6 +51,62 @@ namespace UserManagement.Business.Validators
                 .NotEmpty()
                 .WithMessage("Invalid HF City Name !");
 
+            RuleFor(x => x.Address)
+                            .NotEmpty()
+                            .WithMessage("HF Address can not be blank !");
+
+            RuleFor(x => x.PIN)
+                .NotEmpty()
+                .WithMessage("HF PIN can not be blank !");
+
+            //User Validation 
+            RuleFor(x => x.FirstName)
+                .NotEmpty()
+                .WithMessage("User First Name can not be blank !");
+
+            RuleFor(x => x.LastName)
+                .NotEmpty()
+                .WithMessage("User Last Name can not be blank !");
+
+            RuleFor(x => x.UserMobile)
+                .NotEmpty()
+                .WithMessage("User Mobile can not be blank !");
+
+            RuleFor(x => x.UserMobile)
+                .Matches("^[0-9]{10}$")
+                .When(x => !string.IsNullOrWhiteSpace(x.UserMobile))
+                .WithMessage("Invalid User Mobile !");
+
+            RuleFor(x => x.Gender)
+                .NotEmpty()
+                .WithMessage("User Gender can not be blank!");
+
+            RuleFor(x => x.Qualification)
+                .NotEmpty()
+                .WithMessage("User Qualification can not be blank!");
+
+            RuleFor(x => x.UserEmail)
+                .NotEmpty()
+                .WithMessage("User Email can not be blank !");
+
+            RuleFor(x => x.UserEmail)
+                .EmailAddress()
+                .When(x => !string.IsNullOrWhiteSpace(x.UserEmail))
+                .WithMessage("Invalid User Email !");
+
+            RuleFor(x => x.Designation)
+                .NotEmpty()
+                .WithMessage("User Specialization / Designation can not be blank!");
+
+            RuleFor(x => x.DOB)
+                .NotEmpty()
+                .WithMessage("User Date of Birth can not be blank !");
+
+            RuleFor(x => x.DOB)
+                .Must(x => DateTime.TryParseExact(x, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out dt))
+                .When(x => !string.IsNullOrWhiteSpace(x.DOB))
+                .WithMessage("Invalid Date of Birth it should be in DD/MM/YYYY !");
+
             RuleFor(x => x.UserStateId)
                 .NotEmpty()
                 .WithMessage("Invalid User State Name !");
@@ -72,9 +119,13 @@ namespace UserManagement.Business.Validators
                 .NotEmpty()
                 .WithMessage("Invalid User City Name !");
 
-            RuleFor(x => x.UserRole)
+            RuleFor(x => x.UserAddress)
+               .NotEmpty()
+               .WithMessage("User Address can not be blank !");
+
+            RuleFor(x => x.UserPin)
                 .NotEmpty()
-                .WithMessage("Invalid Role!");
+                .WithMessage("User PIN can not be blank !");
 
             RuleFor(x => x.UserAvilableDay)
                 .NotEmpty()
@@ -88,11 +139,9 @@ namespace UserManagement.Business.Validators
                 .NotEmpty()
                 .WithMessage("Invalid Availability To Time !");
 
-            RuleFor(x => x.DOB)
-                .Must(x=>DateTime.TryParseExact(x,"dd/MM/yyyy", CultureInfo.InvariantCulture,DateTimeStyles.None, out dt))
-                .When(x=> !string.IsNullOrWhiteSpace(x.DOB))
-                .WithMessage("Invalid Date of Birth!");
-
+            RuleFor(x => x.UserRole)
+                .NotEmpty()
+                .WithMessage("Invalid Role!");
         }
     }
 }

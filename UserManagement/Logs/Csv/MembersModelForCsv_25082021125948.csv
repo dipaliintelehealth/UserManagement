@@ -1,2 +1,0 @@
-FirstName,MiddleName,LastName,AgeType,DOB,Age,Mobile,Email,CreatedBy,CreatedDate,IsActive,GenderId,RegistrationNumber,AddressLine1,AddressLine2,StateId,DistrictId,CityId,SpecializationId,QualificationId,PinCode,Fax,LoginOTP,IsLoginOTPActive,SignaturePath,CountryId,StatusId,RatingMasterId,SourceId,IsMaster,ImagePath,FileName,FileFlag,IsAvailable,Prefix,CreationRole
-Prakash,,Joshi,1,10-06-1982,0,9334574989,Prakash11@cdac.com,1,2021-08-25,1,1,23929999,ABU ROAD,,19,303,2322,0,0,989999,,0,,,1,1,0,99,,,,,False,,3
