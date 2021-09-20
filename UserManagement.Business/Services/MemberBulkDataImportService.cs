@@ -368,7 +368,7 @@ namespace UserManagement.Business
                  .Select(x => new InstitutionModelForCsv()
                  {
 
-                     Name = x.Model.HFName,
+                     Name = x.Model.HFName+" "+x.Model.District,
                      AddressLine1 = x.Model.Address,
                      AddressLine2 = string.Empty,
                      ReferenceNumber = x.Model.NIN,
