@@ -7,6 +7,7 @@ namespace UserManagement.Domain.ViewModel
 {
     public class MemberBulkImportVM
     {
+        
         [Display(Name = "HF Name")]
         public string HFName { get; set; }
         public string HFNameActual { get; set; }
@@ -120,6 +121,14 @@ namespace UserManagement.Domain.ViewModel
         [Display(Name = "User Name")]
         public string UserName { get; set; }
         public string ComputedHFName
+        {
+            get
+            {
+                return $"{this.HFName} {this.District}";
+            }
+        }
+        [Display(Name = "HF Name")]
+        public string HFNameWithDistrictName
         {
             get
             {
