@@ -51,7 +51,7 @@ namespace UserManagement.Business
                     { "Dr Reg No", nameof(obj.DRRegNo)},
                     { "User Email", nameof(obj.UserEmail)},
                     { "Specialization / Designation", nameof(obj.Designation)},
-                    { "Date of Birth DD/MM/YYYY", nameof(obj.DOB)},
+                    { "Date of Birth DD-MM-YYYY", nameof(obj.DOB)},
                     { "User State", nameof(obj.UserState)},
                     { "User District", nameof(obj.UserDistrict)},
                     { "User City", nameof(obj.UserCity)},
@@ -66,10 +66,10 @@ namespace UserManagement.Business
                     { "Assign PHC Or Hub", nameof(obj.AssignHF) }
                 }
                 ,
-                DateTimeFormat = "dd/MM/yyyy"
+                DateTimeFormat = "dd-MM-yyyy"
             };
         }
-        public async Task<IEnumerable<ResultModel<MemberBulkImportVM>>> ImportData(Stream stream,string pathForCsvLog)
+        public async Task<IEnumerable<ResultModel<MemberBulkImportVM>>> ImportData(Stream stream, string pathForCsvLog)
         {
             this._pathForCsv = pathForCsvLog;
             excelFileUtility.Configure(excelConfiguration);
@@ -77,7 +77,7 @@ namespace UserManagement.Business
             var results = Enumerable.Empty<ResultModel<MemberBulkImportVM>>();
             var validator = new MemberBulkImportVMValidator();
             var states = await bulkInsertRepository.GetStateDistrictCities();
-            models = await GetModelsWithStateDistrictAndCityId(models,states);
+            models = await GetModelsWithStateDistrictAndCityId(models, states);
             results = await CheckDuplicate(models);
             foreach (var result in results)
             {
@@ -92,7 +92,7 @@ namespace UserManagement.Business
             if (validatedModels.Count() > 0)
             {
                 var users = await bulkInsertRepository.FindUsers(validatedModels.Select(x => GetHFNameForLogin(x.Model.HFName)).Distinct());
-                validatedModels = await this.CreateUserName(validatedModels, users,states);
+                validatedModels = await this.CreateUserName(validatedModels, users, states);
 
                 validatedModels = await this.CreateServiceProvider(validatedModels);
                 validatedModels = await this.CreateMember(validatedModels);
@@ -129,7 +129,7 @@ namespace UserManagement.Business
                     if (!string.IsNullOrEmpty(lastFounduser))
                     {
                         var numberToincrement = lastFounduser.Replace(firstpart, string.Empty).Replace(secondpart, string.Empty);
-                        initialCount = string.IsNullOrEmpty(numberToincrement) ? initialCount : int.Parse(numberToincrement)+1;
+                        initialCount = string.IsNullOrEmpty(numberToincrement) ? initialCount : int.Parse(numberToincrement) + 1;
                     }
                 }
                 foreach (var item in duplicateUserGroup)
@@ -149,7 +149,7 @@ namespace UserManagement.Business
             var results = new List<ResultModel<MemberBulkImportVM>>();
             var emails = await bulkInsertRepository.FindEmails(models.Select(mdel => mdel.UserEmail));
             var mobiles = await bulkInsertRepository.FindMobiles(models.Select(mdel => mdel.UserMobile));
-           // var users = await bulkInsertRepository.FindUsers(models.Select(mdel => mdel.UserName));
+            // var users = await bulkInsertRepository.FindUsers(models.Select(mdel => mdel.UserName));
 
             var invalidModels = models.Where(model => emails.Contains(model.UserEmail) || mobiles.Contains(model.UserMobile));
             var validModels = models.Where(model => !(emails.Contains(model.UserEmail) || mobiles.Contains(model.UserMobile)));
@@ -175,9 +175,11 @@ namespace UserManagement.Business
                 x.StateId = GetStateId(states, x.State);
                 x.DistrictId = GetDistrictId(states, x.State, x.District);
                 x.CityId = GetCityId(states, x.State, x.District, x.City);
+                x.City = GetCityName(states, x.State, x.District, x.City);
                 x.UserStateId = GetStateId(states, x.UserState);
                 x.UserDistrictId = GetDistrictId(states, x.UserState, x.UserDistrict);
                 x.UserCityId = GetCityId(states, x.UserState, x.UserDistrict, x.UserCity);
+                x.UserCity= GetCityName(states, x.UserState, x.UserDistrict, x.UserCity);
                 x.UserDistrictShortCode = GetDistrictShortCode(states, x.UserState, x.UserDistrict);
                 x.UserName = GetUsersName(states, x.UserState, x.UserDistrict, x.HFName, x.HFType);
                 x.QualificationId = GetQualificationId(qualifications, x.Qualification);
@@ -186,6 +188,22 @@ namespace UserManagement.Business
                 return x;
             });
             return models;
+        }
+
+        private string GetCityName(IEnumerable<StateDistrictCity> states, string state, string district, string city)
+        {
+            var cities = states
+                .Where(x => x.StateName.ToUpper() == state?.Trim().ToUpper() && x.DistrictName.ToUpper() == district?.Trim().ToUpper())
+                .Select(s => new { CityId = s.CityId, CityName = s.CityName });
+
+            var cityName = city;
+            if (!cities.Any(x => x.CityName.ToUpper() == city?.Trim().ToUpper()))
+            {
+                var firstCity = cities?.OrderBy(x => x.CityName).FirstOrDefault()?.CityName;
+                cityName = firstCity ?? city;
+            }
+            
+            return cityName;
         }
 
         public string GetUsersName(IEnumerable<StateDistrictCity> states, string StateName, string DistrictName, string HFName, string Type)
@@ -235,7 +253,7 @@ namespace UserManagement.Business
             {
                 strHFname = strHFname?.Replace(item.ToLower(), "");
             });
-           
+
             if (string.IsNullOrEmpty(strHFname))
             {
                 return string.Empty;
@@ -307,12 +325,12 @@ namespace UserManagement.Business
             };
 
             string StateShortCode = "";
-            
+
             if (StateAndCodes.ContainsKey(StateName.Trim().ToUpper()))
             {
                 StateShortCode = StateAndCodes[StateName.Trim().ToUpper()];
             }
-            else if(!string.IsNullOrEmpty(StateName) && StateName.Length>2)
+            else if (!string.IsNullOrEmpty(StateName) && StateName.Length > 2)
             {
                 StateShortCode = StateName?.Trim().ToUpper().Substring(0, 2);
             }
@@ -334,10 +352,25 @@ namespace UserManagement.Business
         }
         private int GetCityId(IEnumerable<StateDistrictCity> states, string stateName, string districtName, string cityName)
         {
-            return states
-                .Where(x => x.StateName.ToUpper() == stateName?.Trim().ToUpper() && x.DistrictName.ToUpper() == districtName?.Trim().ToUpper() && x.CityName.ToUpper() == cityName?.Trim().ToUpper())
-                .Select(state => state.CityId)
-                .FirstOrDefault();
+
+            var cities = states
+                .Where(x => x.StateName.ToUpper() == stateName?.Trim().ToUpper() && x.DistrictName.ToUpper() == districtName?.Trim().ToUpper())
+                .Select(state => new { CityId = state.CityId, CityName = state.CityName });
+
+            var cityID = 0;
+            if (cities.Any(x => x.CityName.ToUpper() == cityName?.Trim().ToUpper()))
+            {
+                cityID = cities.Where(x => x.CityName.ToUpper() == cityName?.Trim().ToUpper())
+                                .Select(x => x.CityId)
+                                .FirstOrDefault();
+            }
+            else
+            {
+                var firstCity = cities?.OrderBy(x=>x.CityName).FirstOrDefault()?.CityId;
+                cityID = firstCity ?? 0;
+            }
+
+            return cityID;
         }
         private string GetDistrictShortCode(IEnumerable<StateDistrictCity> states, string stateName, string districtName)
         {
@@ -348,7 +381,7 @@ namespace UserManagement.Business
         }
         private string GetInstitutionId(IEnumerable<InstitutionModel> institutions, string institutionName)
         {
-            var result =institutions
+            var result = institutions
                 .Where(x => x.Name.ToUpper() == institutionName?.Trim().ToUpper())
                 .Select(institution => Convert.ToString(institution.InstitutionId))
                 .FirstOrDefault();
@@ -392,10 +425,10 @@ namespace UserManagement.Business
                 {
                     CsvLogPath = this._pathForCsv
                 });
-                var stream =csvUtility.Write(institutes);
+                var stream = csvUtility.Write(institutes);
                 var records = await bulkInsertRepository.BulkInsertInstitution(stream);
                 var maxInstituteId = await bulkInsertRepository.GetMaxInstituteId();
-                var results = await bulkInsertRepository.GetInstituations((maxInstituteId-records)+1, maxInstituteId);
+                var results = await bulkInsertRepository.GetInstituations((maxInstituteId - records) + 1, maxInstituteId);
 
                 var result = modelReturns.Select(x =>
                   {
@@ -463,7 +496,7 @@ namespace UserManagement.Business
 
                 var records = await bulkInsertRepository.BulkInsertMembers(stream);
                 var maxMemberId = await bulkInsertRepository.GetMaxMemberId();
-                var results = await bulkInsertRepository.GetMembers((maxMemberId -records) + 1, maxMemberId );
+                var results = await bulkInsertRepository.GetMembers((maxMemberId - records) + 1, maxMemberId);
 
                 var result = modelReturns.Select(x =>
                 {

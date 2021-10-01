@@ -45,10 +45,12 @@ namespace UserManagement.Business.Validators
 
             RuleFor(x => x.DistrictId)
                 .NotEmpty()
+                .When(x=> x.StateId != default)
                 .WithMessage("Invalid HF District Name !");
 
             RuleFor(x => x.CityId)
                 .NotEmpty()
+                .When(x=> x.DistrictId != default)
                 .WithMessage("Invalid HF City Name !");
 
             RuleFor(x => x.Address)
@@ -103,9 +105,9 @@ namespace UserManagement.Business.Validators
                 .WithMessage("User Date of Birth can not be blank !");
 
             RuleFor(x => x.DOB)
-                .Must(x => DateTime.TryParseExact(x, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out dt))
+                .Must(x => DateTime.TryParseExact(x, "dd-MM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out dt))
                 .When(x => !string.IsNullOrWhiteSpace(x.DOB))
-                .WithMessage("Invalid Date of Birth it should be in DD/MM/YYYY !");
+                .WithMessage("Invalid Date of Birth it should be in DD-MM-YYYY !");
 
             RuleFor(x => x.UserStateId)
                 .NotEmpty()
@@ -113,10 +115,12 @@ namespace UserManagement.Business.Validators
 
             RuleFor(x => x.UserDistrictId)
                 .NotEmpty()
+                .When(x => x.UserStateId != default)
                 .WithMessage("Invalid User District Name !");
 
             RuleFor(x => x.UserCityId)
                 .NotEmpty()
+                .When(x => x.UserDistrictId != default)
                 .WithMessage("Invalid User City Name !");
 
             RuleFor(x => x.UserAddress)
