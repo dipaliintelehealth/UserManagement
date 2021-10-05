@@ -132,8 +132,21 @@ namespace UserManagement.Domain.ViewModel
         {
             get
             {
-                return $"{this.HFName} {this.District}";
+                return $"{this.HFName?.Trim()} {this.District?.Trim()}";
             }
+        }
+    }
+    public class CompareHFNameWithDistrictName : IEqualityComparer<MemberBulkImportVM>
+    {
+        public bool Equals(MemberBulkImportVM x, MemberBulkImportVM y)
+        {
+           return x.HFNameWithDistrictName.Equals(y.HFNameWithDistrictName);
+            
+        }
+
+        public int GetHashCode(MemberBulkImportVM obj)
+        {
+            return obj.HFNameWithDistrictName.GetHashCode();
         }
     }
 }

@@ -76,9 +76,10 @@ namespace UserManagement.Business
             var models = excelFileUtility.Read(stream);
             var results = Enumerable.Empty<ResultModel<MemberBulkImportVM>>();
             var validator = new MemberBulkImportVMValidator();
+            var institutions = await bulkInsertRepository.GetInstitution();
             var states = await bulkInsertRepository.GetStateDistrictCities();
-            models = await GetModelsWithStateDistrictAndCityId(models, states);
-            results = await CheckDuplicate(models);
+            models = await GetModelsWithStateDistrictAndCityId(models, states, institutions);
+            results = await CheckUserDuplicate(models);
             foreach (var result in results)
             {
                 var validationResult = validator.Validate(result.Model);
@@ -94,7 +95,7 @@ namespace UserManagement.Business
                 var users = await bulkInsertRepository.FindUsers(validatedModels.Select(x => GetHFNameForLogin(x.Model.HFName)).Distinct());
                 validatedModels = await this.CreateUserName(validatedModels, users, states);
 
-                validatedModels = await this.CreateServiceProvider(validatedModels);
+                validatedModels = await this.CreateServiceProvider(validatedModels,institutions);
                 validatedModels = await this.CreateMember(validatedModels);
                 validatedModels = await this.CreateLogin(validatedModels);
                 validatedModels = await this.CreateMemberSlot(validatedModels);
@@ -144,7 +145,7 @@ namespace UserManagement.Business
             return Task.FromResult(modelReturns);
         }
 
-        private async Task<IEnumerable<ResultModel<MemberBulkImportVM>>> CheckDuplicate(IEnumerable<MemberBulkImportVM> models)
+        private async Task<IEnumerable<ResultModel<MemberBulkImportVM>>> CheckUserDuplicate(IEnumerable<MemberBulkImportVM> models)
         {
             var results = new List<ResultModel<MemberBulkImportVM>>();
             var emails = await bulkInsertRepository.FindEmails(models.Select(mdel => mdel.UserEmail));
@@ -166,10 +167,11 @@ namespace UserManagement.Business
             }));
             return results;
         }
-        private async Task<IEnumerable<MemberBulkImportVM>> GetModelsWithStateDistrictAndCityId(IEnumerable<MemberBulkImportVM> bulkImportVMs, IEnumerable<StateDistrictCity> states)
+
+        private async Task<IEnumerable<MemberBulkImportVM>> GetModelsWithStateDistrictAndCityId(IEnumerable<MemberBulkImportVM> bulkImportVMs, IEnumerable<StateDistrictCity> states, IEnumerable<InstitutionModel> institutions)
         {
             var qualifications = await bulkInsertRepository.GetQualification();
-            var institutions = await bulkInsertRepository.GetInstitution();
+            
             var models = bulkImportVMs.Select(x =>
             {
                 x.StateId = GetStateId(states, x.State);
@@ -394,25 +396,27 @@ namespace UserManagement.Business
                 .Select(qualification => qualification.QualificationId)
                 .FirstOrDefault();
         }
-        private async Task<IEnumerable<ResultModel<MemberBulkImportVM>>> CreateServiceProvider(IEnumerable<ResultModel<MemberBulkImportVM>> models)
+        private async Task<IEnumerable<ResultModel<MemberBulkImportVM>>> CreateServiceProvider(IEnumerable<ResultModel<MemberBulkImportVM>> models,IEnumerable<InstitutionModel> institutions)
         {
             var modelReturns = models;
-            var institutes = models.Where(x => x.Model.InstituteID == default(string))
+            var bulkimports = models.Select(x => x.Model);
+            var validModels = bulkimports?.Where(x => !institutions.Any(i => i.Name.Equals(x.HFNameWithDistrictName)));
+            var institutes = validModels?.Distinct(new CompareHFNameWithDistrictName()).Where(x => x.InstituteID == default(string))
                  .Select(x => new InstitutionModelForCsv()
                  {
 
-                     Name = x.Model.HFNameWithDistrictName,
-                     AddressLine1 = x.Model.Address,
+                     Name = x.HFNameWithDistrictName,
+                     AddressLine1 = x.Address,
                      AddressLine2 = string.Empty,
-                     ReferenceNumber = x.Model.NIN,
+                     ReferenceNumber = x.NIN,
                      CountryId = 1,
-                     StateId = x.Model.StateId,
-                     DistrictId = x.Model.DistrictId,
-                     CityId = x.Model.CityId,
-                     PinCode = x.Model.PIN,
-                     Mobile = x.Model.HFPhone,
-                     Email = x.Model.HFEmail,
-                     InstitutionTypeId = x.Model.HFTypeId,
+                     StateId = x.StateId,
+                     DistrictId = x.DistrictId,
+                     CityId = x.CityId,
+                     PinCode = x.PIN,
+                     Mobile = x.HFPhone,
+                     Email = x.HFEmail,
+                     InstitutionTypeId = x.HFTypeId,
                      IsActive = true,
                      CreatedDate = DateTime.Now.ToString("yyyy-MM-dd"),
                      SourceId = 99,
