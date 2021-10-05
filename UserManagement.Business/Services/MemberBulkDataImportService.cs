@@ -398,9 +398,10 @@ namespace UserManagement.Business
         }
         private async Task<IEnumerable<ResultModel<MemberBulkImportVM>>> CreateServiceProvider(IEnumerable<ResultModel<MemberBulkImportVM>> models,IEnumerable<InstitutionModel> institutions)
         {
+            
             var modelReturns = models;
             var bulkimports = models.Select(x => x.Model);
-            var validModels = bulkimports?.Where(x => !institutions.Any(i => i.Name.Equals(x.HFNameWithDistrictName)));
+            var validModels = bulkimports?.Where(x => !institutions.Any(i => i.Name.ToLower().Equals(x.HFNameWithDistrictName?.ToLower())));
             var institutes = validModels?.Distinct(new CompareHFNameWithDistrictName()).Where(x => x.InstituteID == default(string))
                  .Select(x => new InstitutionModelForCsv()
                  {
@@ -422,6 +423,7 @@ namespace UserManagement.Business
                      SourceId = 99,
                      StatusId = 1
                  });
+            var records = 0;
             if (institutes != null && institutes.Count() > 0)
             {
                 var csvUtility = new InstitutionModelCsvUtility();
@@ -430,21 +432,24 @@ namespace UserManagement.Business
                     CsvLogPath = this._pathForCsv
                 });
                 var stream = csvUtility.Write(institutes);
-                var records = await bulkInsertRepository.BulkInsertInstitution(stream);
-                var maxInstituteId = await bulkInsertRepository.GetMaxInstituteId();
-                var results = await bulkInsertRepository.GetInstituations((maxInstituteId - records) + 1, maxInstituteId);
-
-                var result = modelReturns.Select(x =>
-                  {
-                      var find = results.FirstOrDefault(r => r.Name == x.Model.HFName);
-                      if (find != null)
-                      {
-                          x.Model.InstituteID = Convert.ToString(find.InstitutionId);
-                      }
-                      return x;
-                  });
-                return result;
+                records = await bulkInsertRepository.BulkInsertInstitution(stream);
+               
             }
+            var maxInstituteId = await bulkInsertRepository.GetMaxInstituteId();
+            var max = Math.Max((maxInstituteId - records) + 1, maxInstituteId);
+            var min = Math.Min((maxInstituteId - records) + 1, maxInstituteId);
+            var results = await bulkInsertRepository.GetInstituations(min,max);
+            var tempInstitutions = institutions.Concat(results);
+            modelReturns = modelReturns.Select(x =>
+            {
+                var find = tempInstitutions.FirstOrDefault(r => r.Name?.Trim().ToLower() == x.Model.HFNameWithDistrictName?.Trim().ToLower());
+                if (find != null)
+                {
+                    x.Model.InstituteID = Convert.ToString(find.InstitutionId);
+                }
+                return x;
+            });
+           
             return modelReturns;
         }
 

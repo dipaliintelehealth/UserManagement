@@ -140,13 +140,13 @@ namespace UserManagement.Domain.ViewModel
     {
         public bool Equals(MemberBulkImportVM x, MemberBulkImportVM y)
         {
-           return x.HFNameWithDistrictName.Equals(y.HFNameWithDistrictName);
+           return x.HFNameWithDistrictName.Trim().ToLower().Equals(y.HFNameWithDistrictName.Trim().ToLower());
             
         }
 
         public int GetHashCode(MemberBulkImportVM obj)
         {
-            return obj.HFNameWithDistrictName.GetHashCode();
+            return obj.HFNameWithDistrictName.Trim().ToLower().GetHashCode();
         }
     }
 }
