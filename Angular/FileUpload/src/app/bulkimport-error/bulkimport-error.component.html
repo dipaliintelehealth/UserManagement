@@ -1,0 +1,94 @@
+<div class="card mb-2">
+  <div class="card-header text-danger">
+    Error Data
+    <div class="float-right" id="btnErrorControls"></div>
+  </div>
+  <div class="card-body">
+    <table
+      datatable
+      [dtOptions]="dtOptions"
+      class="table table-striped"
+      id="tblError"
+    >
+      <thead>
+        <tr>
+          <th>Errors</th>
+          <th>HF Name</th>
+          <th class="d-none">HF Phone</th>
+          <th class="d-none">HF Type</th>
+          <th class="d-none">NIN</th>
+          <th>HF Email</th>
+          <th class="d-none">HF State</th>
+          <th class="d-none">HF District</th>
+          <th class="d-none">HF City</th>
+          <th class="d-none">HF Address</th>
+          <th class="d-none">HF PIN</th>
+          <th class="d-none">First Name</th>
+          <th class="d-none">Last Name</th>
+          <th class="d-none">User Mobile</th>
+          <th class="d-none">Gender</th>
+          <th class="d-none">Qualification</th>
+          <th class="d-none">Experience</th>
+          <th class="d-none">DRRegNo</th>
+          <th class="d-none">User Email</th>
+          <th class="d-none">Designation</th>
+          <th class="d-none">DOB</th>
+          <th class="d-none">User State</th>
+          <th class="d-none">User District</th>
+          <th class="d-none">User City</th>
+          <th class="d-none">User Address</th>
+          <th class="d-none">User Pin</th>
+          <th class="d-none">User Prefix</th>
+          <th class="d-none">Day and Time (Availability)</th>
+          <th class="d-none">FromTime</th>
+          <th class="d-none">To Time</th>
+          <th class="d-none">Role</th>
+          <th class="d-none">Assign Type</th>
+          <th class="d-none">Assign PHC Or Hub</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of data">
+          <td>
+            <ul>
+              <li *ngFor="let message of item.messages">{{ message }}</li>
+            </ul>
+          </td>
+          <td>{{ item.model.hfName }}</td>
+
+          <td class="d-none">{{ item.model.hfPhone }}</td>
+          <td class="d-none">{{ item.model.hfType }}</td>
+          <td class="d-none">{{ item.model.NIN }}</td>
+          <td>{{ item.model.hfEmail }}</td>
+          <td class="d-none">{{ item.model.state }}</td>
+          <td class="d-none">{{ item.model.district }}</td>
+          <td class="d-none">{{ item.model.city }}</td>
+          <td class="d-none">{{ item.model.address }}</td>
+          <td class="d-none">{{ item.model.pin }}</td>
+          <td class="d-none">{{ item.model.firstName }}</td>
+          <td class="d-none">{{ item.model.lastName }}</td>
+          <td class="d-none">{{ item.model.userMobile }}</td>
+          <td class="d-none">{{ item.model.gender }}</td>
+          <td class="d-none">{{ item.model.qualification }}</td>
+          <td class="d-none">{{ item.model.experience }}</td>
+          <td class="d-none">{{ item.model.drRegNo }}</td>
+          <td class="d-none">{{ item.model.userEmail }}</td>
+          <td class="d-none">{{ item.model.designation }}</td>
+          <td class="d-none">{{ item.model.dob }}</td>
+          <td class="d-none">{{ item.model.userState }}</td>
+          <td class="d-none">{{ item.model.userDistrict }}</td>
+          <td class="d-none">{{ item.model.userCity }}</td>
+          <td class="d-none">{{ item.model.userAddress }}</td>
+          <td class="d-none">{{ item.model.userPin }}</td>
+          <td class="d-none">{{ item.model.userPrefix }}</td>
+          <td class="d-none">{{ item.model.userAvilableDay }}</td>
+          <td class="d-none">{{ item.model.userAvilableFromTime }}</td>
+          <td class="d-none">{{ item.model.userAvilableToTime }}</td>
+          <td class="d-none">{{ item.model.userRole }}</td>
+          <td class="d-none">{{ item.model.assignedHFType }}</td>
+          <td class="d-none">{{ item.model.assignHF }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
