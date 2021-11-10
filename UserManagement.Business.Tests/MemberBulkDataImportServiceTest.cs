@@ -732,7 +732,7 @@ namespace UserManagement.Business.Tests
                         UserDistrict="FAZILKA",
                         HFName="HSC ABOHAR",
                         HFType="SubCentre",
-                        SubMenuID="5,6,7"
+                        SubMenuID="5;6;7"
                         
                     }
                 }
@@ -763,7 +763,7 @@ namespace UserManagement.Business.Tests
                         UserDistrict="FAZILKA",
                         HFName="HSC ABOHAR",
                         HFType="SubCentre",
-                        SubMenuID="6,7"
+                        SubMenuID="6;7"
 
                     }
                 }

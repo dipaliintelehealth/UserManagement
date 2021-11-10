@@ -620,7 +620,7 @@ namespace UserManagement.Business
         {
             return models.SelectMany(x =>
             {
-                var subMenus = x.Model.SubMenuID.Trim().Split(',').ToList();
+                var subMenus = x.Model.SubMenuID.Trim().Split(';').ToList();
                 if (!subMenus.Contains("5"))
                 {
                     subMenus.Add("5");
