@@ -25,5 +25,6 @@ namespace UserManagement.Contract.Repository
         Task<int> GetMaxMemberId();
         Task<IEnumerable<MembersModel>> GetMembers(int minId, int maxId);
         Task<string> AddAuditLog();
+        Task<int> BulkInsertMemberMenu(Stream stream);
     }
 }

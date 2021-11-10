@@ -718,5 +718,67 @@ namespace UserManagement.Business.Tests
             Assert.Contains(result, x => x.Model.UserName == "pbabohar6fazsc");
 
         }
+        [Fact]
+        public async System.Threading.Tasks.Task GetMemberMenus_When_Five_SubMenuId_Exist_Then_ItShouldAdd_Five_Once_In_MenuMappingId()
+        {
+            var validatedModels = new List<ResultModel<MemberBulkImportVM>>()
+            {
+                new ResultModel<MemberBulkImportVM>()
+                {
+                    Model = new MemberBulkImportVM()
+                    {
+                        UserName="pbaboharfazsc",
+                        UserState="PUNJAB",
+                        UserDistrict="FAZILKA",
+                        HFName="HSC ABOHAR",
+                        HFType="SubCentre",
+                        SubMenuID="5,6,7"
+                        
+                    }
+                }
+            };
+
+            var repoMock = new Mock<IMemberBulkInsertRepository>();
+            var excelMock = new Mock<IExcelFileUtility<MemberBulkImportVM>>();
+            var service = new MemberBulkDataImportService(excelMock.Object, repoMock.Object);
+            var result = service.GetMemberMenus(validatedModels);
+
+            Assert.NotNull(result);
+            Assert.True(result.Where(x => x.MenuMappingId == "5").Count()==1,"Sub menu ID 5 exist only once");
+            Assert.Contains(result, x => x.MenuMappingId == "5");
+            Assert.Contains(result, x => x.MenuMappingId == "6");
+            Assert.Contains(result, x => x.MenuMappingId == "7");
+        }
+        [Fact]
+        public async System.Threading.Tasks.Task GetMemberMenus_When_Five_SubMenuId_Not_Exist_Then_ItShouldAdd_Five_Once_In_MenuMappingId()
+        {
+            var validatedModels = new List<ResultModel<MemberBulkImportVM>>()
+            {
+                new ResultModel<MemberBulkImportVM>()
+                {
+                    Model = new MemberBulkImportVM()
+                    {
+                        UserName="pbaboharfazsc",
+                        UserState="PUNJAB",
+                        UserDistrict="FAZILKA",
+                        HFName="HSC ABOHAR",
+                        HFType="SubCentre",
+                        SubMenuID="6,7"
+
+                    }
+                }
+            };
+
+            var repoMock = new Mock<IMemberBulkInsertRepository>();
+            var excelMock = new Mock<IExcelFileUtility<MemberBulkImportVM>>();
+            var service = new MemberBulkDataImportService(excelMock.Object, repoMock.Object);
+            var result = service.GetMemberMenus(validatedModels);
+
+            Assert.NotNull(result);
+            Assert.True(result.Where(x => x.MenuMappingId == "5").Count() == 1, "Sub menu ID 5 exist only once");
+            Assert.Contains(result, x => x.MenuMappingId == "5");
+            Assert.Contains(result, x => x.MenuMappingId == "6");
+            Assert.Contains(result, x => x.MenuMappingId == "7");
+        }
     }
 }

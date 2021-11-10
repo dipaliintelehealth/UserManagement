@@ -63,7 +63,8 @@ namespace UserManagement.Business
                     { "To Time", nameof(obj.UserAvilableToTime) },
                     { "Role", nameof(obj.UserRole)},
                     { "Assign Type", nameof(obj.AssignedHFType) },
-                    { "Assign PHC Or Hub", nameof(obj.AssignHF) }
+                    { "Assign PHC Or Hub", nameof(obj.AssignHF) },
+                    { "Sub Menu Id", nameof (obj.SubMenuID)}
                 }
                 ,
                 DateTimeFormat = "dd-MM-yyyy"
@@ -100,6 +101,8 @@ namespace UserManagement.Business
                 validatedModels = await this.CreateLogin(validatedModels);
                 validatedModels = await this.CreateMemberSlot(validatedModels);
                 validatedModels = await this.CreateMemberInstitution(validatedModels);
+                validatedModels = await this.CreateMemberMenu(validatedModels);
+
                 await bulkInsertRepository.AddAuditLog();
             }
             return results;
@@ -171,7 +174,7 @@ namespace UserManagement.Business
         private async Task<IEnumerable<MemberBulkImportVM>> GetModelsWithStateDistrictAndCityId(IEnumerable<MemberBulkImportVM> bulkImportVMs, IEnumerable<StateDistrictCity> states, IEnumerable<InstitutionModel> institutions)
         {
             var qualifications = await bulkInsertRepository.GetQualification();
-            
+
             var models = bulkImportVMs.Select(x =>
             {
                 x.StateId = GetStateId(states, x.State);
@@ -204,7 +207,7 @@ namespace UserManagement.Business
                 var firstCity = cities?.OrderBy(x => x.CityName).FirstOrDefault()?.CityName;
                 cityName = firstCity ?? city;
             }
-            
+
             return cityName;
         }
 
@@ -398,7 +401,7 @@ namespace UserManagement.Business
         }
         private async Task<IEnumerable<ResultModel<MemberBulkImportVM>>> CreateServiceProvider(IEnumerable<ResultModel<MemberBulkImportVM>> models,IEnumerable<InstitutionModel> institutions)
         {
-            
+
             var modelReturns = models;
             var bulkimports = models.Select(x => x.Model);
             var validModels = bulkimports?.Where(x => !institutions.Any(i => i.Name.ToLower().Equals(x.HFNameWithDistrictName?.ToLower())));
@@ -433,7 +436,7 @@ namespace UserManagement.Business
                 });
                 var stream = csvUtility.Write(institutes);
                 records = await bulkInsertRepository.BulkInsertInstitution(stream);
-               
+
             }
             var maxInstituteId = await bulkInsertRepository.GetMaxInstituteId();
             var max = Math.Max((maxInstituteId - records) + 1, maxInstituteId);
@@ -449,7 +452,7 @@ namespace UserManagement.Business
                 }
                 return x;
             });
-           
+
             return modelReturns;
         }
 
@@ -593,6 +596,51 @@ namespace UserManagement.Business
                 var records = await bulkInsertRepository.BulkInsertMemberInstitution(stream);
             }
             return modelReturns;
+        }
+
+        private async Task<IEnumerable<ResultModel<MemberBulkImportVM>>> CreateMemberMenu(IEnumerable<ResultModel<MemberBulkImportVM>> models)
+        {
+            var modelReturns = models;
+            IEnumerable<MemberMenuModelForCsv> memberMenus = GetMemberMenus(models);
+
+            if (memberMenus != null && memberMenus.Count() > 0)
+            {
+                var csvUtility = new MemberMenuModelCsvUtility();
+                csvUtility.Configure(new CsvConfiguration()
+                {
+                    CsvLogPath = this._pathForCsv
+                });
+                var stream = csvUtility.Write(memberMenus);
+                var records = await bulkInsertRepository.BulkInsertMemberMenu(stream);
+            }
+            return modelReturns;
+        }
+
+        public IEnumerable<MemberMenuModelForCsv> GetMemberMenus(IEnumerable<ResultModel<MemberBulkImportVM>> models)
+        {
+            return models.SelectMany(x =>
+            {
+                var subMenus = x.Model.SubMenuID.Trim().Split(',').ToList();
+                if (!subMenus.Contains("5"))
+                {
+                    subMenus.Add("5");
+                }
+                var listMenu = new List<MemberMenuModelForCsv>();
+                foreach (var item in subMenus)
+                {
+                    var menu = new MemberMenuModelForCsv()
+                    {
+                        RoleId = x.Model.UserRole,
+                        MemberId = x.Model.MemberId,
+                        MenuMappingId = item,
+                        IsActive = "1",
+                        InstitutionId = x.Model.InstituteID,
+                        SourceId = "99"
+                    };
+                    listMenu.Add(menu);
+                }
+                return listMenu;
+            });
         }
     }
 }

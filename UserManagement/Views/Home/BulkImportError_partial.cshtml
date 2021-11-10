@@ -109,7 +109,10 @@
                         <th class="d-none">
                             @Html.DisplayNameFor(model => model.Model.AssignHF)
                         </th>
-                       
+                        <th class="d-none">
+                            @Html.DisplayNameFor(model => model.Model.SubMenuID)
+                        </th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -220,6 +223,9 @@
                         </td>
                         <td class="d-none">
                             @Html.DisplayFor(modelItem => item.Model.AssignHF)
+                        </td>
+                        <td class="d-none">
+                            @Html.DisplayFor(modelItem => item.Model.SubMenuID)
                         </td>
 
                     </tr>

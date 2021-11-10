@@ -275,6 +275,28 @@ namespace UserManagement.Infrastructure.Repository
             return result;
         }
 
-       
+        public async Task<int> BulkInsertMemberMenu(Stream stream)
+        {
+            var connection = new MySqlConnection($"{Connection.ConnectionString};AllowLoadLocalInfile=True");
+            MySqlBulkLoader bulkLoader = new MySqlBulkLoader(connection)
+            {
+                Columns = {
+                    "RoleId",
+                    "MemberId",
+                    "MenuMappingId",
+                    "IsActive",
+                    "InstitutionId",
+                    "SourceId"
+                }
+            };
+            bulkLoader.Local = true;
+            bulkLoader.TableName = "mp_member_menu";
+            bulkLoader.FieldTerminator = ",";
+            bulkLoader.LineTerminator = "\n";
+            bulkLoader.FieldQuotationCharacter = '"';
+            bulkLoader.SourceStream = stream;
+            bulkLoader.NumberOfLinesToSkip = 1;
+            return await bulkLoader.LoadAsync();
+        }
     }
 }
