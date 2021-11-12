@@ -298,5 +298,22 @@ namespace UserManagement.Infrastructure.Repository
             bulkLoader.NumberOfLinesToSkip = 1;
             return await bulkLoader.LoadAsync();
         }
+
+        public async Task<IEnumerable<SubMenuModel>> GetSubMenu()
+        {
+            // var sql = "SELECT SubMenuId,SubMenuName FROM md_submenu;";
+            var sql = "select * from (SELECT " +
+                           " md_submenu.SubMenuId, " +
+                           " md_submenu.SubMenuName, " +
+                           " mp_menu_submenu.MenuMappingId, " +
+                           " mp_menu_submenu.menuid " +
+                           " FROM md_submenu " +
+                           " INNER JOIN mp_menu_submenu " +
+                           " ON md_submenu.SubMenuId = mp_menu_submenu.SubMenuId " +
+                           " WHERE md_submenu.IsActive = TRUE " +
+                           " AND mp_menu_submenu.IsActive = TRUE)  A where A.menuid = 2; ";
+            var result = await Connection.QueryAsync<SubMenuModel>(sql);
+            return result;
+        }
     }
 }

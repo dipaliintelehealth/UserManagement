@@ -147,14 +147,14 @@ namespace UserManagement.Business.Validators
                 .NotEmpty()
                 .WithMessage("Invalid Role!");
 
-            RuleFor(x => x.SubMenuID)
-               .NotEmpty()
-               .WithMessage("Sub Menu Id can not be blank !");
+            //RuleFor(x => x.SubMenuID)
+            //   .NotEmpty()
+            //   .WithMessage("Sub Menu Id can not be blank !");
 
-            RuleFor(x => x.SubMenuID)
-                .Matches("^[5-9](;[5-9])*$")
-                .When(x => !string.IsNullOrWhiteSpace(x.SubMenuID))
-                .WithMessage("Invalid Sub Menu Id!");
+            //RuleFor(x => x.SubMenuID)
+            //    .Matches("^[5-9](;[5-9])*$")
+            //    .When(x => !string.IsNullOrWhiteSpace(x.SubMenuID))
+            //    .WithMessage("Invalid Sub Menu Id!");
         }
     }
 }

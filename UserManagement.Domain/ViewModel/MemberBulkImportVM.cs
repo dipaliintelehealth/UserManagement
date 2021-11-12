@@ -135,8 +135,8 @@ namespace UserManagement.Domain.ViewModel
                 return $"{this.HFName?.Trim()} {this.District?.Trim()}";
             }
         }
-        [Display(Name = "Sub Menu Id")]
-        public string SubMenuID { get; set; }
+        [Display(Name = "Sub Menu")]
+        public string SubMenuName { get; set; }
     }
     public class CompareHFNameWithDistrictName : IEqualityComparer<MemberBulkImportVM>
     {

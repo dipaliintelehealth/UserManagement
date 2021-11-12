@@ -43,6 +43,25 @@ namespace UserManagement.Business.Tests
                "45678901234",
                "2345678901"
             });
+
+            repoMock.Setup(bl => bl.GetSubMenu().Result).Returns(new List<SubMenuModel>() {
+              new SubMenuModel()
+                {
+                    SubMenuId = "5",
+                    SubMenuName = "User Dashboard"
+                },
+                new SubMenuModel()
+                {
+                    SubMenuId = "6",
+                    SubMenuName = "Patient List"
+                },
+                 new SubMenuModel()
+                {
+                    SubMenuId = "7",
+                    SubMenuName = "Add Patient"
+                }
+            });
+
             var excelMock = new Mock<IExcelFileUtility<MemberBulkImportVM>>();
             excelMock.Setup(ex => ex.Read(It.IsAny<Stream>())).Returns(new List<MemberBulkImportVM>
             {
@@ -55,7 +74,8 @@ namespace UserManagement.Business.Tests
                      UserState ="Maharashtra",
                      District = "Pune",
                      City ="Pune",
-                     State ="Maharashtra"
+                     State ="Maharashtra",
+                     SubMenuName = "User Dashboard"
                  },
                   new MemberBulkImportVM()
                  {
@@ -66,7 +86,8 @@ namespace UserManagement.Business.Tests
                      UserState ="Maharashtra",
                      District = "Pune",
                      City ="Pune",
-                     State ="Maharashtra"
+                     State ="Maharashtra",
+                     SubMenuName = "Patient List"
                  },
                  new MemberBulkImportVM()
                  {
@@ -77,7 +98,8 @@ namespace UserManagement.Business.Tests
                      UserState ="Maharashtra",
                      District = "Pune",
                      City ="Pune",
-                     State ="Maharashtra"
+                     State ="Maharashtra",
+                     SubMenuName = "Health Cube"
                  },
                   new MemberBulkImportVM()
                  {
@@ -211,7 +233,7 @@ namespace UserManagement.Business.Tests
         [InlineData("Sc Vantmuri MCH", "vantmurimch")]
         [InlineData(" Sc Vantmuri MCH ", "vantmurimch")]
         [InlineData("Vantmuri MCH", "vantmurimch")]
-        public void GetHFNameForLogin_Should_Give_ProperName(string hfName,string expected)
+        public void GetHFNameForLogin_Should_Give_ProperName(string hfName, string expected)
         {
             var result = MemberBulkDataImportService.GetHFNameForLogin(hfName);
             Assert.Equal(expected, result);
@@ -423,7 +445,7 @@ namespace UserManagement.Business.Tests
             Assert.Contains(result, x => x.Model.UserName == "pbabohar6fazsc");
             Assert.Contains(result, x => x.Model.UserName == "pbabohar7fazsc");
             Assert.Contains(result, x => x.Model.UserName == "pbabohar8fazsc");
-           // Assert.Contains(result, x => x.Model.UserName == "pbabohar6fazsc");
+            // Assert.Contains(result, x => x.Model.UserName == "pbabohar6fazsc");
 
         }
         [Fact]
@@ -718,8 +740,9 @@ namespace UserManagement.Business.Tests
             Assert.Contains(result, x => x.Model.UserName == "pbabohar6fazsc");
 
         }
+
         [Fact]
-        public async System.Threading.Tasks.Task GetMemberMenus_When_Five_SubMenuId_Exist_Then_ItShouldAdd_Five_Once_In_MenuMappingId()
+        public async System.Threading.Tasks.Task GetMemberMenus_When_SubMenuId_Is_Present()
         {
             var validatedModels = new List<ResultModel<MemberBulkImportVM>>()
             {
@@ -732,25 +755,47 @@ namespace UserManagement.Business.Tests
                         UserDistrict="FAZILKA",
                         HFName="HSC ABOHAR",
                         HFType="SubCentre",
-                        SubMenuID="5;6;7"
-                        
+                        SubMenuName="User Dashboard,Patient List"
+
                     }
                 }
             };
 
+            var subMenus = new List<SubMenuModel>()
+            {
+                new SubMenuModel()
+                {
+                    SubMenuId = "5",
+                    SubMenuName = "User Dashboard",
+                    MenuMappingId = "33"
+                },
+                new SubMenuModel()
+                {
+                    SubMenuId = "6",
+                    SubMenuName = "Patient List",
+                    MenuMappingId = "34"
+                },
+                 new SubMenuModel()
+                {
+                    SubMenuId = "7",
+                    SubMenuName = "Add Patient",
+                    MenuMappingId = "35"
+                }
+            };
             var repoMock = new Mock<IMemberBulkInsertRepository>();
             var excelMock = new Mock<IExcelFileUtility<MemberBulkImportVM>>();
             var service = new MemberBulkDataImportService(excelMock.Object, repoMock.Object);
-            var result = service.GetMemberMenus(validatedModels);
+            var result = service.GetMemberMenus(validatedModels, subMenus);
 
             Assert.NotNull(result);
-            Assert.True(result.Where(x => x.MenuMappingId == "5").Count()==1,"Sub menu ID 5 exist only once");
-            Assert.Contains(result, x => x.MenuMappingId == "5");
-            Assert.Contains(result, x => x.MenuMappingId == "6");
-            Assert.Contains(result, x => x.MenuMappingId == "7");
+
+            Assert.Contains(result, x => x.MenuMappingId == "33");
+            Assert.Contains(result, x => x.MenuMappingId == "34");
+
         }
+
         [Fact]
-        public async System.Threading.Tasks.Task GetMemberMenus_When_Five_SubMenuId_Not_Exist_Then_ItShouldAdd_Five_Once_In_MenuMappingId()
+        public async System.Threading.Tasks.Task CheckSubMenu_When_SubMenu_Is_Invalid()
         {
             var validatedModels = new List<ResultModel<MemberBulkImportVM>>()
             {
@@ -763,22 +808,105 @@ namespace UserManagement.Business.Tests
                         UserDistrict="FAZILKA",
                         HFName="HSC ABOHAR",
                         HFType="SubCentre",
-                        SubMenuID="6;7"
+                        SubMenuName="Doctor List"
 
                     }
                 }
             };
 
+            var subMenus = new List<SubMenuModel>()
+            {
+               new SubMenuModel()
+                {
+                    SubMenuId = "5",
+                    SubMenuName = "User Dashboard",
+                    MenuMappingId = "33"
+                },
+                new SubMenuModel()
+                {
+                    SubMenuId = "6",
+                    SubMenuName = "Patient List",
+                    MenuMappingId = "34"
+                },
+                 new SubMenuModel()
+                {
+                    SubMenuId = "7",
+                    SubMenuName = "Add Patient",
+                    MenuMappingId = "35"
+                }
+            };
             var repoMock = new Mock<IMemberBulkInsertRepository>();
             var excelMock = new Mock<IExcelFileUtility<MemberBulkImportVM>>();
             var service = new MemberBulkDataImportService(excelMock.Object, repoMock.Object);
-            var result = service.GetMemberMenus(validatedModels);
+            var result = await service.CheckSubMenu(validatedModels, subMenus);
 
             Assert.NotNull(result);
-            Assert.True(result.Where(x => x.MenuMappingId == "5").Count() == 1, "Sub menu ID 5 exist only once");
-            Assert.Contains(result, x => x.MenuMappingId == "5");
-            Assert.Contains(result, x => x.MenuMappingId == "6");
-            Assert.Contains(result, x => x.MenuMappingId == "7");
+
+            var notScussess = result.Where(x => !x.Success);
+            Assert.True(notScussess.Where(x => x.Messages.Contains("Invalid Sub Menu !")).Count() == 1, "invalid sub menu id count should match");
+        }
+
+        [Fact]
+        public async System.Threading.Tasks.Task CheckSubMenu_When_SubMenuId_Is_Empty()
+        {
+            var validatedModels = new List<ResultModel<MemberBulkImportVM>>()
+            {
+                new ResultModel<MemberBulkImportVM>()
+                {
+                    Model = new MemberBulkImportVM()
+                    {
+                        UserName="pbaboharfazsc",
+                        UserState="PUNJAB",
+                        UserDistrict="FAZILKA",
+                        HFName="HSC ABOHAR",
+                        HFType="SubCentre",
+                        SubMenuName=" "
+
+                    }
+                },
+                 new ResultModel<MemberBulkImportVM>()
+                {
+                    Model = new MemberBulkImportVM()
+                    {
+                        UserName="pbaboharfazsc",
+                        UserState="PUNJAB",
+                        UserDistrict="FAZILKA",
+                        HFName="HSC ABOHAR",
+                        HFType="SubCentre",
+                        SubMenuName="User Dashboard"
+
+                    }
+                }
+            };
+
+            var subMenus = new List<SubMenuModel>()
+            {
+                new SubMenuModel()
+                {
+                    SubMenuId = "5",
+                    SubMenuName = "User Dashboard"
+                },
+                new SubMenuModel()
+                {
+                    SubMenuId = "6",
+                    SubMenuName = "Patient List"
+                },
+                 new SubMenuModel()
+                {
+                    SubMenuId = "7",
+                    SubMenuName = "Add Patient"
+                }
+            };
+            var repoMock = new Mock<IMemberBulkInsertRepository>();
+            var excelMock = new Mock<IExcelFileUtility<MemberBulkImportVM>>();
+            var service = new MemberBulkDataImportService(excelMock.Object, repoMock.Object);
+            var result = await service.CheckSubMenu(validatedModels, subMenus);
+
+            Assert.NotNull(result);
+            var Sucess = result.Where(x => x.Success);
+            var notScussess = result.Where(x => !x.Success);
+            Assert.True(notScussess.Where(x => x.Messages.Contains("Invalid Sub Menu !")).Count() == 1, "invalid sub menu id count should match");
+            Assert.True(Sucess.Count() == 1);
         }
     }
 }

@@ -64,7 +64,7 @@ namespace UserManagement.Business
                     { "Role", nameof(obj.UserRole)},
                     { "Assign Type", nameof(obj.AssignedHFType) },
                     { "Assign PHC Or Hub", nameof(obj.AssignHF) },
-                    { "Sub Menu Id", nameof (obj.SubMenuID)}
+                    { "Sub Menu", nameof (obj.SubMenuName)}
                 }
                 ,
                 DateTimeFormat = "dd-MM-yyyy"
@@ -79,8 +79,10 @@ namespace UserManagement.Business
             var validator = new MemberBulkImportVMValidator();
             var institutions = await bulkInsertRepository.GetInstitution();
             var states = await bulkInsertRepository.GetStateDistrictCities();
+            var subMenu = await bulkInsertRepository.GetSubMenu();
             models = await GetModelsWithStateDistrictAndCityId(models, states, institutions);
             results = await CheckUserDuplicate(models);
+            results = await CheckSubMenu(results, subMenu);
             foreach (var result in results)
             {
                 var validationResult = validator.Validate(result.Model);
@@ -101,7 +103,7 @@ namespace UserManagement.Business
                 validatedModels = await this.CreateLogin(validatedModels);
                 validatedModels = await this.CreateMemberSlot(validatedModels);
                 validatedModels = await this.CreateMemberInstitution(validatedModels);
-                validatedModels = await this.CreateMemberMenu(validatedModels);
+                validatedModels = await this.CreateMemberMenu(validatedModels, subMenu);
 
                 await bulkInsertRepository.AddAuditLog();
             }
@@ -169,6 +171,24 @@ namespace UserManagement.Business
                 Model = model,
             }));
             return results;
+        }
+        public Task<IEnumerable<ResultModel<MemberBulkImportVM>>> CheckSubMenu(IEnumerable<ResultModel<MemberBulkImportVM>> models ,IEnumerable<SubMenuModel> subMenus)
+        {
+           
+            var subMenuNames = subMenus.Select(x => x.SubMenuName.Trim());
+            var results = new List<ResultModel<MemberBulkImportVM>>();
+            foreach (var item in models)
+            {
+                var memberMenus = item.Model.SubMenuName?.Split(",")?.ToList();
+                if (memberMenus == null || memberMenus.Count() == 0 || memberMenus.Any(t => !subMenuNames.Contains(t)))
+                {
+                    item.Success = false;
+                    item.Messages.Add("Invalid Sub Menu !");
+                }
+                results.Add(item);
+            }
+                          
+            return Task.FromResult(results.AsEnumerable());
         }
 
         private async Task<IEnumerable<MemberBulkImportVM>> GetModelsWithStateDistrictAndCityId(IEnumerable<MemberBulkImportVM> bulkImportVMs, IEnumerable<StateDistrictCity> states, IEnumerable<InstitutionModel> institutions)
@@ -598,10 +618,10 @@ namespace UserManagement.Business
             return modelReturns;
         }
 
-        private async Task<IEnumerable<ResultModel<MemberBulkImportVM>>> CreateMemberMenu(IEnumerable<ResultModel<MemberBulkImportVM>> models)
+        private async Task<IEnumerable<ResultModel<MemberBulkImportVM>>> CreateMemberMenu(IEnumerable<ResultModel<MemberBulkImportVM>> models, IEnumerable<SubMenuModel> subMenu)
         {
             var modelReturns = models;
-            IEnumerable<MemberMenuModelForCsv> memberMenus = GetMemberMenus(models);
+            IEnumerable<MemberMenuModelForCsv> memberMenus = GetMemberMenus(models, subMenu);
 
             if (memberMenus != null && memberMenus.Count() > 0)
             {
@@ -616,23 +636,21 @@ namespace UserManagement.Business
             return modelReturns;
         }
 
-        public IEnumerable<MemberMenuModelForCsv> GetMemberMenus(IEnumerable<ResultModel<MemberBulkImportVM>> models)
+        public IEnumerable<MemberMenuModelForCsv> GetMemberMenus(IEnumerable<ResultModel<MemberBulkImportVM>> models, IEnumerable<SubMenuModel> subMenus)
         {
             return models.SelectMany(x =>
             {
-                var subMenus = x.Model.SubMenuID.Trim().Split(';').ToList();
-                if (!subMenus.Contains("5"))
-                {
-                    subMenus.Add("5");
-                }
+                var memberMenus = x.Model.SubMenuName.Trim().Split(',').ToList();
+               
                 var listMenu = new List<MemberMenuModelForCsv>();
-                foreach (var item in subMenus)
+                foreach (var item in memberMenus)
                 {
+                    var menuMapID = subMenus.FirstOrDefault(t => t.SubMenuName == item).MenuMappingId;
                     var menu = new MemberMenuModelForCsv()
                     {
                         RoleId = x.Model.UserRole,
                         MemberId = x.Model.MemberId,
-                        MenuMappingId = item,
+                        MenuMappingId = menuMapID,
                         IsActive = "1",
                         InstitutionId = x.Model.InstituteID,
                         SourceId = "99"

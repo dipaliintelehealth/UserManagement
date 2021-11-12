@@ -2,6 +2,13 @@
 
 namespace UserManagement.Domain
 {
+    public class SubMenuModel
+    {
+        public string SubMenuId { get; set; }
+        public string SubMenuName { get; set; }
+        public string MenuMappingId { get; set; }
+
+    }
     public class MemberMenuModelForCsv
     {
         public string RoleId { get; set; }
