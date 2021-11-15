@@ -179,8 +179,9 @@ namespace UserManagement.Business
             var results = new List<ResultModel<MemberBulkImportVM>>();
             foreach (var item in models)
             {
-                var memberMenus = item.Model.SubMenuName?.Split(",")?.ToList();
-                if (memberMenus == null || memberMenus.Count() == 0 || memberMenus.Any(t => !subMenuNames.Contains(t)))
+                var memberMenus = item.Model.SubMenuName.Trim()?.Split(",")?.ToList();
+                
+                if (memberMenus == null || memberMenus.Count() == 0 || memberMenus.Any(t => !subMenuNames.Contains(t.Trim())))
                 {
                     item.Success = false;
                     item.Messages.Add("Invalid Sub Menu !");
@@ -645,7 +646,7 @@ namespace UserManagement.Business
                 var listMenu = new List<MemberMenuModelForCsv>();
                 foreach (var item in memberMenus)
                 {
-                    var menuMapID = subMenus.FirstOrDefault(t => t.SubMenuName == item).MenuMappingId;
+                    var menuMapID = subMenus.FirstOrDefault(t => t.SubMenuName == item.Trim())?.MenuMappingId;
                     var menu = new MemberMenuModelForCsv()
                     {
                         RoleId = x.Model.UserRole,
