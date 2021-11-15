@@ -45,20 +45,24 @@ namespace UserManagement.Business.Tests
             });
 
             repoMock.Setup(bl => bl.GetSubMenu().Result).Returns(new List<SubMenuModel>() {
-              new SubMenuModel()
+
+                new SubMenuModel()
                 {
                     SubMenuId = "5",
-                    SubMenuName = "User Dashboard"
+                    SubMenuName = "User Dashboard",
+                    MenuMappingId = "33"
                 },
                 new SubMenuModel()
                 {
                     SubMenuId = "6",
-                    SubMenuName = "Patient List"
+                    SubMenuName = "Patient List",
+                    MenuMappingId = "34"
                 },
                  new SubMenuModel()
                 {
                     SubMenuId = "7",
-                    SubMenuName = "Add Patient"
+                    SubMenuName = "Add Patient",
+                    MenuMappingId = "35"
                 }
             });
 
@@ -99,7 +103,7 @@ namespace UserManagement.Business.Tests
                      District = "Pune",
                      City ="Pune",
                      State ="Maharashtra",
-                     SubMenuName = "Health Cube"
+                     SubMenuName = "Add Patient"
                  },
                   new MemberBulkImportVM()
                  {
@@ -110,7 +114,8 @@ namespace UserManagement.Business.Tests
                      UserState ="Maharashtra",
                      District = "Pune",
                      City ="Pune",
-                     State ="HR"
+                     State ="HR",
+                     SubMenuName = ""
                  }
             });
             var service = new MemberBulkDataImportService(excelMock.Object, repoMock.Object);
@@ -166,6 +171,30 @@ namespace UserManagement.Business.Tests
                "45678901234",
                "2345678901"
             });
+
+
+            repoMock.Setup(bl => bl.GetSubMenu().Result).Returns(new List<SubMenuModel>() {
+
+                new SubMenuModel()
+                {
+                    SubMenuId = "5",
+                    SubMenuName = "User Dashboard",
+                    MenuMappingId = "33"
+                },
+                new SubMenuModel()
+                {
+                    SubMenuId = "6",
+                    SubMenuName = "Patient List",
+                    MenuMappingId = "34"
+                },
+                 new SubMenuModel()
+                {
+                    SubMenuId = "7",
+                    SubMenuName = "Add Patient",
+                    MenuMappingId = "35"
+                }
+            });
+
             var excelMock = new Mock<IExcelFileUtility<MemberBulkImportVM>>();
             excelMock.Setup(ex => ex.Read(It.IsAny<Stream>())).Returns(new List<MemberBulkImportVM>
             {
@@ -200,7 +229,8 @@ namespace UserManagement.Business.Tests
                      UserAvilableDay = "Monday,Saturday",
                      UserAvilableFromTime = "9:00 AM",
                      UserAvilableToTime = "4:00 PM",
-                     UserRole="2"
+                     UserRole="2",
+                     SubMenuName="User Dashboard"
                  }
             });
             var service = new MemberBulkDataImportService(excelMock.Object, repoMock.Object);
