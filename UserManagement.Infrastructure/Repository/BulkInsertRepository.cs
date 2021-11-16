@@ -269,7 +269,7 @@ namespace UserManagement.Infrastructure.Repository
                  " `ModuleId`, `EventId`, `AccessType`, `LocationIPAddress`," +
                   "`SourceId`,`UserTypeId` )" +
                   "VALUES ( " +
-                  $"'Bulk Institution and Member Added Successfully' , '{DateTime.Now.ToString("yyyy-MM-dd") }', " +
+                  $"'Bulk Institution and Member Added Successfully' , '{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") }', " +
                   "'', '1', '11', '14', '','','99','2' ); SELECT LAST_INSERT_ID();";
             var result = await Connection.QueryFirstAsync<string>(sql);
             return result;

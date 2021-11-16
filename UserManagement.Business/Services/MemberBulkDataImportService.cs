@@ -443,7 +443,7 @@ namespace UserManagement.Business
                      Email = x.HFEmail,
                      InstitutionTypeId = x.HFTypeId,
                      IsActive = true,
-                     CreatedDate = DateTime.Now.ToString("yyyy-MM-dd"),
+                     CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                      SourceId = 99,
                      StatusId = 1
                  });
@@ -494,7 +494,7 @@ namespace UserManagement.Business
                 Email = x.Model.UserEmail,
                 ImagePath = string.Empty,
                 CreatedBy = 1,
-                CreatedDate = DateTime.Now.ToString("yyyy-MM-dd"),
+                CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                 IsActive = 1,
                 GenderId = x.Model.GenderId,
                 RegistrationNumber = x.Model.DRRegNo,
@@ -578,7 +578,7 @@ namespace UserManagement.Business
                 Day = x.Model.UserAvilableDay,
                 SlotTo = x.Model.UserAvilableToTime,
                 SlotFrom = x.Model.UserAvilableFromTime,
-                CreatedDate = DateTime.Now.ToString("yyyy-MM-dd"),
+                CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                 IsActive = true,
                 SourceId = "99"
             });
