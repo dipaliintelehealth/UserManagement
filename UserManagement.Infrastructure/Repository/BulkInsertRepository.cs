@@ -315,5 +315,32 @@ namespace UserManagement.Infrastructure.Repository
             var result = await Connection.QueryAsync<SubMenuModel>(sql);
             return result;
         }
+        public async Task<int> BulkInsertAuditTrail(Stream stream)
+        {
+            var connection = new MySqlConnection($"{Connection.ConnectionString};AllowLoadLocalInfile=True");
+            MySqlBulkLoader bulkLoader = new MySqlBulkLoader(connection)
+            {
+                Columns = {
+                    "Message",
+                    "CreatedDate",
+                    "IconPath",
+                    "MemberId",
+                    "ModuleId",
+                    "EventId",
+                    "AccessType",
+                    "LocationIPAddress",
+                    "SourceId",
+                    "UserTypeId"
+                }
+            };
+            bulkLoader.Local = true;
+            bulkLoader.TableName = "md_audittrail";
+            bulkLoader.FieldTerminator = ",";
+            bulkLoader.LineTerminator = "\n";
+            bulkLoader.FieldQuotationCharacter = '"';
+            bulkLoader.SourceStream = stream;
+            bulkLoader.NumberOfLinesToSkip = 1;
+            return await bulkLoader.LoadAsync();
+        }
     }
 }

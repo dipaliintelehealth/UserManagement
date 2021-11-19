@@ -104,8 +104,9 @@ namespace UserManagement.Business
                 validatedModels = await this.CreateMemberSlot(validatedModels);
                 validatedModels = await this.CreateMemberInstitution(validatedModels);
                 validatedModels = await this.CreateMemberMenu(validatedModels, subMenu);
+                validatedModels = await this.CreateAuditTrail(validatedModels);
 
-                await bulkInsertRepository.AddAuditLog();
+               // await bulkInsertRepository.AddAuditLog();
             }
             return results;
         }
@@ -660,6 +661,36 @@ namespace UserManagement.Business
                 }
                 return listMenu;
             });
+        }
+      private async Task<IEnumerable<ResultModel<MemberBulkImportVM>>> CreateAuditTrail(IEnumerable<ResultModel<MemberBulkImportVM>> models)
+        {
+            var modelReturns = models;
+            var members = models.Select(x => new AuditTrailModelForCsv()
+            {
+                Message = "Bulk Institution and Member Added Successfully",
+                CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                IconPath = " ",
+                MemberId = x.Model.MemberId,
+                ModuleId = "11",
+                EventId = "14",
+                AccessType = " ",
+                LocationIPAddress = " ",
+                SourceId = "99",
+                UserTypeId = "2"
+            });
+
+            if (members != null && members.Count() > 0)
+            {
+                var csvUtility = new AuditTrailModelCsvUtility();
+                csvUtility.Configure(new CsvConfiguration()
+                {
+                    CsvLogPath = this._pathForCsv
+                });
+                var stream = csvUtility.Write(members);
+                var records = await bulkInsertRepository.BulkInsertAuditTrail(stream);
+            }
+
+            return modelReturns;
         }
     }
 }
