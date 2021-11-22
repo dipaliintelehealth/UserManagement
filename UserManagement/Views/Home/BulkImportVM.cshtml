@@ -1,0 +1,245 @@
+﻿@model IList<MemberBulkImportVM>
+@using  UserManagement.Domain.ViewModel
+@if (Model != null && Model.Count() > 0)
+{
+    <div class="card mb-2">
+    <div class="card-header visible">
+        Data
+        <div class="float-right" id="btnErrorControls"></div>
+    </div>
+    <div class="card-body">
+
+        <div asp-validation-summary="All"></div>
+
+        <form asp-action="CreateBulkImport">
+            <input type="submit" value="submit" />
+            <table class="table table-striped" id="tblError">
+                <thead>
+                    <tr>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model[0].HFName)
+                        </th>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model[0].HFPhone)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model[0].HFType)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model[0].NIN)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model[0].HFEmail)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model[0].State)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model[0].District)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model[0].City)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model[0].Address)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model[0].PIN)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model[0].FirstName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model[0].LastName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model[0].UserMobile)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model[0].Gender)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model[0].Qualification)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model[0].Experience)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model[0].DRRegNo)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model[0].UserEmail)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model[0].Designation)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model[0].DOB)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model[0].UserState)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model[0].UserDistrict)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model[0].UserCity)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model[0].UserAddress)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model[0].UserPin)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model[0].UserPrefix)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model[0].UserAvilableDay)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model[0].UserAvilableFromTime)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model[0].UserAvilableToTime)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model[0].UserRole)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model[0].AssignedHFType)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model[0].AssignHF)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model[0].SubMenuName)
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                   
+
+                    @for (var i = 0; i < Model.Count(); i++)
+                    {
+        <tr>
+
+            <td>
+                @Html.TextBoxFor(modelItem => Model[i].HFName)
+
+            </td>
+
+            <td>
+                @Html.TextBoxFor(modelItem => Model[i].HFPhone)
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => Model[i].HFType)
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => Model[i].NIN)
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => Model[i].HFEmail)
+            </td>
+            <td>
+                @Html.HiddenFor(modelItem => Model[i].StateId)
+                @Html.TextBoxFor(modelItem => Model[i].State)
+            </td>
+            <td>
+                @Html.HiddenFor(modelItem => Model[i].DistrictId)
+                @Html.TextBoxFor(modelItem => Model[i].District)
+            </td>
+            <td>
+                @Html.HiddenFor(modelItem => Model[i].CityId)
+                @Html.TextBoxFor(modelItem => Model[i].City)
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => Model[i].Address)
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => Model[i].PIN)
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => Model[i].FirstName)
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => Model[i].LastName)
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => Model[i].UserMobile)
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => Model[i].Gender)
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => Model[i].Qualification)
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => Model[i].Experience)
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => Model[i].DRRegNo)
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => Model[i].UserEmail)
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => Model[i].Designation)
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => Model[i].DOB)
+            </td>
+            <td>
+                @Html.HiddenFor(modelItem => Model[i].UserStateId)
+                @Html.TextBoxFor(modelItem => Model[i].UserState)
+            </td>
+            <td>
+                @Html.HiddenFor(modelItem => Model[i].UserDistrictId)
+                @Html.TextBoxFor(modelItem => Model[i].UserDistrict)
+            </td>
+            <td>
+                @Html.HiddenFor(modelItem => Model[i].UserCityId)
+                @Html.TextBoxFor(modelItem => Model[i].UserCity)
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => Model[i].UserAddress)
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => Model[i].UserPin)
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => Model[i].UserPrefix)
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => Model[i].UserAvilableDay)
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => Model[i].UserAvilableFromTime)
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => Model[i].UserAvilableToTime)
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => Model[i].UserRole)
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => Model[i].AssignedHFType)
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => Model[i].AssignHF)
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => Model[i].SubMenuName)
+            </td>
+
+        </tr>}
+                        
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+}

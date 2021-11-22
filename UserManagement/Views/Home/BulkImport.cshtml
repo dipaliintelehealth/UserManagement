@@ -136,7 +136,7 @@
 
         @await (@Html.PartialAsync("BulkImportError_partial", inValidatedModels));
 
-
+        @await (@Html.PartialAsync("BulkImportVM",Model.Select(x => x.Model).ToList()));
     }
 </div>
 

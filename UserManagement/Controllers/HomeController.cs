@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using UserManagement.Business.Validators;
 using UserManagement.Contract;
 using UserManagement.Domain;
 using UserManagement.Domain.ViewModel;
@@ -18,6 +19,7 @@ namespace UserManagement.Controllers
         private readonly IBulkDataImportService<MemberBulkImportVM> bulkDataImportService;
         private readonly IHostingEnvironment hostingEnvironment;
         private readonly ILogger<HomeController> logger;
+        private static IList<MemberBulkImportVM> _models;
         private IEnumerable<ResultModel<MemberBulkImportVM>> resultModels = new List<ResultModel<MemberBulkImportVM>>();
 
         public HomeController(IBulkDataImportService<MemberBulkImportVM> bulkDataImportService, IHostingEnvironment hostingEnvironment, ILogger<HomeController> logger)
@@ -41,6 +43,35 @@ namespace UserManagement.Controllers
             return View();
         }
 
+       [HttpGet]
+        public ActionResult CreateBulkImportGet()
+        {
+            var validator = new MemberBulkImportVMValidator();
+            foreach (var result in _models)
+            {
+                var validationResult = validator.Validate(result);
+                if (!validationResult.IsValid)
+                {
+                    foreach (var item in validationResult.Errors)
+                    {
+                        ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
+                    }
+                }
+            }
+           
+            return View("BulkImportVM", _models);
+        }
+
+        [HttpPost]
+        public ActionResult CreateBulkImport(IList<MemberBulkImportVM> bulkImportVM)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("BulkImportVM", bulkImportVM);
+            }
+            return View("BulkImportVM", bulkImportVM);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> BulkImport(IFormFile formFile)
@@ -53,8 +84,12 @@ namespace UserManagement.Controllers
                 System.IO.Directory.CreateDirectory(folderPath);
             }
             var path = folderPath;
-            resultModels = await bulkDataImportService.ImportData(stream, path);
-            return View(resultModels);
+            var models = await bulkDataImportService.CreateModels(stream);
+            _models = models.ToList();
+            return RedirectToAction("CreateBulkImportGet");
+           // resultModels = await bulkDataImportService.ImportData(stream, path);
+           // return View(resultModels);
+
         }
     }
 }

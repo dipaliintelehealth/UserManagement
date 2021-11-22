@@ -70,6 +70,18 @@ namespace UserManagement.Business
                 DateTimeFormat = "dd-MM-yyyy"
             };
         }
+        public async Task<IEnumerable<MemberBulkImportVM>> CreateModels(Stream stream)
+        {
+            excelFileUtility.Configure(excelConfiguration);
+            var models = excelFileUtility.Read(stream);
+            var results = Enumerable.Empty<ResultModel<MemberBulkImportVM>>();
+            var validator = new MemberBulkImportVMValidator();
+            var institutions = await bulkInsertRepository.GetInstitution();
+            var states = await bulkInsertRepository.GetStateDistrictCities();
+            models = await GetModelsWithStateDistrictAndCityId(models, states, institutions);
+            return models;
+        }
+        
         public async Task<IEnumerable<ResultModel<MemberBulkImportVM>>> ImportData(Stream stream, string pathForCsvLog)
         {
             this._pathForCsv = pathForCsvLog;
@@ -79,8 +91,8 @@ namespace UserManagement.Business
             var validator = new MemberBulkImportVMValidator();
             var institutions = await bulkInsertRepository.GetInstitution();
             var states = await bulkInsertRepository.GetStateDistrictCities();
-            var subMenu = await bulkInsertRepository.GetSubMenu();
             models = await GetModelsWithStateDistrictAndCityId(models, states, institutions);
+            var subMenu = await bulkInsertRepository.GetSubMenu();
             results = await CheckUserDuplicate(models);
             results = await CheckSubMenu(results, subMenu);
             foreach (var result in results)
@@ -105,8 +117,6 @@ namespace UserManagement.Business
                 validatedModels = await this.CreateMemberInstitution(validatedModels);
                 validatedModels = await this.CreateMemberMenu(validatedModels, subMenu);
                 validatedModels = await this.CreateAuditTrail(validatedModels);
-
-               // await bulkInsertRepository.AddAuditLog();
             }
             return results;
         }

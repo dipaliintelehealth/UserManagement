@@ -262,19 +262,7 @@ namespace UserManagement.Infrastructure.Repository
             var result = await Connection.QueryAsync<StateDistrictCity>(sql);
             return result;
         }
-        public async Task<string> AddAuditLog()
-        {
-            var sql = "INSERT INTO  `md_audittrail` ( " +
-                 "`Message`, `CreatedDate`, `IconPath`, `MemberId`," +
-                 " `ModuleId`, `EventId`, `AccessType`, `LocationIPAddress`," +
-                  "`SourceId`,`UserTypeId` )" +
-                  "VALUES ( " +
-                  $"'Bulk Institution and Member Added Successfully' , '{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") }', " +
-                  "'', '1', '11', '14', '','','99','2' ); SELECT LAST_INSERT_ID();";
-            var result = await Connection.QueryFirstAsync<string>(sql);
-            return result;
-        }
-
+       
         public async Task<int> BulkInsertMemberMenu(Stream stream)
         {
             var connection = new MySqlConnection($"{Connection.ConnectionString};AllowLoadLocalInfile=True");
