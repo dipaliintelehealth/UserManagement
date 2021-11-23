@@ -103,11 +103,11 @@ namespace UserManagement.Domain.ViewModel
         {
             get
             {
-                if (HFType.Replace(" ", "").Replace("-", "").ToLower() == "hub")
+                if (HFType?.Replace(" ", "")?.Replace("-", "")?.ToLower() == "hub")
                 {
                     return 1;
                 }
-                else if (HFType.Replace(" ", "").Replace("-", "").ToLower() == "phc")
+                else if (HFType?.Replace(" ", "")?.Replace("-", "")?.ToLower() == "phc")
                 {
                     return 2;
                 }
