@@ -1,8 +1,6 @@
-﻿@model IEnumerable<UserManagement.Domain.ResultModel<MemberBulkImportVM>>
+﻿@model IList<MemberBulkImportVM>
 @using  UserManagement.Domain.ViewModel
-@{
-    ViewData["Title"] = "Bulk import";
-}
+@{ ViewData["Title"] = "Bulk import"; }
 <div class="container">
     <div class="card mb-2">
         <div class="card-header">
@@ -11,13 +9,12 @@
         <div class="card-body">
             <form enctype="multipart/form-data" asp-action="BulkImport">
                 <table class="style1" border="0" cellpadding="4px" cellspacing="0">
-                   
+
                     <tr>
                         <td>
                             &nbsp;
                         </td>
                         <td>
-                           
                         </td>
                         <td align="right">
                             <label id="label1" runat="server"> Select File to Upload Bulk Data</label>
@@ -47,7 +44,7 @@
                         </td>
                         <td>
                             <input type="submit" value="Import" class="btn btn-info">
-                           
+
                             @*<asp:Button ID="Button1" runat="server" onclick="Button1_Click" Text="Import" ForeColor="White" BackColor="#009900" class="" />*@
                         </td>
                         <td>
@@ -123,21 +120,7 @@
         </div>
     </div>
 
-
-
-    @if (Model != null && Model.Count() > 0)
-    {
-
-
-        var validatedModels = Model?.Where(x => x.Success);
-        var inValidatedModels = Model?.Where(x => !x.Success);
-
-        @await (@Html.PartialAsync("BulkImportSucess_partial", validatedModels));
-
-        @await (@Html.PartialAsync("BulkImportError_partial", inValidatedModels));
-
-        @await (@Html.PartialAsync("BulkImportVM",Model.Select(x => x.Model).ToList()));
-    }
+    @await Html.PartialAsync("ImportData_Partial", Model)
 </div>
 
 

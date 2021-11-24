@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
+using FormHelper;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -54,14 +55,14 @@ namespace UserManagement
                 // Make the session cookie essential
                 options.Cookie.IsEssential = true;
             });
-
+            services.AddFormHelper();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
 
             services.AddBusiness(Configuration);
             services.AddInfrastructure(Configuration);
             services.AddMvc()
-                    .AddFluentValidation(fv => { fv.RegisterValidatorsFromAssemblyContaining<MemberBulkImportVMValidator>();
+                      .AddFluentValidation(fv => { fv.RegisterValidatorsFromAssemblyContaining<MemberBulkImportVMValidator>();
                         fv.ImplicitlyValidateRootCollectionElements = true;
                     });
            
@@ -85,6 +86,7 @@ namespace UserManagement
             app.UseHttpsRedirection();
             app.UseCors("CorsPolicy");
             app.UseStaticFiles();
+            app.UseFormHelper();
             app.UseSession();
             app.UseCookiePolicy();
             app.UseAuthentication();

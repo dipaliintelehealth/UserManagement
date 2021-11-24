@@ -1,6 +1,6 @@
 ﻿@model IList<MemberBulkImportVM>
 @using  UserManagement.Domain.ViewModel
-@if (Model != null && Model.Count()> 0)
+@if (Model != null && Model.Count() > 0)
 {
     <div class="card mb-2">
         <div class="card-header visible">
@@ -9,10 +9,10 @@
         </div>
         <div class="card-body">
 
-            <div asp-validation-summary="All"></div>
+            <div asp-validation-summary="All" class="text-danger"></div>
 
-            <form asp-action="CreateBulkImport">
-                <input type="submit" value="submit" />
+            <form asp-formhelper="true" asp-action="ImportData">
+                <input type="submit" value="Submit" class="btn btn-info" />
                 <table class="bulkupload table table-striped" id="tblError">
                     <thead>
                         <tr>
@@ -268,7 +268,7 @@
                                 </td>
 
                             </tr>
-}
+                        }
 
                     </tbody>
                 </table>

@@ -36,7 +36,6 @@ namespace UserManagement.Business.Validators
 
             RuleFor(x => x.HFEmail)
                 .EmailAddress()
-                .When(x => !string.IsNullOrWhiteSpace(x.HFEmail))
                 .WithMessage("Invalid HF Email !");
 
             RuleFor(x => x.StateId)
@@ -70,13 +69,12 @@ namespace UserManagement.Business.Validators
                 .NotEmpty()
                 .WithMessage("User Last Name can not be blank !");
 
-            RuleFor(x => x.UserMobile)
+            /*RuleFor(x => x.UserMobile)
                 .NotEmpty()
-                .WithMessage("User Mobile can not be blank !");
+                .WithMessage("User Mobile can not be blank !");*/
 
             RuleFor(x => x.UserMobile)
                 .Matches("^[0-9]{10}$")
-                .When(x => !string.IsNullOrWhiteSpace(x.UserMobile))
                 .WithMessage("Invalid User Mobile !");
 
             RuleFor(x => x.Gender)
@@ -87,13 +85,12 @@ namespace UserManagement.Business.Validators
                 .NotEmpty()
                 .WithMessage("User Qualification can not be blank!");
 
-            RuleFor(x => x.UserEmail)
+            /*RuleFor(x => x.UserEmail)
                 .NotEmpty()
-                .WithMessage("User Email can not be blank !");
+                .WithMessage("User Email can not be blank !");*/
 
             RuleFor(x => x.UserEmail)
                 .EmailAddress()
-                .When(x => !string.IsNullOrWhiteSpace(x.UserEmail))
                 .WithMessage("Invalid User Email !");
 
             RuleFor(x => x.Designation)
