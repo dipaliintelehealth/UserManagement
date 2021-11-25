@@ -42,15 +42,27 @@ namespace UserManagement.Business.Validators
                 .NotEmpty()
                 .WithMessage("Invalid HF State Name !");
 
+            RuleFor(x => x.State)
+                .NotEmpty()
+                .WithMessage("HF State can not be blank !");
+
             RuleFor(x => x.DistrictId)
                 .NotEmpty()
                 .When(x=> x.StateId != default)
                 .WithMessage("Invalid HF District Name !");
 
+            RuleFor(x => x.District)
+                .NotEmpty()
+                .WithMessage("HF District can not be blank !");
+
             RuleFor(x => x.CityId)
                 .NotEmpty()
                 .When(x=> x.DistrictId != default)
                 .WithMessage("Invalid HF City Name !");
+
+            RuleFor(x => x.City)
+                .NotEmpty()
+                .WithMessage("HF City can not be blank !");
 
             RuleFor(x => x.Address)
                             .NotEmpty()
@@ -110,15 +122,27 @@ namespace UserManagement.Business.Validators
                 .NotEmpty()
                 .WithMessage("Invalid User State Name !");
 
+            RuleFor(x => x.UserState)
+               .NotEmpty()
+               .WithMessage("User State can not be blank !");
+
             RuleFor(x => x.UserDistrictId)
                 .NotEmpty()
                 .When(x => x.UserStateId != default)
                 .WithMessage("Invalid User District Name !");
 
+            RuleFor(x => x.UserDistrict)
+               .NotEmpty()
+               .WithMessage("User District can not be blank !");
+
             RuleFor(x => x.UserCityId)
                 .NotEmpty()
                 .When(x => x.UserDistrictId != default)
                 .WithMessage("Invalid User City Name !");
+
+            RuleFor(x => x.UserCity)
+               .NotEmpty()
+               .WithMessage("User City can not be blank !");
 
             RuleFor(x => x.UserAddress)
                .NotEmpty()

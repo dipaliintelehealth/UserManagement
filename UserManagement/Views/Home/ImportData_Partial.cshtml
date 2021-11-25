@@ -2,18 +2,18 @@
 @using  UserManagement.Domain.ViewModel
 @if (Model != null && Model.Count() > 0)
 {
-    <div class="card mb-2">
+    <div class="card datawrapper">
         <div class="card-header visible">
             Data
             <div class="float-right" id="btnErrorControls"></div>
         </div>
         <div class="card-body">
-
-            <div asp-validation-summary="All" class="text-danger"></div>
-
-            <form asp-formhelper="true" asp-action="ImportData">
-                <input type="submit" value="Submit" class="btn btn-info" />
-                <table class="bulkupload table table-striped" id="tblError">
+            <form asp-formhelper="true" asp-callback="formValidationCallback" asp-action="ImportData">
+                <div asp-validation-summary="All" class="text-danger mb-2"></div>
+                <div class="text-center mb-2">
+                    <input type="submit" value="Submit" class="btn btn-info" onclick="formValidationCallback();" />
+                </div>
+                <table class="bulkupload table" id="tblImportData">
                     <thead>
                         <tr>
 
@@ -276,3 +276,31 @@
         </div>
     </div>
 }
+
+
+<script type="text/javascript">
+
+    function formValidationCallback(response, statusText, xhr, $form) {
+        setTimeout(function () { setRowBorderColor(); }, 200);
+    }
+    function setRowBorderColor() {
+        var allValidRows = $('#tblImportData tbody tr').not(':has(.field-validation-error)');
+        var allInValidRows = $('#tblImportData tbody tr').has('.field-validation-error');
+        if (allValidRows) {
+            $(allValidRows).removeClass('table-danger');
+            $(allValidRows).addClass('table-success');
+        }
+        if (allInValidRows) {
+            $(allInValidRows).removeClass('table-success');
+            $(allInValidRows).addClass('table-danger');
+        }
+    }
+    $(document).ready(function () {
+        var tableSucess = $('#tblImportData').DataTable({
+            "ordering": false,
+            "searching": false,
+            "paging": true
+        });
+        setRowBorderColor();
+    });
+ </script>

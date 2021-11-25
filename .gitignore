@@ -343,3 +343,4 @@ healthchecksdb
 /Doxyfile
 /UserManagement/wwwroot/CsvLogs
 /UserManagement/Exceptionlogs/*
+/UserManagement/Logs/Exception
