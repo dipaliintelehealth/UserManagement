@@ -9,10 +9,13 @@
         </div>
         <div class="card-body">
             <form asp-formhelper="true" asp-callback="formValidationCallback" asp-action="ImportData">
+
                 <div asp-validation-summary="All" class="text-danger mb-2"></div>
+
                 <div class="text-center mb-2">
                     <input type="submit" value="Submit" class="btn btn-info" onclick="formValidationCallback();" />
                 </div>
+
                 <table class="bulkupload table" id="tblImportData">
                     <thead>
                         <tr>
@@ -149,19 +152,19 @@
                                     @Html.ValidationMessageFor(modelItem => Model[i].HFEmail, "", new { @class = "text-danger" })
                                 </td>
                                 <td>
-                                    @Html.HiddenFor(modelItem => Model[i].StateId)
-                                    @Html.TextBoxFor(modelItem => Model[i].State, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].State, "", new { @class = "text-danger" })
+                                    @Html.DropDownListFor(model => Model[i].SelectedStateId,
+                                    new SelectList(ViewBag.States, "Id", "Value"), "--Select--", new { @class = "form-control state" })
+                                    @Html.ValidationMessageFor(modelItem => Model[i].SelectedStateId, "", new { @class = "text-danger" })
                                 </td>
                                 <td>
-                                    @Html.HiddenFor(modelItem => Model[i].DistrictId)
-                                    @Html.TextBoxFor(modelItem => Model[i].District, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].District, "", new { @class = "text-danger" })
+                                    @Html.DropDownListFor(model => Model[i].SelectedDistrictId,
+                                    new SelectList(Model[i].Districts, "Id", "Value"), "--Select--", new { @class = "form-control district" })
+                                    @Html.ValidationMessageFor(modelItem => Model[i].SelectedDistrictId, "", new { @class = "text-danger" })
                                 </td>
                                 <td>
-                                    @Html.HiddenFor(modelItem => Model[i].CityId)
-                                    @Html.TextBoxFor(modelItem => Model[i].City, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].City, "", new { @class = "text-danger" })
+                                    @Html.DropDownListFor(model => Model[i].SelectedCityId,
+                                    new SelectList(Model[i].Cities, "Id", "Value"), "--Select--", new { @class = "form-control city" })
+                                    @Html.ValidationMessageFor(modelItem => Model[i].SelectedCityId, "", new { @class = "text-danger" })
                                 </td>
                                 <td>
                                     @Html.TextBoxFor(modelItem => Model[i].Address, new { @class = "form-control" })
@@ -212,19 +215,19 @@
                                     @Html.ValidationMessageFor(modelItem => Model[i].DOB, "", new { @class = "text-danger" })
                                 </td>
                                 <td>
-                                    @Html.HiddenFor(modelItem => Model[i].UserStateId)
-                                    @Html.TextBoxFor(modelItem => Model[i].UserState, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].UserState, "", new { @class = "text-danger" })
+                                    @Html.DropDownListFor(model => Model[i].SelectedUserStateId,
+                                    new SelectList(ViewBag.States, "Id", "Value"), "--Select--", new { @class = "form-control state" })
+                                    @Html.ValidationMessageFor(modelItem => Model[i].SelectedUserStateId, "", new { @class = "text-danger" })
                                 </td>
                                 <td>
-                                    @Html.HiddenFor(modelItem => Model[i].UserDistrictId)
-                                    @Html.TextBoxFor(modelItem => Model[i].UserDistrict, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].UserDistrict, "", new { @class = "text-danger" })
+                                    @Html.DropDownListFor(model => Model[i].SelectedUserDistrictId,
+                                      new SelectList(Model[i].UserDistricts,"Id", "Value"), "--Select--", new { @class = "form-control district" })
+                                    @Html.ValidationMessageFor(modelItem => Model[i].SelectedUserDistrictId, "", new { @class = "text-danger" })
                                 </td>
                                 <td>
-                                    @Html.HiddenFor(modelItem => Model[i].UserCityId)
-                                    @Html.TextBoxFor(modelItem => Model[i].UserCity, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].UserCity, "", new { @class = "text-danger" })
+                                   @Html.DropDownListFor(model => Model[i].SelectedUserCityId,
+                                     new SelectList(Model[i].UserCities, "Id", "Value"), "--Select--", new { @class = "form-control city" })
+                                    @Html.ValidationMessageFor(modelItem => Model[i].SelectedUserCityId, "", new { @class = "text-danger" })
                                 </td>
                                 <td>
                                     @Html.TextBoxFor(modelItem => Model[i].UserAddress, new { @class = "form-control" })
@@ -296,11 +299,54 @@
         }
     }
     $(document).ready(function () {
+
+        setRowBorderColor();
+
         var tableSucess = $('#tblImportData').DataTable({
             "ordering": false,
             "searching": false,
             "paging": true
         });
-        setRowBorderColor();
+       
+        $('.state').change(function () {
+            let state = $(this);
+            $.ajax({
+                type: "post",
+                url: "Home/GetDistricts",
+                data: { stateId: $(state).val() },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    var options = '<option value="0">--Select--</option>';
+                    for (var i = 0; i < data.length; i++) {
+                        options = options + '<option value=' + data[i].id + '>' + data[i].value + '</option>';
+                    }
+                    console.log('state clicked', state);
+                    let stateId = $(state).attr('id');
+                    let districtId = stateId.replace('State', 'District');
+                    console.log('district', districtId);
+                    $('#' + districtId).empty().append(options);
+                }
+            });
+        }); 
+        $('.district').change(function () {
+            let district = $(this);
+            $.ajax({
+                type: "post",
+                url: "Home/GetCities",
+                data: { stateId: 0, districtId: $(this).val() },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    var options = '<option value="0">--Select--</option>';
+                    for (var i = 0; i < data.length; i++) {
+                        options = options + '<option value=' + data[i].id + '>' + data[i].value + '</option>';
+                    }
+                    let districtId = $(district).attr('id');
+                    let cityId = districtId.replace('District', 'City');
+                    $('#' + cityId).empty().append(options);
+                }
+            });
+        });  
     });
  </script>

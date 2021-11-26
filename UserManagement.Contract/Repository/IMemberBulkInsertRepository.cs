@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using UserManagement.Domain;
+using UserManagement.Domain.ViewModel;
 
 namespace UserManagement.Contract.Repository
 {
@@ -28,5 +29,9 @@ namespace UserManagement.Contract.Repository
         Task<int> BulkInsertMemberMenu(Stream stream);
         Task<int> BulkInsertAuditTrail(Stream stream);
         Task<IEnumerable<SubMenuModel>> GetSubMenu();
+        Task<IEnumerable<KeyValue<string, string>>> GetStates();
+        Task<IEnumerable<KeyValue<string, string>>> GetDistrict(string stateId);
+
+        Task<IEnumerable<KeyValue<string, string>>> GetCities(string stateId, string districtId);
     }
 }

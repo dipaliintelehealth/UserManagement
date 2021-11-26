@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using UserManagement.Domain;
+using UserManagement.Domain.ViewModel;
 
 namespace UserManagement.Contract
 {
@@ -22,5 +23,11 @@ namespace UserManagement.Contract
     {
         Task<IEnumerable<ResultModel<T>>> ImportData(Stream stream,string pathForCsvLog);
         Task<IEnumerable<T>> CreateModels(Stream stream);
+        Task<IEnumerable<KeyValue<string,string>>> GetStates();
+        Task<IEnumerable<KeyValue<string, string>>> GetDistrict(string stateId);
+
+        Task<IEnumerable<KeyValue<string, string>>> GetCities(string stateId,string districtId);
+
+
     }
 }

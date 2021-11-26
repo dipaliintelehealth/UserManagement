@@ -209,24 +209,44 @@ namespace UserManagement.Business
 
             var models = bulkImportVMs.Select(x =>
             {
-                x.StateId = GetStateId(states, x.State);
-                x.DistrictId = GetDistrictId(states, x.State, x.District);
-                x.CityId = GetCityId(states, x.State, x.District, x.City);
+                x.SelectedStateId = GetStateId(states, x.State);
+                x.SelectedDistrictId = GetDistrictId(states, x.State, x.District);
+                x.SelectedCityId = GetCityId(states, x.State, x.District, x.City);
                 x.City = GetCityName(states, x.State, x.District, x.City);
-                x.UserStateId = GetStateId(states, x.UserState);
-                x.UserDistrictId = GetDistrictId(states, x.UserState, x.UserDistrict);
-                x.UserCityId = GetCityId(states, x.UserState, x.UserDistrict, x.UserCity);
+                x.SelectedUserStateId = GetStateId(states, x.UserState);
+                x.SelectedUserDistrictId = GetDistrictId(states, x.UserState, x.UserDistrict);
+                x.SelectedUserCityId = GetCityId(states, x.UserState, x.UserDistrict, x.UserCity);
                 x.UserCity= GetCityName(states, x.UserState, x.UserDistrict, x.UserCity);
                 x.UserDistrictShortCode = GetDistrictShortCode(states, x.UserState, x.UserDistrict);
                 x.UserName = GetUsersName(states, x.UserState, x.UserDistrict, x.HFName, x.HFType);
                 x.QualificationId = GetQualificationId(qualifications, x.Qualification);
                 x.InstituteID = GetInstitutionId(institutions, x.HFName);
                 x.AssignedInstituteID = GetInstitutionId(institutions, x.AssignHF);
+                x.Districts = GetDistricts(states, x.State);
+                x.UserDistricts = GetDistricts(states, x.UserState);
+                x.Cities = GetCities(states, x.State, x.District);
+                x.UserCities = GetCities(states, x.UserState, x.UserDistrict);
                 return x;
             });
             return models;
         }
 
+        private IEnumerable<KeyValue<string,string>> GetCities(IEnumerable<StateDistrictCity> states, string state, string district)
+        {
+            var cities = states
+                .Where(x => x.StateName.ToUpper() == state?.Trim().ToUpper() && x.DistrictName.ToUpper() == district?.Trim().ToUpper())
+                .Select(s => new KeyValue<string,string> {Id = s.CityId.ToString(), Value = s.CityName });
+
+            return cities.Distinct();
+        }
+        private IEnumerable<KeyValue<string, string>> GetDistricts(IEnumerable<StateDistrictCity> states, string state)
+        {
+            var districts = states
+                .Where(x => x.StateName.ToUpper() == state?.Trim().ToUpper())
+                .Select(s => new KeyValue<string, string> { Id = s.DistrictId.ToString(), Value = s.DistrictName });
+
+            return districts.Distinct();
+        }
         private string GetCityName(IEnumerable<StateDistrictCity> states, string state, string district, string city)
         {
             var cities = states
@@ -409,6 +429,7 @@ namespace UserManagement.Business
 
             return cityID;
         }
+
         private string GetDistrictShortCode(IEnumerable<StateDistrictCity> states, string stateName, string districtName)
         {
             return states
@@ -446,9 +467,9 @@ namespace UserManagement.Business
                      AddressLine2 = string.Empty,
                      ReferenceNumber = x.NIN,
                      CountryId = 1,
-                     StateId = x.StateId,
-                     DistrictId = x.DistrictId,
-                     CityId = x.CityId,
+                     StateId = x.SelectedStateId,
+                     DistrictId = x.SelectedDistrictId,
+                     CityId = x.SelectedCityId,
                      PinCode = x.PIN,
                      Mobile = x.HFPhone,
                      Email = x.HFEmail,
@@ -511,9 +532,9 @@ namespace UserManagement.Business
                 RegistrationNumber = x.Model.DRRegNo,
                 AddressLine1 = x.Model.Address,
                 AddressLine2 = string.Empty,
-                StateId = x.Model.UserStateId,
-                DistrictId = x.Model.UserDistrictId,
-                CityId = x.Model.UserCityId,
+                StateId = x.Model.SelectedUserStateId,
+                DistrictId = x.Model.SelectedUserDistrictId,
+                CityId = x.Model.SelectedUserCityId,
                 SpecializationId = 0,
                 QualificationId = x.Model.QualificationId,
                 PinCode = x.Model.UserPin,
@@ -701,6 +722,21 @@ namespace UserManagement.Business
             }
 
             return modelReturns;
+        }
+
+        public async Task<IEnumerable<KeyValue<string, string>>> GetStates()
+        {
+            return await bulkInsertRepository.GetStates();
+        }
+
+        public async Task<IEnumerable<KeyValue<string, string>>> GetDistrict(string stateId)
+        {
+            return await bulkInsertRepository.GetDistrict(stateId);
+        }
+
+        public async Task<IEnumerable<KeyValue<string, string>>> GetCities(string stateId, string districtId)
+        {
+            return await bulkInsertRepository.GetCities(stateId, districtId);
         }
     }
 }

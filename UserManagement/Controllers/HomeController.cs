@@ -19,7 +19,6 @@ namespace UserManagement.Controllers
         private readonly IBulkDataImportService<MemberBulkImportVM> bulkDataImportService;
         private readonly IHostingEnvironment hostingEnvironment;
         private readonly ILogger<HomeController> logger;
-        private static IList<MemberBulkImportVM> _models;
         private IEnumerable<ResultModel<MemberBulkImportVM>> resultModels = new List<ResultModel<MemberBulkImportVM>>();
 
         public HomeController(IBulkDataImportService<MemberBulkImportVM> bulkDataImportService, IHostingEnvironment hostingEnvironment, ILogger<HomeController> logger)
@@ -38,21 +37,9 @@ namespace UserManagement.Controllers
         public ActionResult BulkImport()
         {
             logger.LogInformation("Bulk import called");
-            // var d = 0;
-            //var t = 1 / d;
-            ViewBag.HasModels = false;
             return View();
         }
-       [HttpGet]
-        public ActionResult ImportData()
-        {
-            AddValidationError(_models);
-
-            return View("BulkData", _models);
-
-        }
-
-        private void AddValidationError(IList<MemberBulkImportVM> models)
+        private async Task CheckValidation(IList<MemberBulkImportVM> models)
         {
             var validator = new MemberBulkImportVMValidator();
             for (int i = 0; i < models.Count; i++)
@@ -70,17 +57,20 @@ namespace UserManagement.Controllers
         }
 
         [HttpPost, FormValidator]
-        public IActionResult ImportData(IList<MemberBulkImportVM> data)
+        public async Task<IActionResult> ImportData(IList<MemberBulkImportVM> data)
         {
             if (data is null)
             {
                 throw new System.ArgumentNullException(nameof(data));
             }
-            if(!ModelState.IsValid)
+
+            ViewBag.States = await bulkDataImportService.GetStates();
+
+            if (!ModelState.IsValid)
             {
                 return FormResult.CreateErrorResult("An error occured.");
             }
-            return FormResult.CreateSuccessResult("An error occured.");
+            return FormResult.CreateSuccessResult("Success");
         }
 
         [HttpPost]
@@ -101,10 +91,22 @@ namespace UserManagement.Controllers
             }
             var path = folderPath;
             var models = await bulkDataImportService.CreateModels(stream);
+            ViewBag.States = await bulkDataImportService.GetStates();
             var listModels = models.ToList();
-            AddValidationError(listModels);
+            await CheckValidation(listModels);
             return View(listModels);
             //return RedirectToAction(nameof(this.ImportData));
+        }
+
+        public async Task<IActionResult> GetDistricts(string stateId)
+        { 
+            var data = await bulkDataImportService.GetDistrict(stateId);
+            return new JsonResult(data);
+        }
+        public async Task<IActionResult> GetCities(string stateId,string districtId)
+        {
+            var data = await bulkDataImportService.GetCities(stateId,districtId);
+            return new JsonResult(data);
         }
     }
 }

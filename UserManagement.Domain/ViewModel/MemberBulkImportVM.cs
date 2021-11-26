@@ -72,12 +72,16 @@ namespace UserManagement.Domain.ViewModel
         public string AssignedHFType { get; set; }
         [Display(Name = "Assign PHC Or Hub")]
         public string AssignHF { get; set; }
-        public int StateId { get; set; }
-        public int DistrictId { get; set; }
-        public int CityId { get; set; }
-        public int UserStateId { get; set; }
-        public int UserDistrictId { get; set; }
-        public int UserCityId { get; set; }
+        public IEnumerable<KeyValue<string, string>> Districts { get; set; }
+        public IEnumerable<KeyValue<string, string>> Cities { get; set; }
+        public IEnumerable<KeyValue<string, string>> UserDistricts { get; set; }
+        public IEnumerable<KeyValue<string, string>> UserCities { get; set; }
+        public int SelectedStateId { get; set; }
+        public int SelectedDistrictId { get; set; }
+        public int SelectedCityId { get; set; }
+        public int SelectedUserStateId { get; set; }
+        public int SelectedUserDistrictId { get; set; }
+        public int SelectedUserCityId { get; set; }
         public int QualificationId { get; set; }
         public int GenderId
         {

@@ -12,6 +12,7 @@ using UserManagement.Contract.Repository;
 using MySqlConnector;
 using System.IO;
 using System.Linq;
+using UserManagement.Domain.ViewModel;
 
 namespace UserManagement.Infrastructure.Repository
 {
@@ -329,6 +330,33 @@ namespace UserManagement.Infrastructure.Repository
             bulkLoader.SourceStream = stream;
             bulkLoader.NumberOfLinesToSkip = 1;
             return await bulkLoader.LoadAsync();
+        }
+
+        public async Task<IEnumerable<KeyValue<string, string>>> GetStates()
+        {
+            var sql = "SELECT S.StateId AS Id, S.StateName AS Value" +
+                         " FROM md_state AS S " +
+                         " WHERE S.CountryId = 1; ";
+            var result = await Connection.QueryAsync<KeyValue<string, string>>(sql);
+            return result;
+        }
+
+        public async Task<IEnumerable<KeyValue<string, string>>> GetDistrict(string stateId)
+        {
+            var sql = "SELECT D.DistrictId AS Id, D.DistrictName AS Value " +
+                         " FROM  md_district AS D " +
+                         $" WHERE D.StateId = {stateId}; ";
+            var result = await Connection.QueryAsync<KeyValue<string, string>>(sql);
+            return result;
+        }
+
+        public async Task<IEnumerable<KeyValue<string, string>>> GetCities(string stateId, string districtId)
+        {
+            var sql = "SELECT C.CityId AS Id, C.CityName AS Value " +
+                        " FROM md_city AS C " +
+                        $" WHERE C.DistrictId = {districtId}; ";
+            var result = await Connection.QueryAsync<KeyValue<string, string>>(sql);
+            return result;
         }
     }
 }

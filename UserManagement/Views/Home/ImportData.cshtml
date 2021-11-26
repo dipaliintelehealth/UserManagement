@@ -149,17 +149,17 @@
                                     @Html.ValidationMessageFor(modelItem => Model[i].HFEmail, "", new { @class = "text-danger" })
                                 </td>
                                 <td>
-                                    @Html.HiddenFor(modelItem => Model[i].StateId)
+                                    @Html.HiddenFor(modelItem => Model[i].SelectedStateId)
                                     @Html.TextBoxFor(modelItem => Model[i].State, new { @class = "form-control" })
                                     @Html.ValidationMessageFor(modelItem => Model[i].State, "", new { @class = "text-danger" })
                                 </td>
                                 <td>
-                                    @Html.HiddenFor(modelItem => Model[i].DistrictId)
+                                    @Html.HiddenFor(modelItem => Model[i].SelectedDistrictId)
                                     @Html.TextBoxFor(modelItem => Model[i].District, new { @class = "form-control" })
                                     @Html.ValidationMessageFor(modelItem => Model[i].District, "", new { @class = "text-danger" })
                                 </td>
                                 <td>
-                                    @Html.HiddenFor(modelItem => Model[i].CityId)
+                                    @Html.HiddenFor(modelItem => Model[i].SelectedCityId)
                                     @Html.TextBoxFor(modelItem => Model[i].City, new { @class = "form-control" })
                                     @Html.ValidationMessageFor(modelItem => Model[i].City, "", new { @class = "text-danger" })
                                 </td>
@@ -212,17 +212,17 @@
                                     @Html.ValidationMessageFor(modelItem => Model[i].DOB, "", new { @class = "text-danger" })
                                 </td>
                                 <td>
-                                    @Html.HiddenFor(modelItem => Model[i].UserStateId)
+                                    @Html.HiddenFor(modelItem => Model[i].SelectedUserStateId)
                                     @Html.TextBoxFor(modelItem => Model[i].UserState, new { @class = "form-control" })
                                     @Html.ValidationMessageFor(modelItem => Model[i].UserState, "", new { @class = "text-danger" })
                                 </td>
                                 <td>
-                                    @Html.HiddenFor(modelItem => Model[i].UserDistrictId)
+                                    @Html.HiddenFor(modelItem => Model[i].SelectedUserDistrictId)
                                     @Html.TextBoxFor(modelItem => Model[i].UserDistrict, new { @class = "form-control" })
                                     @Html.ValidationMessageFor(modelItem => Model[i].UserDistrict, "", new { @class = "text-danger" })
                                 </td>
                                 <td>
-                                    @Html.HiddenFor(modelItem => Model[i].UserCityId)
+                                    @Html.HiddenFor(modelItem => Model[i].SelectedUserCityId)
                                     @Html.TextBoxFor(modelItem => Model[i].UserCity, new { @class = "form-control" })
                                     @Html.ValidationMessageFor(modelItem => Model[i].UserCity, "", new { @class = "text-danger" })
                                 </td>
