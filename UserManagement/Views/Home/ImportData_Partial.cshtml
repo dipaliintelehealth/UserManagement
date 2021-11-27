@@ -4,13 +4,11 @@
 {
     <div class="card datawrapper">
         <div class="card-header visible">
-            Data
-            <div class="float-right" id="btnErrorControls"></div>
+            <div class="text-info total-summary"></div>
         </div>
         <div class="card-body">
             <form asp-formhelper="true" asp-callback="formValidationCallback" asp-action="ImportData">
-
-                <div asp-validation-summary="All" class="text-danger mb-2"></div>
+                <div class="text-danger mb-2 validation-summary"></div>
 
                 <div class="text-center mb-2">
                     <input type="submit" value="Submit" class="btn btn-info" onclick="formValidationCallback();" />
@@ -221,12 +219,12 @@
                                 </td>
                                 <td>
                                     @Html.DropDownListFor(model => Model[i].SelectedUserDistrictId,
-                                      new SelectList(Model[i].UserDistricts,"Id", "Value"), "--Select--", new { @class = "form-control district" })
+                                      new SelectList(Model[i].UserDistricts, "Id", "Value"), "--Select--", new { @class = "form-control district" })
                                     @Html.ValidationMessageFor(modelItem => Model[i].SelectedUserDistrictId, "", new { @class = "text-danger" })
                                 </td>
                                 <td>
-                                   @Html.DropDownListFor(model => Model[i].SelectedUserCityId,
-                                     new SelectList(Model[i].UserCities, "Id", "Value"), "--Select--", new { @class = "form-control city" })
+                                    @Html.DropDownListFor(model => Model[i].SelectedUserCityId,
+                                      new SelectList(Model[i].UserCities, "Id", "Value"), "--Select--", new { @class = "form-control city" })
                                     @Html.ValidationMessageFor(modelItem => Model[i].SelectedUserCityId, "", new { @class = "text-danger" })
                                 </td>
                                 <td>
@@ -282,27 +280,94 @@
 
 
 <script type="text/javascript">
-
+    var tblImportData;
     function formValidationCallback(response, statusText, xhr, $form) {
-        setTimeout(function () { setRowBorderColor(); }, 200);
+        setTimeout(function () { updateValidationSummary(); }, 200);
     }
-    function setRowBorderColor() {
-        var allValidRows = $('#tblImportData tbody tr').not(':has(.field-validation-error)');
-        var allInValidRows = $('#tblImportData tbody tr').has('.field-validation-error');
-        if (allValidRows) {
-            $(allValidRows).removeClass('table-danger');
-            $(allValidRows).addClass('table-success');
+    function setRowBorderColor(validRows, inValidRows) {
+        if (validRows) {
+            $(validRows).removeClass('table-danger');
+            $(validRows).addClass('table-success');
         }
-        if (allInValidRows) {
-            $(allInValidRows).removeClass('table-success');
-            $(allInValidRows).addClass('table-danger');
+        if (inValidRows) {
+            $(inValidRows).removeClass('table-success');
+            $(inValidRows).addClass('table-danger');
+        }
+    }
+    function displayTotalSummary(validRows, inValidRows) {
+        let validCount = (validRows !== null && validRows !== undefined) ? validRows.length : 0;
+        let invalidCount = (inValidRows !== null && inValidRows !== undefined) ? inValidRows.length : 0;
+        let totalhtml = 'Records : <span class="badge badge-success badge-pill mr-1" > ' + validCount + '</span>';
+        totalhtml += '<span class="badge badge-danger badge-pill" > ' + invalidCount + '</span>';
+        $('.total-summary').html(totalhtml);
+    }
+    function updateValidationSummary() {
+        let validInvalid = getValidInvalidRows();
+        console.log(validInvalid);
+        setRowBorderColor(validInvalid.validRows, validInvalid.inValidRows);
+        displayTotalSummary(validInvalid.validRows, validInvalid.inValidRows);
+
+        let errorDictionary = getCountByError(validInvalid.errorFields);
+        displayValidationSummary(errorDictionary);
+    }
+    function getValidInvalidRows() {
+        let validInvalid = {
+            validRows: [],
+            inValidRows: [],
+            errorFields: []
+        };
+        tblImportData.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            let row = this.node();
+            let errorField = $(row).find('.field-validation-error');
+            if (errorField && errorField.length > 0) {
+                //console.log('error Field found', errorField, row);
+                validInvalid.inValidRows.push(row);
+                let errorFieldArray = errorField.toArray();
+                validInvalid.errorFields = validInvalid.errorFields.concat(errorFieldArray);
+                
+            }
+            else {
+                validInvalid.validRows.push(row);
+            }
+        });
+        return validInvalid;
+    }
+    function getCountByError(errorFields) {
+        let errorCount = [];
+        $(errorFields).each((index, element) => {
+            let text = $(element).text();
+            let foundItemIndex = errorCount.findIndex(x => x.key == text);
+            if (foundItemIndex >= 0) {
+                let item = errorCount[foundItemIndex];
+                item.value = item.value + 1;
+                errorCount[foundItemIndex] = item;
+            }
+            else {
+                let item = {
+                    key: text,
+                    value: 1
+                };
+                errorCount.push(item);
+            }
+        });
+        return errorCount;
+    }
+    function displayValidationSummary(errorDictionary) {
+        if (errorDictionary) {
+            let errorhtml = '<ul class="no-bullets"> ';
+            for (var i = 0; i < errorDictionary.length; i++) {
+                item = errorDictionary[i];
+                errorhtml += '<li> <span class="badge badge-danger badge-pill mr-2" > '+ item.value + '</span>' + item.key +  '</li> ';
+            }
+            errorhtml += '</ul>';
+            $('.validation-summary').html(errorhtml);
         }
     }
     $(document).ready(function () {
 
-        setRowBorderColor();
+        formValidationCallback();
 
-        var tableSucess = $('#tblImportData').DataTable({
+        tblImportData = $('#tblImportData').DataTable({
             "ordering": false,
             "searching": false,
             "paging": true
