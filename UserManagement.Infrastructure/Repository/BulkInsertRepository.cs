@@ -19,17 +19,18 @@ namespace UserManagement.Infrastructure.Repository
     public class BulkInsertRepository : RepositoryBase, IMemberBulkInsertRepository
     {
         private readonly ILogger<IMemberBulkInsertRepository> Logger;
+        private MySqlConnection bulkLoaderConnection;
         public BulkInsertRepository(IConnectionFactory connectionFactory, ILogger<IMemberBulkInsertRepository> logger) : base(connectionFactory)
         {
             // string connString = this.Configuration.GetConnectionString("MyConn");
             Logger = logger;
             Logger.LogInformation("BulkInsertRepository initialized");
+            bulkLoaderConnection = new MySqlConnection($"{Connection.ConnectionString};AllowLoadLocalInfile=True");
         }
 
         public async Task<int> BulkInsertInstitution(Stream stream)
         {
-            var connection = new MySqlConnection($"{Connection.ConnectionString};AllowLoadLocalInfile=True");
-            MySqlBulkLoader bulkLoader = new MySqlBulkLoader(connection)
+            MySqlBulkLoader bulkLoader = new MySqlBulkLoader(bulkLoaderConnection)
             {
                 Columns = {
                     "Name",
@@ -67,8 +68,7 @@ namespace UserManagement.Infrastructure.Repository
 
         public async Task<int> BulkInsertMembers(Stream stream)
         {
-            var connection = new MySqlConnection($"{Connection.ConnectionString};AllowLoadLocalInfile=True");
-            MySqlBulkLoader bulkLoader = new MySqlBulkLoader(connection)
+            MySqlBulkLoader bulkLoader = new MySqlBulkLoader(bulkLoaderConnection)
             {
                 Columns = {
                     "FirstName",
@@ -120,8 +120,7 @@ namespace UserManagement.Infrastructure.Repository
         }
         public async Task<int> BulkInsertLogin(Stream stream)
         {
-            var connection = new MySqlConnection($"{Connection.ConnectionString};AllowLoadLocalInfile=True");
-            MySqlBulkLoader bulkLoader = new MySqlBulkLoader(connection)
+            MySqlBulkLoader bulkLoader = new MySqlBulkLoader(bulkLoaderConnection)
             {
                 Columns = {
                     "UserName",
@@ -142,8 +141,7 @@ namespace UserManagement.Infrastructure.Repository
         }
         public async Task<int> BulkInsertMemberSlot(Stream stream)
         {
-            var connection = new MySqlConnection($"{Connection.ConnectionString};AllowLoadLocalInfile=True");
-            MySqlBulkLoader bulkLoader = new MySqlBulkLoader(connection)
+            MySqlBulkLoader bulkLoader = new MySqlBulkLoader(bulkLoaderConnection)
             {
                 Columns = {
                     "MemberId",
@@ -167,8 +165,7 @@ namespace UserManagement.Infrastructure.Repository
 
         public async Task<int> BulkInsertMemberInstitution(Stream stream)
         {
-            var connection = new MySqlConnection($"{Connection.ConnectionString};AllowLoadLocalInfile=True");
-            MySqlBulkLoader bulkLoader = new MySqlBulkLoader(connection)
+            MySqlBulkLoader bulkLoader = new MySqlBulkLoader(bulkLoaderConnection)
             {
                 Columns = {
                    "MemberId",
@@ -266,8 +263,7 @@ namespace UserManagement.Infrastructure.Repository
        
         public async Task<int> BulkInsertMemberMenu(Stream stream)
         {
-            var connection = new MySqlConnection($"{Connection.ConnectionString};AllowLoadLocalInfile=True");
-            MySqlBulkLoader bulkLoader = new MySqlBulkLoader(connection)
+            MySqlBulkLoader bulkLoader = new MySqlBulkLoader(bulkLoaderConnection)
             {
                 Columns = {
                     "RoleId",
@@ -306,8 +302,7 @@ namespace UserManagement.Infrastructure.Repository
         }
         public async Task<int> BulkInsertAuditTrail(Stream stream)
         {
-            var connection = new MySqlConnection($"{Connection.ConnectionString};AllowLoadLocalInfile=True");
-            MySqlBulkLoader bulkLoader = new MySqlBulkLoader(connection)
+            MySqlBulkLoader bulkLoader = new MySqlBulkLoader(bulkLoaderConnection)
             {
                 Columns = {
                     "Message",

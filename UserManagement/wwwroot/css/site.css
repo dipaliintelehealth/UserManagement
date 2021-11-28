@@ -75,10 +75,6 @@ ul.no-bullets {
     margin: 0;
     padding: 0;
 }
-
-.datawrapper{
-    overflow-y : scroll;
-}
 .input-validation-error {
     border: 1px solid #ff0000 !important;
 }

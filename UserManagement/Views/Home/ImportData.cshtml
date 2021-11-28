@@ -34,13 +34,13 @@
                                 @Html.DisplayNameFor(model => model[0].HFEmail)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model[0].State)
+                                @Html.DisplayNameFor(model => model[0].HFState)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model[0].District)
+                                @Html.DisplayNameFor(model => model[0].HFDistrict)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model[0].City)
+                                @Html.DisplayNameFor(model => model[0].HFCity)
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model[0].Address)
@@ -149,19 +149,19 @@
                                     @Html.ValidationMessageFor(modelItem => Model[i].HFEmail, "", new { @class = "text-danger" })
                                 </td>
                                 <td>
-                                    @Html.HiddenFor(modelItem => Model[i].SelectedStateId)
-                                    @Html.TextBoxFor(modelItem => Model[i].State, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].State, "", new { @class = "text-danger" })
+                                    @Html.HiddenFor(modelItem => Model[i].SelectedHFStateId)
+                                    @Html.TextBoxFor(modelItem => Model[i].HFState, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(modelItem => Model[i].SelectedHFStateId, "", new { @class = "text-danger" })
                                 </td>
                                 <td>
-                                    @Html.HiddenFor(modelItem => Model[i].SelectedDistrictId)
-                                    @Html.TextBoxFor(modelItem => Model[i].District, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].District, "", new { @class = "text-danger" })
+                                    @Html.HiddenFor(modelItem => Model[i].SelectedHFDistrictId)
+                                    @Html.TextBoxFor(modelItem => Model[i].HFDistrict, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(modelItem => Model[i].SelectedHFDistrictId, "", new { @class = "text-danger" })
                                 </td>
                                 <td>
-                                    @Html.HiddenFor(modelItem => Model[i].SelectedCityId)
-                                    @Html.TextBoxFor(modelItem => Model[i].City, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].City, "", new { @class = "text-danger" })
+                                    @Html.HiddenFor(modelItem => Model[i].SelectedHFCityId)
+                                    @Html.TextBoxFor(modelItem => Model[i].HFCity, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(modelItem => Model[i].SelectedHFCityId, "", new { @class = "text-danger" })
                                 </td>
                                 <td>
                                     @Html.TextBoxFor(modelItem => Model[i].Address, new { @class = "form-control" })

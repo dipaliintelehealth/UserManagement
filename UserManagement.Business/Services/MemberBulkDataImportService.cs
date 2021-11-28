@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using UserManagement.Infrastructure.Files;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using UserManagement.Contract.Validator;
 
 namespace UserManagement.Business
 {
@@ -37,9 +38,9 @@ namespace UserManagement.Business
                     { "HF Type", nameof(obj.HFType)},
                     { "NIN", nameof(obj.NIN)},
                     { "HF Email", nameof(obj.HFEmail)},
-                    { "State", nameof(obj.State)},
-                    { "District", nameof(obj.District)},
-                    { "City", nameof(obj.City)},
+                    { "State", nameof(obj.HFState)},
+                    { "District", nameof(obj.HFDistrict)},
+                    { "City", nameof(obj.HFCity)},
                     { "Address", nameof(obj.Address)},
                     { "PIN", nameof(obj.PIN)},
                     { "First Name", nameof(obj.FirstName)},
@@ -100,6 +101,7 @@ namespace UserManagement.Business
                 var validationResult = validator.Validate(result.Model);
                 if (!validationResult.IsValid)
                 {
+                 
                     result.Success = false;
                     result.Messages.AddRange(validationResult.Errors.Select(x => x.ErrorMessage));
                 }
@@ -206,28 +208,29 @@ namespace UserManagement.Business
         private async Task<IEnumerable<MemberBulkImportVM>> GetModelsWithStateDistrictAndCityId(IEnumerable<MemberBulkImportVM> bulkImportVMs, IEnumerable<StateDistrictCity> states, IEnumerable<InstitutionModel> institutions)
         {
             var qualifications = await bulkInsertRepository.GetQualification();
-
-            var models = bulkImportVMs.Select(x =>
+            var models = new List<MemberBulkImportVM>();
+            foreach (var model in bulkImportVMs)
             {
-                x.SelectedStateId = GetStateId(states, x.State);
-                x.SelectedDistrictId = GetDistrictId(states, x.State, x.District);
-                x.SelectedCityId = GetCityId(states, x.State, x.District, x.City);
-                x.City = GetCityName(states, x.State, x.District, x.City);
-                x.SelectedUserStateId = GetStateId(states, x.UserState);
-                x.SelectedUserDistrictId = GetDistrictId(states, x.UserState, x.UserDistrict);
-                x.SelectedUserCityId = GetCityId(states, x.UserState, x.UserDistrict, x.UserCity);
-                x.UserCity= GetCityName(states, x.UserState, x.UserDistrict, x.UserCity);
-                x.UserDistrictShortCode = GetDistrictShortCode(states, x.UserState, x.UserDistrict);
-                x.UserName = GetUsersName(states, x.UserState, x.UserDistrict, x.HFName, x.HFType);
-                x.QualificationId = GetQualificationId(qualifications, x.Qualification);
-                x.InstituteID = GetInstitutionId(institutions, x.HFName);
-                x.AssignedInstituteID = GetInstitutionId(institutions, x.AssignHF);
-                x.Districts = GetDistricts(states, x.State);
-                x.UserDistricts = GetDistricts(states, x.UserState);
-                x.Cities = GetCities(states, x.State, x.District);
-                x.UserCities = GetCities(states, x.UserState, x.UserDistrict);
-                return x;
-            });
+                model.SelectedHFStateId = GetStateId(states, model.HFState);
+                model.SelectedHFDistrictId = GetDistrictId(states, model.HFState, model.HFDistrict);
+                model.SelectedHFCityId = GetCityId(states, model.HFState, model.HFDistrict, model.HFCity);
+                model.HFCity = GetCityName(states, model.HFState, model.HFDistrict, model.HFCity);
+                model.SelectedUserStateId = GetStateId(states, model.UserState);
+                model.SelectedUserDistrictId = GetDistrictId(states, model.UserState, model.UserDistrict);
+                model.SelectedUserCityId = GetCityId(states, model.UserState, model.UserDistrict, model.UserCity);
+                model.UserCity = GetCityName(states, model.UserState, model.UserDistrict, model.UserCity);
+                model.UserDistrictShortCode = GetDistrictShortCode(states, model.UserState, model.UserDistrict);
+                model.UserName = GetUsersName(states, model.UserState, model.UserDistrict, model.HFName, model.HFType);
+                model.QualificationId = GetQualificationId(qualifications, model.Qualification);
+                model.InstituteID = GetInstitutionId(institutions, model.HFName);
+                model.AssignedInstituteID = GetInstitutionId(institutions, model.AssignHF);
+                model.HFDistricts = GetDistricts(states, model.HFState);
+                model.UserDistricts = GetDistricts(states, model.UserState);
+                model.HFCities = GetCities(states, model.HFState, model.HFDistrict);
+                model.UserCities = GetCities(states, model.UserState, model.UserDistrict);
+
+                models.Add(model);
+            }
             return models;
         }
 
@@ -467,9 +470,9 @@ namespace UserManagement.Business
                      AddressLine2 = string.Empty,
                      ReferenceNumber = x.NIN,
                      CountryId = 1,
-                     StateId = x.SelectedStateId,
-                     DistrictId = x.SelectedDistrictId,
-                     CityId = x.SelectedCityId,
+                     StateId = x.SelectedHFStateId,
+                     DistrictId = x.SelectedHFDistrictId,
+                     CityId = x.SelectedHFCityId,
                      PinCode = x.PIN,
                      Mobile = x.HFPhone,
                      Email = x.HFEmail,
@@ -696,7 +699,7 @@ namespace UserManagement.Business
       private async Task<IEnumerable<ResultModel<MemberBulkImportVM>>> CreateAuditTrail(IEnumerable<ResultModel<MemberBulkImportVM>> models)
         {
             var modelReturns = models;
-            var members = models.Select(x => new AuditTrailModelForCsv()
+            var members = models.Select(x => new AuditTrailModel()
             {
                 Message = "Bulk Institution and Member Added Successfully",
                 CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),

@@ -19,11 +19,11 @@ namespace UserManagement.Domain.ViewModel
         [Display(Name = "HF Email")]
         public string HFEmail { get; set; }
         [Display(Name = "State")]
-        public string State { get; set; }
+        public string HFState { get; set; }
         [Display(Name = "District")]
-        public string District { get; set; }
+        public string HFDistrict { get; set; }
         [Display(Name = "City")]
-        public string City { get; set; }
+        public string HFCity { get; set; }
         [Display(Name = "Address")]
         public string Address { get; set; }
         [Display(Name = "PIN")]
@@ -72,13 +72,13 @@ namespace UserManagement.Domain.ViewModel
         public string AssignedHFType { get; set; }
         [Display(Name = "Assign PHC Or Hub")]
         public string AssignHF { get; set; }
-        public IEnumerable<KeyValue<string, string>> Districts { get; set; }
-        public IEnumerable<KeyValue<string, string>> Cities { get; set; }
+        public IEnumerable<KeyValue<string, string>> HFDistricts { get; set; }
+        public IEnumerable<KeyValue<string, string>> HFCities { get; set; }
         public IEnumerable<KeyValue<string, string>> UserDistricts { get; set; }
         public IEnumerable<KeyValue<string, string>> UserCities { get; set; }
-        public int SelectedStateId { get; set; }
-        public int SelectedDistrictId { get; set; }
-        public int SelectedCityId { get; set; }
+        public int SelectedHFStateId { get; set; }
+        public int SelectedHFDistrictId { get; set; }
+        public int SelectedHFCityId { get; set; }
         public int SelectedUserStateId { get; set; }
         public int SelectedUserDistrictId { get; set; }
         public int SelectedUserCityId { get; set; }
@@ -128,7 +128,7 @@ namespace UserManagement.Domain.ViewModel
         {
             get
             {
-                return $"{this.HFName} {this.District}";
+                return $"{this.HFName} {this.HFDistrict}";
             }
         }
         [Display(Name = "HF Name")]
@@ -136,7 +136,7 @@ namespace UserManagement.Domain.ViewModel
         {
             get
             {
-                return $"{this.HFName?.Trim()} {this.District?.Trim()}";
+                return $"{this.HFName?.Trim()} {this.HFDistrict?.Trim()}";
             }
         }
         [Display(Name = "Sub Menu")]

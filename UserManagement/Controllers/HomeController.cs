@@ -6,11 +6,14 @@ using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using UserManagement.Business.Validators;
 using UserManagement.Contract;
+using UserManagement.Contract.Validator;
 using UserManagement.Domain;
 using UserManagement.Domain.ViewModel;
+using UserManagement.Extensions;
 
 namespace UserManagement.Controllers
 {
@@ -19,18 +22,20 @@ namespace UserManagement.Controllers
         private readonly IBulkDataImportService<MemberBulkImportVM> bulkDataImportService;
         private readonly IHostingEnvironment hostingEnvironment;
         private readonly ILogger<HomeController> logger;
+        private readonly IBulkInsertValidator<MemberBulkImportVM> bulkInsertValidator;
         private IEnumerable<ResultModel<MemberBulkImportVM>> resultModels = new List<ResultModel<MemberBulkImportVM>>();
 
-        public HomeController(IBulkDataImportService<MemberBulkImportVM> bulkDataImportService, IHostingEnvironment hostingEnvironment, ILogger<HomeController> logger)
+        public HomeController(IBulkDataImportService<MemberBulkImportVM> bulkDataImportService, IHostingEnvironment hostingEnvironment, ILogger<HomeController> logger, IBulkInsertValidator<MemberBulkImportVM> bulkInsertValidator)
         {
             this.bulkDataImportService = bulkDataImportService;
             this.hostingEnvironment = hostingEnvironment;
             this.logger = logger;
+            this.bulkInsertValidator = bulkInsertValidator;
         }
         // GET: HomeController
         public ActionResult Index()
         {
-            return View(resultModels);
+            return RedirectToAction("BulkImport");
         }
 
 
@@ -38,39 +43,6 @@ namespace UserManagement.Controllers
         {
             logger.LogInformation("Bulk import called");
             return View();
-        }
-        private async Task CheckValidation(IList<MemberBulkImportVM> models)
-        {
-            var validator = new MemberBulkImportVMValidator();
-            for (int i = 0; i < models.Count; i++)
-            {
-                var validationResult = validator.Validate(models[i]);
-                if (!validationResult.IsValid)
-                {
-                    foreach (var item in validationResult.Errors)
-                    {
-                        string key = $"[{i}].{item.PropertyName}";
-                        ModelState.AddModelError(key, item.ErrorMessage);
-                    }
-                }
-            }
-        }
-
-        [HttpPost, FormValidator]
-        public async Task<IActionResult> ImportData(IList<MemberBulkImportVM> data)
-        {
-            if (data is null)
-            {
-                throw new System.ArgumentNullException(nameof(data));
-            }
-
-            ViewBag.States = await bulkDataImportService.GetStates();
-
-            if (!ModelState.IsValid)
-            {
-                return FormResult.CreateErrorResult("An error occured.");
-            }
-            return FormResult.CreateSuccessResult("Success");
         }
 
         [HttpPost]
@@ -90,12 +62,35 @@ namespace UserManagement.Controllers
                 System.IO.Directory.CreateDirectory(folderPath);
             }
             var path = folderPath;
+
             var models = await bulkDataImportService.CreateModels(stream);
             ViewBag.States = await bulkDataImportService.GetStates();
             var listModels = models.ToList();
-            await CheckValidation(listModels);
+
+            var result = await bulkInsertValidator.ValidateAsync(listModels);
+            result.UpdateModelState(ModelState);
+
             return View(listModels);
-            //return RedirectToAction(nameof(this.ImportData));
+        }
+
+
+        /// <summary>
+        /// This method is used to call from ajax through formhelper library
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> ImportData(IList<MemberBulkImportVM> data)
+        {
+            if (data is null)
+            {
+                throw new System.ArgumentNullException(nameof(data));
+            }
+
+            ViewBag.States = await bulkDataImportService.GetStates();
+
+            var result = await bulkInsertValidator.ValidateAsync(data);
+            return new JsonResult(result.ToFormResult());
         }
 
         public async Task<IActionResult> GetDistricts(string stateId)

@@ -76,9 +76,9 @@ namespace UserManagement.Business.Tests
                      UserDistrict = "Pune",
                      UserCity ="Pune",
                      UserState ="Maharashtra",
-                     District = "Pune",
-                     City ="Pune",
-                     State ="Maharashtra",
+                     HFDistrict = "Pune",
+                     HFCity ="Pune",
+                     HFState ="Maharashtra",
                      SubMenuName = "User Dashboard"
                  },
                   new MemberBulkImportVM()
@@ -88,9 +88,9 @@ namespace UserManagement.Business.Tests
                      UserDistrict = "test",
                      UserCity ="Pune",
                      UserState ="Maharashtra",
-                     District = "Pune",
-                     City ="Pune",
-                     State ="Maharashtra",
+                     HFDistrict = "Pune",
+                     HFCity ="Pune",
+                     HFState ="Maharashtra",
                      SubMenuName = "Patient List"
                  },
                  new MemberBulkImportVM()
@@ -100,9 +100,9 @@ namespace UserManagement.Business.Tests
                      UserDistrict = "Pune",
                      UserCity ="Pune",
                      UserState ="Maharashtra",
-                     District = "Pune",
-                     City ="Pune",
-                     State ="Maharashtra",
+                     HFDistrict = "Pune",
+                     HFCity ="Pune",
+                     HFState ="Maharashtra",
                      SubMenuName = "Add Patient"
                  },
                   new MemberBulkImportVM()
@@ -112,9 +112,9 @@ namespace UserManagement.Business.Tests
                      UserDistrict = "Pune",
                      UserCity ="Pune",
                      UserState ="Maharashtra",
-                     District = "Pune",
-                     City ="Pune",
-                     State ="HR",
+                     HFDistrict = "Pune",
+                     HFCity ="Pune",
+                     HFState ="HR",
                      SubMenuName = ""
                  }
             });
@@ -205,9 +205,9 @@ namespace UserManagement.Business.Tests
                      HFType = "HUB",
                      NIN = "4877253429",
                      HFEmail = "rameshmulani@gmail.com",
-                     State = "Maharashtra",
-                     District = "Pune",
-                     City = "Pune",
+                     HFState = "Maharashtra",
+                     HFDistrict = "Pune",
+                     HFCity = "Pune",
                      Address = "SC Ramesh Pune",
                      PIN = "497335",
                      FirstName = "Rose",
@@ -248,7 +248,7 @@ namespace UserManagement.Business.Tests
             Assert.True(result != null && result.Count() > 0, "result is not empty");
             var notScussess = result.Where(x => !x.Success);
             Assert.True(notScussess.Where(x => x.Messages.Contains("Invalid Date of Birth it should be in DD-MM-YYYY !")).Count() == 1, "invalid DOB count should match");
-            Assert.True(notScussess.Where(x => x.Model.City == "Bhor").Count() == 1, "result should contain Bhor");
+            Assert.True(notScussess.Where(x => x.Model.HFCity == "Bhor").Count() == 1, "result should contain Bhor");
             Assert.True(notScussess.Where(x => x.Model.UserCity == "Bhor").Count() == 1, "result should contain Bhor");
             #endregion
         }

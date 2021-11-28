@@ -2,7 +2,7 @@
 @using  UserManagement.Domain.ViewModel
 @if (Model != null && Model.Count() > 0)
 {
-    <div class="card datawrapper">
+    <div class="card">
         <div class="card-header visible">
             <div class="text-info total-summary"></div>
         </div>
@@ -35,13 +35,13 @@
                                 @Html.DisplayNameFor(model => model[0].HFEmail)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model[0].State)
+                                @Html.DisplayNameFor(model => model[0].HFState)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model[0].District)
+                                @Html.DisplayNameFor(model => model[0].HFDistrict)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model[0].City)
+                                @Html.DisplayNameFor(model => model[0].HFCity)
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model[0].Address)
@@ -150,19 +150,19 @@
                                     @Html.ValidationMessageFor(modelItem => Model[i].HFEmail, "", new { @class = "text-danger" })
                                 </td>
                                 <td>
-                                    @Html.DropDownListFor(model => Model[i].SelectedStateId,
+                                    @Html.DropDownListFor(model => Model[i].SelectedHFStateId,
                                     new SelectList(ViewBag.States, "Id", "Value"), "--Select--", new { @class = "form-control state" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].SelectedStateId, "", new { @class = "text-danger" })
+                                    @Html.ValidationMessageFor(modelItem => Model[i].SelectedHFStateId, "", new { @class = "text-danger" })
                                 </td>
                                 <td>
-                                    @Html.DropDownListFor(model => Model[i].SelectedDistrictId,
-                                    new SelectList(Model[i].Districts, "Id", "Value"), "--Select--", new { @class = "form-control district" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].SelectedDistrictId, "", new { @class = "text-danger" })
+                                    @Html.DropDownListFor(model => Model[i].SelectedHFDistrictId,
+                                    new SelectList(Model[i].HFDistricts, "Id", "Value"), "--Select--", new { @class = "form-control district" })
+                                    @Html.ValidationMessageFor(modelItem => Model[i].SelectedHFDistrictId, "", new { @class = "text-danger" })
                                 </td>
                                 <td>
-                                    @Html.DropDownListFor(model => Model[i].SelectedCityId,
-                                    new SelectList(Model[i].Cities, "Id", "Value"), "--Select--", new { @class = "form-control city" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].SelectedCityId, "", new { @class = "text-danger" })
+                                    @Html.DropDownListFor(model => Model[i].SelectedHFCityId,
+                                    new SelectList(Model[i].HFCities, "Id", "Value"), "--Select--", new { @class = "form-control city" })
+                                    @Html.ValidationMessageFor(modelItem => Model[i].SelectedHFCityId, "", new { @class = "text-danger" })
                                 </td>
                                 <td>
                                     @Html.TextBoxFor(modelItem => Model[i].Address, new { @class = "form-control" })
@@ -370,7 +370,8 @@
         tblImportData = $('#tblImportData').DataTable({
             "ordering": false,
             "searching": false,
-            "paging": true
+            "paging": true,
+            "scrollX": true
         });
        
         $('.state').change(function () {
