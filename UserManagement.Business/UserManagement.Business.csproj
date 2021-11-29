@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CSharpFunctionalExtensions" Version="2.26.1" />
     <PackageReference Include="FluentValidation" Version="9.5.4" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="9.5.4" />
   </ItemGroup>

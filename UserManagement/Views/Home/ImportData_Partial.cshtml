@@ -1,5 +1,5 @@
 ﻿@model IList<MemberBulkImportVM>
-@using  UserManagement.Domain.ViewModel
+@using UserManagement.Domain.ViewModel
 @if (Model != null && Model.Count() > 0)
 {
     <div class="card">
@@ -9,7 +9,7 @@
         <div class="card-body">
             <form asp-formhelper="true" asp-callback="formValidationCallback" asp-action="ImportData">
                 <div class="text-danger mb-2 validation-summary"></div>
-
+                 
                 <div class="text-center mb-2">
                     <input type="submit" value="Submit" class="btn btn-info" onclick="formValidationCallback();" />
                 </div>
@@ -98,13 +98,13 @@
                                 @Html.DisplayNameFor(model => model[0].UserPrefix)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model[0].UserAvilableDay)
+                                @Html.DisplayNameFor(model => model[0].UserAvailableDay)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model[0].UserAvilableFromTime)
+                                @Html.DisplayNameFor(model => model[0].UserAvailableFromTime)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model[0].UserAvilableToTime)
+                                @Html.DisplayNameFor(model => model[0].UserAvailableToTime)
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model[0].UserRole)
@@ -240,16 +240,16 @@
                                     @Html.ValidationMessageFor(modelItem => Model[i].UserPrefix, "", new { @class = "text-danger" })
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].UserAvilableDay, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].UserAvilableDay, "", new { @class = "text-danger" })
+                                    @Html.TextBoxFor(modelItem => Model[i].UserAvailableDay, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(modelItem => Model[i].UserAvailableDay, "", new { @class = "text-danger" })
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].UserAvilableFromTime, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].UserAvilableFromTime, "", new { @class = "text-danger" })
+                                    @Html.TextBoxFor(modelItem => Model[i].UserAvailableFromTime, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(modelItem => Model[i].UserAvailableFromTime, "", new { @class = "text-danger" })
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].UserAvilableToTime, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].UserAvilableToTime, "", new { @class = "text-danger" })
+                                    @Html.TextBoxFor(modelItem => Model[i].UserAvailableToTime, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(modelItem => Model[i].UserAvailableToTime, "", new { @class = "text-danger" })
                                 </td>
                                 <td>
                                     @Html.TextBoxFor(modelItem => Model[i].UserRole, new { @class = "form-control" })

@@ -130,15 +130,15 @@ namespace UserManagement.Business.Validators
                 .NotEmpty()
                 .WithMessage("User PIN can not be blank !");
 
-            RuleFor(x => x.UserAvilableDay)
+            RuleFor(x => x.UserAvailableDay)
                 .NotEmpty()
                 .WithMessage("Invalid Day and Time (Availability)!");
 
-            RuleFor(x => x.UserAvilableFromTime)
+            RuleFor(x => x.UserAvailableFromTime)
                 .NotEmpty()
                 .WithMessage("Invalid Availability From Time !");
 
-            RuleFor(x => x.UserAvilableToTime)
+            RuleFor(x => x.UserAvailableToTime)
                 .NotEmpty()
                 .WithMessage("Invalid Availability To Time !");
 

@@ -1,36 +1,33 @@
-﻿using FormHelper;
-using Microsoft.AspNetCore.Hosting;
+﻿using System;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using UserManagement.Business.Validators;
+using FormHelper;
+using Newtonsoft.Json;
 using UserManagement.Contract;
 using UserManagement.Contract.Validator;
 using UserManagement.Domain;
 using UserManagement.Domain.ViewModel;
 using UserManagement.Extensions;
+using UserManagement.Infrastructure.Files;
 
 namespace UserManagement.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IBulkDataImportService<MemberBulkImportVM> bulkDataImportService;
-        private readonly IHostingEnvironment hostingEnvironment;
-        private readonly ILogger<HomeController> logger;
-        private readonly IBulkInsertValidator<MemberBulkImportVM> bulkInsertValidator;
-        private IEnumerable<ResultModel<MemberBulkImportVM>> resultModels = new List<ResultModel<MemberBulkImportVM>>();
+        private readonly IBulkDataImportService<MemberBulkImportVM> _bulkDataImportService;
+        private readonly ILogger<HomeController> _logger;
+        private readonly IBulkInsertValidator<MemberBulkImportVM> _bulkInsertValidator;
 
-        public HomeController(IBulkDataImportService<MemberBulkImportVM> bulkDataImportService, IHostingEnvironment hostingEnvironment, ILogger<HomeController> logger, IBulkInsertValidator<MemberBulkImportVM> bulkInsertValidator)
+        public HomeController(IBulkDataImportService<MemberBulkImportVM> bulkDataImportService, ILogger<HomeController> logger, IBulkInsertValidator<MemberBulkImportVM> bulkInsertValidator)
         {
-            this.bulkDataImportService = bulkDataImportService;
-            this.hostingEnvironment = hostingEnvironment;
-            this.logger = logger;
-            this.bulkInsertValidator = bulkInsertValidator;
+            this._bulkDataImportService = bulkDataImportService;
+            this._logger = logger;
+            this._bulkInsertValidator = bulkInsertValidator;
         }
         // GET: HomeController
         public ActionResult Index()
@@ -41,7 +38,7 @@ namespace UserManagement.Controllers
 
         public ActionResult BulkImport()
         {
-            logger.LogInformation("Bulk import called");
+            _logger.LogInformation("Bulk import called");
             return View();
         }
 
@@ -56,18 +53,17 @@ namespace UserManagement.Controllers
 
             var stream = new MemoryStream();
             await formFile.CopyToAsync(stream);
-            string folderPath = "Logs/Csv";
+            const string folderPath = "Logs/Csv";
             if (!(Directory.Exists(folderPath)))
             {
-                System.IO.Directory.CreateDirectory(folderPath);
+                Directory.CreateDirectory(folderPath);
             }
-            var path = folderPath;
 
-            var models = await bulkDataImportService.CreateModels(stream);
-            ViewBag.States = await bulkDataImportService.GetStates();
+            var models = await _bulkDataImportService.CreateModels(stream);
+            ViewBag.States = await _bulkDataImportService.GetStates();
             var listModels = models.ToList();
 
-            var result = await bulkInsertValidator.ValidateAsync(listModels);
+            var result = await _bulkInsertValidator.ValidateAsync(listModels);
             result.UpdateModelState(ModelState);
 
             return View(listModels);
@@ -87,20 +83,30 @@ namespace UserManagement.Controllers
                 throw new System.ArgumentNullException(nameof(data));
             }
 
-            ViewBag.States = await bulkDataImportService.GetStates();
+            ViewBag.States = await _bulkDataImportService.GetStates();
 
-            var result = await bulkInsertValidator.ValidateAsync(data);
-            return new JsonResult(result.ToFormResult());
+            var result = await _bulkInsertValidator.ValidateAsync(data);
+            var formResult = result.ToFormResult();
+            if (!formResult.IsSucceed) return new JsonResult(formResult);
+            
+            var sessionId = Guid.NewGuid();
+            const string folderPath = "Logs/Csv";
+            var csvUtility = new MemberBulkImportVmCsvUtility(Convert.ToString(sessionId));
+            csvUtility.Configure(new CsvConfiguration() { CsvLogPath = folderPath});
+            csvUtility.Write(data);
+             
+            return FormResult.CreateSuccessResult("Sucess", $"BulkInsert/Index/{Convert.ToString(sessionId)}", 1000);
+
         }
 
         public async Task<IActionResult> GetDistricts(string stateId)
         { 
-            var data = await bulkDataImportService.GetDistrict(stateId);
+            var data = await _bulkDataImportService.GetDistrict(stateId);
             return new JsonResult(data);
         }
         public async Task<IActionResult> GetCities(string stateId,string districtId)
         {
-            var data = await bulkDataImportService.GetCities(stateId,districtId);
+            var data = await _bulkDataImportService.GetCities(stateId,districtId);
             return new JsonResult(data);
         }
     }

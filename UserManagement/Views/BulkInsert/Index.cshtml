@@ -1,4 +1,4 @@
-﻿@model IEnumerable<UserManagement.Domain.ResultModel<MemberBulkImportVM>>
+﻿@model System.Collections.Generic.IEnumerable<UserManagement.Domain.ViewModel.MemberBulkImportVM>
 @using  UserManagement.Domain.ViewModel
 @if (Model != null && Model.Count() > 0)
 {
@@ -13,107 +13,107 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.DisplayNameFor(model => model.Model.HFNameWithDistrictName)
+                            @Html.DisplayNameFor(model => model.HFNameWithDistrictName)
                         </th>
 
                         <th class="d-none">
-                            @Html.DisplayNameFor(model => model.Model.HFPhone)
+                            @Html.DisplayNameFor(model => model.HFPhone)
                         </th>
                         <th class="d-none">
-                            @Html.DisplayNameFor(model => model.Model.HFType)
+                            @Html.DisplayNameFor(model => model.HFType)
                         </th>
                         <th class="d-none">
-                            @Html.DisplayNameFor(model => model.Model.NIN)
+                            @Html.DisplayNameFor(model => model.NIN)
                         </th>
                         <th class="d-none">
-                            @Html.DisplayNameFor(model => model.Model.HFEmail)
+                            @Html.DisplayNameFor(model => model.HFEmail)
                         </th>
                         <th class="d-none">
-                            @Html.DisplayNameFor(model => model.Model.HFState)
+                            @Html.DisplayNameFor(model => model.HFState)
                         </th>
                         <th class="d-none">
-                            @Html.DisplayNameFor(model => model.Model.HFDistrict)
+                            @Html.DisplayNameFor(model => model.HFDistrict)
                         </th>
                         <th class="d-none">
-                            @Html.DisplayNameFor(model => model.Model.HFCity)
+                            @Html.DisplayNameFor(model => model.HFCity)
                         </th>
                         <th class="d-none">
-                            @Html.DisplayNameFor(model => model.Model.Address)
+                            @Html.DisplayNameFor(model => model.Address)
                         </th>
                         <th class="d-none">
-                            @Html.DisplayNameFor(model => model.Model.PIN)
+                            @Html.DisplayNameFor(model => model.PIN)
                         </th>
                         <th class="d-none">
-                            @Html.DisplayNameFor(model => model.Model.FirstName)
+                            @Html.DisplayNameFor(model => model.FirstName)
                         </th>
                         <th class="d-none">
-                            @Html.DisplayNameFor(model => model.Model.LastName)
+                            @Html.DisplayNameFor(model => model.LastName)
                         </th>
                         <th class="d-none">
-                            @Html.DisplayNameFor(model => model.Model.UserMobile)
+                            @Html.DisplayNameFor(model => model.UserMobile)
                         </th>
                         <th class="d-none">
-                            @Html.DisplayNameFor(model => model.Model.Gender)
+                            @Html.DisplayNameFor(model => model.Gender)
                         </th>
                         <th class="d-none">
-                            @Html.DisplayNameFor(model => model.Model.Qualification)
+                            @Html.DisplayNameFor(model => model.Qualification)
                         </th>
                         <th class="d-none">
-                            @Html.DisplayNameFor(model => model.Model.Experience)
+                            @Html.DisplayNameFor(model => model.Experience)
                         </th>
                         <th class="d-none">
-                            @Html.DisplayNameFor(model => model.Model.DRRegNo)
+                            @Html.DisplayNameFor(model => model.DRRegNo)
                         </th>
                         <th class="d-none">
-                            @Html.DisplayNameFor(model => model.Model.UserEmail)
+                            @Html.DisplayNameFor(model => model.UserEmail)
                         </th>
                         <th class="d-none">
-                            @Html.DisplayNameFor(model => model.Model.Designation)
+                            @Html.DisplayNameFor(model => model.Designation)
                         </th>
                         <th class="d-none">
-                            @Html.DisplayNameFor(model => model.Model.DOB)
+                            @Html.DisplayNameFor(model => model.DOB)
                         </th>
                         <th class="d-none">
-                            @Html.DisplayNameFor(model => model.Model.UserState)
+                            @Html.DisplayNameFor(model => model.UserState)
                         </th>
                         <th class="d-none">
-                            @Html.DisplayNameFor(model => model.Model.UserDistrict)
+                            @Html.DisplayNameFor(model => model.UserDistrict)
                         </th>
                         <th class="d-none">
-                            @Html.DisplayNameFor(model => model.Model.UserCity)
+                            @Html.DisplayNameFor(model => model.UserCity)
                         </th>
                         <th class="d-none">
-                            @Html.DisplayNameFor(model => model.Model.UserAddress)
+                            @Html.DisplayNameFor(model => model.UserAddress)
                         </th>
                         <th class="d-none">
-                            @Html.DisplayNameFor(model => model.Model.UserPin)
+                            @Html.DisplayNameFor(model => model.UserPin)
                         </th>
                         <th class="d-none">
-                            @Html.DisplayNameFor(model => model.Model.UserPrefix)
+                            @Html.DisplayNameFor(model => model.UserPrefix)
                         </th>
                         <th class="d-none">
-                            @Html.DisplayNameFor(model => model.Model.UserAvailableDay)
+                            @Html.DisplayNameFor(model => model.UserAvailableDay)
                         </th>
                         <th class="d-none">
-                            @Html.DisplayNameFor(model => model.Model.UserAvailableFromTime)
+                            @Html.DisplayNameFor(model => model.UserAvailableFromTime)
                         </th>
                         <th class="d-none">
-                            @Html.DisplayNameFor(model => model.Model.UserAvailableToTime)
+                            @Html.DisplayNameFor(model => model.UserAvailableToTime)
                         </th>
                         <th class="d-none">
-                            @Html.DisplayNameFor(model => model.Model.UserRole)
+                            @Html.DisplayNameFor(model => model.UserRole)
                         </th>
                         <th class="d-none">
-                            @Html.DisplayNameFor(model => model.Model.AssignedHFType)
+                            @Html.DisplayNameFor(model => model.AssignedHFType)
                         </th>
                         <th class="d-none">
-                            @Html.DisplayNameFor(model => model.Model.AssignHF)
+                            @Html.DisplayNameFor(model => model.AssignHF)
                         </th>
                         <th class="d-none">
-                            @Html.DisplayNameFor(model => model.Model.SubMenuName)
+                            @Html.DisplayNameFor(model => model.SubMenuName)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Model.UserName)
+                            @Html.DisplayNameFor(model => model.UserName)
                         </th>
 
                     </tr>
@@ -123,107 +123,107 @@
                     {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Model.HFNameWithDistrictName)
+                            @Html.DisplayFor(modelItem => item.HFNameWithDistrictName)
                         </td>
 
                         <td class="d-none">
-                            @Html.DisplayFor(modelItem => item.Model.HFPhone)
+                            @Html.DisplayFor(modelItem => item.HFPhone)
                         </td>
                         <td class="d-none">
-                            @Html.DisplayFor(modelItem => item.Model.HFType)
+                            @Html.DisplayFor(modelItem => item.HFType)
                         </td>
                         <td class="d-none">
-                            @Html.DisplayFor(modelItem => item.Model.NIN)
+                            @Html.DisplayFor(modelItem => item.NIN)
                         </td>
                         <td class="d-none">
-                            @Html.DisplayFor(modelItem => item.Model.HFEmail)
+                            @Html.DisplayFor(modelItem => item.HFEmail)
                         </td>
                         <td class="d-none">
-                            @Html.DisplayFor(modelItem => item.Model.HFState)
+                            @Html.DisplayFor(modelItem => item.HFState)
                         </td>
                         <td class="d-none">
-                            @Html.DisplayFor(modelItem => item.Model.HFDistrict)
+                            @Html.DisplayFor(modelItem => item.HFDistrict)
                         </td>
                         <td class="d-none">
-                            @Html.DisplayFor(modelItem => item.Model.HFCity)
+                            @Html.DisplayFor(modelItem => item.HFCity)
                         </td>
                         <td class="d-none">
-                            @Html.DisplayFor(modelItem => item.Model.Address)
+                            @Html.DisplayFor(modelItem => item.Address)
                         </td>
                         <td class="d-none">
-                            @Html.DisplayFor(modelItem => item.Model.PIN)
+                            @Html.DisplayFor(modelItem => item.PIN)
                         </td>
                         <td class="d-none">
-                            @Html.DisplayFor(modelItem => item.Model.FirstName)
+                            @Html.DisplayFor(modelItem => item.FirstName)
                         </td>
                         <td class="d-none">
-                            @Html.DisplayFor(modelItem => item.Model.LastName)
+                            @Html.DisplayFor(modelItem => item.LastName)
                         </td>
                         <td class="d-none">
-                            @Html.DisplayFor(modelItem => item.Model.UserMobile)
+                            @Html.DisplayFor(modelItem => item.UserMobile)
                         </td>
                         <td class="d-none">
-                            @Html.DisplayFor(modelItem => item.Model.Gender)
+                            @Html.DisplayFor(modelItem => item.Gender)
                         </td>
                         <td class="d-none">
-                            @Html.DisplayFor(modelItem => item.Model.Qualification)
+                            @Html.DisplayFor(modelItem => item.Qualification)
                         </td>
                         <td class="d-none">
-                            @Html.DisplayFor(modelItem => item.Model.Experience)
+                            @Html.DisplayFor(modelItem => item.Experience)
                         </td>
                         <td class="d-none">
-                            @Html.DisplayFor(modelItem => item.Model.DRRegNo)
+                            @Html.DisplayFor(modelItem => item.DRRegNo)
                         </td>
                         <td class="d-none">
-                            @Html.DisplayFor(modelItem => item.Model.UserEmail)
+                            @Html.DisplayFor(modelItem => item.UserEmail)
                         </td>
                         <td class="d-none">
-                            @Html.DisplayFor(modelItem => item.Model.Designation)
+                            @Html.DisplayFor(modelItem => item.Designation)
                         </td>
                         <td class="d-none">
-                            @Html.DisplayFor(modelItem => item.Model.DOB)
+                            @Html.DisplayFor(modelItem => item.DOB)
                         </td>
                         <td class="d-none">
-                            @Html.DisplayFor(modelItem => item.Model.UserState)
+                            @Html.DisplayFor(modelItem => item.UserState)
                         </td>
                         <td class="d-none">
-                            @Html.DisplayFor(modelItem => item.Model.UserDistrict)
+                            @Html.DisplayFor(modelItem => item.UserDistrict)
                         </td>
                         <td class="d-none">
-                            @Html.DisplayFor(modelItem => item.Model.UserCity)
+                            @Html.DisplayFor(modelItem => item.UserCity)
                         </td>
                         <td class="d-none">
-                            @Html.DisplayFor(modelItem => item.Model.UserAddress)
+                            @Html.DisplayFor(modelItem => item.UserAddress)
                         </td>
                         <td class="d-none">
-                            @Html.DisplayFor(modelItem => item.Model.UserPin)
+                            @Html.DisplayFor(modelItem => item.UserPin)
                         </td>
                         <td class="d-none">
-                            @Html.DisplayFor(modelItem => item.Model.UserPrefix)
+                            @Html.DisplayFor(modelItem => item.UserPrefix)
                         </td>
                         <td class="d-none">
-                            @Html.DisplayFor(modelItem => item.Model.UserAvailableDay)
+                            @Html.DisplayFor(modelItem => item.UserAvailableDay)
                         </td>
                         <td class="d-none">
-                            @Html.DisplayFor(modelItem => item.Model.UserAvailableFromTime)
+                            @Html.DisplayFor(modelItem => item.UserAvailableFromTime)
                         </td>
                         <td class="d-none">
-                            @Html.DisplayFor(modelItem => item.Model.UserAvailableToTime)
+                            @Html.DisplayFor(modelItem => item.UserAvailableToTime)
                         </td>
                         <td class="d-none">
-                            @Html.DisplayFor(modelItem => item.Model.UserRole)
+                            @Html.DisplayFor(modelItem => item.UserRole)
                         </td>
                         <td class="d-none">
-                            @Html.DisplayFor(modelItem => item.Model.AssignedHFType)
+                            @Html.DisplayFor(modelItem => item.AssignedHFType)
                         </td>
                         <td class="d-none">
-                            @Html.DisplayFor(modelItem => item.Model.AssignHF)
+                            @Html.DisplayFor(modelItem => item.AssignHF)
                         </td>
                         <td class="d-none">
-                            @Html.DisplayFor(modelItem => item.Model.SubMenuName)
+                            @Html.DisplayFor(modelItem => item.SubMenuName)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Model.UserName)
+                            @Html.DisplayFor(modelItem => item.UserName)
                         </td>
                     </tr>
                     }

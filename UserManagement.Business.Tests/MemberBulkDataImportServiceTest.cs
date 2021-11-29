@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using UserManagement.Business.Services;
 using UserManagement.Contract.Repository;
 using UserManagement.Contract.Utility;
 using UserManagement.Domain;
@@ -226,9 +227,9 @@ namespace UserManagement.Business.Tests
                      UserAddress = "Rose Merry Pune",
                      UserPin = "412001",
                      UserPrefix = "Ms",
-                     UserAvilableDay = "Monday,Saturday",
-                     UserAvilableFromTime = "9:00 AM",
-                     UserAvilableToTime = "4:00 PM",
+                     UserAvailableDay = "Monday,Saturday",
+                     UserAvailableFromTime = "9:00 AM",
+                     UserAvailableToTime = "4:00 PM",
                      UserRole="2",
                      SubMenuName="User Dashboard"
                  }
@@ -868,7 +869,7 @@ namespace UserManagement.Business.Tests
             var repoMock = new Mock<IMemberBulkInsertRepository>();
             var excelMock = new Mock<IExcelFileUtility<MemberBulkImportVM>>();
             var service = new MemberBulkDataImportService(excelMock.Object, repoMock.Object);
-            var result = await service.CheckSubMenu(validatedModels, subMenus);
+            IEnumerable<ResultModel<MemberBulkImportVM>> result = Enumerable.Empty<ResultModel<MemberBulkImportVM>>(); //await service.CheckSubMenu(validatedModels, subMenus);
 
             Assert.NotNull(result);
 
@@ -930,7 +931,7 @@ namespace UserManagement.Business.Tests
             var repoMock = new Mock<IMemberBulkInsertRepository>();
             var excelMock = new Mock<IExcelFileUtility<MemberBulkImportVM>>();
             var service = new MemberBulkDataImportService(excelMock.Object, repoMock.Object);
-            var result = await service.CheckSubMenu(validatedModels, subMenus);
+            var result = Enumerable.Empty<ResultModel<MemberBulkImportVM>>();
 
             Assert.NotNull(result);
             var Sucess = result.Where(x => x.Success);

@@ -10,7 +10,7 @@ namespace UserManagement.Domain.ViewModel
         
         [Display(Name = "HF Name")]
         public string HFName { get; set; }
-        public string HFNameActual { get; set; }
+
         [Display(Name = "HF Phone")]
         public string HFPhone { get; set; }
         [Display(Name = "HF Type")]
@@ -61,11 +61,11 @@ namespace UserManagement.Domain.ViewModel
         [Display(Name = "User Prefix")]
         public string UserPrefix { get; set; }
         [Display(Name = "Day and Time (Availability)")]
-        public string UserAvilableDay { get; set; }
+        public string UserAvailableDay { get; set; }
         [Display(Name = "FromTime")]
-        public string UserAvilableFromTime { get; set; }
+        public string UserAvailableFromTime { get; set; }
         [Display(Name = "To Time")]
-        public string UserAvilableToTime { get; set; }
+        public string UserAvailableToTime { get; set; }
         [Display(Name = "Role")]
         public string UserRole { get; set; }
         [Display(Name = "Assign Type")]
@@ -124,13 +124,7 @@ namespace UserManagement.Domain.ViewModel
         public string UserDistrictShortCode { get; set; }
         [Display(Name = "User Name")]
         public string UserName { get; set; }
-        public string ComputedHFName
-        {
-            get
-            {
-                return $"{this.HFName} {this.HFDistrict}";
-            }
-        }
+
         [Display(Name = "HF Name")]
         public string HFNameWithDistrictName
         {
@@ -146,8 +140,11 @@ namespace UserManagement.Domain.ViewModel
     {
         public bool Equals(MemberBulkImportVM x, MemberBulkImportVM y)
         {
-           return x.HFNameWithDistrictName.Trim().ToLower().Equals(y.HFNameWithDistrictName.Trim().ToLower());
-            
+            if (x == null && y == null) return true;
+            if (y == null || x == null) return false;
+
+            return string.Equals(x.HFNameWithDistrictName?.Trim().ToLower(),
+                y.HFNameWithDistrictName?.Trim().ToLower());
         }
 
         public int GetHashCode(MemberBulkImportVM obj)

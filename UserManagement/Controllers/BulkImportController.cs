@@ -17,11 +17,11 @@ namespace UserManagement.Controllers
     [ApiController]
     public class BulkImportController : ControllerBase
     {
-        private readonly IBulkDataImportService<MemberBulkImportVM> bulkDataImportService;
+        private readonly IBulkDataImportService<MemberBulkImportVM> _bulkDataImportService;
 
         public BulkImportController(IBulkDataImportService<MemberBulkImportVM> bulkDataImportService)
         {
-            this.bulkDataImportService = bulkDataImportService;
+            this._bulkDataImportService = bulkDataImportService;
         }
         // GET: api/<BulkImportController>
         [HttpGet]
@@ -39,7 +39,7 @@ namespace UserManagement.Controllers
 
         // POST api/<BulkImportController>
         [HttpPost]
-        public async Task<IEnumerable<ResultModel<MemberBulkImportVM>>> Post(IFormFile formFile)
+        public async Task<IEnumerable<MemberBulkImportVM>> Post(IFormFile formFile)
         {
             var stream = new MemoryStream();
             await formFile.CopyToAsync(stream);
@@ -49,8 +49,9 @@ namespace UserManagement.Controllers
                 System.IO.Directory.CreateDirectory(folderPath);
             }
             var path = folderPath;
-           var resultModels = await bulkDataImportService.ImportData(stream, path);
-            return resultModels;
+           var models= await _bulkDataImportService.CreateModels(stream);
+           var result = await _bulkDataImportService.ImportData(models, path);
+            return result.Value;
         }
 
         // PUT api/<BulkImportController>/5

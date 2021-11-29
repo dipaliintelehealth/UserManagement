@@ -13,32 +13,31 @@ namespace UserManagement.Extensions
         public static void UpdateModelState(this BulkInsertValidationResult validationResult, ModelStateDictionary modelState)
         {
             //modelState.Clear();
-            if (!validationResult.IsValid)
+            if (validationResult.IsValid) return;
+            
+            foreach (var error in validationResult.Errors)
             {
-                foreach (var error in validationResult.Errors)
-                {
-                    modelState.TryAddModelError($"[{error.Index}].{error.PropertyName}", error.ErrorMessage);
-                }
+                modelState.TryAddModelError($"[{error.Index}].{error.PropertyName}", error.ErrorMessage);
             }
         }
         public static FormResult ToFormResult(this BulkInsertValidationResult validationResult)
         {
             var formResult = new FormResult(FormResultStatus.Success);
-            if (!validationResult.IsValid)
+            
+            if (validationResult.IsValid) return formResult;
+            
+            formResult = new FormResult(FormResultStatus.Error)
             {
-                formResult = new FormResult(FormResultStatus.Error)
+                ValidationErrors = new List<FormResultValidationError>()
+            };
+            foreach (var error in validationResult.Errors)
+            {
+                var formError = new FormResultValidationError
                 {
-                    ValidationErrors = new List<FormResultValidationError>()
+                    PropertyName = $"[{error.Index}].{error.PropertyName}",
+                    Message = error.ErrorMessage
                 };
-                foreach (var error in validationResult.Errors)
-                {
-                    var formError = new FormResultValidationError
-                    {
-                        PropertyName = $"[{error.Index}].{error.PropertyName}",
-                        Message = error.ErrorMessage
-                    };
-                    formResult.ValidationErrors.Add(formError);
-                }
+                formResult.ValidationErrors.Add(formError);
             }
             return formResult;
         }

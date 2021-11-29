@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using UserManagement.Business.Services;
 using UserManagement.Business.Validators;
 using UserManagement.Contract;
 using UserManagement.Contract.Factory;

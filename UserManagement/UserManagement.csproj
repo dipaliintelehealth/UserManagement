@@ -47,4 +47,29 @@
     <Folder Include="wwwroot\CsvLogs\" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Compile Remove="Pages\**" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Pages\**" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <None Remove="Pages\**" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Content Remove="Pages\**" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\BulkInsert\Index.cshtml" />
+  </ItemGroup>
+
 </Project>
