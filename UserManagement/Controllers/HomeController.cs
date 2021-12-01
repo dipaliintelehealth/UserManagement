@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using CSharpFunctionalExtensions;
 using FormHelper;
 using Newtonsoft.Json;
 using UserManagement.Contract;
@@ -44,7 +45,7 @@ namespace UserManagement.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> BulkImport(IFormFile formFile)
+        public async Task<ActionResult> BulkImport(IFormFile formFile, IFormCollection form)
         {
             if (formFile is null)
             {
@@ -59,10 +60,12 @@ namespace UserManagement.Controllers
                 Directory.CreateDirectory(folderPath);
             }
 
+            //XL read and transfer to models
             var models = await _bulkDataImportService.CreateModels(stream);
             ViewBag.States = await _bulkDataImportService.GetStates();
             var listModels = models.ToList();
 
+            // Validation of models after XL reading
             var result = await _bulkInsertValidator.ValidateAsync(listModels);
             result.UpdateModelState(ModelState);
 
@@ -83,20 +86,18 @@ namespace UserManagement.Controllers
                 throw new System.ArgumentNullException(nameof(data));
             }
 
-            ViewBag.States = await _bulkDataImportService.GetStates();
-
             var result = await _bulkInsertValidator.ValidateAsync(data);
-            var formResult = result.ToFormResult();
-            if (!formResult.IsSucceed) return new JsonResult(formResult);
+           
+            if (!result.IsValid)
+            {
+                ViewBag.States = await _bulkDataImportService.GetStates();
+                var formResult = result.ToFormResult();
+                return new JsonResult(formResult);
+            }
             
-            var sessionId = Guid.NewGuid();
-            const string folderPath = "Logs/Csv";
-            var csvUtility = new MemberBulkImportVmCsvUtility(Convert.ToString(sessionId));
-            csvUtility.Configure(new CsvConfiguration() { CsvLogPath = folderPath});
-            csvUtility.Write(data);
-             
-            return FormResult.CreateSuccessResult("Sucess", $"BulkInsert/Index/{Convert.ToString(sessionId)}", 1000);
-
+            var resultTemporaryStorage = await  _bulkDataImportService.AddToTemporaryStorage(data);
+            return resultTemporaryStorage.IsFailure ? FormResult.CreateErrorResult(resultTemporaryStorage.Error) 
+                : FormResult.CreateSuccessResult("Validation Successful...", $"BulkInsert/Index/{resultTemporaryStorage.Value}", 1000);
         }
 
         public async Task<IActionResult> GetDistricts(string stateId)

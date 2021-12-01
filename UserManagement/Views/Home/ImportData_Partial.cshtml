@@ -9,14 +9,16 @@
         <div class="card-body">
             <form asp-formhelper="true" asp-callback="formValidationCallback" asp-action="ImportData">
                 <div class="text-danger mb-2 validation-summary"></div>
-                 
+
                 <div class="text-center mb-2">
                     <input type="submit" value="Submit" class="btn btn-info" onclick="formValidationCallback();" />
                 </div>
-
                 <table class="bulkupload table" id="tblImportData">
                     <thead>
                         <tr>
+                            <th style="min-width: 28px; max-width:50px;">
+                                Select
+                            </th>
 
                             <th>
                                 @Html.DisplayNameFor(model => model[0].HFName)
@@ -127,7 +129,9 @@
                         @for (var i = 0; i < Model.Count(); i++)
                         {
                             <tr>
-
+                                <td style="min-width: 28px; max-width:50px;">
+                                    @Html.CheckBox($"[{i}].isActive", false, new {  @class = "form-control chkSelected", @style = "max-width:25px;" })
+                                </td>
                                 <td>
                                     @Html.TextBoxFor(modelItem => Model[i].HFName, new { @class = "form-control" })
                                     @Html.ValidationMessageFor(modelItem => Model[i].HFName, "", new { @class = "text-danger" })
@@ -329,8 +333,36 @@
             else {
                 validInvalid.validRows.push(row);
             }
+            updateNames(row, rowIdx);
         });
         return validInvalid;
+    }
+    function updateNames(row, rowindex) {
+        var inputs = $(row).find('input');
+        var spans = $(row).find('span');
+        var selects = $(row).find('select');
+        $(inputs).each((index,input) => {
+            let name = $(input).attr('name');
+            let splitPart = name.split('.')[1];
+            let newName = "[" + rowindex + "]." + splitPart;
+            $(input).attr('name', newName);
+        });
+        $(selects).each((index, select) => {
+            let name = $(select).attr('name');
+            let splitPart = name.split('.')[1];
+            let newName = "[" + rowindex + "]." + splitPart;
+            $(select).attr('name', newName);
+        });
+        $(spans).each((index, span) => {
+           
+            let name = $(span).attr('data-valmsg-for');
+            if (name) {
+                let splitPart = name.split('.')[1];
+                let newName = "[" + rowindex + "]." + splitPart;
+                $(span).attr('data-valmsg-for', newName);
+                console.log('span attr value', name, newName);
+            }
+        });
     }
     function getCountByError(errorFields) {
         let errorCount = [];
@@ -354,14 +386,21 @@
     }
     function displayValidationSummary(errorDictionary) {
         if (errorDictionary) {
+            let sortedDictionary = errorDictionary.sort(function (firstItem, secondItem){
+                return ( firstItem.key < secondItem.key? -1 : (firstItem.key > secondItem.key ? 1 : 0));
+            });
             let errorhtml = '<ul class="no-bullets"> ';
-            for (var i = 0; i < errorDictionary.length; i++) {
-                item = errorDictionary[i];
+            for (var i = 0; i < sortedDictionary.length; i++) {
+                item = sortedDictionary[i];
                 errorhtml += '<li> <span class="badge badge-danger badge-pill mr-2" > '+ item.value + '</span>' + item.key +  '</li> ';
             }
             errorhtml += '</ul>';
             $('.validation-summary').html(errorhtml);
         }
+    }
+    function deleteRows() {
+        tblImportData.rows('.selected').remove().draw(true);
+        formValidationCallback();
     }
     $(document).ready(function () {
 
@@ -371,7 +410,26 @@
             "ordering": false,
             "searching": false,
             "paging": true,
-            "scrollX": true
+            "scrollX": true,
+            "info":true,
+            dom: 'lBfrtip<"actions">',
+            buttons: {
+                buttons: [
+                    {
+                        text: 'Delete',
+                        className: 'btn btn-outline-danger ml-2',
+                        action: function (e, dt, node, config) {
+                            if (confirm('Are you sure you want to delete the data ?')) {
+                                deleteRows();
+                            }
+                        }
+                    }
+                ],
+                dom: {
+                    button: { className: "btn" },
+                    buttonLiner: { tag: null }
+                }
+            }
         });
        
         $('.state').change(function () {
@@ -413,6 +471,16 @@
                     $('#' + cityId).empty().append(options);
                 }
             });
-        });  
+        }); 
+        $('.chkSelected').on('click', function () {
+
+            var row = $(this).parents('tr');
+            if ($(this).is(':checked')) {
+                $(row).addClass('selected');
+            }
+            else {
+                $(row).removeClass('selected');
+            }
+        });
     });
  </script>
