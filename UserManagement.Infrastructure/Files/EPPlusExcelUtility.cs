@@ -62,7 +62,7 @@ namespace UserManagement.Infrastructure.Files
 
             if (emptyRows.Count > 0)
             {
-                worksheet.DeleteRow(emptyRows[0], emptyRows.Count - 1);
+                worksheet.DeleteRow(emptyRows[0], emptyRows.Count);
             }
         }
         public virtual bool Write(IEnumerable<T> data,Stream stream)

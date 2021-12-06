@@ -84,9 +84,9 @@ namespace UserManagement.Controllers
         [HttpPost]
         public async Task<IActionResult> ImportData(IList<MemberBulkImportVM> data)
         {
-            if (data is null)
+            if (data is null || data.Count == 0)
             {
-                throw new System.ArgumentNullException(nameof(data));
+                return FormResult.CreateErrorResult("No data to import !!! Please check your data");
             }
 
             var result = await _bulkInsertValidator.ValidateAsync(data);

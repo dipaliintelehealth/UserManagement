@@ -402,6 +402,15 @@
         tblImportData.rows('.selected').remove().draw(true);
         formValidationCallback();
     }
+    function getOptions(data) {
+        var options = '<option value="0">--Select--</option>';
+        if (data) {
+            for (var i = 0; i < data.length; i++) {
+                options = options + '<option value=' + data[i].id + '>' + data[i].value + '</option>';
+            }
+        }
+        return options;
+    }
     $(document).ready(function () {
 
         formValidationCallback();
@@ -441,15 +450,15 @@
                 datatype: "json",
                 traditional: true,
                 success: function (data) {
-                    var options = '<option value="0">--Select--</option>';
-                    for (var i = 0; i < data.length; i++) {
-                        options = options + '<option value=' + data[i].id + '>' + data[i].value + '</option>';
-                    }
+                    var options = getOptions(data);
                     console.log('state clicked', state);
                     let stateId = $(state).attr('id');
                     let districtId = stateId.replace('State', 'District');
-                    console.log('district', districtId);
+                    //console.log('district', districtId);
                     $('#' + districtId).empty().append(options);
+                    let cityId = districtId.replace('District', 'City');
+                    var cityOptions = getOptions(null);
+                    $('#' + cityId).empty().append(cityOptions);
                 }
             });
         }); 
@@ -462,10 +471,7 @@
                 datatype: "json",
                 traditional: true,
                 success: function (data) {
-                    var options = '<option value="0">--Select--</option>';
-                    for (var i = 0; i < data.length; i++) {
-                        options = options + '<option value=' + data[i].id + '>' + data[i].value + '</option>';
-                    }
+                    var options = getOptions(data);
                     let districtId = $(district).attr('id');
                     let cityId = districtId.replace('District', 'City');
                     $('#' + cityId).empty().append(options);
