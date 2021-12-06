@@ -45,15 +45,15 @@ namespace UserManagement.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> BulkImport(IFormFile formFile, IFormCollection form)
+        public async Task<ActionResult> BulkImport(IFormCollection form)
         {
-            if (formFile is null)
+            if (!form.Files.Any())
             {
-                throw new System.ArgumentNullException(nameof(formFile));
+                throw new System.ArgumentNullException(nameof(form.Files));
             }
 
             var stream = new MemoryStream();
-            await formFile.CopyToAsync(stream);
+            await form.Files[0].CopyToAsync(stream);
             const string folderPath = "Logs/Csv";
             if (!(Directory.Exists(folderPath)))
             {
@@ -61,9 +61,12 @@ namespace UserManagement.Controllers
             }
 
             //XL read and transfer to models
+            var selectedRecords = form["SelectRecord"];
             var models = await _bulkDataImportService.CreateModels(stream);
+
+
             ViewBag.States = await _bulkDataImportService.GetStates();
-            var listModels = models.ToList();
+            var listModels = models.Take(Convert.ToInt32(selectedRecords)).ToList();
 
             // Validation of models after XL reading
             var result = await _bulkInsertValidator.ValidateAsync(listModels);

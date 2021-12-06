@@ -368,7 +368,7 @@ namespace UserManagement.Business.Services
 
             string StateShortCode = "";
 
-            if (StateAndCodes.ContainsKey(StateName.Trim().ToUpper()))
+            if (!string.IsNullOrEmpty(StateName) && StateAndCodes.ContainsKey(StateName.Trim().ToUpper()))
             {
                 StateShortCode = StateAndCodes[StateName.Trim().ToUpper()];
             }
