@@ -3,7 +3,7 @@ using UserManagement.Domain;
 
 namespace UserManagement.Infrastructure.Mapper.CSV
 {
-    public sealed class AuditTrailModelForCsvMap : ClassMap<AuditTrailModel>
+    public sealed class AuditTrailModelForCsvMap : ClassMap<AuditTrailModelForCsv>
     {
         public AuditTrailModelForCsvMap()
         {

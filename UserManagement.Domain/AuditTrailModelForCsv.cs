@@ -1,6 +1,6 @@
 ﻿namespace UserManagement.Domain
 {
-    public class AuditTrailModel
+    public class AuditTrailModelForCsv
     {
         public string Message { get; set; }
         public string CreatedDate { get; set; }

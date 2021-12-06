@@ -12,25 +12,23 @@ using UserManagement.Contract.Repository;
 using MySqlConnector;
 using System.IO;
 using System.Linq;
-using UserManagement.Domain.ViewModel;
 
 namespace UserManagement.Infrastructure.Repository
 {
     public class BulkInsertRepository : RepositoryBase, IMemberBulkInsertRepository
     {
         private readonly ILogger<IMemberBulkInsertRepository> Logger;
-        private MySqlConnection bulkLoaderConnection;
         public BulkInsertRepository(IConnectionFactory connectionFactory, ILogger<IMemberBulkInsertRepository> logger) : base(connectionFactory)
         {
             // string connString = this.Configuration.GetConnectionString("MyConn");
             Logger = logger;
             Logger.LogInformation("BulkInsertRepository initialized");
-            bulkLoaderConnection = new MySqlConnection($"{Connection.ConnectionString};AllowLoadLocalInfile=True");
         }
 
         public async Task<int> BulkInsertInstitution(Stream stream)
         {
-            MySqlBulkLoader bulkLoader = new MySqlBulkLoader(bulkLoaderConnection)
+            var connection = new MySqlConnection($"{Connection.ConnectionString};AllowLoadLocalInfile=True");
+            MySqlBulkLoader bulkLoader = new MySqlBulkLoader(connection)
             {
                 Columns = {
                     "Name",
@@ -68,7 +66,8 @@ namespace UserManagement.Infrastructure.Repository
 
         public async Task<int> BulkInsertMembers(Stream stream)
         {
-            MySqlBulkLoader bulkLoader = new MySqlBulkLoader(bulkLoaderConnection)
+            var connection = new MySqlConnection($"{Connection.ConnectionString};AllowLoadLocalInfile=True");
+            MySqlBulkLoader bulkLoader = new MySqlBulkLoader(connection)
             {
                 Columns = {
                     "FirstName",
@@ -120,7 +119,8 @@ namespace UserManagement.Infrastructure.Repository
         }
         public async Task<int> BulkInsertLogin(Stream stream)
         {
-            MySqlBulkLoader bulkLoader = new MySqlBulkLoader(bulkLoaderConnection)
+            var connection = new MySqlConnection($"{Connection.ConnectionString};AllowLoadLocalInfile=True");
+            MySqlBulkLoader bulkLoader = new MySqlBulkLoader(connection)
             {
                 Columns = {
                     "UserName",
@@ -141,7 +141,8 @@ namespace UserManagement.Infrastructure.Repository
         }
         public async Task<int> BulkInsertMemberSlot(Stream stream)
         {
-            MySqlBulkLoader bulkLoader = new MySqlBulkLoader(bulkLoaderConnection)
+            var connection = new MySqlConnection($"{Connection.ConnectionString};AllowLoadLocalInfile=True");
+            MySqlBulkLoader bulkLoader = new MySqlBulkLoader(connection)
             {
                 Columns = {
                     "MemberId",
@@ -165,7 +166,8 @@ namespace UserManagement.Infrastructure.Repository
 
         public async Task<int> BulkInsertMemberInstitution(Stream stream)
         {
-            MySqlBulkLoader bulkLoader = new MySqlBulkLoader(bulkLoaderConnection)
+            var connection = new MySqlConnection($"{Connection.ConnectionString};AllowLoadLocalInfile=True");
+            MySqlBulkLoader bulkLoader = new MySqlBulkLoader(connection)
             {
                 Columns = {
                    "MemberId",
@@ -260,10 +262,23 @@ namespace UserManagement.Infrastructure.Repository
             var result = await Connection.QueryAsync<StateDistrictCity>(sql);
             return result;
         }
-       
+        public async Task<string> AddAuditLog()
+        {
+            var sql = "INSERT INTO  `md_audittrail` ( " +
+                 "`Message`, `CreatedDate`, `IconPath`, `MemberId`," +
+                 " `ModuleId`, `EventId`, `AccessType`, `LocationIPAddress`," +
+                  "`SourceId`,`UserTypeId` )" +
+                  "VALUES ( " +
+                  $"'Bulk Institution and Member Added Successfully' , '{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") }', " +
+                  "'', '1', '11', '14', '','','99','2' ); SELECT LAST_INSERT_ID();";
+            var result = await Connection.QueryFirstAsync<string>(sql);
+            return result;
+        }
+
         public async Task<int> BulkInsertMemberMenu(Stream stream)
         {
-            MySqlBulkLoader bulkLoader = new MySqlBulkLoader(bulkLoaderConnection)
+            var connection = new MySqlConnection($"{Connection.ConnectionString};AllowLoadLocalInfile=True");
+            MySqlBulkLoader bulkLoader = new MySqlBulkLoader(connection)
             {
                 Columns = {
                     "RoleId",
@@ -302,7 +317,8 @@ namespace UserManagement.Infrastructure.Repository
         }
         public async Task<int> BulkInsertAuditTrail(Stream stream)
         {
-            MySqlBulkLoader bulkLoader = new MySqlBulkLoader(bulkLoaderConnection)
+            var connection = new MySqlConnection($"{Connection.ConnectionString};AllowLoadLocalInfile=True");
+            MySqlBulkLoader bulkLoader = new MySqlBulkLoader(connection)
             {
                 Columns = {
                     "Message",
@@ -325,33 +341,6 @@ namespace UserManagement.Infrastructure.Repository
             bulkLoader.SourceStream = stream;
             bulkLoader.NumberOfLinesToSkip = 1;
             return await bulkLoader.LoadAsync();
-        }
-
-        public async Task<IEnumerable<KeyValue<string, string>>> GetStates()
-        {
-            var sql = "SELECT S.StateId AS Id, S.StateName AS Value" +
-                         " FROM md_state AS S " +
-                         " WHERE S.CountryId = 1; ";
-            var result = await Connection.QueryAsync<KeyValue<string, string>>(sql);
-            return result;
-        }
-
-        public async Task<IEnumerable<KeyValue<string, string>>> GetDistrict(string stateId)
-        {
-            var sql = "SELECT D.DistrictId AS Id, D.DistrictName AS Value " +
-                         " FROM  md_district AS D " +
-                         $" WHERE D.StateId = {stateId}; ";
-            var result = await Connection.QueryAsync<KeyValue<string, string>>(sql);
-            return result;
-        }
-
-        public async Task<IEnumerable<KeyValue<string, string>>> GetCities(string stateId, string districtId)
-        {
-            var sql = "SELECT C.CityId AS Id, C.CityName AS Value " +
-                        " FROM md_city AS C " +
-                        $" WHERE C.DistrictId = {districtId}; ";
-            var result = await Connection.QueryAsync<KeyValue<string, string>>(sql);
-            return result;
         }
     }
 }

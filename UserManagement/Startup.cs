@@ -1,18 +1,18 @@
-﻿using FluentValidation;
-using FluentValidation.AspNetCore;
-using FormHelper;
-using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using UserManagement.Business;
-using UserManagement.Business.Validators;
-using UserManagement.Domain.ViewModel;
 using UserManagement.Repository;
+
 
 namespace UserManagement
 {
@@ -55,16 +55,12 @@ namespace UserManagement
                 // Make the session cookie essential
                 options.Cookie.IsEssential = true;
             });
-            services.AddFormHelper();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
 
             services.AddBusiness(Configuration);
             services.AddInfrastructure(Configuration);
-            services.AddMvc()
-                      .AddFluentValidation(fv => { fv.RegisterValidatorsFromAssemblyContaining<MemberBulkImportVMValidator>();
-                        fv.ImplicitlyValidateRootCollectionElements = true;
-                    });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -85,7 +81,6 @@ namespace UserManagement
             app.UseHttpsRedirection();
             app.UseCors("CorsPolicy");
             app.UseStaticFiles();
-            app.UseFormHelper();
             app.UseSession();
             app.UseCookiePolicy();
             app.UseAuthentication();

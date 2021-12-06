@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using System.ComponentModel.DataAnnotations;
 
 namespace UserManagement.Domain.ViewModel
@@ -8,7 +10,7 @@ namespace UserManagement.Domain.ViewModel
         
         [Display(Name = "HF Name")]
         public string HFName { get; set; }
-
+        public string HFNameActual { get; set; }
         [Display(Name = "HF Phone")]
         public string HFPhone { get; set; }
         [Display(Name = "HF Type")]
@@ -17,11 +19,11 @@ namespace UserManagement.Domain.ViewModel
         [Display(Name = "HF Email")]
         public string HFEmail { get; set; }
         [Display(Name = "State")]
-        public string HFState { get; set; }
+        public string State { get; set; }
         [Display(Name = "District")]
-        public string HFDistrict { get; set; }
+        public string District { get; set; }
         [Display(Name = "City")]
-        public string HFCity { get; set; }
+        public string City { get; set; }
         [Display(Name = "Address")]
         public string Address { get; set; }
         [Display(Name = "PIN")]
@@ -59,27 +61,23 @@ namespace UserManagement.Domain.ViewModel
         [Display(Name = "User Prefix")]
         public string UserPrefix { get; set; }
         [Display(Name = "Day and Time (Availability)")]
-        public string UserAvailableDay { get; set; }
+        public string UserAvilableDay { get; set; }
         [Display(Name = "FromTime")]
-        public string UserAvailableFromTime { get; set; }
+        public string UserAvilableFromTime { get; set; }
         [Display(Name = "To Time")]
-        public string UserAvailableToTime { get; set; }
+        public string UserAvilableToTime { get; set; }
         [Display(Name = "Role")]
         public string UserRole { get; set; }
         [Display(Name = "Assign Type")]
         public string AssignedHFType { get; set; }
         [Display(Name = "Assign PHC Or Hub")]
         public string AssignHF { get; set; }
-        public IEnumerable<KeyValue<string, string>> HFDistricts { get; set; }
-        public IEnumerable<KeyValue<string, string>> HFCities { get; set; }
-        public IEnumerable<KeyValue<string, string>> UserDistricts { get; set; }
-        public IEnumerable<KeyValue<string, string>> UserCities { get; set; }
-        public int SelectedHFStateId { get; set; }
-        public int SelectedHFDistrictId { get; set; }
-        public int SelectedHFCityId { get; set; }
-        public int SelectedUserStateId { get; set; }
-        public int SelectedUserDistrictId { get; set; }
-        public int SelectedUserCityId { get; set; }
+        public int StateId { get; set; }
+        public int DistrictId { get; set; }
+        public int CityId { get; set; }
+        public int UserStateId { get; set; }
+        public int UserDistrictId { get; set; }
+        public int UserCityId { get; set; }
         public int QualificationId { get; set; }
         public int GenderId
         {
@@ -105,11 +103,11 @@ namespace UserManagement.Domain.ViewModel
         {
             get
             {
-                if (HFType?.Replace(" ", "")?.Replace("-", "")?.ToLower() == "hub")
+                if (HFType.Replace(" ", "").Replace("-", "").ToLower() == "hub")
                 {
                     return 1;
                 }
-                else if (HFType?.Replace(" ", "")?.Replace("-", "")?.ToLower() == "phc")
+                else if (HFType.Replace(" ", "").Replace("-", "").ToLower() == "phc")
                 {
                     return 2;
                 }
@@ -122,13 +120,19 @@ namespace UserManagement.Domain.ViewModel
         public string UserDistrictShortCode { get; set; }
         [Display(Name = "User Name")]
         public string UserName { get; set; }
-
+        public string ComputedHFName
+        {
+            get
+            {
+                return $"{this.HFName} {this.District}";
+            }
+        }
         [Display(Name = "HF Name")]
         public string HFNameWithDistrictName
         {
             get
             {
-                return $"{this.HFName?.Trim()} {this.HFDistrict?.Trim()}";
+                return $"{this.HFName?.Trim()} {this.District?.Trim()}";
             }
         }
         [Display(Name = "Sub Menu")]
@@ -138,11 +142,8 @@ namespace UserManagement.Domain.ViewModel
     {
         public bool Equals(MemberBulkImportVM x, MemberBulkImportVM y)
         {
-            if (x == null && y == null) return true;
-            if (y == null || x == null) return false;
-
-            return string.Equals(x.HFNameWithDistrictName?.Trim().ToLower(),
-                y.HFNameWithDistrictName?.Trim().ToLower());
+           return x.HFNameWithDistrictName.Trim().ToLower().Equals(y.HFNameWithDistrictName.Trim().ToLower());
+            
         }
 
         public int GetHashCode(MemberBulkImportVM obj)

@@ -6,8 +6,4 @@
     <RootNamespace>UserManagement.Domain</RootNamespace>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="FluentValidation.AspNetCore" Version="9.5.4" />
-  </ItemGroup>
-
 </Project>

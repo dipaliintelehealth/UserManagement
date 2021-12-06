@@ -8,8 +8,4 @@
     <ProjectReference Include="..\UserManagement.Domain\UserManagement.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="CSharpFunctionalExtensions" Version="2.26.1" />
-  </ItemGroup>
-
 </Project>

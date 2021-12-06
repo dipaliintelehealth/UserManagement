@@ -18,10 +18,10 @@ namespace UserManagement.Infrastructure.Files
 
         public Task<bool> Log(string fileName,byte[] data)
         {
-            var directorypath = _configuration.CsvLogPath;
-            foreach(var file in Directory.GetFiles(directorypath))
+            string directorypath = _configuration.CsvLogPath;
+            foreach(string file in Directory.GetFiles(directorypath))
             {
-                var fileAge = File.GetLastWriteTime(file) - DateTime.Now;
+                TimeSpan fileAge = File.GetLastWriteTime(file) - DateTime.Now;
                 if (fileAge.Days > 15)
                 {
                     File.Delete(file);
@@ -32,11 +32,8 @@ namespace UserManagement.Infrastructure.Files
             fs.Close();
             return Task.FromResult(true);
         }
-        
         public abstract IEnumerable<T> Read(Stream stream);
-
         public abstract Stream Write(IEnumerable<T> data);
-
-
+        
     }
 }

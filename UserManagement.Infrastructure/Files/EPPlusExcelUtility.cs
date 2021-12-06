@@ -23,7 +23,6 @@ namespace UserManagement.Infrastructure.Files
                 excelPack.Load(stream);
 
                 ExcelWorksheet ws = excelPack.Workbook.Worksheets[0];
-                TrimEmptyRows(ws);
 
                 List<string> excelColumnHeaders = GetExcelColumnHeadersByPassingWS(ws);
                 if(_configuration.ColumnPropertyMapping.Count()> 0)
@@ -37,34 +36,7 @@ namespace UserManagement.Infrastructure.Files
             }
             return returnList;
         }
-        private void TrimEmptyRows(ExcelWorksheet worksheet)
-        {
-            List<int> emptyRows = new List<int>();
-            //loop all rows in a file
-            for (int i = worksheet.Dimension.Start.Row; i <=
-           worksheet.Dimension.End.Row; i++)
-            {
-                bool isRowEmpty = true;
-                //loop all columns in a row
-                for (int j = worksheet.Dimension.Start.Column; j <= worksheet.Dimension.End.Column; j++)
-                {
-                    if (worksheet.Cells[i, j].Value != null)
-                    {
-                        isRowEmpty = false;
-                        break;
-                    }
-                }
-                if (isRowEmpty)
-                {
-                    emptyRows.Add(i);
-                }
-            }
 
-            if (emptyRows.Count > 0)
-            {
-                worksheet.DeleteRow(emptyRows[0], emptyRows.Count);
-            }
-        }
         public virtual bool Write(IEnumerable<T> data,Stream stream)
         {
             throw new NotImplementedException();

@@ -8,14 +8,14 @@ using UserManagement.Infrastructure.Mapper.CSV;
 
 namespace UserManagement.Infrastructure.Files
 {
-    public class AuditTrailModelCsvUtility : CsvUtilityBase<AuditTrailModel>
+    public class AuditTrailModelCsvUtility : CsvUtilityBase<AuditTrailModelForCsv>
     {
-        public override IEnumerable<AuditTrailModel> Read(Stream stream)
+        public override IEnumerable<AuditTrailModelForCsv> Read(Stream stream)
         {
             throw new NotImplementedException();
         }
 
-        public override Stream Write(IEnumerable<AuditTrailModel> data)
+        public override Stream Write(IEnumerable<AuditTrailModelForCsv> data)
         {
             var stream = new MemoryStream();
             var writer = new StreamWriter(stream);

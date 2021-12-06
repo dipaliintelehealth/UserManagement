@@ -1,163 +1,129 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using CSharpFunctionalExtensions;
-using UserManagement.Contract;
-using UserManagement.Contract.Repository;
-using UserManagement.Contract.Utility;
 using UserManagement.Domain;
 using UserManagement.Domain.ViewModel;
+using UserManagement.Contract;
+using UserManagement.Contract.User;
+using UserManagement.Contract.Utility;
+using UserManagement.Contract.Repository;
+using UserManagement.Business.Validators;
+using System.Linq;
+using System.Threading.Tasks;
 using UserManagement.Infrastructure.Files;
+using System.Globalization;
+using System.Text.RegularExpressions;
 
-namespace UserManagement.Business.Services
+namespace UserManagement.Business
 {
     public class MemberBulkDataImportService : IBulkDataImportService<MemberBulkImportVM>
     {
-        private readonly IExcelFileUtility<MemberBulkImportVM> _excelFileUtility;
-        private readonly IMemberBulkInsertRepository _bulkInsertRepository;
-        private MemberBulkImportVM _obj = new MemberBulkImportVM();
-        private readonly ExcelConfiguration _excelConfiguration;
-        private string _pathForCsv = string.Empty;
+        private readonly IExcelFileUtility<MemberBulkImportVM> excelFileUtility;
+        private readonly IMemberBulkInsertRepository bulkInsertRepository;
+        private MemberBulkImportVM obj = new MemberBulkImportVM();
+        private ExcelConfiguration excelConfiguration;
+        private string _pathForCsv;
 
         public MemberBulkDataImportService(IExcelFileUtility<MemberBulkImportVM> excelFileUtility, IMemberBulkInsertRepository bulkInsertRepository)
         {
-            this._excelFileUtility = excelFileUtility;
-            this._bulkInsertRepository = bulkInsertRepository;
-            _excelConfiguration = new ExcelConfiguration()
+            this.excelFileUtility = excelFileUtility;
+            this.bulkInsertRepository = bulkInsertRepository;
+            excelConfiguration = new ExcelConfiguration()
             {
                 ColumnPropertyMapping = new Dictionary<string, string>()
                 {
-                    { "HF Name", nameof(this._obj.HFName)},
-                    { "HF Phone", nameof(_obj.HFPhone)},
-                    { "HF Type", nameof(_obj.HFType)},
-                    { "NIN", nameof(_obj.NIN)},
-                    { "HF Email", nameof(_obj.HFEmail)},
-                    { "State", nameof(_obj.HFState)},
-                    { "District", nameof(_obj.HFDistrict)},
-                    { "City", nameof(_obj.HFCity)},
-                    { "Address", nameof(_obj.Address)},
-                    { "PIN", nameof(_obj.PIN)},
-                    { "First Name", nameof(_obj.FirstName)},
-                    { "Last Name",nameof(_obj.LastName)},
-                    { "User Mobile", nameof(_obj.UserMobile)},
-                    { "Gender", nameof(_obj.Gender)},
-                    { "Qualification",nameof(_obj.Qualification)},
-                    { "Experience (in yrs)", nameof(_obj.Experience)},
-                    { "Dr Reg No", nameof(_obj.DRRegNo)},
-                    { "User Email", nameof(_obj.UserEmail)},
-                    { "Specialization / Designation", nameof(_obj.Designation)},
-                    { "Date of Birth DD-MM-YYYY", nameof(_obj.DOB)},
-                    { "User State", nameof(_obj.UserState)},
-                    { "User District", nameof(_obj.UserDistrict)},
-                    { "User City", nameof(_obj.UserCity)},
-                    { "User Address ", nameof(_obj.UserAddress) },
-                    { "User PIN", nameof(_obj.UserPin) },
-                    { "User Prefix", nameof(_obj.UserPrefix) },
-                    { "Day and Time (Availability)", nameof(_obj.UserAvailableDay) },
-                    { "FromTime", nameof(_obj.UserAvailableFromTime) },
-                    { "To Time", nameof(_obj.UserAvailableToTime) },
-                    { "Role", nameof(_obj.UserRole)},
-                    { "Assign Type", nameof(_obj.AssignedHFType) },
-                    { "Assign PHC Or Hub", nameof(_obj.AssignHF) },
-                    { "Sub Menu", nameof (_obj.SubMenuName)}
+                    { "HF Name", nameof(this.obj.HFName)},
+                    { "HF Phone", nameof(obj.HFPhone)},
+                    { "HF Type", nameof(obj.HFType)},
+                    { "NIN", nameof(obj.NIN)},
+                    { "HF Email", nameof(obj.HFEmail)},
+                    { "State", nameof(obj.State)},
+                    { "District", nameof(obj.District)},
+                    { "City", nameof(obj.City)},
+                    { "Address", nameof(obj.Address)},
+                    { "PIN", nameof(obj.PIN)},
+                    { "First Name", nameof(obj.FirstName)},
+                    { "Last Name",nameof(obj.LastName)},
+                    { "User Mobile", nameof(obj.UserMobile)},
+                    { "Gender", nameof(obj.Gender)},
+                    { "Qualification",nameof(obj.Qualification)},
+                    { "Experience (in yrs)", nameof(obj.Experience)},
+                    { "Dr Reg No", nameof(obj.DRRegNo)},
+                    { "User Email", nameof(obj.UserEmail)},
+                    { "Specialization / Designation", nameof(obj.Designation)},
+                    { "Date of Birth DD-MM-YYYY", nameof(obj.DOB)},
+                    { "User State", nameof(obj.UserState)},
+                    { "User District", nameof(obj.UserDistrict)},
+                    { "User City", nameof(obj.UserCity)},
+                    { "User Address ", nameof(obj.UserAddress) },
+                    { "User PIN", nameof(obj.UserPin) },
+                    { "User Prefix", nameof(obj.UserPrefix) },
+                    { "Day and Time (Availability)", nameof(obj.UserAvilableDay) },
+                    { "FromTime", nameof(obj.UserAvilableFromTime) },
+                    { "To Time", nameof(obj.UserAvilableToTime) },
+                    { "Role", nameof(obj.UserRole)},
+                    { "Assign Type", nameof(obj.AssignedHFType) },
+                    { "Assign PHC Or Hub", nameof(obj.AssignHF) },
+                    { "Sub Menu", nameof (obj.SubMenuName)}
                 }
                 ,
                 DateTimeFormat = "dd-MM-yyyy"
             };
         }
-
-        public async Task<Result<string>> AddToTemporaryStorage(IEnumerable<MemberBulkImportVM> models)
-        {
-            var sessionId = Guid.NewGuid();
-            var sessionIdInString = Convert.ToString(sessionId);
-            const string folderPath = "Logs/Csv";
-            var states = await _bulkInsertRepository.GetStateDistrictCities();
-            var qualifications = await _bulkInsertRepository.GetQualification();
-            var institutions = await _bulkInsertRepository.GetInstitution();
-            var data = models.Select(x =>
-            {
-                x.HFState = states.FirstOrDefault(s => s.StateId == x.SelectedHFStateId)?.StateName;
-                x.HFDistrict = states.FirstOrDefault(s => s.DistrictId == x.SelectedHFDistrictId)?.DistrictName;
-                x.HFCity = states.FirstOrDefault(s => s.CityId == x.SelectedHFCityId)?.CityName;
-                x.UserState = states.FirstOrDefault(s => s.StateId == x.SelectedUserStateId)?.StateName;
-                x.UserDistrict = states.FirstOrDefault(s => s.DistrictId == x.SelectedUserDistrictId)?.DistrictName;
-                x.UserCity = states.FirstOrDefault(s => s.CityId == x.SelectedUserCityId)?.CityName;
-                x.UserDistrictShortCode = GetDistrictShortCode(states, x.UserState, x.UserDistrict);
-                x.UserName = GetUsersName(states, x.UserState, x.UserDistrict, x.HFName, x.HFType);
-                x.QualificationId = GetQualificationId(qualifications, x.Qualification);
-                x.InstituteID = GetInstitutionId(institutions, x.HFName);
-                x.AssignedInstituteID = GetInstitutionId(institutions, x.AssignHF);
-                return x;
-            });
-            
-            var csvUtility = new MemberBulkImportVmCsvUtility(Convert.ToString(sessionIdInString));
-            csvUtility.Configure(new CsvConfiguration() { CsvLogPath = folderPath});
-            csvUtility.Write(data);
-            return Result.Success(sessionIdInString);
-        }
-
-        public async Task<IEnumerable<MemberBulkImportVM>> CreateModels(Stream stream)
-        {
-            _excelFileUtility.Configure(_excelConfiguration);
-            var models = _excelFileUtility.Read(stream);
-            var results = Enumerable.Empty<ResultModel<MemberBulkImportVM>>();
-            var institutions = await _bulkInsertRepository.GetInstitution();
-            var states = await _bulkInsertRepository.GetStateDistrictCities();
-            models = await GetModelsWithStateDistrictAndCityId(models, states, institutions);
-            return models;
-        }
-
-        public async Task<Result<IEnumerable<MemberBulkImportVM>>> ImportData(IEnumerable<MemberBulkImportVM> models, string pathForCsvLog)
+        public async Task<IEnumerable<ResultModel<MemberBulkImportVM>>> ImportData(Stream stream, string pathForCsvLog)
         {
             this._pathForCsv = pathForCsvLog;
-            if (models.Any())
+            excelFileUtility.Configure(excelConfiguration);
+            var models = excelFileUtility.Read(stream);
+            var results = Enumerable.Empty<ResultModel<MemberBulkImportVM>>();
+            var validator = new MemberBulkImportVMValidator();
+            var institutions = await bulkInsertRepository.GetInstitution();
+            var states = await bulkInsertRepository.GetStateDistrictCities();
+            var subMenu = await bulkInsertRepository.GetSubMenu();
+            models = await GetModelsWithStateDistrictAndCityId(models, states, institutions);
+            results = await CheckUserDuplicate(models);
+            results = await CheckSubMenu(results, subMenu);
+            foreach (var result in results)
             {
-                var institutions = await _bulkInsertRepository.GetInstitution();
-                var states = await _bulkInsertRepository.GetStateDistrictCities();
-                var users = await _bulkInsertRepository.FindUsers(models.Select(x => GetHFNameForLogin(x.HFName)).Distinct());
-                var subMenu = await _bulkInsertRepository.GetSubMenu();
-
-                var result = await this.CreateUserName(models, users, states);
-                result = await this.CreateServiceProvider(result.Value, institutions);
-                result = await this.CreateMember(result.Value);
-                result = await this.CreateLogin(result.Value);
-                result = await this.CreateMemberSlot(result.Value);
-                result = await this.CreateMemberInstitution(result.Value);
-                result = await this.CreateMemberMenu(result.Value, subMenu);
-                result = await this.CreateAuditTrail(result.Value);
-                 return result;
-                 
-
-               /* return await this.CreateUserName(models, users, states)
-                     .Check(t => this.CreateServiceProvider(t, institutions))
-                     .Check(t => this.CreateMember(t))
-                     .Check(t => this.CreateLogin(t))
-                     .Check(t => this.CreateMemberSlot(t))
-                     .Check(t => this.CreateMemberInstitution(t))
-                     .Check(t => this.CreateMemberMenu(t, subMenu))
-                     .Check(t => this.CreateAuditTrail(t));*/
-                    
-
-
+                var validationResult = validator.Validate(result.Model);
+                if (!validationResult.IsValid)
+                {
+                    result.Success = false;
+                    result.Messages.AddRange(validationResult.Errors.Select(x => x.ErrorMessage));
+                }
             }
-            return Result.Failure<IEnumerable<MemberBulkImportVM>>("No data to import");
+            var validatedModels = results.Where(x => x.Success);
+            if (validatedModels.Count() > 0)
+            {
+                var users = await bulkInsertRepository.FindUsers(validatedModels.Select(x => GetHFNameForLogin(x.Model.HFName)).Distinct());
+                validatedModels = await this.CreateUserName(validatedModels, users, states);
+
+                validatedModels = await this.CreateServiceProvider(validatedModels,institutions);
+                validatedModels = await this.CreateMember(validatedModels);
+                validatedModels = await this.CreateLogin(validatedModels);
+                validatedModels = await this.CreateMemberSlot(validatedModels);
+                validatedModels = await this.CreateMemberInstitution(validatedModels);
+                validatedModels = await this.CreateMemberMenu(validatedModels, subMenu);
+                validatedModels = await this.CreateAuditTrail(validatedModels);
+
+               // await bulkInsertRepository.AddAuditLog();
+            }
+            return results;
         }
-        public Task<Result<IEnumerable<MemberBulkImportVM>>> CreateUserName(IEnumerable<MemberBulkImportVM> validatedModels, IEnumerable<string> users, IEnumerable<StateDistrictCity> states)
+
+        public Task<IEnumerable<ResultModel<MemberBulkImportVM>>> CreateUserName(IEnumerable<ResultModel<MemberBulkImportVM>> validatedModels, IEnumerable<string> users, IEnumerable<StateDistrictCity> states)
         {
-            var modelReturns = new List<MemberBulkImportVM>();
-            var duplicateUsersGroups = validatedModels.GroupBy(x => x.UserName);
+            var modelReturns = validatedModels;
+            var duplicateUsersGroups = modelReturns.GroupBy(x => x.Model.UserName);
             foreach (var duplicateUserGroup in duplicateUsersGroups)
             {
                 var initialCount = 0;
                 var user = duplicateUserGroup.FirstOrDefault();
-                string stateShortCode = GetStateShortCode(user.UserState);
+                string stateShortCode = GetStateShortCode(user.Model.UserState);
 
-                string distShortCode = GetDistrictShortCode(states, user.UserDistrict);
-                string strHFname = GetHFNameForLogin(user.HFName);
-                var strTypeShortCode = GetHFTypeCode(user.HFType);
+                string distShortCode = GetDistrictShortCode(states, user.Model.UserDistrict);
+                string strHFname = GetHFNameForLogin(user.Model.HFName);
+                var strTypeShortCode = GetHFTypeCode(user.Model.HFType);
                 var firstpart = $"{stateShortCode}{strHFname}";
                 var secondpart = $"{distShortCode}{strTypeShortCode}";
 
@@ -177,61 +143,80 @@ namespace UserManagement.Business.Services
                 {
                     if (initialCount > 0)
                     {
-                        item.UserName = $"{firstpart}{initialCount}{secondpart}";
+                        item.Model.UserName = $"{firstpart}{initialCount}{secondpart}";
                     }
                     initialCount++;
-                    modelReturns.Add(item);
                 }
             }
+            return Task.FromResult(modelReturns);
+        }
 
-            return Task.FromResult(Result.Success(modelReturns.AsEnumerable()));
+        private async Task<IEnumerable<ResultModel<MemberBulkImportVM>>> CheckUserDuplicate(IEnumerable<MemberBulkImportVM> models)
+        {
+            var results = new List<ResultModel<MemberBulkImportVM>>();
+            var emails = await bulkInsertRepository.FindEmails(models.Select(mdel => mdel.UserEmail));
+            var mobiles = await bulkInsertRepository.FindMobiles(models.Select(mdel => mdel.UserMobile));
+            // var users = await bulkInsertRepository.FindUsers(models.Select(mdel => mdel.UserName));
+
+            var invalidModels = models.Where(model => emails.Contains(model.UserEmail) || mobiles.Contains(model.UserMobile));
+            var validModels = models.Where(model => !(emails.Contains(model.UserEmail) || mobiles.Contains(model.UserMobile)));
+
+            results.AddRange(invalidModels.Select(model => new ResultModel<MemberBulkImportVM>()
+            {
+                Model = model,
+                Success = false,
+                Messages = new List<string> { "Duplicate User" }
+            }));
+            results.AddRange(validModels.Select(model => new ResultModel<MemberBulkImportVM>()
+            {
+                Model = model,
+            }));
+            return results;
+        }
+        public Task<IEnumerable<ResultModel<MemberBulkImportVM>>> CheckSubMenu(IEnumerable<ResultModel<MemberBulkImportVM>> models ,IEnumerable<SubMenuModel> subMenus)
+        {
+           
+            var subMenuNames = subMenus.Select(x => x.SubMenuName.Trim());
+            var results = new List<ResultModel<MemberBulkImportVM>>();
+            foreach (var item in models)
+            {
+                var memberMenus = item.Model.SubMenuName.Trim()?.Split(",")?.ToList();
+                
+                if (memberMenus == null || memberMenus.Count() == 0 || memberMenus.Any(t => !subMenuNames.Contains(t.Trim())))
+                {
+                    item.Success = false;
+                    item.Messages.Add("Invalid Sub Menu !");
+                }
+                results.Add(item);
+            }
+                          
+            return Task.FromResult(results.AsEnumerable());
         }
 
         private async Task<IEnumerable<MemberBulkImportVM>> GetModelsWithStateDistrictAndCityId(IEnumerable<MemberBulkImportVM> bulkImportVMs, IEnumerable<StateDistrictCity> states, IEnumerable<InstitutionModel> institutions)
         {
-            var qualifications = await _bulkInsertRepository.GetQualification();
-            var models = new List<MemberBulkImportVM>();
-            foreach (var model in bulkImportVMs)
-            {
-                model.SelectedHFStateId = GetStateId(states, model.HFState);
-                model.SelectedHFDistrictId = GetDistrictId(states, model.HFState, model.HFDistrict);
-                model.SelectedHFCityId = GetCityId(states, model.HFState, model.HFDistrict, model.HFCity);
-                model.HFCity = GetCityName(states, model.HFState, model.HFDistrict, model.HFCity);
-                model.SelectedUserStateId = GetStateId(states, model.UserState);
-                model.SelectedUserDistrictId = GetDistrictId(states, model.UserState, model.UserDistrict);
-                model.SelectedUserCityId = GetCityId(states, model.UserState, model.UserDistrict, model.UserCity);
-                model.UserCity = GetCityName(states, model.UserState, model.UserDistrict, model.UserCity);
-                model.UserDistrictShortCode = GetDistrictShortCode(states, model.UserState, model.UserDistrict);
-                model.UserName = GetUsersName(states, model.UserState, model.UserDistrict, model.HFName, model.HFType);
-                model.QualificationId = GetQualificationId(qualifications, model.Qualification);
-                model.InstituteID = GetInstitutionId(institutions, model.HFName);
-                model.AssignedInstituteID = GetInstitutionId(institutions, model.AssignHF);
-                model.HFDistricts = GetDistricts(states, model.HFState);
-                model.UserDistricts = GetDistricts(states, model.UserState);
-                model.HFCities = GetCities(states, model.HFState, model.HFDistrict);
-                model.UserCities = GetCities(states, model.UserState, model.UserDistrict);
+            var qualifications = await bulkInsertRepository.GetQualification();
 
-                models.Add(model);
-            }
+            var models = bulkImportVMs.Select(x =>
+            {
+                x.StateId = GetStateId(states, x.State);
+                x.DistrictId = GetDistrictId(states, x.State, x.District);
+                x.CityId = GetCityId(states, x.State, x.District, x.City);
+                x.City = GetCityName(states, x.State, x.District, x.City);
+                x.UserStateId = GetStateId(states, x.UserState);
+                x.UserDistrictId = GetDistrictId(states, x.UserState, x.UserDistrict);
+                x.UserCityId = GetCityId(states, x.UserState, x.UserDistrict, x.UserCity);
+                x.UserCity= GetCityName(states, x.UserState, x.UserDistrict, x.UserCity);
+                x.UserDistrictShortCode = GetDistrictShortCode(states, x.UserState, x.UserDistrict);
+                x.UserName = GetUsersName(states, x.UserState, x.UserDistrict, x.HFName, x.HFType);
+                x.QualificationId = GetQualificationId(qualifications, x.Qualification);
+                x.InstituteID = GetInstitutionId(institutions, x.HFName);
+                x.AssignedInstituteID = GetInstitutionId(institutions, x.AssignHF);
+                return x;
+            });
             return models;
         }
 
-        private IEnumerable<KeyValue<string,string>> GetCities(IEnumerable<StateDistrictCity> states, string state, string district)
-        {
-            var cities = states
-                .Where(x => x.StateName.ToUpper() == state?.Trim().ToUpper() && x.DistrictName.ToUpper() == district?.Trim().ToUpper())
-                .Select(s => new KeyValue<string,string> {Id = s.CityId.ToString(), Value = s.CityName });
-
-            return cities.Distinct();
-        } 
-        private IEnumerable<KeyValue<string, string>> GetDistricts(IEnumerable<StateDistrictCity> states, string state)
-        {
-            var districts = states
-                .Where(x => x.StateName.ToUpper() == state?.Trim().ToUpper())
-                .Select(s => new KeyValue<string, string> { Id = s.DistrictId.ToString(), Value = s.DistrictName });
-
-            return districts.Distinct();
-        }
         private string GetCityName(IEnumerable<StateDistrictCity> states, string state, string district, string city)
         {
             var cities = states
@@ -368,7 +353,7 @@ namespace UserManagement.Business.Services
 
             string StateShortCode = "";
 
-            if (!string.IsNullOrEmpty(StateName) && StateAndCodes.ContainsKey(StateName.Trim().ToUpper()))
+            if (StateAndCodes.ContainsKey(StateName.Trim().ToUpper()))
             {
                 StateShortCode = StateAndCodes[StateName.Trim().ToUpper()];
             }
@@ -414,7 +399,6 @@ namespace UserManagement.Business.Services
 
             return cityID;
         }
-
         private string GetDistrictShortCode(IEnumerable<StateDistrictCity> states, string stateName, string districtName)
         {
             return states
@@ -437,12 +421,13 @@ namespace UserManagement.Business.Services
                 .Select(qualification => qualification.QualificationId)
                 .FirstOrDefault();
         }
-        private async Task<Result<IEnumerable<MemberBulkImportVM>>> CreateServiceProvider(IEnumerable<MemberBulkImportVM> models, IEnumerable<InstitutionModel> institutions)
+        private async Task<IEnumerable<ResultModel<MemberBulkImportVM>>> CreateServiceProvider(IEnumerable<ResultModel<MemberBulkImportVM>> models,IEnumerable<InstitutionModel> institutions)
         {
-            if (models == null) throw new ArgumentNullException(nameof(models));
 
-            var validModels = models?.Where(x => !institutions.Any(i => i.Name.ToLower().Equals(x.HFNameWithDistrictName?.ToLower())));
-            var institutes = validModels?.Distinct(new CompareHFNameWithDistrictName()).Where(x => string.IsNullOrWhiteSpace(x.InstituteID))
+            var modelReturns = models;
+            var bulkimports = models.Select(x => x.Model);
+            var validModels = bulkimports?.Where(x => !institutions.Any(i => i.Name.ToLower().Equals(x.HFNameWithDistrictName?.ToLower())));
+            var institutes = validModels?.Distinct(new CompareHFNameWithDistrictName()).Where(x => x.InstituteID == default(string))
                  .Select(x => new InstitutionModelForCsv()
                  {
 
@@ -451,9 +436,9 @@ namespace UserManagement.Business.Services
                      AddressLine2 = string.Empty,
                      ReferenceNumber = x.NIN,
                      CountryId = 1,
-                     StateId = x.SelectedHFStateId,
-                     DistrictId = x.SelectedHFDistrictId,
-                     CityId = x.SelectedHFCityId,
+                     StateId = x.StateId,
+                     DistrictId = x.DistrictId,
+                     CityId = x.CityId,
                      PinCode = x.PIN,
                      Mobile = x.HFPhone,
                      Email = x.HFEmail,
@@ -472,55 +457,56 @@ namespace UserManagement.Business.Services
                     CsvLogPath = this._pathForCsv
                 });
                 var stream = csvUtility.Write(institutes);
-                records = await _bulkInsertRepository.BulkInsertInstitution(stream);
+                records = await bulkInsertRepository.BulkInsertInstitution(stream);
 
             }
-            var maxInstituteId = await _bulkInsertRepository.GetMaxInstituteId();
+            var maxInstituteId = await bulkInsertRepository.GetMaxInstituteId();
             var max = Math.Max((maxInstituteId - records) + 1, maxInstituteId);
             var min = Math.Min((maxInstituteId - records) + 1, maxInstituteId);
-            var dbInstitutions = await _bulkInsertRepository.GetInstituations(min,max);
-            var tempInstitutions = institutions.Concat(dbInstitutions);
-            var results = models.Select(x =>
+            var results = await bulkInsertRepository.GetInstituations(min,max);
+            var tempInstitutions = institutions.Concat(results);
+            modelReturns = modelReturns.Select(x =>
             {
-                var find = tempInstitutions.FirstOrDefault(r => r.Name?.Trim().ToLower() == x.HFNameWithDistrictName?.Trim().ToLower());
+                var find = tempInstitutions.FirstOrDefault(r => r.Name?.Trim().ToLower() == x.Model.HFNameWithDistrictName?.Trim().ToLower());
                 if (find != null)
                 {
-                    x.InstituteID = Convert.ToString(find.InstitutionId);
+                    x.Model.InstituteID = Convert.ToString(find.InstitutionId);
                 }
                 return x;
             });
 
-            return Result.Success(results);
+            return modelReturns;
         }
 
 
-        private async Task<Result<IEnumerable<MemberBulkImportVM>>> CreateMember(IEnumerable<MemberBulkImportVM> models)
+        private async Task<IEnumerable<ResultModel<MemberBulkImportVM>>> CreateMember(IEnumerable<ResultModel<MemberBulkImportVM>> models)
         {
+            var modelReturns = models;
             var members = models.Select(x => new MembersModelForCsv()
             {
 
-                FirstName = x.FirstName,
+                FirstName = x.Model.FirstName,
                 MiddleName = string.Empty,
-                LastName = x.LastName,
+                LastName = x.Model.LastName,
                 AgeType = 1,
-                DOB = x.DOB,
+                DOB = x.Model.DOB,
                 Age = 0,
-                Mobile = x.UserMobile,
-                Email = x.UserEmail,
+                Mobile = x.Model.UserMobile,
+                Email = x.Model.UserEmail,
                 ImagePath = string.Empty,
                 CreatedBy = 1,
                 CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                 IsActive = 1,
-                GenderId = x.GenderId,
-                RegistrationNumber = x.DRRegNo,
-                AddressLine1 = x.Address,
+                GenderId = x.Model.GenderId,
+                RegistrationNumber = x.Model.DRRegNo,
+                AddressLine1 = x.Model.Address,
                 AddressLine2 = string.Empty,
-                StateId = x.SelectedUserStateId,
-                DistrictId = x.SelectedUserDistrictId,
-                CityId = x.SelectedUserCityId,
+                StateId = x.Model.UserStateId,
+                DistrictId = x.Model.UserDistrictId,
+                CityId = x.Model.UserCityId,
                 SpecializationId = 0,
-                QualificationId = x.QualificationId,
-                PinCode = x.UserPin,
+                QualificationId = x.Model.QualificationId,
+                PinCode = x.Model.UserPin,
                 Fax = string.Empty,
                 LoginOTP = 0,
                 IsLoginOTPActive = "",
@@ -531,41 +517,43 @@ namespace UserManagement.Business.Services
                 SourceId = 99,
                 IsMaster = "",
                 Prefix = string.Empty,
-                CreationRole = x.UserRole
+                CreationRole = x.Model.UserRole
             });
-           
+            if (members != null && members.Count() > 0)
+            {
                 var csvUtility = new MembersModelForCsvUtility();
                 csvUtility.Configure(new CsvConfiguration()
                 {
                     CsvLogPath = this._pathForCsv
                 });
                 var stream = csvUtility.Write(members);
-                var records = await _bulkInsertRepository.BulkInsertMembers(stream);
-                
-                var maxMemberId = await _bulkInsertRepository.GetMaxMemberId();
-                //need to refactor this as we need to get members by email rather than by records.
-                var dbRecords = await _bulkInsertRepository.GetMembers((maxMemberId - records) + 1, maxMemberId);
 
-                var results = models.Select(x =>
+                var records = await bulkInsertRepository.BulkInsertMembers(stream);
+                var maxMemberId = await bulkInsertRepository.GetMaxMemberId();
+                var results = await bulkInsertRepository.GetMembers((maxMemberId - records) + 1, maxMemberId);
+
+                var result = modelReturns.Select(x =>
                 {
-                    var find = dbRecords.FirstOrDefault(r => r.Email == x.UserEmail);
+                    var find = results.FirstOrDefault(r => r.Email == x.Model.UserEmail);
                     if (find != null)
                     {
-                        x.MemberId = Convert.ToString(find.MemberId);
+                        x.Model.MemberId = Convert.ToString(find.MemberId);
                     }
                     return x;
                 });
-                return Result.Success(results);
-       }
+                return result;
+            }
+            return modelReturns;
+        }
 
-        private async Task<Result<IEnumerable<MemberBulkImportVM>>> CreateLogin(IEnumerable<MemberBulkImportVM> models)
+        private async Task<IEnumerable<ResultModel<MemberBulkImportVM>>> CreateLogin(IEnumerable<ResultModel<MemberBulkImportVM>> models)
         {
             var modelReturns = models;
             var logins = models.Select(x => new LoginModelForCsv()
             {
-                UserName = x.UserName,
+                UserName = x.Model.UserName,
                 Password = "ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413",
-                ReferenceId = x.MemberId,
+                ReferenceId = x.Model.MemberId,
                 IsActive = 1,
                 SourceId = "99"
             });
@@ -578,21 +566,19 @@ namespace UserManagement.Business.Services
                     CsvLogPath = this._pathForCsv
                 });
                 var stream = csvUtility.Write(logins);
-                var records = await _bulkInsertRepository.BulkInsertLogin(stream);
+                var records = await bulkInsertRepository.BulkInsertLogin(stream);
             }
-            return Result.Success(modelReturns);
+            return modelReturns;
         }
-        private async Task<Result<IEnumerable<MemberBulkImportVM>>> CreateMemberSlot(IEnumerable<MemberBulkImportVM> models)
+        private async Task<IEnumerable<ResultModel<MemberBulkImportVM>>> CreateMemberSlot(IEnumerable<ResultModel<MemberBulkImportVM>> models)
         {
-            if (models == null) throw new ArgumentNullException(nameof(models));
-            
             var modelReturns = models;
             var memberSlots = models.Select(x => new MemberSlotModelForCsv()
             {
-                MemberId = x.MemberId,
-                Day = x.UserAvailableDay,
-                SlotTo = x.UserAvailableToTime,
-                SlotFrom = x.UserAvailableFromTime,
+                MemberId = x.Model.MemberId,
+                Day = x.Model.UserAvilableDay,
+                SlotTo = x.Model.UserAvilableToTime,
+                SlotFrom = x.Model.UserAvilableFromTime,
                 CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                 IsActive = true,
                 SourceId = "99"
@@ -606,39 +592,40 @@ namespace UserManagement.Business.Services
                     CsvLogPath = this._pathForCsv
                 });
                 var stream = csvUtility.Write(memberSlots);
-                var records = await _bulkInsertRepository.BulkInsertMemberSlot(stream);
+                var records = await bulkInsertRepository.BulkInsertMemberSlot(stream);
             }
-            return Result.Success(modelReturns);
+            return modelReturns;
         }
-        private async Task<Result<IEnumerable<MemberBulkImportVM>>> CreateMemberInstitution(IEnumerable<MemberBulkImportVM> models)
+        private async Task<IEnumerable<ResultModel<MemberBulkImportVM>>> CreateMemberInstitution(IEnumerable<ResultModel<MemberBulkImportVM>> models)
         {
-            if (models == null) throw new ArgumentNullException(nameof(models));
-            
             var modelReturns = models;
             var memberInstitutions = models.Select(x => new MemberInstitutionModel()
             {
-                InstitutionId = x.InstituteID,
-                MemberId = x.MemberId,
+                InstitutionId = x.Model.InstituteID,
+                MemberId = x.Model.MemberId,
                 IsActive = true,
                 SourceId = "99"
             });
 
-            var csvUtility = new MemberInstitutionModelCsvUtility();
-            csvUtility.Configure(new CsvConfiguration()
+            if (memberInstitutions != null && memberInstitutions.Count() > 0)
             {
-                CsvLogPath = this._pathForCsv
-            });
-            var stream = csvUtility.Write(memberInstitutions);
-            await _bulkInsertRepository.BulkInsertMemberInstitution(stream);
-            return Result.Success(modelReturns);
+                var csvUtility = new MemberInstitutionModelCsvUtility();
+                csvUtility.Configure(new CsvConfiguration()
+                {
+                    CsvLogPath = this._pathForCsv
+                });
+                var stream = csvUtility.Write(memberInstitutions);
+                var records = await bulkInsertRepository.BulkInsertMemberInstitution(stream);
+            }
+            return modelReturns;
         }
 
-        private async Task<Result<IEnumerable<MemberBulkImportVM>>> CreateMemberMenu(IEnumerable<MemberBulkImportVM> models, IEnumerable<SubMenuModel> subMenu)
+        private async Task<IEnumerable<ResultModel<MemberBulkImportVM>>> CreateMemberMenu(IEnumerable<ResultModel<MemberBulkImportVM>> models, IEnumerable<SubMenuModel> subMenu)
         {
             var modelReturns = models;
             IEnumerable<MemberMenuModelForCsv> memberMenus = GetMemberMenus(models, subMenu);
 
-            if (memberMenus != null && memberMenus.Any())
+            if (memberMenus != null && memberMenus.Count() > 0)
             {
                 var csvUtility = new MemberMenuModelCsvUtility();
                 csvUtility.Configure(new CsvConfiguration()
@@ -646,16 +633,16 @@ namespace UserManagement.Business.Services
                     CsvLogPath = this._pathForCsv
                 });
                 var stream = csvUtility.Write(memberMenus);
-                await _bulkInsertRepository.BulkInsertMemberMenu(stream);
+                var records = await bulkInsertRepository.BulkInsertMemberMenu(stream);
             }
-            return Result.Success(modelReturns);
+            return modelReturns;
         }
 
-        public IEnumerable<MemberMenuModelForCsv> GetMemberMenus(IEnumerable<MemberBulkImportVM> models, IEnumerable<SubMenuModel> subMenus)
+        public IEnumerable<MemberMenuModelForCsv> GetMemberMenus(IEnumerable<ResultModel<MemberBulkImportVM>> models, IEnumerable<SubMenuModel> subMenus)
         {
             return models.SelectMany(x =>
             {
-                var memberMenus = x.SubMenuName.Trim().Split(',').ToList();
+                var memberMenus = x.Model.SubMenuName.Trim().Split(',').ToList();
                
                 var listMenu = new List<MemberMenuModelForCsv>();
                 foreach (var item in memberMenus)
@@ -663,11 +650,11 @@ namespace UserManagement.Business.Services
                     var menuMapID = subMenus.FirstOrDefault(t => t.SubMenuName == item.Trim())?.MenuMappingId;
                     var menu = new MemberMenuModelForCsv()
                     {
-                        RoleId = x.UserRole,
-                        MemberId = x.MemberId,
+                        RoleId = x.Model.UserRole,
+                        MemberId = x.Model.MemberId,
                         MenuMappingId = menuMapID,
                         IsActive = "1",
-                        InstitutionId = x.InstituteID,
+                        InstitutionId = x.Model.InstituteID,
                         SourceId = "99"
                     };
                     listMenu.Add(menu);
@@ -675,15 +662,15 @@ namespace UserManagement.Business.Services
                 return listMenu;
             });
         }
-      private async Task<Result<IEnumerable<MemberBulkImportVM>>> CreateAuditTrail(IEnumerable<MemberBulkImportVM> models)
+      private async Task<IEnumerable<ResultModel<MemberBulkImportVM>>> CreateAuditTrail(IEnumerable<ResultModel<MemberBulkImportVM>> models)
         {
             var modelReturns = models;
-            var members = models.Select(x => new AuditTrailModel()
+            var members = models.Select(x => new AuditTrailModelForCsv()
             {
                 Message = "Bulk Institution and Member Added Successfully",
                 CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                 IconPath = " ",
-                MemberId = x.MemberId,
+                MemberId = x.Model.MemberId,
                 ModuleId = "11",
                 EventId = "14",
                 AccessType = " ",
@@ -692,7 +679,7 @@ namespace UserManagement.Business.Services
                 UserTypeId = "2"
             });
 
-            if (members != null && members.Any())
+            if (members != null && members.Count() > 0)
             {
                 var csvUtility = new AuditTrailModelCsvUtility();
                 csvUtility.Configure(new CsvConfiguration()
@@ -700,25 +687,10 @@ namespace UserManagement.Business.Services
                     CsvLogPath = this._pathForCsv
                 });
                 var stream = csvUtility.Write(members);
-                await _bulkInsertRepository.BulkInsertAuditTrail(stream);
+                var records = await bulkInsertRepository.BulkInsertAuditTrail(stream);
             }
 
-            return Result.Success(modelReturns);
-        }
-
-        public async Task<IEnumerable<KeyValue<string, string>>> GetStates()
-        {
-            return await _bulkInsertRepository.GetStates();
-        }
-
-        public async Task<IEnumerable<KeyValue<string, string>>> GetDistrict(string stateId)
-        {
-            return await _bulkInsertRepository.GetDistrict(stateId);
-        }
-
-        public async Task<IEnumerable<KeyValue<string, string>>> GetCities(string stateId, string districtId)
-        {
-            return await _bulkInsertRepository.GetCities(stateId, districtId);
+            return modelReturns;
         }
     }
 }
