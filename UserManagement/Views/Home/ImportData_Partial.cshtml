@@ -7,11 +7,11 @@
             <div class="text-info total-summary"></div>
         </div>
         <div class="card-body">
-            <form asp-formhelper="true" asp-callback="formValidationCallback" asp-action="ImportData">
+            <form asp-formhelper="true" asp-beforeSubmit="formValidationBeforeSubmit" asp-callback="formValidationCallback" asp-enableButtonAfterSuccess="true" asp-action="ImportData">
                 <div class="text-danger mb-2 validation-summary"></div>
 
                 <div class="text-center mb-2">
-                    <input type="submit" value="Submit" class="btn btn-info" onclick="formValidationCallback();" />
+                    <input id="btnformhelper" type="submit" value="Submit" class="btn btn-info" onclick="formValidationCallback();" />
                 </div>
                 <table class="bulkupload table" id="tblImportData">
                     <thead>
@@ -286,7 +286,17 @@
 <script type="text/javascript">
     var tblImportData;
     function formValidationCallback(response, statusText, xhr, $form) {
-        setTimeout(function () { updateValidationSummary(); }, 200);
+        
+        setTimeout(function () {
+            updateValidationSummary();
+            if (response && !response.isSucceed) {
+                $("#btnformhelper").removeAttr('disabled');
+            }
+        }, 200);
+    }
+    function formValidationBeforeSubmit(rr, $form, options) {
+        $("#btnformhelper").attr('disabled', 'disabled');
+       
     }
     function setRowBorderColor(validRows, inValidRows) {
         if (validRows) {
@@ -307,7 +317,7 @@
     }
     function updateValidationSummary() {
         let validInvalid = getValidInvalidRows();
-        console.log(validInvalid);
+        
         setRowBorderColor(validInvalid.validRows, validInvalid.inValidRows);
         displayTotalSummary(validInvalid.validRows, validInvalid.inValidRows);
 
@@ -360,7 +370,7 @@
                 let splitPart = name.split('.')[1];
                 let newName = "[" + rowindex + "]." + splitPart;
                 $(span).attr('data-valmsg-for', newName);
-                console.log('span attr value', name, newName);
+               
             }
         });
     }
@@ -451,7 +461,7 @@
                 traditional: true,
                 success: function (data) {
                     var options = getOptions(data);
-                    console.log('state clicked', state);
+                   
                     let stateId = $(state).attr('id');
                     let districtId = stateId.replace('State', 'District');
                     //console.log('district', districtId);

@@ -100,7 +100,7 @@ namespace UserManagement.Controllers
             
             var resultTemporaryStorage = await  _bulkDataImportService.AddToTemporaryStorage(data);
             return resultTemporaryStorage.IsFailure ? FormResult.CreateErrorResult(resultTemporaryStorage.Error) 
-                : FormResult.CreateSuccessResult("Validation Successful...", $"BulkInsert/Index/{resultTemporaryStorage.Value}", 1000);
+                : FormResult.CreateSuccessResult("Validation Successful...", $"BulkInsert/Index/{resultTemporaryStorage.Value}", 100);
         }
 
         public async Task<IActionResult> GetDistricts(string stateId)
