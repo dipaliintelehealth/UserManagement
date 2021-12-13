@@ -66,6 +66,7 @@ namespace UserManagement.Controllers
 
 
             ViewBag.States = await _bulkDataImportService.GetStates();
+            ViewBag.Specilization = await _bulkDataImportService.GetSpecialities();
             var listModels = models.Take(Convert.ToInt32(selectedRecords)).ToList();
 
             // Validation of models after XL reading
@@ -94,6 +95,7 @@ namespace UserManagement.Controllers
             if (!result.IsValid)
             {
                 ViewBag.States = await _bulkDataImportService.GetStates();
+                ViewBag.Specilization = await _bulkDataImportService.GetSpecialities();
                 var formResult = result.ToFormResult();
                 return new JsonResult(formResult);
             }

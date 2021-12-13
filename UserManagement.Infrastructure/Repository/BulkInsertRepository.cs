@@ -353,5 +353,19 @@ namespace UserManagement.Infrastructure.Repository
             var result = await Connection.QueryAsync<KeyValue<string, string>>(sql);
             return result;
         }
+
+        public async Task<IEnumerable<SpecializationModel>> GetSpecialities()
+        {
+            var sql = "SELECT SpecialityId,SpecialityName FROM md_speciality;";
+            var result = await Connection.QueryAsync<SpecializationModel>(sql);
+            return result;
+        }
+
+        public async Task<IEnumerable<KeyValue<string, string>>> GetSpecility()
+        {
+            var sql = "SELECT SpecialityId AS Id, SpecialityName AS Value FROM md_speciality;";
+            var result = await Connection.QueryAsync<KeyValue<string, string>>(sql);
+            return result;
+        }
     }
 }

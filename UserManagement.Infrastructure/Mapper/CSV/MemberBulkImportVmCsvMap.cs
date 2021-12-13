@@ -55,6 +55,8 @@ namespace UserManagement.Infrastructure.Mapper.CSV
             Map(m => m.UserName).Index(45);
             Map(m => m.HFNameWithDistrictName).Index(46);
             Map(m => m.SubMenuName).Index(47);
+            Map(m => m.SpecialityId).Index(48);
+            Map(m => m.SelectedSpecialityId).Index(49);
             Map(m => m.HFDistricts).Ignore();
             Map(m => m.HFCities).Ignore();
             Map(m => m.UserDistricts).Ignore();
