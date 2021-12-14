@@ -185,14 +185,13 @@ namespace UserManagement.Business.Services
 
         private async Task<IEnumerable<MemberBulkImportVM>> GetModelsWithStateDistrictAndCityId(IEnumerable<MemberBulkImportVM> bulkImportVMs, IEnumerable<StateDistrictCity> states, IEnumerable<InstitutionModel> institutions)
         {
-            var specilizations = await _bulkInsertRepository.GetSpecialities();
             var qualifications = await _bulkInsertRepository.GetQualification();
             var specializations = await _bulkInsertRepository.GetSpecialities();
             var models = new List<MemberBulkImportVM>();
             foreach (var model in bulkImportVMs)
             {
                 model.SelectedHFStateId = GetStateId(states, model.HFState);
-                model.SelectedSpecialityId = GetSpecialityId(specilizations, model.Designation);
+                model.SelectedSpecialityId = GetSpecialityId(specializations, model.Designation);
                 model.SelectedHFDistrictId = GetDistrictId(states, model.HFState, model.HFDistrict);
                 model.SelectedHFCityId = GetCityId(states, model.HFState, model.HFDistrict, model.HFCity);
                 model.HFCity = GetCityName(states, model.HFState, model.HFDistrict, model.HFCity);
