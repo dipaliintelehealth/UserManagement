@@ -209,8 +209,9 @@
                                     @Html.ValidationMessageFor(modelItem => Model[i].UserEmail, "", new { @class = "text-danger" })
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].Designation, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].Designation, "", new { @class = "text-danger" })
+                                    @Html.DropDownListFor(model => Model[i].SelectedSpecialityId,
+                                    new SelectList(ViewBag.Specilization, "Id", "Value"), "--Select--", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(modelItem => Model[i].SelectedSpecialityId, "", new { @class = "text-danger" })
                                 </td>
                                 <td>
                                     @Html.TextBoxFor(modelItem => Model[i].DOB, new { @class = "form-control" })

@@ -80,7 +80,9 @@ namespace UserManagement.Domain.ViewModel
         public int SelectedUserStateId { get; set; }
         public int SelectedUserDistrictId { get; set; }
         public int SelectedUserCityId { get; set; }
+        public int SelectedSpecialityId { get; set; }
         public int QualificationId { get; set; }
+        public int SpecialityId { get; set; }
         public int GenderId
         {
             get

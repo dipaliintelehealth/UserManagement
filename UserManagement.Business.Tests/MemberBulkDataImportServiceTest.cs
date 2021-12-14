@@ -225,7 +225,7 @@ namespace UserManagement.Business.Tests
                 "pbabohar1fazsc",
                 "pbabohar2fazsc",
                 "pbabohar3fazsc",
-                "pbabohar5fazsc",
+                "pbabohar20fazsc",
                 "mhsiddapurapnsc"
             };
             var repoMock = new Mock<IMemberBulkInsertRepository>();
@@ -235,9 +235,9 @@ namespace UserManagement.Business.Tests
             var result = await service.CreateUserName(validatedModels, users, states);
 
             Assert.NotNull(result.Value);
-            Assert.Contains(result.Value, x => x.UserName == "pbabohar6fazsc");
-            Assert.Contains(result.Value, x => x.UserName == "pbabohar7fazsc");
-            Assert.Contains(result.Value, x => x.UserName == "pbabohar8fazsc");
+            Assert.Contains(result.Value, x => x.UserName == "pbabohar21fazsc");
+            Assert.Contains(result.Value, x => x.UserName == "pbabohar22fazsc");
+            Assert.Contains(result.Value, x => x.UserName == "pbabohar23fazsc");
            
         }
         [Fact]

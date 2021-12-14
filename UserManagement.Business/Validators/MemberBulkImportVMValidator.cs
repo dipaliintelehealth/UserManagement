@@ -95,9 +95,9 @@ namespace UserManagement.Business.Validators
                 .EmailAddress()
                 .WithMessage("Invalid User Email !");
 
-            RuleFor(x => x.Designation)
-                .NotEmpty()
-                .WithMessage("User Specialization / Designation can not be blank!");
+            //RuleFor(x => x.Designation)
+            //    .NotEmpty()
+            //    .WithMessage("User Specialization / Designation can not be blank!");
 
             RuleFor(x => x.DOB)
                 .NotEmpty()
@@ -120,7 +120,9 @@ namespace UserManagement.Business.Validators
                 .NotEmpty()
                 .WithMessage("Invalid User City Name !");
 
-           
+            RuleFor(x => x.SelectedSpecialityId)
+                 .NotEmpty()
+                 .WithMessage("Invalid User Specialization / Designation !");
 
             RuleFor(x => x.UserAddress)
                .NotEmpty()

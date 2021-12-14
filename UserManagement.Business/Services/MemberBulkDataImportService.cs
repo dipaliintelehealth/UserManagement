@@ -76,6 +76,7 @@ namespace UserManagement.Business.Services
             const string folderPath = "Logs/Csv";
             var states = await _bulkInsertRepository.GetStateDistrictCities();
             var qualifications = await _bulkInsertRepository.GetQualification();
+            var specilizations = await _bulkInsertRepository.GetSpecialities();
             var institutions = await _bulkInsertRepository.GetInstitution();
             var data = models.Select(x =>
             {
@@ -85,9 +86,11 @@ namespace UserManagement.Business.Services
                 x.UserState = states.FirstOrDefault(s => s.StateId == x.SelectedUserStateId)?.StateName;
                 x.UserDistrict = states.FirstOrDefault(s => s.DistrictId == x.SelectedUserDistrictId)?.DistrictName;
                 x.UserCity = states.FirstOrDefault(s => s.CityId == x.SelectedUserCityId)?.CityName;
+                x.Designation = specilizations.FirstOrDefault(d => d.SpecialityId == x.SelectedSpecialityId)?.SpecialityName;
                 x.UserDistrictShortCode = GetDistrictShortCode(states, x.UserState, x.UserDistrict);
                 x.UserName = GetUsersName(states, x.UserState, x.UserDistrict, x.HFName, x.HFType);
                 x.QualificationId = GetQualificationId(qualifications, x.Qualification);
+                x.SpecialityId = GetSpecializationId(specilizations, x.Designation);
                 x.InstituteID = GetInstitutionId(institutions, x.HFName);
                 x.AssignedInstituteID = GetInstitutionId(institutions, x.AssignHF);
                 return x;
@@ -128,20 +131,17 @@ namespace UserManagement.Business.Services
                 result = await this.CreateMemberInstitution(result.Value);
                 result = await this.CreateMemberMenu(result.Value, subMenu);
                 result = await this.CreateAuditTrail(result.Value);
-                 return result;
-                 
-
-               /* return await this.CreateUserName(models, users, states)
-                     .Check(t => this.CreateServiceProvider(t, institutions))
-                     .Check(t => this.CreateMember(t))
-                     .Check(t => this.CreateLogin(t))
-                     .Check(t => this.CreateMemberSlot(t))
-                     .Check(t => this.CreateMemberInstitution(t))
-                     .Check(t => this.CreateMemberMenu(t, subMenu))
-                     .Check(t => this.CreateAuditTrail(t));*/
-                    
+                return result;
 
 
+                /* return await this.CreateUserName(models, users, states)
+                      .Check(t => this.CreateServiceProvider(t, institutions))
+                      .Check(t => this.CreateMember(t))
+                      .Check(t => this.CreateLogin(t))
+                      .Check(t => this.CreateMemberSlot(t))
+                      .Check(t => this.CreateMemberInstitution(t))
+                      .Check(t => this.CreateMemberMenu(t, subMenu))
+                      .Check(t => this.CreateAuditTrail(t));*/
             }
             return Result.Failure<IEnumerable<MemberBulkImportVM>>("No data to import");
         }
@@ -166,13 +166,9 @@ namespace UserManagement.Business.Services
                 if (users.Contains(duplicateUserGroup.Key))
                 {
                     initialCount = 1;
-                    var lastFounduser = users.Where(x => Regex.IsMatch(x, pattern))?.OrderByDescending(x => x).FirstOrDefault();
-                    if (!string.IsNullOrEmpty(lastFounduser))
-                    {
-                        var numberToincrement = lastFounduser.Replace(firstpart, string.Empty).Replace(secondpart, string.Empty);
-                        initialCount = string.IsNullOrEmpty(numberToincrement) ? initialCount : int.Parse(numberToincrement) + 1;
-                    }
-                }
+                    var numberToincrement = users.Where(x => Regex.IsMatch(x, pattern))?.Select(x => { var number = x.Replace(firstpart, string.Empty).Replace(secondpart, string.Empty); return int.Parse(number); }).OrderByDescending(x => x).FirstOrDefault();
+                    initialCount = numberToincrement != null ? Convert.ToInt32(numberToincrement) + 1 : initialCount;
+                 }
                 foreach (var item in duplicateUserGroup)
                 {
                     if (initialCount > 0)
@@ -190,10 +186,12 @@ namespace UserManagement.Business.Services
         private async Task<IEnumerable<MemberBulkImportVM>> GetModelsWithStateDistrictAndCityId(IEnumerable<MemberBulkImportVM> bulkImportVMs, IEnumerable<StateDistrictCity> states, IEnumerable<InstitutionModel> institutions)
         {
             var qualifications = await _bulkInsertRepository.GetQualification();
+            var specializations = await _bulkInsertRepository.GetSpecialities();
             var models = new List<MemberBulkImportVM>();
             foreach (var model in bulkImportVMs)
             {
                 model.SelectedHFStateId = GetStateId(states, model.HFState);
+                model.SelectedSpecialityId = GetSpecialityId(specializations, model.Designation);
                 model.SelectedHFDistrictId = GetDistrictId(states, model.HFState, model.HFDistrict);
                 model.SelectedHFCityId = GetCityId(states, model.HFState, model.HFDistrict, model.HFCity);
                 model.HFCity = GetCityName(states, model.HFState, model.HFDistrict, model.HFCity);
@@ -204,6 +202,7 @@ namespace UserManagement.Business.Services
                 model.UserDistrictShortCode = GetDistrictShortCode(states, model.UserState, model.UserDistrict);
                 model.UserName = GetUsersName(states, model.UserState, model.UserDistrict, model.HFName, model.HFType);
                 model.QualificationId = GetQualificationId(qualifications, model.Qualification);
+                model.SpecialityId = GetSpecializationId(specializations, model.Designation);
                 model.InstituteID = GetInstitutionId(institutions, model.HFName);
                 model.AssignedInstituteID = GetInstitutionId(institutions, model.AssignHF);
                 model.HFDistricts = GetDistricts(states, model.HFState);
@@ -414,7 +413,12 @@ namespace UserManagement.Business.Services
 
             return cityID;
         }
-
+        private int GetSpecialityId(IEnumerable<SpecializationModel> specilizations, string specialityName)
+        {
+            return specilizations.Where(x => x.SpecialityName.ToUpper() == specialityName?.Trim().ToUpper())
+                .Select(specilization => specilization.SpecialityId)
+                .FirstOrDefault();
+        }
         private string GetDistrictShortCode(IEnumerable<StateDistrictCity> states, string stateName, string districtName)
         {
             return states
@@ -435,6 +439,13 @@ namespace UserManagement.Business.Services
             return qualifications
                 .Where(x => x.QualificationName.ToUpper() == qualificationName?.Trim().ToUpper())
                 .Select(qualification => qualification.QualificationId)
+                .FirstOrDefault();
+        }
+        private int GetSpecializationId(IEnumerable<SpecializationModel> specializations, string specializationName)
+        {
+            return specializations
+                .Where(x => x.SpecialityName.ToUpper() == specializationName?.Trim().ToUpper())
+                .Select(specialization => specialization.SpecialityId)
                 .FirstOrDefault();
         }
         private async Task<Result<IEnumerable<MemberBulkImportVM>>> CreateServiceProvider(IEnumerable<MemberBulkImportVM> models, IEnumerable<InstitutionModel> institutions)
@@ -518,7 +529,7 @@ namespace UserManagement.Business.Services
                 StateId = x.SelectedUserStateId,
                 DistrictId = x.SelectedUserDistrictId,
                 CityId = x.SelectedUserCityId,
-                SpecializationId = 0,
+                SpecializationId = x.SelectedSpecialityId,
                 QualificationId = x.QualificationId,
                 PinCode = x.UserPin,
                 Fax = string.Empty,
@@ -719,6 +730,11 @@ namespace UserManagement.Business.Services
         public async Task<IEnumerable<KeyValue<string, string>>> GetCities(string stateId, string districtId)
         {
             return await _bulkInsertRepository.GetCities(stateId, districtId);
+        }
+
+        public async Task<IEnumerable<KeyValue<string, string>>> GetSpecialities()
+        {
+            return await _bulkInsertRepository.GetSpecility();
         }
     }
 }

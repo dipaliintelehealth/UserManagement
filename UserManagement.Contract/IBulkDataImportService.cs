@@ -27,8 +27,9 @@ namespace UserManagement.Contract
         Task<IEnumerable<T>> CreateModels(Stream stream);
         Task<IEnumerable<KeyValue<string,string>>> GetStates();
         Task<IEnumerable<KeyValue<string, string>>> GetDistrict(string stateId);
-
         Task<IEnumerable<KeyValue<string, string>>> GetCities(string stateId,string districtId);
+
+        Task<IEnumerable<KeyValue<string, string>>> GetSpecialities();
 
 
     }
