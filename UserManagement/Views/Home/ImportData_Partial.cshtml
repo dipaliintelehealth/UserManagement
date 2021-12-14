@@ -210,7 +210,7 @@
                                 </td>
                                 <td>
                                     @Html.DropDownListFor(model => Model[i].SelectedSpecialityId,
-                                    new SelectList(ViewBag.Specilization, "Id", "Value"), "--Select--", new { @class = "form-control speciality" })
+                                    new SelectList(ViewBag.Specilization, "Id", "Value"), "--Select--", new { @class = "form-control" })
                                     @Html.ValidationMessageFor(modelItem => Model[i].SelectedSpecialityId, "", new { @class = "text-danger" })
                                 </td>
                                 <td>
@@ -450,21 +450,6 @@
                     buttonLiner: { tag: null }
                 }
             }
-        });
-        $('.speciality').change(function () {
-            let speciality = $(this);
-            $.ajax({
-                type: "pot",
-                url: "Home",
-                data: { specialityId: $(speciality).val() },
-                datatype: "json",
-                traditional: true,
-                success: function (data) {
-                    var options = getOptions(data);
-
-                    let specialityId = $(speciality).attr('id');
-                }
-            });
         });
        
         $('.state').change(function () {
