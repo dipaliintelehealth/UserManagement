@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using UserManagement.Contract.Repository;
 using UserManagement.Contract.Validator;
+using UserManagement.Domain;
 using UserManagement.Domain.Validator;
 using UserManagement.Domain.ViewModel;
 
@@ -17,6 +18,7 @@ namespace UserManagement.Business.Validators
         private IEnumerable<string> _mobiles= Enumerable.Empty<string>();
         private IEnumerable<string> _emails= Enumerable.Empty<string>();
         private IEnumerable<string> _menus = Enumerable.Empty<string>();
+        private IEnumerable<StateDistrictCity> _stateDistrictCities = Enumerable.Empty<StateDistrictCity>();
 
         public MemberBulkInsertValidator(IValidator<MemberBulkImportVM> validator, IMemberBulkInsertRepository repository)
         {
@@ -38,6 +40,10 @@ namespace UserManagement.Business.Validators
             var memberMenus = await _repository.GetSubMenu();
             _menus = memberMenus?.Select(x => x.SubMenuName);
         }
+        private async Task SetStateDistrictsForValidation()
+        {
+            _stateDistrictCities  = await _repository.GetStateDistrictCities();
+        }
         private bool IsDuplicateMobile(string mobile)
         {
             return _mobiles.Contains(mobile);
@@ -50,6 +56,11 @@ namespace UserManagement.Business.Validators
         {
             var userMenus = menuString?.Split(',')?.ToList();
             return userMenus == null || !userMenus.Any() || userMenus.Any(t => !_menus.Contains(t.Trim()));
+        }
+        private bool IsContainDistrictShortCode(MemberBulkImportVM model)
+        {
+            if (model.SelectedUserDistrictId == 0) return true;
+            return _stateDistrictCities.Any(x => x.StateId == model.SelectedUserStateId && x.DistrictId == model.SelectedUserDistrictId && !string.IsNullOrWhiteSpace(x.DistrictShortCode));
         }
         private static BulkInsertValidationFailure GetBulkInsertValidationFailure(int index, string errorMessage,
             string errorCode, string propertyName)
@@ -94,6 +105,13 @@ namespace UserManagement.Business.Validators
                     nameof(model.SubMenuName));
                 errors.Add(error);
             }
+            if (!IsContainDistrictShortCode(model))
+            {
+                var districtName = _stateDistrictCities.FirstOrDefault(x => x.DistrictId == model.SelectedUserDistrictId)?.DistrictName;
+                var error = GetBulkInsertValidationFailure(index, $"No District code found for {districtName}. Please Contact the Admin !", string.Empty,
+                    nameof(model.SelectedUserDistrictId));
+                errors.Add(error);
+            }
 
             return new BulkInsertValidationResult(errors);
         }
@@ -106,7 +124,7 @@ namespace UserManagement.Business.Validators
             await SetEmailsForValidation(models);
             await SetMobilesForValidation(models);
             await SetMenusForValidation();
-
+            await SetStateDistrictsForValidation();
             for (var i = 0; i < models.Count; i++)
             {
                 var validationResult = await ValidateAsync(models[i],i);
