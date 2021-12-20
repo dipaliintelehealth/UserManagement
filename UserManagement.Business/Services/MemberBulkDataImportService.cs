@@ -427,7 +427,8 @@ namespace UserManagement.Business
             var modelReturns = models;
             var bulkimports = models.Select(x => x.Model);
             var validModels = bulkimports?.Where(x => !institutions.Any(i => i.Name.ToLower().Equals(x.HFNameWithDistrictName?.ToLower())));
-            var institutes = validModels?.Distinct(new CompareHFNameWithDistrictName()).Where(x => x.InstituteID == default(string))
+            var institutes = validModels?.Distinct(new CompareHFNameWithDistrictName())
+                .Where(x => string.IsNullOrWhiteSpace(x.InstituteID))
                  .Select(x => new InstitutionModelForCsv()
                  {
 
@@ -460,11 +461,11 @@ namespace UserManagement.Business
                 records = await bulkInsertRepository.BulkInsertInstitution(stream);
 
             }
-            var maxInstituteId = await bulkInsertRepository.GetMaxInstituteId();
+            /*var maxInstituteId = await bulkInsertRepository.GetMaxInstituteId();
             var max = Math.Max((maxInstituteId - records) + 1, maxInstituteId);
             var min = Math.Min((maxInstituteId - records) + 1, maxInstituteId);
-            var results = await bulkInsertRepository.GetInstituations(min,max);
-            var tempInstitutions = institutions.Concat(results);
+            var results = await bulkInsertRepository.GetInstituations(min,max);*/
+            var tempInstitutions = await bulkInsertRepository.GetInstitution();
             modelReturns = modelReturns.Select(x =>
             {
                 var find = tempInstitutions.FirstOrDefault(r => r.Name?.Trim().ToLower() == x.Model.HFNameWithDistrictName?.Trim().ToLower());

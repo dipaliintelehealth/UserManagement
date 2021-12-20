@@ -213,7 +213,8 @@ namespace UserManagement.Infrastructure.Repository
 
         public async Task<IEnumerable<InstitutionModel>> GetInstituations(int minId, int maxId)
         {
-            var sql = $"SELECT * FROM md_institution where InstitutionId >= {minId} and InstitutionId <= {maxId};";
+            var sql = $"SELECT InstitutionId,Name "+
+                $" FROM md_institution WHERE InstitutionId >= {minId} AND InstitutionId <= {maxId};";
             var result = await Connection.QueryAsync<InstitutionModel>(sql);
             return result;
         }
