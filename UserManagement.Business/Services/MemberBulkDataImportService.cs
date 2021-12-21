@@ -486,11 +486,11 @@ namespace UserManagement.Business.Services
                 records = await _bulkInsertRepository.BulkInsertInstitution(stream);
 
             }
-            var maxInstituteId = await _bulkInsertRepository.GetMaxInstituteId();
+            /*var maxInstituteId = await _bulkInsertRepository.GetMaxInstituteId();
             var max = Math.Max((maxInstituteId - records) + 1, maxInstituteId);
             var min = Math.Min((maxInstituteId - records) + 1, maxInstituteId);
-            var dbInstitutions = await _bulkInsertRepository.GetInstituations(min,max);
-            var tempInstitutions = institutions.Concat(dbInstitutions);
+            var dbInstitutions = await _bulkInsertRepository.GetInstituations(min,max);*/
+            var tempInstitutions = await _bulkInsertRepository.GetInstitution();
             var results = models.Select(x =>
             {
                 var find = tempInstitutions.FirstOrDefault(r => r.Name?.Trim().ToLower() == x.HFNameWithDistrictName?.Trim().ToLower());
