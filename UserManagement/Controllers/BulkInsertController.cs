@@ -7,6 +7,7 @@ using UserManagement.Contract;
 using UserManagement.Domain;
 using UserManagement.Domain.ViewModel;
 using UserManagement.Infrastructure.Files;
+using UserManagement.Models;
 
 namespace UserManagement.Controllers
 {
@@ -24,25 +25,25 @@ namespace UserManagement.Controllers
             const string folderPath = "Logs/Csv";
             var csvUtility = new MemberBulkValidCsvUtility(id);
             csvUtility.Configure(new CsvConfiguration() { CsvLogPath = folderPath});
-            var validModels = csvUtility.Read(null);
+            var validData = csvUtility.Read(null);
             var inValidCSVUtility = new MemberBulkInvalidCsvUtility(id);
             inValidCSVUtility.Configure(new CsvConfiguration() { CsvLogPath = folderPath });
             var inValidModels = inValidCSVUtility.Read(null);
             var message = "No data found to import. Please try again";
-            if (validModels != null)
+            var validModels = Enumerable.Empty<MemberBulkValid>();
+            if (validData != null)
             {
-                var modelsList = validModels.ToList();
+                var modelsList = validData.ToList();
                 var result = await _service.ImportData(modelsList, folderPath);
-                if(result.IsFailure)
-                { 
-                    message = result.Error; 
+                if (result.IsFailure)
+                {
+                    message = result.Error;
                 }
                 else
                 {
                     message = string.Empty;
+                    validModels = result.Value;
                 }
-                
-                validModels = result.Value;
             }
             var bulkModel = new BulkInsertValidInvalidVM()
             {

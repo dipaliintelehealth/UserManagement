@@ -318,7 +318,7 @@ namespace UserManagement.Business.Services
                     initialCount = 1;
                     var numberToincrement = users.Where(x => Regex.IsMatch(x, pattern))?.Select(x => { var number = x.Replace(firstpart, string.Empty).Replace(secondpart, string.Empty); return int.Parse(number); }).OrderByDescending(x => x).FirstOrDefault();
                     initialCount = numberToincrement != null ? Convert.ToInt32(numberToincrement) + 1 : initialCount;
-                 }
+                }
                 foreach (var item in duplicateUserGroup)
                 {
                     if (initialCount > 0)
