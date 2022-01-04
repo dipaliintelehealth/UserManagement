@@ -91,28 +91,62 @@ namespace UserManagement.Controllers
             }
 
             var result = await _bulkInsertValidator.ValidateAsync(data);
-           
+
             if (!result.IsValid)
             {
+
                 ViewBag.States = await _bulkDataImportService.GetStates();
                 ViewBag.Specilization = await _bulkDataImportService.GetSpecialities();
                 var formResult = result.ToFormResult();
                 return new JsonResult(formResult);
             }
-            
-            var resultTemporaryStorage = await  _bulkDataImportService.AddToTemporaryStorage(data);
-            return resultTemporaryStorage.IsFailure ? FormResult.CreateErrorResult(resultTemporaryStorage.Error) 
+
+            var resultTemporaryStorage = await _bulkDataImportService.AddToTemporaryStorage(data);
+            return resultTemporaryStorage.IsFailure ? FormResult.CreateErrorResult(resultTemporaryStorage.Error)
                 : FormResult.CreateSuccessResult("Validation Successful...", $"BulkInsert/Index/{resultTemporaryStorage.Value}", 100);
         }
+        [HttpPost]
+        public async Task<IActionResult> ValidateData(IList<MemberBulkImportVM> data)
+        {
+            if (data is null || data.Count == 0)
+            {
+                return FormResult.CreateErrorResult("No data to import !!! Please check your data");
+            }
 
+            var result = await _bulkInsertValidator.ValidateAsync(data);
+            result.UpdateModelState(ModelState);
+                var states = await _bulkDataImportService.GetStates();
+                ViewBag.States = states;
+                ViewBag.Specilization = await _bulkDataImportService.GetSpecialities();
+
+            foreach (var item in data)
+            {
+                item.HFDistricts = await _bulkDataImportService.GetDistrict(item.SelectedHFStateId.ToString());
+                item.UserDistricts = await _bulkDataImportService.GetDistrict(item.SelectedUserStateId.ToString());
+                item.HFCities = await _bulkDataImportService.GetCities(item.SelectedHFStateId.ToString(),item.SelectedHFDistrictId.ToString());
+                item.UserCities = await _bulkDataImportService.GetCities(item.SelectedUserStateId.ToString(),item.SelectedUserDistrictId.ToString());
+            }
+                return View("BulkImport", data);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> InsertData(IList<MemberBulkImportVM> data)
+        {
+            if (data is null || data.Count == 0)
+            {
+                return FormResult.CreateErrorResult("No data to import !!! Please check your data");
+            }
+            var resultTemporaryStorage = await _bulkDataImportService.AddToTemporaryStorage(data);
+            return View("BulkImport", data);
+        }
         public async Task<IActionResult> GetDistricts(string stateId)
-        { 
+        {
             var data = await _bulkDataImportService.GetDistrict(stateId);
             return new JsonResult(data);
         }
-        public async Task<IActionResult> GetCities(string stateId,string districtId)
+        public async Task<IActionResult> GetCities(string stateId, string districtId)
         {
-            var data = await _bulkDataImportService.GetCities(stateId,districtId);
+            var data = await _bulkDataImportService.GetCities(stateId, districtId);
             return new JsonResult(data);
         }
     }

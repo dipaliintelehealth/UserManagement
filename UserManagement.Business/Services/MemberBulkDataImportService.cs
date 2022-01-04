@@ -8,9 +8,11 @@ using CSharpFunctionalExtensions;
 using UserManagement.Contract;
 using UserManagement.Contract.Repository;
 using UserManagement.Contract.Utility;
+using UserManagement.Contract.Validator;
 using UserManagement.Domain;
 using UserManagement.Domain.ViewModel;
 using UserManagement.Infrastructure.Files;
+using UserManagement.Models;
 
 namespace UserManagement.Business.Services
 {
@@ -18,14 +20,15 @@ namespace UserManagement.Business.Services
     {
         private readonly IExcelFileUtility<MemberBulkImportVM> _excelFileUtility;
         private readonly IMemberBulkInsertRepository _bulkInsertRepository;
+        private readonly IBulkInsertValidator<MemberBulkImportVM> _bulkInsertValidator;
         private MemberBulkImportVM _obj = new MemberBulkImportVM();
         private readonly ExcelConfiguration _excelConfiguration;
         private string _pathForCsv = string.Empty;
-
-        public MemberBulkDataImportService(IExcelFileUtility<MemberBulkImportVM> excelFileUtility, IMemberBulkInsertRepository bulkInsertRepository)
+        public MemberBulkDataImportService(IExcelFileUtility<MemberBulkImportVM> excelFileUtility, IMemberBulkInsertRepository bulkInsertRepository, IBulkInsertValidator<MemberBulkImportVM> bulkInsertValidator)
         {
             this._excelFileUtility = excelFileUtility;
             this._bulkInsertRepository = bulkInsertRepository;
+            this._bulkInsertValidator = bulkInsertValidator;
             _excelConfiguration = new ExcelConfiguration()
             {
                 ColumnPropertyMapping = new Dictionary<string, string>()
@@ -71,6 +74,7 @@ namespace UserManagement.Business.Services
 
         public async Task<Result<string>> AddToTemporaryStorage(IEnumerable<MemberBulkImportVM> models)
         {
+
             var sessionId = Guid.NewGuid();
             var sessionIdInString = Convert.ToString(sessionId);
             const string folderPath = "Logs/Csv";
@@ -95,17 +99,163 @@ namespace UserManagement.Business.Services
                 x.AssignedInstituteID = GetInstitutionId(institutions, x.AssignHF);
                 return x;
             });
-            
-            var csvUtility = new MemberBulkImportVmCsvUtility(Convert.ToString(sessionIdInString));
-            csvUtility.Configure(new CsvConfiguration() { CsvLogPath = folderPath});
-            csvUtility.Write(data);
+            var (resultValid, resultInvalid) = await GetValidInvalidData(data.ToList());
+            WriteToCSV(new MemberBulkValidCsvUtility(sessionIdInString), folderPath, resultValid);
+            WriteToCSV(new MemberBulkInvalidCsvUtility(sessionIdInString), folderPath, resultInvalid);
             return Result.Success(sessionIdInString);
+        }
+
+        private  void WriteToCSV<T>(ICsvFileUtility<T> csvFileUtility, string folderPath, IList<T> data)
+        {
+
+            csvFileUtility.Configure(new CsvConfiguration() { CsvLogPath = folderPath });
+            csvFileUtility.Write(data);
+        }
+
+        private async Task<(IList<MemberBulkValid>, IList<MemberBulkInvalid>)> GetValidInvalidData(IList<MemberBulkImportVM> data)
+        {
+            var result = await _bulkInsertValidator.ValidateAsync(data);
+            var validData = new List<MemberBulkValid>();
+            var invalidData = new List<MemberBulkInvalid>();
+            for (int i = 0; i < data.Count; i++)
+            {
+                if (result.Errors.Any(t => t.Index == i))
+                {
+                    invalidData.Add(GetInValidData(data[i],result.Errors.Where(t => t.Index==i).Select(x => x.ErrorMessage).ToList()));
+                }
+                else
+                {
+                    validData.Add(GetValidData(data[i]));
+                }
+            }
+            return (validData,invalidData);
+        }
+        private MemberBulkValid GetValidData(MemberBulkImportVM data)
+        {
+            return new MemberBulkValid()
+            {
+                HFName = data.HFName,
+                Address = data.Address,
+                AssignedHFType = data.AssignedHFType,
+                AssignedInstituteID = data.AssignedInstituteID,
+                AssignHF = data.AssignHF,
+                Designation = data.Designation,
+                DOB = data.DOB,
+                DRRegNo = data.DRRegNo,
+                Experience = data.Experience,
+                FirstName = data.FirstName,
+                Gender = data.Gender,
+                HFCities = data.HFCities,
+                HFCity = data.HFCity,
+                HFDistrict = data.HFDistrict,
+                HFDistricts = data.HFDistricts,
+                HFEmail = data.HFEmail,
+                HFPhone = data.HFPhone,
+                HFState = data.HFState,
+                HFType = data.HFType,
+                InstituteID = data.InstituteID,
+                LastName = data.LastName,
+                MemberId = data.MemberId,
+                NIN = data.NIN,
+                PIN = data.PIN,
+                Qualification = data.Qualification,
+                QualificationId = data.QualificationId,
+                SelectedHFCityId = data.SelectedHFCityId,
+                SelectedHFDistrictId = data.SelectedHFDistrictId,
+                SelectedHFStateId = data.SelectedHFStateId,
+                SelectedSpecialityId = data.SelectedSpecialityId,
+                SelectedUserCityId = data.SelectedUserCityId,
+                SpecialityId = data.SpecialityId,
+                SelectedUserDistrictId = data.SelectedUserDistrictId,
+                SelectedUserStateId = data.SelectedUserStateId,
+                SubMenuName = data.SubMenuName,
+                UserAddress = data.UserAddress,
+                UserAvailableDay = data.UserAvailableDay,
+                UserAvailableFromTime = data.UserAvailableFromTime,
+                UserAvailableToTime = data.UserAvailableToTime,
+                UserCities = data.UserCities,
+                UserCity = data.UserCity,
+                UserDistrict = data.UserDistrict,
+                UserDistricts = data.UserDistricts,
+                UserDistrictShortCode = data.UserDistrictShortCode,
+                UserEmail = data.UserEmail,
+                UserMobile = data.UserMobile,
+                UserName = data.UserName,
+                UserPin = data.UserPin,
+                UserPrefix = data.UserPrefix,
+                UserRole = data.UserRole,
+                UserState = data.UserState
+            };
+        }
+        private MemberBulkInvalid GetInValidData(MemberBulkImportVM data,IList<string> errors)
+        {
+            return new MemberBulkInvalid()
+            {
+                ErrorMessage = string.Join(",", errors),
+                HFName = data.HFName,
+                Address = data.Address,
+                AssignedHFType = data.AssignedHFType,
+                AssignedInstituteID = data.AssignedInstituteID,
+                AssignHF = data.AssignHF,
+                Designation = data.Designation,
+                DOB = data.DOB,
+                DRRegNo = data.DRRegNo,
+                Experience = data.Experience,
+                FirstName = data.FirstName,
+                Gender = data.Gender,
+                HFCities = data.HFCities,
+                HFCity = data.HFCity,
+                HFDistrict = data.HFDistrict,
+                HFDistricts = data.HFDistricts,
+                HFEmail = data.HFEmail,
+                HFPhone = data.HFPhone,
+                HFState = data.HFState,
+                HFType = data.HFType,
+                InstituteID = data.InstituteID,
+                LastName = data.LastName,
+                MemberId = data.MemberId,
+                NIN = data.NIN,
+                PIN = data.PIN,
+                Qualification = data.Qualification,
+                QualificationId = data.QualificationId,
+                SelectedHFCityId = data.SelectedHFCityId,
+                SelectedHFDistrictId = data.SelectedHFDistrictId,
+                SelectedHFStateId = data.SelectedHFStateId,
+                SelectedSpecialityId = data.SelectedSpecialityId,
+                SelectedUserCityId = data.SelectedUserCityId,
+                SpecialityId = data.SpecialityId,
+                SelectedUserDistrictId = data.SelectedUserDistrictId,
+                SelectedUserStateId = data.SelectedUserStateId,
+                SubMenuName = data.SubMenuName,
+                UserAddress = data.UserAddress,
+                UserAvailableDay = data.UserAvailableDay,
+                UserAvailableFromTime = data.UserAvailableFromTime,
+                UserAvailableToTime = data.UserAvailableToTime,
+                UserCities = data.UserCities,
+                UserCity = data.UserCity,
+                UserDistrict = data.UserDistrict,
+                UserDistricts = data.UserDistricts,
+                UserDistrictShortCode = data.UserDistrictShortCode,
+                UserEmail = data.UserEmail,
+                UserMobile = data.UserMobile,
+                UserName = data.UserName,
+                UserPin = data.UserPin,
+                UserPrefix = data.UserPrefix,
+                UserRole = data.UserRole,
+                UserState = data.UserState
+            };
         }
 
         public async Task<IEnumerable<MemberBulkImportVM>> CreateModels(Stream stream)
         {
             _excelFileUtility.Configure(_excelConfiguration);
             var models = _excelFileUtility.Read(stream);
+            models = await NewMethod(models);
+            return models;
+        }
+
+        private async Task<IEnumerable<MemberBulkImportVM>> NewMethod(IEnumerable<MemberBulkImportVM> models)
+        {
             var results = Enumerable.Empty<ResultModel<MemberBulkImportVM>>();
             var institutions = await _bulkInsertRepository.GetInstitution();
             var states = await _bulkInsertRepository.GetStateDistrictCities();

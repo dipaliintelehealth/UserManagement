@@ -7,6 +7,7 @@ using System.Text;
 using UserManagement.Business.Services;
 using UserManagement.Contract.Repository;
 using UserManagement.Contract.Utility;
+using UserManagement.Contract.Validator;
 using UserManagement.Domain;
 using UserManagement.Domain.ViewModel;
 using Xunit;
@@ -54,6 +55,7 @@ namespace UserManagement.Business.Tests
         {
             var repoMock = new Mock<IMemberBulkInsertRepository>();
             var excelMock = new Mock<IExcelFileUtility<MemberBulkImportVM>>();
+            var repoValidator = new Mock<IBulkInsertValidator<MemberBulkImportVM>>();
             var states = new List<StateDistrictCity>
             {
                  new StateDistrictCity()
@@ -88,7 +90,7 @@ namespace UserManagement.Business.Tests
                 }
 
             };
-            var service = new MemberBulkDataImportService(excelMock.Object, repoMock.Object);
+            var service = new MemberBulkDataImportService(excelMock.Object, repoMock.Object,repoValidator.Object);
 
 
             var result = service.GetUsersName(states, state, district, hfname, type);
@@ -145,7 +147,8 @@ namespace UserManagement.Business.Tests
             };
             var repoMock = new Mock<IMemberBulkInsertRepository>();
             var excelMock = new Mock<IExcelFileUtility<MemberBulkImportVM>>();
-            var service = new MemberBulkDataImportService(excelMock.Object, repoMock.Object);
+            var repoValidator = new Mock<IBulkInsertValidator<MemberBulkImportVM>>();
+            var service = new MemberBulkDataImportService(excelMock.Object, repoMock.Object,repoValidator.Object);
 
             var result =  await service.CreateUserName(validatedModels, users, states);
 
@@ -230,7 +233,8 @@ namespace UserManagement.Business.Tests
             };
             var repoMock = new Mock<IMemberBulkInsertRepository>();
             var excelMock = new Mock<IExcelFileUtility<MemberBulkImportVM>>();
-            var service = new MemberBulkDataImportService(excelMock.Object, repoMock.Object);
+            var repoValidator = new Mock<IBulkInsertValidator<MemberBulkImportVM>>();
+            var service = new MemberBulkDataImportService(excelMock.Object, repoMock.Object,repoValidator.Object);
 
             var result = await service.CreateUserName(validatedModels, users, states);
 
@@ -313,7 +317,8 @@ namespace UserManagement.Business.Tests
             };
             var repoMock = new Mock<IMemberBulkInsertRepository>();
             var excelMock = new Mock<IExcelFileUtility<MemberBulkImportVM>>();
-            var service = new MemberBulkDataImportService(excelMock.Object, repoMock.Object);
+            var repoValidator = new Mock<IBulkInsertValidator<MemberBulkImportVM>>();
+            var service = new MemberBulkDataImportService(excelMock.Object, repoMock.Object,repoValidator.Object);
 
             var result = await service.CreateUserName(validatedModels, users, states);
 
@@ -376,7 +381,8 @@ namespace UserManagement.Business.Tests
             };
             var repoMock = new Mock<IMemberBulkInsertRepository>();
             var excelMock = new Mock<IExcelFileUtility<MemberBulkImportVM>>();
-            var service = new MemberBulkDataImportService(excelMock.Object, repoMock.Object);
+            var repoValidator = new Mock<IBulkInsertValidator<MemberBulkImportVM>>();
+            var service = new MemberBulkDataImportService(excelMock.Object, repoMock.Object,repoValidator.Object);
 
             var result = await service.CreateUserName(validatedModels, users, states);
 
@@ -460,7 +466,8 @@ namespace UserManagement.Business.Tests
             };
             var repoMock = new Mock<IMemberBulkInsertRepository>();
             var excelMock = new Mock<IExcelFileUtility<MemberBulkImportVM>>();
-            var service = new MemberBulkDataImportService(excelMock.Object, repoMock.Object);
+            var repoValidator = new Mock<IBulkInsertValidator<MemberBulkImportVM>>();
+            var service = new MemberBulkDataImportService(excelMock.Object, repoMock.Object,repoValidator.Object);
 
             var result = await service.CreateUserName(validatedModels, users, states);
 
@@ -523,7 +530,8 @@ namespace UserManagement.Business.Tests
             };
             var repoMock = new Mock<IMemberBulkInsertRepository>();
             var excelMock = new Mock<IExcelFileUtility<MemberBulkImportVM>>();
-            var service = new MemberBulkDataImportService(excelMock.Object, repoMock.Object);
+            var repoValidator = new Mock<IBulkInsertValidator<MemberBulkImportVM>>();
+            var service = new MemberBulkDataImportService(excelMock.Object, repoMock.Object,repoValidator.Object);
 
             var result = await service.CreateUserName(validatedModels, users, states);
 
