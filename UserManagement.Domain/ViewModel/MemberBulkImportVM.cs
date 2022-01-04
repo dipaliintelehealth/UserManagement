@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using UserManagement.Models;
 
 namespace UserManagement.Domain.ViewModel
 {
@@ -136,9 +137,9 @@ namespace UserManagement.Domain.ViewModel
         [Display(Name = "Sub Menu")]
         public string SubMenuName { get; set; }
     }
-    public class CompareHFNameWithDistrictName : IEqualityComparer<MemberBulkImportVM>
+    public class CompareHFNameWithDistrictName : IEqualityComparer<MemberBulkValid>
     {
-        public bool Equals(MemberBulkImportVM x, MemberBulkImportVM y)
+        public bool Equals(MemberBulkValid x, MemberBulkValid y)
         {
             if (x == null && y == null) return true;
             if (y == null || x == null) return false;
@@ -147,7 +148,7 @@ namespace UserManagement.Domain.ViewModel
                 y.HFNameWithDistrictName?.Trim().ToLower());
         }
 
-        public int GetHashCode(MemberBulkImportVM obj)
+        public int GetHashCode(MemberBulkValid obj)
         {
             return obj.HFNameWithDistrictName.Trim().ToLower().GetHashCode();
         }

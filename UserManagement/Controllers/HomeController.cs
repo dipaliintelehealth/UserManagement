@@ -134,10 +134,12 @@ namespace UserManagement.Controllers
         {
             if (data is null || data.Count == 0)
             {
+
                 return FormResult.CreateErrorResult("No data to import !!! Please check your data");
             }
             var resultTemporaryStorage = await _bulkDataImportService.AddToTemporaryStorage(data);
-            return View("BulkImport", data);
+            //  return View("BulkImport", data);
+            return RedirectToAction("Index", "BulkInsert", new { id = resultTemporaryStorage.Value });
         }
         public async Task<IActionResult> GetDistricts(string stateId)
         {

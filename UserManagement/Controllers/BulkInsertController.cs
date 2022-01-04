@@ -22,24 +22,35 @@ namespace UserManagement.Controllers
         public async Task<IActionResult> Index(string id)
         {
             const string folderPath = "Logs/Csv";
-            var csvUtility = new MemberBulkImportVmCsvUtility(id);
+            var csvUtility = new MemberBulkValidCsvUtility(id);
             csvUtility.Configure(new CsvConfiguration() { CsvLogPath = folderPath});
-            var models = csvUtility.Read(null);
+            var validModels = csvUtility.Read(null);
+            var inValidCSVUtility = new MemberBulkInvalidCsvUtility(id);
+            inValidCSVUtility.Configure(new CsvConfiguration() { CsvLogPath = folderPath });
+            var inValidModels = inValidCSVUtility.Read(null);
             var message = "No data found to import. Please try again";
-            if (models != null)
+            if (validModels != null)
             {
-                var modelsList = models.ToList();
+                var modelsList = validModels.ToList();
                 var result = await _service.ImportData(modelsList, folderPath);
-                if (result.IsSuccess)
-                {
-                    return View(result.Value);
+                if(result.IsFailure)
+                { 
+                    message = result.Error; 
                 }
-
-                message = result.Error;
+                else
+                {
+                    message = string.Empty;
+                }
+                
+                validModels = result.Value;
             }
-
+            var bulkModel = new BulkInsertValidInvalidVM()
+            {
+                ValidModels = validModels?.ToList(),
+                InValidModels = inValidModels?.ToList()
+            };
             ViewBag.Message = message;
-            return View("Error");
+            return View(bulkModel);
         }
     }
 }

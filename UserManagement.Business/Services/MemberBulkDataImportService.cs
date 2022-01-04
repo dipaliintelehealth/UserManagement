@@ -263,7 +263,7 @@ namespace UserManagement.Business.Services
             return models;
         }
 
-        public async Task<Result<IEnumerable<MemberBulkImportVM>>> ImportData(IEnumerable<MemberBulkImportVM> models, string pathForCsvLog)
+        public async Task<Result<IEnumerable<MemberBulkValid>>> ImportData(IEnumerable<MemberBulkValid> models, string pathForCsvLog)
         {
             this._pathForCsv = pathForCsvLog;
             if (models.Any())
@@ -293,11 +293,11 @@ namespace UserManagement.Business.Services
                       .Check(t => this.CreateMemberMenu(t, subMenu))
                       .Check(t => this.CreateAuditTrail(t));*/
             }
-            return Result.Failure<IEnumerable<MemberBulkImportVM>>("No data to import");
+            return Result.Failure<IEnumerable<MemberBulkValid>>("No data to import");
         }
-        public Task<Result<IEnumerable<MemberBulkImportVM>>> CreateUserName(IEnumerable<MemberBulkImportVM> validatedModels, IEnumerable<string> users, IEnumerable<StateDistrictCity> states)
+        public Task<Result<IEnumerable<MemberBulkValid>>> CreateUserName(IEnumerable<MemberBulkValid> validatedModels, IEnumerable<string> users, IEnumerable<StateDistrictCity> states)
         {
-            var modelReturns = new List<MemberBulkImportVM>();
+            var modelReturns = new List<MemberBulkValid>();
             var duplicateUsersGroups = validatedModels.GroupBy(x => x.UserName);
             foreach (var duplicateUserGroup in duplicateUsersGroups)
             {
@@ -598,7 +598,7 @@ namespace UserManagement.Business.Services
                 .Select(specialization => specialization.SpecialityId)
                 .FirstOrDefault();
         }
-        private async Task<Result<IEnumerable<MemberBulkImportVM>>> CreateServiceProvider(IEnumerable<MemberBulkImportVM> models, IEnumerable<InstitutionModel> institutions)
+        private async Task<Result<IEnumerable<MemberBulkValid>>> CreateServiceProvider(IEnumerable<MemberBulkValid> models, IEnumerable<InstitutionModel> institutions)
         {
             if (models == null) throw new ArgumentNullException(nameof(models));
 
@@ -655,7 +655,7 @@ namespace UserManagement.Business.Services
         }
 
 
-        private async Task<Result<IEnumerable<MemberBulkImportVM>>> CreateMember(IEnumerable<MemberBulkImportVM> models)
+        private async Task<Result<IEnumerable<MemberBulkValid>>> CreateMember(IEnumerable<MemberBulkValid> models)
         {
             var members = models.Select(x => new MembersModelForCsv()
             {
@@ -719,7 +719,7 @@ namespace UserManagement.Business.Services
                 return Result.Success(results);
        }
 
-        private async Task<Result<IEnumerable<MemberBulkImportVM>>> CreateLogin(IEnumerable<MemberBulkImportVM> models)
+        private async Task<Result<IEnumerable<MemberBulkValid>>> CreateLogin(IEnumerable<MemberBulkValid> models)
         {
             var modelReturns = models;
             var logins = models.Select(x => new LoginModelForCsv()
@@ -743,7 +743,7 @@ namespace UserManagement.Business.Services
             }
             return Result.Success(modelReturns);
         }
-        private async Task<Result<IEnumerable<MemberBulkImportVM>>> CreateMemberSlot(IEnumerable<MemberBulkImportVM> models)
+        private async Task<Result<IEnumerable<MemberBulkValid>>> CreateMemberSlot(IEnumerable<MemberBulkValid> models)
         {
             if (models == null) throw new ArgumentNullException(nameof(models));
             
@@ -771,7 +771,7 @@ namespace UserManagement.Business.Services
             }
             return Result.Success(modelReturns);
         }
-        private async Task<Result<IEnumerable<MemberBulkImportVM>>> CreateMemberInstitution(IEnumerable<MemberBulkImportVM> models)
+        private async Task<Result<IEnumerable<MemberBulkValid>>> CreateMemberInstitution(IEnumerable<MemberBulkValid> models)
         {
             if (models == null) throw new ArgumentNullException(nameof(models));
             
@@ -794,7 +794,7 @@ namespace UserManagement.Business.Services
             return Result.Success(modelReturns);
         }
 
-        private async Task<Result<IEnumerable<MemberBulkImportVM>>> CreateMemberMenu(IEnumerable<MemberBulkImportVM> models, IEnumerable<SubMenuModel> subMenu)
+        private async Task<Result<IEnumerable<MemberBulkValid>>> CreateMemberMenu(IEnumerable<MemberBulkValid> models, IEnumerable<SubMenuModel> subMenu)
         {
             var modelReturns = models;
             IEnumerable<MemberMenuModelForCsv> memberMenus = GetMemberMenus(models, subMenu);
@@ -812,7 +812,7 @@ namespace UserManagement.Business.Services
             return Result.Success(modelReturns);
         }
 
-        public IEnumerable<MemberMenuModelForCsv> GetMemberMenus(IEnumerable<MemberBulkImportVM> models, IEnumerable<SubMenuModel> subMenus)
+        public IEnumerable<MemberMenuModelForCsv> GetMemberMenus(IEnumerable<MemberBulkValid> models, IEnumerable<SubMenuModel> subMenus)
         {
             return models.SelectMany(x =>
             {
@@ -836,7 +836,7 @@ namespace UserManagement.Business.Services
                 return listMenu;
             });
         }
-      private async Task<Result<IEnumerable<MemberBulkImportVM>>> CreateAuditTrail(IEnumerable<MemberBulkImportVM> models)
+      private async Task<Result<IEnumerable<MemberBulkValid>>> CreateAuditTrail(IEnumerable<MemberBulkValid> models)
         {
             var modelReturns = models;
             var members = models.Select(x => new AuditTrailModel()

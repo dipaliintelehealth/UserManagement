@@ -17,12 +17,13 @@ using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
 using UserManagement.Domain;
 using UserManagement.Domain.ViewModel;
+using UserManagement.Models;
 
 namespace UserManagement.Contract
 {
     public interface IBulkDataImportService<T> where T :class
     {
-        Task<Result<IEnumerable<T>>> ImportData(IEnumerable<MemberBulkImportVM> models,string pathForCsvLog);
+        Task<Result<IEnumerable<MemberBulkValid>>> ImportData(IEnumerable<MemberBulkValid> models,string pathForCsvLog);
         Task<Result<string>> AddToTemporaryStorage(IEnumerable<MemberBulkImportVM> models);
         Task<IEnumerable<T>> CreateModels(Stream stream);
         Task<IEnumerable<KeyValue<string,string>>> GetStates();

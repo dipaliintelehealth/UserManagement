@@ -10,6 +10,7 @@ using UserManagement.Contract.Utility;
 using UserManagement.Contract.Validator;
 using UserManagement.Domain;
 using UserManagement.Domain.ViewModel;
+using UserManagement.Models;
 using Xunit;
 
 namespace UserManagement.Business.Tests
@@ -101,11 +102,11 @@ namespace UserManagement.Business.Tests
         [Fact]
         public async System.Threading.Tasks.Task CreateUserName_When_One_User_Exists_inDB_Should_Create_UserName_With_IncrementAsync()
         {
-            var validatedModels = new List<MemberBulkImportVM>()
+            var validatedModels = new List<MemberBulkValid>()
             {
                 
                 {
-                    new MemberBulkImportVM()
+                    new MemberBulkValid()
                     {
                         UserName="pbaboharfazsc",
                         UserState="PUNJAB",
@@ -159,11 +160,11 @@ namespace UserManagement.Business.Tests
         [Fact]
         public async System.Threading.Tasks.Task CreateUserName_When_Multiple_User_Exists_inDB_And_MultipleUsers_Are_In_Excel_Then_Should_Create_UserName_With_IncrementAsync()
         {
-            var validatedModels = new List<MemberBulkImportVM>()
+            var validatedModels = new List<MemberBulkValid>()
             {
                 
                 {
-                    new MemberBulkImportVM()
+                    new MemberBulkValid()
                     {
                         UserName="pbaboharfazsc",
                         UserState="PUNJAB",
@@ -175,7 +176,7 @@ namespace UserManagement.Business.Tests
                 },
                  
                 {
-                    new MemberBulkImportVM()
+                    new MemberBulkValid()
                     {
                         UserName="pbaboharfazsc",
                         UserState="PUNJAB",
@@ -187,7 +188,7 @@ namespace UserManagement.Business.Tests
                 },
                   
                 {
-                    new MemberBulkImportVM()
+                    new MemberBulkValid()
                     {
                         UserName="pbaboharfazsc",
                         UserState="PUNJAB",
@@ -247,11 +248,11 @@ namespace UserManagement.Business.Tests
         [Fact]
         public async System.Threading.Tasks.Task CreateUserName_When_One_User_Exists_inDB_And_MultipleUsers_Are_In_Excel_Then_Should_Create_UserName_With_IncrementAsync()
         {
-            var validatedModels = new List<MemberBulkImportVM>()
+            var validatedModels = new List<MemberBulkValid>()
             {
                 
                 
-                    new MemberBulkImportVM()
+                    new MemberBulkValid()
                     {
                         UserName="pbaboharfazsc",
                         UserState="PUNJAB",
@@ -263,7 +264,7 @@ namespace UserManagement.Business.Tests
                 },
                  
                 
-                    new MemberBulkImportVM()
+                    new MemberBulkValid()
                     {
                         UserName="pbaboharfazsc",
                         UserState="PUNJAB",
@@ -275,7 +276,7 @@ namespace UserManagement.Business.Tests
                 },
                   
                 
-                    new MemberBulkImportVM()
+                    new MemberBulkValid()
                     {
                         UserName="pbaboharfazsc",
                         UserState="PUNJAB",
@@ -331,11 +332,11 @@ namespace UserManagement.Business.Tests
         [Fact]
         public async System.Threading.Tasks.Task CreateUserName_When_User_Not_Exists_inDB_Should_Create_UserName_Without_IncrementAsync()
         {
-            var validatedModels = new List<MemberBulkImportVM>()
+            var validatedModels = new List<MemberBulkValid>()
             {
                 
                 
-                    new MemberBulkImportVM()
+                    new MemberBulkValid()
                     {
                         UserName="pbaboharfazsc",
                         UserState="PUNJAB",
@@ -393,11 +394,11 @@ namespace UserManagement.Business.Tests
         [Fact]
         public async System.Threading.Tasks.Task CreateUserName_When_One_User_Not_Exists_inDB_And_duplicateUsers_Are_In_Excel_Then_Should_Create_UserName_With_IncrementAsync()
         {
-            var validatedModels = new List<MemberBulkImportVM>()
+            var validatedModels = new List<MemberBulkValid>()
             {
                 
                
-                    new MemberBulkImportVM()
+                    new MemberBulkValid()
                     {
                         UserName="pbaboharfazsc",
                         UserState="PUNJAB",
@@ -408,7 +409,7 @@ namespace UserManagement.Business.Tests
                     },
                  
                
-                    new MemberBulkImportVM()
+                    new MemberBulkValid()
                     {
                         UserName="pbaboharfazsc",
                         UserState="PUNJAB",
@@ -420,7 +421,7 @@ namespace UserManagement.Business.Tests
                 },
                   
                
-                    new MemberBulkImportVM()
+                    new MemberBulkValid()
                     {
                         UserName="pbaboharfazsc",
                         UserState="PUNJAB",
@@ -480,11 +481,11 @@ namespace UserManagement.Business.Tests
         [Fact]
         public async System.Threading.Tasks.Task CreateUserName_When_Multiple_User_Exists_inDB_Should_Create_UserName_With_IncrementAsync()
         {
-            var validatedModels = new List<MemberBulkImportVM>()
+            var validatedModels = new List<MemberBulkValid>()
             {
                 
                
-                    new MemberBulkImportVM()
+                    new MemberBulkValid()
                     {
                         UserName="pbaboharfazsc",
                         UserState="PUNJAB",
