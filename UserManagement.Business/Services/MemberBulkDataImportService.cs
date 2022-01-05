@@ -691,7 +691,7 @@ namespace UserManagement.Business.Services
                 RatingMasterId = 0,
                 SourceId = 99,
                 IsMaster = "",
-                Prefix = string.Empty,
+                Prefix = x.UserPrefix,
                 CreationRole = x.UserRole
             });
            
