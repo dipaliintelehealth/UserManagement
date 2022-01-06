@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using CsvHelper;
 using UserManagement.Domain.ViewModel;
 using UserManagement.Infrastructure.Mapper.CSV;
@@ -55,11 +56,17 @@ namespace UserManagement.Infrastructure.Files
         {
             //need to refactor and move file path to upper level and transfer only stream to read
             var fileName = $"{_configuration.CsvLogPath}/MemberBulkValidCsv_{_sessionId}.csv";
-            var reader = new StreamReader(fileName);
-            var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
-            csv.Context.RegisterClassMap<MemberBulkValidCsvMap>();
-            var records = csv.GetRecords<MemberBulkValid>();
-            //reader.Close();
+            var records = Enumerable.Empty<MemberBulkValid>();
+            if (!File.Exists(fileName))
+            {
+                return records;
+            }
+            using (var reader = new StreamReader(fileName))
+            {
+                var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
+                csv.Context.RegisterClassMap<MemberBulkValidCsvMap>();
+                records = csv.GetRecords<MemberBulkValid>()?.ToList();
+            }
             return records;
         }
 
@@ -76,6 +83,19 @@ namespace UserManagement.Infrastructure.Files
             Log(fileName, stream.ToArray());
             return new MemoryStream(stream.ToArray());
         }
+        public bool CompleteTask()
+        {
+            var fileName = $"{_configuration.CsvLogPath}/MemberBulkValidCsv_{_sessionId}";
+            System.IO.FileInfo fi = new System.IO.FileInfo($"{fileName}.csv");
+            // Check if file is there  
+            if (fi.Exists)
+            {
+                // Move file with a new name. Hence renamed.  
+                fi.MoveTo($"{fileName}_processed.csv");
+            }
+
+            return true;
+        }
     }
     public class MemberBulkInvalidCsvUtility : CsvUtilityBase<MemberBulkInvalid>
     {
@@ -89,11 +109,17 @@ namespace UserManagement.Infrastructure.Files
         {
             //need to refactor and move file path to upper level and transfer only stream to read
             var fileName = $"{_configuration.CsvLogPath}/MemberBulkInvalidCsv_{_sessionId}.csv";
-            var reader = new StreamReader(fileName);
-            var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
-            csv.Context.RegisterClassMap<MemberBulkInvalidCsvMap>();
-            var records = csv.GetRecords<MemberBulkInvalid>();
-            //reader.Close();
+            var records = Enumerable.Empty<MemberBulkInvalid>();
+            if (!File.Exists(fileName))
+            {
+                return records;
+            }
+            using (var reader = new StreamReader(fileName))
+            {
+                var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
+                csv.Context.RegisterClassMap<MemberBulkInvalidCsvMap>();
+                records = csv.GetRecords<MemberBulkInvalid>()?.ToList();
+            }
             return records;
         }
 
@@ -109,6 +135,19 @@ namespace UserManagement.Infrastructure.Files
             var fileName = $"{_configuration.CsvLogPath}/MemberBulkInvalidCsv_{_sessionId}.csv";
             Log(fileName, stream.ToArray());
             return new MemoryStream(stream.ToArray());
+        }
+        public bool CompleteTask()
+        {
+            var fileName = $"{_configuration.CsvLogPath}/MemberBulkInvalidCsv_{_sessionId}";
+            System.IO.FileInfo fi = new System.IO.FileInfo($"{fileName}.csv");
+            // Check if file is there  
+            if (fi.Exists)
+            {
+                // Move file with a new name. Hence renamed.  
+                fi.MoveTo($"{fileName}_processed.csv");
+            }
+
+            return true;
         }
     }
 }

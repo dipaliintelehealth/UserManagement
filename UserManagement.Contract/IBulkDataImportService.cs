@@ -23,6 +23,7 @@ namespace UserManagement.Contract
 {
     public interface IBulkDataImportService<T> where T :class
     {
+        Task<Result<BulkInsertValidInvalidVM>> AddDataFromTemporaryStorage(string sessionID);
         Task<Result<IEnumerable<MemberBulkValid>>> ImportData(IEnumerable<MemberBulkValid> models,string pathForCsvLog);
         Task<Result<string>> AddToTemporaryStorage(IEnumerable<MemberBulkImportVM> models);
         Task<IEnumerable<T>> CreateModels(Stream stream);

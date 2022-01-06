@@ -223,6 +223,16 @@ namespace UserManagement.Infrastructure.Repository
             return result;
         }
 
+        public async Task<IEnumerable<MembersModel>> FindMembers(IEnumerable<string> emails)
+        {
+            //var sql = $"SELECT * FROM md_members where MemberId >= {minId} and MemberId <= {maxId};";
+            var singleQuotedEmails = emails.Select(x => { return $"'{x}'"; });
+            var emailString = string.Join(',', singleQuotedEmails);
+            var sql = "Select MemberId,Email from md_members where Email IN( " + emailString + ")";
+            var result = await Connection.QueryAsync<MembersModel>(sql);
+            return result;
+        }
+
         public async Task<IEnumerable<InstitutionModel>> GetInstitution()
         {
             var sql = "SELECT InstitutionId,Name FROM md_institution;";

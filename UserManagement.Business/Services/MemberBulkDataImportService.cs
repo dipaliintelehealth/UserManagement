@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -651,7 +652,7 @@ namespace UserManagement.Business.Services
                 return x;
             });
 
-            return Result.Success(results);
+            return Result.Success(results.Where(x => !string.IsNullOrEmpty(x.InstituteID)));
         }
 
 
@@ -664,7 +665,7 @@ namespace UserManagement.Business.Services
                 MiddleName = string.Empty,
                 LastName = x.LastName,
                 AgeType = 1,
-                DOB = x.DOB,
+                DOB = DateTime.ParseExact(x.DOB, "dd-MM-yyyy", CultureInfo.InvariantCulture).ToString("dd-MM-yyyy HH:mm:ss"),
                 Age = 0,
                 Mobile = x.UserMobile,
                 Email = x.UserEmail,
@@ -702,12 +703,12 @@ namespace UserManagement.Business.Services
                 });
                 var stream = csvUtility.Write(members);
                 var records = await _bulkInsertRepository.BulkInsertMembers(stream);
-                
-                var maxMemberId = await _bulkInsertRepository.GetMaxMemberId();
-                //need to refactor this as we need to get members by email rather than by records.
-                var dbRecords = await _bulkInsertRepository.GetMembers((maxMemberId - records) + 1, maxMemberId);
 
-                var results = models.Select(x =>
+            //var maxMemberId = await _bulkInsertRepository.GetMaxMemberId();
+            //need to refactor this as we need to get members by email rather than by records.
+            // var dbRecords = await _bulkInsertRepository.GetMembers((maxMemberId - records) + 1, maxMemberId);
+            var dbRecords = await _bulkInsertRepository.FindMembers(models.Select(x =>x.UserEmail));
+            var results = models.Select(x =>
                 {
                     var find = dbRecords.FirstOrDefault(r => r.Email == x.UserEmail);
                     if (find != null)
@@ -716,7 +717,7 @@ namespace UserManagement.Business.Services
                     }
                     return x;
                 });
-                return Result.Success(results);
+                return Result.Success(results.Where(x => !string.IsNullOrEmpty(x.MemberId)));
        }
 
         private async Task<Result<IEnumerable<MemberBulkValid>>> CreateLogin(IEnumerable<MemberBulkValid> models)
@@ -885,6 +886,46 @@ namespace UserManagement.Business.Services
         public async Task<IEnumerable<KeyValue<string, string>>> GetSpecialities()
         {
             return await _bulkInsertRepository.GetSpecility();
+        }
+
+        public async Task<Result<BulkInsertValidInvalidVM>> AddDataFromTemporaryStorage(string sessionID)
+        {
+            const string folderPath = "Logs/Csv";
+            var csvUtility = new MemberBulkValidCsvUtility(sessionID);
+            csvUtility.Configure(new CsvConfiguration() { CsvLogPath = folderPath });
+            var validData = csvUtility.Read(null);
+            var inValidCSVUtility = new MemberBulkInvalidCsvUtility(sessionID);
+            inValidCSVUtility.Configure(new CsvConfiguration() { CsvLogPath = folderPath });
+            var invalidData = inValidCSVUtility.Read(null);
+            var message = "No data found to import";
+            var validModels = validData?.ToList();
+            var inValidModels = invalidData?.ToList();
+
+            var bulkModel = new BulkInsertValidInvalidVM();
+            bulkModel.InValidModels = inValidModels;
+
+            if (validModels.Count == 0 && inValidModels.Count == 0)
+            {
+                return Result.Failure<BulkInsertValidInvalidVM>(message);
+            }
+
+            if (validModels.Count > 0)
+            {
+                var result = await this.ImportData(validModels, folderPath);
+                if (result.IsFailure)
+                {
+                    return Result.Failure<BulkInsertValidInvalidVM>(result.Error); 
+                }
+                else
+                {
+                    message = string.Empty;
+                    bulkModel.ValidModels = result.Value;
+                    csvUtility.CompleteTask();
+                    inValidCSVUtility.CompleteTask();
+                }
+            }
+           
+            return Result.Success(bulkModel);
         }
     }
 }
