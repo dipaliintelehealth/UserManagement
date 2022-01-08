@@ -120,7 +120,13 @@
                     {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => item.ErrorMessage)
+                            <ul>
+                                @foreach (var message in item.ErrorMessage?.Split(","))
+                                {
+                                   <li>@message</li>
+                                }
+                            </ul>
+                            @*@Html.DisplayFor(modelItem => item.ErrorMessage)*@
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.HFName)

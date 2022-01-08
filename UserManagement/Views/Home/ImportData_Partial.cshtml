@@ -462,9 +462,11 @@
 
         $('.state').change(function () {
             let state = $(this);
+            let windowURL = window.location.href;
+            let url = windowURL.includes("Home") ? 'GetDistricts' : 'Home/GetDistricts';
             $.ajax({
                 type: "post",
-                url: "GetDistricts",
+                url: url,
                 data: { stateId: $(state).val() },
                 datatype: "json",
                 traditional: true,
@@ -483,9 +485,11 @@
         });
         $('.district').change(function () {
             let district = $(this);
+            let windowURL = window.location.href;
+            let url = windowURL.includes("Home") ? 'GetCities' : 'Home/GetCities';
             $.ajax({
                 type: "post",
-                url: "GetCities",
+                url: url,
                 data: { stateId: 0, districtId: $(this).val() },
                 datatype: "json",
                 traditional: true,

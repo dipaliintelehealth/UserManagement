@@ -1,6 +1,7 @@
 ﻿@model UserManagement.Domain.ViewModel.BulkInsertValidInvalidVM
 @using  UserManagement.Domain.ViewModel
-
-@await Html.PartialAsync("BulkImportSucess_partial", Model.ValidModels);
-@await Html.PartialAsync("BulkImportError_partial", Model.InValidModels)
+<div class="container">
+    @await Html.PartialAsync("BulkImportSucess_partial", Model.ValidModels)
+    @await Html.PartialAsync("BulkImportError_partial", Model.InValidModels)
+</div>
 
