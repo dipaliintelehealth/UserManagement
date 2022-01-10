@@ -1,12 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using UserManagement.Models;
+using System.Linq;
+using System.Threading.Tasks;
+using UserManagement.Domain.ViewModel;
 
-namespace UserManagement.Domain.ViewModel
+namespace UserManagement.Models
 {
-    public class MemberBulkImportVM
+    public class MemberBulkValid
     {
-        
+
         [Display(Name = "HF Name")]
         public string HFName { get; set; }
 
@@ -136,21 +139,5 @@ namespace UserManagement.Domain.ViewModel
         }
         [Display(Name = "Sub Menu")]
         public string SubMenuName { get; set; }
-    }
-    public class CompareHFNameWithDistrictName : IEqualityComparer<MemberBulkValid>
-    {
-        public bool Equals(MemberBulkValid x, MemberBulkValid y)
-        {
-            if (x == null && y == null) return true;
-            if (y == null || x == null) return false;
-
-            return string.Equals(x.HFNameWithDistrictName?.Trim().ToLower(),
-                y.HFNameWithDistrictName?.Trim().ToLower());
-        }
-
-        public int GetHashCode(MemberBulkValid obj)
-        {
-            return obj.HFNameWithDistrictName.Trim().ToLower().GetHashCode();
-        }
     }
 }

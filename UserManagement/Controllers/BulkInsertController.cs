@@ -7,6 +7,7 @@ using UserManagement.Contract;
 using UserManagement.Domain;
 using UserManagement.Domain.ViewModel;
 using UserManagement.Infrastructure.Files;
+using UserManagement.Models;
 
 namespace UserManagement.Controllers
 {
@@ -21,25 +22,14 @@ namespace UserManagement.Controllers
         // GET
         public async Task<IActionResult> Index(string id)
         {
-            const string folderPath = "Logs/Csv";
-            var csvUtility = new MemberBulkImportVmCsvUtility(id);
-            csvUtility.Configure(new CsvConfiguration() { CsvLogPath = folderPath});
-            var models = csvUtility.Read(null);
-            var message = "No data found to import. Please try again";
-            if (models != null)
+            var result = await _service.AddDataFromTemporaryStorage(id);
+            if(result.IsFailure)
             {
-                var modelsList = models.ToList();
-                var result = await _service.ImportData(modelsList, folderPath);
-                if (result.IsSuccess)
-                {
-                    return View(result.Value);
-                }
-
-                message = result.Error;
+                ViewBag.Message = result.Error;
+                return View("Error");
             }
-
-            ViewBag.Message = message;
-            return View("Error");
+           
+            return View(result.Value);
         }
     }
 }

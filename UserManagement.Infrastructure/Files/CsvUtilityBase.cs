@@ -16,7 +16,7 @@ namespace UserManagement.Infrastructure.Files
             return this;
         }
 
-        public Task<bool> Log(string fileName,byte[] data)
+        public bool Log(string fileName,byte[] data)
         {
             var directorypath = _configuration.CsvLogPath;
             foreach(var file in Directory.GetFiles(directorypath))
@@ -27,10 +27,11 @@ namespace UserManagement.Infrastructure.Files
                     File.Delete(file);
                 }
             }
-            var fs = new FileStream(fileName, FileMode.Create);
-            fs.Write(data);
-            fs.Close();
-            return Task.FromResult(true);
+            using(var fs = new FileStream(fileName, FileMode.Create))
+            {
+                fs.Write(data);
+            }
+            return true;
         }
         
         public abstract IEnumerable<T> Read(Stream stream);

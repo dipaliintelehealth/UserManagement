@@ -211,13 +211,24 @@ namespace UserManagement.Infrastructure.Repository
 
         public async Task<IEnumerable<InstitutionModel>> GetInstituations(int minId, int maxId)
         {
-            var sql = $"SELECT * FROM md_institution where InstitutionId >= {minId} and InstitutionId <= {maxId};";
+            var sql = $"SELECT InstitutionId,Name " +
+                 $" FROM md_institution WHERE InstitutionId >= {minId} AND InstitutionId <= {maxId};";
             var result = await Connection.QueryAsync<InstitutionModel>(sql);
             return result;
         }
         public async Task<IEnumerable<MembersModel>> GetMembers(int minId, int maxId)
         {
             var sql = $"SELECT * FROM md_members where MemberId >= {minId} and MemberId <= {maxId};";
+            var result = await Connection.QueryAsync<MembersModel>(sql);
+            return result;
+        }
+
+        public async Task<IEnumerable<MembersModel>> FindMembers(IEnumerable<string> emails)
+        {
+            //var sql = $"SELECT * FROM md_members where MemberId >= {minId} and MemberId <= {maxId};";
+            var singleQuotedEmails = emails.Select(x => { return $"'{x}'"; });
+            var emailString = string.Join(',', singleQuotedEmails);
+            var sql = "Select MemberId,Email from md_members where Email IN( " + emailString + ")";
             var result = await Connection.QueryAsync<MembersModel>(sql);
             return result;
         }
@@ -350,6 +361,20 @@ namespace UserManagement.Infrastructure.Repository
             var sql = "SELECT C.CityId AS Id, C.CityName AS Value " +
                         " FROM md_city AS C " +
                         $" WHERE C.DistrictId = {districtId}; ";
+            var result = await Connection.QueryAsync<KeyValue<string, string>>(sql);
+            return result;
+        }
+
+        public async Task<IEnumerable<SpecializationModel>> GetSpecialities()
+        {
+            var sql = "SELECT SpecialityId,SpecialityName FROM md_speciality;";
+            var result = await Connection.QueryAsync<SpecializationModel>(sql);
+            return result;
+        }
+
+        public async Task<IEnumerable<KeyValue<string, string>>> GetSpecility()
+        {
+            var sql = "SELECT SpecialityId AS Id, SpecialityName AS Value FROM md_speciality;";
             var result = await Connection.QueryAsync<KeyValue<string, string>>(sql);
             return result;
         }

@@ -7,8 +7,10 @@ using System.Text;
 using UserManagement.Business.Services;
 using UserManagement.Contract.Repository;
 using UserManagement.Contract.Utility;
+using UserManagement.Contract.Validator;
 using UserManagement.Domain;
 using UserManagement.Domain.ViewModel;
+using UserManagement.Models;
 using Xunit;
 
 namespace UserManagement.Business.Tests
@@ -54,6 +56,7 @@ namespace UserManagement.Business.Tests
         {
             var repoMock = new Mock<IMemberBulkInsertRepository>();
             var excelMock = new Mock<IExcelFileUtility<MemberBulkImportVM>>();
+            var repoValidator = new Mock<IBulkInsertValidator<MemberBulkImportVM>>();
             var states = new List<StateDistrictCity>
             {
                  new StateDistrictCity()
@@ -88,7 +91,7 @@ namespace UserManagement.Business.Tests
                 }
 
             };
-            var service = new MemberBulkDataImportService(excelMock.Object, repoMock.Object);
+            var service = new MemberBulkDataImportService(excelMock.Object, repoMock.Object,repoValidator.Object);
 
 
             var result = service.GetUsersName(states, state, district, hfname, type);
@@ -99,11 +102,11 @@ namespace UserManagement.Business.Tests
         [Fact]
         public async System.Threading.Tasks.Task CreateUserName_When_One_User_Exists_inDB_Should_Create_UserName_With_IncrementAsync()
         {
-            var validatedModels = new List<MemberBulkImportVM>()
+            var validatedModels = new List<MemberBulkValid>()
             {
                 
                 {
-                    new MemberBulkImportVM()
+                    new MemberBulkValid()
                     {
                         UserName="pbaboharfazsc",
                         UserState="PUNJAB",
@@ -145,7 +148,8 @@ namespace UserManagement.Business.Tests
             };
             var repoMock = new Mock<IMemberBulkInsertRepository>();
             var excelMock = new Mock<IExcelFileUtility<MemberBulkImportVM>>();
-            var service = new MemberBulkDataImportService(excelMock.Object, repoMock.Object);
+            var repoValidator = new Mock<IBulkInsertValidator<MemberBulkImportVM>>();
+            var service = new MemberBulkDataImportService(excelMock.Object, repoMock.Object,repoValidator.Object);
 
             var result =  await service.CreateUserName(validatedModels, users, states);
 
@@ -156,11 +160,11 @@ namespace UserManagement.Business.Tests
         [Fact]
         public async System.Threading.Tasks.Task CreateUserName_When_Multiple_User_Exists_inDB_And_MultipleUsers_Are_In_Excel_Then_Should_Create_UserName_With_IncrementAsync()
         {
-            var validatedModels = new List<MemberBulkImportVM>()
+            var validatedModels = new List<MemberBulkValid>()
             {
                 
                 {
-                    new MemberBulkImportVM()
+                    new MemberBulkValid()
                     {
                         UserName="pbaboharfazsc",
                         UserState="PUNJAB",
@@ -172,7 +176,7 @@ namespace UserManagement.Business.Tests
                 },
                  
                 {
-                    new MemberBulkImportVM()
+                    new MemberBulkValid()
                     {
                         UserName="pbaboharfazsc",
                         UserState="PUNJAB",
@@ -184,7 +188,7 @@ namespace UserManagement.Business.Tests
                 },
                   
                 {
-                    new MemberBulkImportVM()
+                    new MemberBulkValid()
                     {
                         UserName="pbaboharfazsc",
                         UserState="PUNJAB",
@@ -225,29 +229,30 @@ namespace UserManagement.Business.Tests
                 "pbabohar1fazsc",
                 "pbabohar2fazsc",
                 "pbabohar3fazsc",
-                "pbabohar5fazsc",
+                "pbabohar20fazsc",
                 "mhsiddapurapnsc"
             };
             var repoMock = new Mock<IMemberBulkInsertRepository>();
             var excelMock = new Mock<IExcelFileUtility<MemberBulkImportVM>>();
-            var service = new MemberBulkDataImportService(excelMock.Object, repoMock.Object);
+            var repoValidator = new Mock<IBulkInsertValidator<MemberBulkImportVM>>();
+            var service = new MemberBulkDataImportService(excelMock.Object, repoMock.Object,repoValidator.Object);
 
             var result = await service.CreateUserName(validatedModels, users, states);
 
             Assert.NotNull(result.Value);
-            Assert.Contains(result.Value, x => x.UserName == "pbabohar6fazsc");
-            Assert.Contains(result.Value, x => x.UserName == "pbabohar7fazsc");
-            Assert.Contains(result.Value, x => x.UserName == "pbabohar8fazsc");
+            Assert.Contains(result.Value, x => x.UserName == "pbabohar21fazsc");
+            Assert.Contains(result.Value, x => x.UserName == "pbabohar22fazsc");
+            Assert.Contains(result.Value, x => x.UserName == "pbabohar23fazsc");
            
         }
         [Fact]
         public async System.Threading.Tasks.Task CreateUserName_When_One_User_Exists_inDB_And_MultipleUsers_Are_In_Excel_Then_Should_Create_UserName_With_IncrementAsync()
         {
-            var validatedModels = new List<MemberBulkImportVM>()
+            var validatedModels = new List<MemberBulkValid>()
             {
                 
                 
-                    new MemberBulkImportVM()
+                    new MemberBulkValid()
                     {
                         UserName="pbaboharfazsc",
                         UserState="PUNJAB",
@@ -259,7 +264,7 @@ namespace UserManagement.Business.Tests
                 },
                  
                 
-                    new MemberBulkImportVM()
+                    new MemberBulkValid()
                     {
                         UserName="pbaboharfazsc",
                         UserState="PUNJAB",
@@ -271,7 +276,7 @@ namespace UserManagement.Business.Tests
                 },
                   
                 
-                    new MemberBulkImportVM()
+                    new MemberBulkValid()
                     {
                         UserName="pbaboharfazsc",
                         UserState="PUNJAB",
@@ -313,7 +318,8 @@ namespace UserManagement.Business.Tests
             };
             var repoMock = new Mock<IMemberBulkInsertRepository>();
             var excelMock = new Mock<IExcelFileUtility<MemberBulkImportVM>>();
-            var service = new MemberBulkDataImportService(excelMock.Object, repoMock.Object);
+            var repoValidator = new Mock<IBulkInsertValidator<MemberBulkImportVM>>();
+            var service = new MemberBulkDataImportService(excelMock.Object, repoMock.Object,repoValidator.Object);
 
             var result = await service.CreateUserName(validatedModels, users, states);
 
@@ -326,11 +332,11 @@ namespace UserManagement.Business.Tests
         [Fact]
         public async System.Threading.Tasks.Task CreateUserName_When_User_Not_Exists_inDB_Should_Create_UserName_Without_IncrementAsync()
         {
-            var validatedModels = new List<MemberBulkImportVM>()
+            var validatedModels = new List<MemberBulkValid>()
             {
                 
                 
-                    new MemberBulkImportVM()
+                    new MemberBulkValid()
                     {
                         UserName="pbaboharfazsc",
                         UserState="PUNJAB",
@@ -376,7 +382,8 @@ namespace UserManagement.Business.Tests
             };
             var repoMock = new Mock<IMemberBulkInsertRepository>();
             var excelMock = new Mock<IExcelFileUtility<MemberBulkImportVM>>();
-            var service = new MemberBulkDataImportService(excelMock.Object, repoMock.Object);
+            var repoValidator = new Mock<IBulkInsertValidator<MemberBulkImportVM>>();
+            var service = new MemberBulkDataImportService(excelMock.Object, repoMock.Object,repoValidator.Object);
 
             var result = await service.CreateUserName(validatedModels, users, states);
 
@@ -387,11 +394,11 @@ namespace UserManagement.Business.Tests
         [Fact]
         public async System.Threading.Tasks.Task CreateUserName_When_One_User_Not_Exists_inDB_And_duplicateUsers_Are_In_Excel_Then_Should_Create_UserName_With_IncrementAsync()
         {
-            var validatedModels = new List<MemberBulkImportVM>()
+            var validatedModels = new List<MemberBulkValid>()
             {
                 
                
-                    new MemberBulkImportVM()
+                    new MemberBulkValid()
                     {
                         UserName="pbaboharfazsc",
                         UserState="PUNJAB",
@@ -402,7 +409,7 @@ namespace UserManagement.Business.Tests
                     },
                  
                
-                    new MemberBulkImportVM()
+                    new MemberBulkValid()
                     {
                         UserName="pbaboharfazsc",
                         UserState="PUNJAB",
@@ -414,7 +421,7 @@ namespace UserManagement.Business.Tests
                 },
                   
                
-                    new MemberBulkImportVM()
+                    new MemberBulkValid()
                     {
                         UserName="pbaboharfazsc",
                         UserState="PUNJAB",
@@ -460,7 +467,8 @@ namespace UserManagement.Business.Tests
             };
             var repoMock = new Mock<IMemberBulkInsertRepository>();
             var excelMock = new Mock<IExcelFileUtility<MemberBulkImportVM>>();
-            var service = new MemberBulkDataImportService(excelMock.Object, repoMock.Object);
+            var repoValidator = new Mock<IBulkInsertValidator<MemberBulkImportVM>>();
+            var service = new MemberBulkDataImportService(excelMock.Object, repoMock.Object,repoValidator.Object);
 
             var result = await service.CreateUserName(validatedModels, users, states);
 
@@ -473,11 +481,11 @@ namespace UserManagement.Business.Tests
         [Fact]
         public async System.Threading.Tasks.Task CreateUserName_When_Multiple_User_Exists_inDB_Should_Create_UserName_With_IncrementAsync()
         {
-            var validatedModels = new List<MemberBulkImportVM>()
+            var validatedModels = new List<MemberBulkValid>()
             {
                 
                
-                    new MemberBulkImportVM()
+                    new MemberBulkValid()
                     {
                         UserName="pbaboharfazsc",
                         UserState="PUNJAB",
@@ -523,7 +531,8 @@ namespace UserManagement.Business.Tests
             };
             var repoMock = new Mock<IMemberBulkInsertRepository>();
             var excelMock = new Mock<IExcelFileUtility<MemberBulkImportVM>>();
-            var service = new MemberBulkDataImportService(excelMock.Object, repoMock.Object);
+            var repoValidator = new Mock<IBulkInsertValidator<MemberBulkImportVM>>();
+            var service = new MemberBulkDataImportService(excelMock.Object, repoMock.Object,repoValidator.Object);
 
             var result = await service.CreateUserName(validatedModels, users, states);
 

@@ -2,16 +2,18 @@
 @using UserManagement.Domain.ViewModel
 @if (Model != null && Model.Count() > 0)
 {
+   
     <div class="card">
         <div class="card-header visible">
             <div class="text-info total-summary"></div>
         </div>
         <div class="card-body">
-            <form asp-formhelper="true" asp-beforeSubmit="formValidationBeforeSubmit" asp-callback="formValidationCallback" asp-enableButtonAfterSuccess="true" asp-action="ImportData">
+            <form id="bulkform" asp-action="Index">
                 <div class="text-danger mb-2 validation-summary"></div>
 
                 <div class="text-center mb-2">
-                    <input id="btnformhelper" type="submit" value="Submit" class="btn btn-info" onclick="formValidationCallback();" />
+                    <button id="btnformhelper" class="btn btn-info" asp-action="ValidateData" asp-controller="Home">Validate</button>
+                    <button id="btnformhelper1" class="btn btn-info" asp-action="InsertData" asp-controller="Home">Insert</button>
                 </div>
                 <table class="bulkupload table" id="tblImportData">
                     <thead>
@@ -130,7 +132,7 @@
                         {
                             <tr>
                                 <td style="min-width: 28px; max-width:50px;">
-                                    @Html.CheckBox($"[{i}].isActive", false, new {  @class = "form-control chkSelected", @style = "max-width:25px;" })
+                                    @Html.CheckBox($"[{i}].isActive", false, new { @class = "form-control chkSelected", @style = "max-width:25px;" })
                                 </td>
                                 <td>
                                     @Html.TextBoxFor(modelItem => Model[i].HFName, new { @class = "form-control" })
@@ -209,8 +211,9 @@
                                     @Html.ValidationMessageFor(modelItem => Model[i].UserEmail, "", new { @class = "text-danger" })
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].Designation, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].Designation, "", new { @class = "text-danger" })
+                                    @Html.DropDownListFor(model => Model[i].SelectedSpecialityId,
+                                    new SelectList(ViewBag.Specilization, "Id", "Value"), "--Select--", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(modelItem => Model[i].SelectedSpecialityId, "", new { @class = "text-danger" })
                                 </td>
                                 <td>
                                     @Html.TextBoxFor(modelItem => Model[i].DOB, new { @class = "form-control" })
@@ -285,8 +288,14 @@
 
 <script type="text/javascript">
     var tblImportData;
+    /*function onSubmitClick(url) {
+        let form = $("#bulkform");
+        $(form).attr('action', url);
+        console.log("form action : ", form.action);
+        setTimeout(function () { $(form).submit(); },100);
+    }*/
     function formValidationCallback(response, statusText, xhr, $form) {
-        
+
         setTimeout(function () {
             updateValidationSummary();
             if (response && !response.isSucceed) {
@@ -296,7 +305,7 @@
     }
     function formValidationBeforeSubmit(rr, $form, options) {
         $("#btnformhelper").attr('disabled', 'disabled');
-       
+
     }
     function setRowBorderColor(validRows, inValidRows) {
         if (validRows) {
@@ -317,7 +326,7 @@
     }
     function updateValidationSummary() {
         let validInvalid = getValidInvalidRows();
-        
+
         setRowBorderColor(validInvalid.validRows, validInvalid.inValidRows);
         displayTotalSummary(validInvalid.validRows, validInvalid.inValidRows);
 
@@ -338,7 +347,7 @@
                 validInvalid.inValidRows.push(row);
                 let errorFieldArray = errorField.toArray();
                 validInvalid.errorFields = validInvalid.errorFields.concat(errorFieldArray);
-                
+
             }
             else {
                 validInvalid.validRows.push(row);
@@ -351,7 +360,7 @@
         var inputs = $(row).find('input');
         var spans = $(row).find('span');
         var selects = $(row).find('select');
-        $(inputs).each((index,input) => {
+        $(inputs).each((index, input) => {
             let name = $(input).attr('name');
             let splitPart = name.split('.')[1];
             let newName = "[" + rowindex + "]." + splitPart;
@@ -364,13 +373,13 @@
             $(select).attr('name', newName);
         });
         $(spans).each((index, span) => {
-           
+
             let name = $(span).attr('data-valmsg-for');
             if (name) {
                 let splitPart = name.split('.')[1];
                 let newName = "[" + rowindex + "]." + splitPart;
                 $(span).attr('data-valmsg-for', newName);
-               
+
             }
         });
     }
@@ -396,13 +405,13 @@
     }
     function displayValidationSummary(errorDictionary) {
         if (errorDictionary) {
-            let sortedDictionary = errorDictionary.sort(function (firstItem, secondItem){
-                return ( firstItem.key < secondItem.key? -1 : (firstItem.key > secondItem.key ? 1 : 0));
+            let sortedDictionary = errorDictionary.sort(function (firstItem, secondItem) {
+                return (firstItem.key < secondItem.key ? -1 : (firstItem.key > secondItem.key ? 1 : 0));
             });
             let errorhtml = '<ul class="no-bullets"> ';
             for (var i = 0; i < sortedDictionary.length; i++) {
                 item = sortedDictionary[i];
-                errorhtml += '<li> <span class="badge badge-danger badge-pill mr-2" > '+ item.value + '</span>' + item.key +  '</li> ';
+                errorhtml += '<li> <span class="badge badge-danger badge-pill mr-2" > ' + item.value + '</span>' + item.key + '</li> ';
             }
             errorhtml += '</ul>';
             $('.validation-summary').html(errorhtml);
@@ -430,7 +439,7 @@
             "searching": false,
             "paging": true,
             "scrollX": true,
-            "info":true,
+            "info": true,
             dom: 'lBfrtip<"actions">',
             buttons: {
                 buttons: [
@@ -450,18 +459,20 @@
                 }
             }
         });
-       
+
         $('.state').change(function () {
             let state = $(this);
+            let windowURL = window.location.href;
+            let url = windowURL.includes("Home") ? 'GetDistricts' : 'Home/GetDistricts';
             $.ajax({
                 type: "post",
-                url: "Home/GetDistricts",
+                url: url,
                 data: { stateId: $(state).val() },
                 datatype: "json",
                 traditional: true,
                 success: function (data) {
                     var options = getOptions(data);
-                   
+
                     let stateId = $(state).attr('id');
                     let districtId = stateId.replace('State', 'District');
                     //console.log('district', districtId);
@@ -471,12 +482,14 @@
                     $('#' + cityId).empty().append(cityOptions);
                 }
             });
-        }); 
+        });
         $('.district').change(function () {
             let district = $(this);
+            let windowURL = window.location.href;
+            let url = windowURL.includes("Home") ? 'GetCities' : 'Home/GetCities';
             $.ajax({
                 type: "post",
-                url: "Home/GetCities",
+                url: url,
                 data: { stateId: 0, districtId: $(this).val() },
                 datatype: "json",
                 traditional: true,
@@ -487,7 +500,7 @@
                     $('#' + cityId).empty().append(options);
                 }
             });
-        }); 
+        });
         $('.chkSelected').on('click', function () {
 
             var row = $(this).parents('tr');
@@ -499,4 +512,4 @@
             }
         });
     });
- </script>
+</script>

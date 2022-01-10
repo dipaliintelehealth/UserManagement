@@ -71,9 +71,9 @@ namespace UserManagement.Business.Validators
                 .NotEmpty()
                 .WithMessage("User Last Name can not be blank !");
 
-            /*RuleFor(x => x.UserMobile)
+            RuleFor(x => x.UserMobile)
                 .NotEmpty()
-                .WithMessage("User Mobile can not be blank !");*/
+                .WithMessage("User Mobile can not be blank !");
 
             RuleFor(x => x.UserMobile)
                 .Matches("^[0-9]{10}$")
@@ -87,17 +87,17 @@ namespace UserManagement.Business.Validators
                 .NotEmpty()
                 .WithMessage("User Qualification can not be blank!");
 
-            /*RuleFor(x => x.UserEmail)
+            RuleFor(x => x.UserEmail)   
                 .NotEmpty()
-                .WithMessage("User Email can not be blank !");*/
+                .WithMessage("User Email can not be blank !");
 
             RuleFor(x => x.UserEmail)
                 .EmailAddress()
                 .WithMessage("Invalid User Email !");
 
-            RuleFor(x => x.Designation)
-                .NotEmpty()
-                .WithMessage("User Specialization / Designation can not be blank!");
+            //RuleFor(x => x.Designation)
+            //    .NotEmpty()
+            //    .WithMessage("User Specialization / Designation can not be blank!");
 
             RuleFor(x => x.DOB)
                 .NotEmpty()
@@ -120,7 +120,9 @@ namespace UserManagement.Business.Validators
                 .NotEmpty()
                 .WithMessage("Invalid User City Name !");
 
-           
+            RuleFor(x => x.SelectedSpecialityId)
+                 .NotEmpty()
+                 .WithMessage("Invalid User Specialization / Designation !");
 
             RuleFor(x => x.UserAddress)
                .NotEmpty()

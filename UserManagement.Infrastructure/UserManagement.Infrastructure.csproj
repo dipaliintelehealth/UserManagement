@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="UserManagement.Contract\**" />
+    <EmbeddedResource Remove="UserManagement.Contract\**" />
+    <None Remove="UserManagement.Contract\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Extention\OracleDynamicParameters.cs" />
   </ItemGroup>
 

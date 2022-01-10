@@ -19,8 +19,10 @@ namespace UserManagement.Contract.Repository
         Task<IEnumerable<string>> FindEmails(IEnumerable<string> emails);
         Task<IEnumerable<string>> FindMobiles(IEnumerable<string> mobiles);
         Task<IEnumerable<string>> FindUsers(IEnumerable<string> users);
+        Task<IEnumerable<MembersModel>> FindMembers(IEnumerable<string> emails);
         Task<IEnumerable<InstitutionModel>> GetInstitution();
         Task<IEnumerable<QualificationModel>> GetQualification();
+        Task<IEnumerable<SpecializationModel>> GetSpecialities();
         Task<int> GetMaxInstituteId();
         Task<IEnumerable<InstitutionModel>> GetInstituations(int minId, int maxId);
         Task<int> GetMaxMemberId();
@@ -30,6 +32,7 @@ namespace UserManagement.Contract.Repository
         Task<int> BulkInsertAuditTrail(Stream stream);
         Task<IEnumerable<SubMenuModel>> GetSubMenu();
         Task<IEnumerable<KeyValue<string, string>>> GetStates();
+        Task<IEnumerable<KeyValue<string, string>>> GetSpecility();
         Task<IEnumerable<KeyValue<string, string>>> GetDistrict(string stateId);
 
         Task<IEnumerable<KeyValue<string, string>>> GetCities(string stateId, string districtId);

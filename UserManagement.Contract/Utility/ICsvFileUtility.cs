@@ -7,6 +7,6 @@ namespace UserManagement.Contract.Utility
     public interface ICsvFileUtility<T> : IFileUtility<T>
     {
         ICsvFileUtility<T> Configure(CsvConfiguration csvConfiguration);
-        Task <bool> Log(string fileName,byte[] data);
+        bool Log(string fileName,byte[] data);
     }
 }
