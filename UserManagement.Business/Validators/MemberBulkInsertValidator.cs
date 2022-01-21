@@ -15,8 +15,8 @@ namespace UserManagement.Business.Validators
     {
         private readonly IValidator<MemberBulkImportVM> _validator;
         private readonly IMemberBulkInsertRepository _repository;
-        private IEnumerable<string> _mobiles= Enumerable.Empty<string>();
-        private IEnumerable<string> _emails= Enumerable.Empty<string>();
+        private IEnumerable<string> _mobiles = Enumerable.Empty<string>();
+        private IEnumerable<string> _emails = Enumerable.Empty<string>();
         private IEnumerable<string> _menus = Enumerable.Empty<string>();
         private IEnumerable<StateDistrictCity> _stateDistrictCities = Enumerable.Empty<StateDistrictCity>();
 
@@ -25,13 +25,13 @@ namespace UserManagement.Business.Validators
             this._validator = validator;
             this._repository = repository;
         }
-        
+
         #region Private Methods
         private async Task SetEmailsForValidation(IList<MemberBulkImportVM> models)
         {
             this._emails = await _repository.FindEmails(models.Select(model => model.UserEmail));
         }
-        private async  Task SetMobilesForValidation(IList<MemberBulkImportVM> models)
+        private async Task SetMobilesForValidation(IList<MemberBulkImportVM> models)
         {
             this._mobiles = await _repository.FindMobiles(models.Select(model => model.UserMobile));
         }
@@ -42,15 +42,23 @@ namespace UserManagement.Business.Validators
         }
         private async Task SetStateDistrictsForValidation()
         {
-            _stateDistrictCities  = await _repository.GetStateDistrictCities();
+            _stateDistrictCities = await _repository.GetStateDistrictCities();
         }
         private bool IsDuplicateMobile(string mobile)
         {
             return _mobiles.Contains(mobile);
         }
+        private bool IsDuplicateMobile(string mobile, IEnumerable<string> mobiles)
+        {
+            return mobiles?.Where(x => x == mobile).Count() > 1;
+        }
         private bool IsDuplicateEmail(string email)
         {
             return _emails.Contains(email);
+        }
+        private bool IsDuplicateEmail(string email, IEnumerable<string> emails)
+        {
+            return emails?.Where(x => x == email).Count() > 1;
         }
         private bool IsContainsInValidMenu(string menuString)
         {
@@ -67,14 +75,14 @@ namespace UserManagement.Business.Validators
         {
             var error = new BulkInsertValidationFailure()
             {
-                Index = index, 
+                Index = index,
                 ErrorMessage = errorMessage,
                 ErrorCode = errorCode,
                 PropertyName = propertyName
             };
             return error;
         }
-        private async Task<BulkInsertValidationResult> ValidateAsync(MemberBulkImportVM model,int index=0)
+        private async Task<BulkInsertValidationResult> ValidateAsync(MemberBulkImportVM model, int index = 0)
         {
             IList<BulkInsertValidationFailure> errors = new List<BulkInsertValidationFailure>();
             var validationResult = await _validator.ValidateAsync(model);
@@ -87,7 +95,7 @@ namespace UserManagement.Business.Validators
                     errors.Add(error);
                 }
             }
-            if(IsDuplicateEmail(model.UserEmail))
+            if (IsDuplicateEmail(model.UserEmail))
             {
                 var error = GetBulkInsertValidationFailure(index, "Duplicate User Email !", string.Empty,
                     nameof(model.UserEmail));
@@ -125,11 +133,29 @@ namespace UserManagement.Business.Validators
             await SetMobilesForValidation(models);
             await SetMenusForValidation();
             await SetStateDistrictsForValidation();
+            var emails = models.Select(x => x.UserEmail);
+            var mobiles = models.Select(x => x.UserMobile);
             for (var i = 0; i < models.Count; i++)
             {
-                var validationResult = await ValidateAsync(models[i],i);
-                if (validationResult.IsValid) continue;
-                errors.AddRange(validationResult.Errors);
+                var validationResult = await ValidateAsync(models[i], i);
+                var model = models[i];
+                if (IsDuplicateEmail(models[i].UserEmail, emails))
+                {
+                    
+                    var error = GetBulkInsertValidationFailure(i, "Duplicate User Email !", string.Empty,
+                            nameof(model.UserEmail));
+                    errors.Add(error);
+                }
+                if (IsDuplicateMobile(models[i].UserMobile,mobiles))
+                {
+                    var error = GetBulkInsertValidationFailure(i, "Duplicate User Mobile !", string.Empty,
+                        nameof(model.UserMobile));
+                    errors.Add(error);
+                }
+                if (!validationResult.IsValid)
+                {
+                    errors.AddRange(validationResult.Errors);
+                }
             }
             return new BulkInsertValidationResult(errors);
         }
