@@ -665,7 +665,7 @@ namespace UserManagement.Business.Services
                 MiddleName = string.Empty,
                 LastName = x.LastName,
                 AgeType = 1,
-                DOB = DateTime.ParseExact(x.DOB, "dd-MM-yyyy", CultureInfo.InvariantCulture).ToString("dd-MM-yyyy HH:mm:ss"),
+                DOB = DateTime.ParseExact(x.DOB, "dd-MM-yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd HH:mm:ss"),
                 Age = 0,
                 Mobile = x.UserMobile,
                 Email = x.UserEmail,
