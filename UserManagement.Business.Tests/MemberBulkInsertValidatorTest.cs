@@ -155,7 +155,8 @@ namespace UserManagement.Business.Tests
 
             Assert.True(result != null, "result is not empty");
              //Assert.True(result.Errors.Count == 4, "total invalid count should match");
-             Assert.True(result.Errors.Where(x => x.ErrorMessage.Contains("Duplicate User")).Count() == 2, "duplicate user count should match");
+             Assert.True(result.Errors.Where(x => x.ErrorMessage.Contains("Duplicate User Email !")).Count() == 1, "duplicate user email count should match");
+             Assert.True(result.Errors.Where(x => x.ErrorMessage.Contains("Duplicate User Mobile !")).Count() == 3, "duplicate user mobile count should match");
              Assert.True(result.Errors.Where(x => x.ErrorMessage.Contains("Invalid User District Name !")).Count() == 1, "invalid district count should match");
              Assert.True(result.Errors.Where(x => x.ErrorMessage.Contains("Invalid HF State Name !")).Count() == 1, "invalid state count should match");
              Assert.True(result.Errors.Where(x => x.ErrorMessage.Contains("Invalid HF District Name !")).Count() == 0, "invalid district count should match");
