@@ -378,5 +378,22 @@ namespace UserManagement.Infrastructure.Repository
             var result = await Connection.QueryAsync<KeyValue<string, string>>(sql);
             return result;
         }
+
+        public async Task<int> SetMasterMember(IEnumerable<string> instituteIds)
+        {
+            var instituteString = string.Join(',', instituteIds);
+
+            var sql = "Update staggingdblive_jan_aws.md_members as md join " +
+                      " (SELECT m.IsMaster, min(m.MemberId) as FirstUser, mp.InstitutionId " +
+                      " FROM staggingdblive_jan_aws.md_members as m " +
+                      " INNER JOIN staggingdblive_jan_aws.mp_member_institution as mp " +
+                      " ON m.MemberId = mp.MemberId " +
+                      $" where mp.InstitutionId IN ( " + instituteString + ")" +
+                      "  group by mp.InstitutionId having m.IsMaster=0) as t " +
+                      " on md.MemberId = t.FirstUser " +
+                      " set md.IsMaster=1;";
+            var result = await Connection.ExecuteAsync(sql);
+            return result;
+        }
     }
 }

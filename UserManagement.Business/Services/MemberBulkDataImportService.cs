@@ -717,7 +717,8 @@ namespace UserManagement.Business.Services
                     }
                     return x;
                 });
-                return Result.Success(results.Where(x => !string.IsNullOrEmpty(x.MemberId)));
+
+            return Result.Success(results.Where(x => !string.IsNullOrEmpty(x.MemberId)));
        }
 
         private async Task<Result<IEnumerable<MemberBulkValid>>> CreateLogin(IEnumerable<MemberBulkValid> models)
@@ -792,6 +793,7 @@ namespace UserManagement.Business.Services
             });
             var stream = csvUtility.Write(memberInstitutions);
             await _bulkInsertRepository.BulkInsertMemberInstitution(stream);
+            await _bulkInsertRepository.SetMasterMember(models.Select(x => x.InstituteID));
             return Result.Success(modelReturns);
         }
 
