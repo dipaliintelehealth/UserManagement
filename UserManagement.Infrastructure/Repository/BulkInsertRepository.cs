@@ -337,7 +337,6 @@ namespace UserManagement.Infrastructure.Repository
             bulkLoader.NumberOfLinesToSkip = 1;
             return await bulkLoader.LoadAsync();
         }
-
         public async Task<IEnumerable<KeyValue<string, string>>> GetStates()
         {
             var sql = "SELECT S.StateId AS Id, S.StateName AS Value" +
@@ -393,6 +392,13 @@ namespace UserManagement.Infrastructure.Repository
                       " on md.MemberId = t.FirstUser " +
                       " set md.IsMaster=1;";
             var result = await Connection.ExecuteAsync(sql);
+            return result;
+        }
+
+        public async Task<IEnumerable<string>> GetHFTypes()
+        {
+            var sql = "Select TypeName from md_institutiontype; ";
+            var result = await Connection.QueryAsync<string>(sql);
             return result;
         }
     }

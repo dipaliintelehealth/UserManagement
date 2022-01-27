@@ -17,6 +17,7 @@ namespace UserManagement.Business.Validators
         private readonly IMemberBulkInsertRepository _repository;
         private IEnumerable<string> _mobiles = Enumerable.Empty<string>();
         private IEnumerable<string> _emails = Enumerable.Empty<string>();
+        private IEnumerable<string> _hfTypes = Enumerable.Empty<string>();
         private IEnumerable<string> _menus = Enumerable.Empty<string>();
         private IEnumerable<StateDistrictCity> _stateDistrictCities = Enumerable.Empty<StateDistrictCity>();
 
@@ -30,6 +31,10 @@ namespace UserManagement.Business.Validators
         private async Task SetEmailsForValidation(IList<MemberBulkImportVM> models)
         {
             this._emails = await _repository.FindEmails(models.Select(model => model.UserEmail));
+        }
+        private async Task SetHFTypesForValidation()
+        {
+            this._hfTypes = await _repository.GetHFTypes();
         }
         private async Task SetMobilesForValidation(IList<MemberBulkImportVM> models)
         {
@@ -55,6 +60,18 @@ namespace UserManagement.Business.Validators
         private bool IsDuplicateEmail(string email)
         {
             return _emails.Contains(email);
+        }
+        private bool IsContainInValidHFType(string hfType)
+        {
+            return !_hfTypes.Any(x => x.ToLower()== hfType.Trim().ToLower());
+        }
+        private bool IsContainInValidHFName(string hfName)
+        {
+            if(string.IsNullOrEmpty(hfName))
+            {
+                return false;
+            }
+            return !_hfTypes.Any(x =>  hfName.Trim().ToLower().Contains(x.ToLower()));
         }
         private bool IsDuplicateEmail(string email, IEnumerable<string> emails)
         {
@@ -113,6 +130,18 @@ namespace UserManagement.Business.Validators
                     nameof(model.SubMenuName));
                 errors.Add(error);
             }
+            if(IsContainInValidHFType(model.HFType))
+            {
+                var error = GetBulkInsertValidationFailure(index, "Invalid HF Type !", string.Empty,
+                   nameof(model.HFType));
+                errors.Add(error);
+            }
+            if(IsContainInValidHFName(model.HFName))
+            {
+                var error = GetBulkInsertValidationFailure(index, "Invalid HF Name !", string.Empty,
+                  nameof(model.HFName));
+                errors.Add(error);
+            }
             if (!IsContainDistrictShortCode(model))
             {
                 var districtName = _stateDistrictCities.FirstOrDefault(x => x.DistrictId == model.SelectedUserDistrictId)?.DistrictName;
@@ -133,6 +162,7 @@ namespace UserManagement.Business.Validators
             await SetMobilesForValidation(models);
             await SetMenusForValidation();
             await SetStateDistrictsForValidation();
+            await SetHFTypesForValidation();
             var emails = models.Select(x => x.UserEmail);
             var mobiles = models.Select(x => x.UserMobile);
             for (var i = 0; i < models.Count; i++)

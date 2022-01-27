@@ -21,12 +21,12 @@ namespace UserManagement.Business.Tests
         [Theory]
         [InlineData("Hub Vantmuri MCH", "vantmurimch")]
         [InlineData("HUB Vantmuri MCH", "vantmurimch")]
-        [InlineData("Uphc Vantmuri MCH", "vantmurimch")]
-        [InlineData("hsc Vantmuri MCH", "vantmurimch")]
-        [InlineData("Phc Vantmuri MCH", "vantmurimch")]
-        [InlineData("PHC Vantmuri MCH", "vantmurimch")]
-        [InlineData("Sc Vantmuri MCH", "vantmurimch")]
-        [InlineData(" Sc Vantmuri MCH ", "vantmurimch")]
+        [InlineData("SPOKE Vantmuri MCH", "vantmurimch")]
+        [InlineData("SPOKE Vantmuri MCH", "vantmurimch")]
+        [InlineData("SPOKE Vantmuri MCH", "vantmurimch")]
+        [InlineData("SPOKE Vantmuri MCH", "vantmurimch")]
+        [InlineData("SPOKE Vantmuri MCH", "vantmurimch")]
+        [InlineData(" SPOKE Vantmuri MCH ", "vantmurimch")]
         [InlineData("Vantmuri MCH", "vantmurimch")]
         public void GetHFNameForLogin_Should_Give_ProperName(string hfName, string expected)
         {
@@ -34,22 +34,22 @@ namespace UserManagement.Business.Tests
             Assert.Equal(expected, result);
         }
         [Theory]
-        [InlineData("Maharashtra", "Pune", "SC Siddapura", "SubCentre", "mhsiddapurapnsc")]
-        [InlineData("Maharashtra", "Pune", "SC Siddapura", " SubCentre", "mhsiddapurapnsc")]
-        [InlineData("Maharashtra", "Pune", "SC Siddapura", "SubCentre ", "mhsiddapurapnsc")]
-        [InlineData("Maharashtra", "Pune", "SC Siddapura", " SubCentre ", "mhsiddapurapnsc")]
-        [InlineData("Maharashtra", "Pune", " SC Siddapura", " SubCentre ", "mhsiddapurapnsc")]
-        [InlineData("Maharashtra", "Pune", "SC Siddapura ", " SubCentre ", "mhsiddapurapnsc")]
-        [InlineData("Maharashtra", "Pune", " SC Siddapura ", " SubCentre ", "mhsiddapurapnsc")]
-        [InlineData("Haryana", "Palwal ", "SC Rampur Khor", "SC", "hrrampurkhorpwlsc")]
-        [InlineData("Haryana", "Palwal", "SC Rampur Khor", "SC", "hrrampurkhorpwlsc")]
-        [InlineData("Haryana ", "Palwal", "SC Rampur Khor", "SC", "hrrampurkhorpwlsc")]
-        [InlineData("Haryana ", "Palwal ", "SC Rampur Khor", "SC", "hrrampurkhorpwlsc")]
-        [InlineData(" Haryana ", " Palwal ", "SC Rampur Khor", "SC", "hrrampurkhorpwlsc")]
-        [InlineData("PUNJAB", "FAZILKA", "HSC ABOHAR1", "SubCentre", "pbabohar1fazsc")]
-        [InlineData("", "FAZILKA", "HSC ABOHAR1", "SubCentre", "abohar1fazsc")]
-        [InlineData("", "", "HSC ABOHAR1", "SubCentre", "abohar1sc")]
-        [InlineData("", "", "", "SubCentre", "sc")]
+        [InlineData("Maharashtra", "Pune", "SPOKE Siddapura", "SPOKE", "mhsiddapurapns")]
+        [InlineData("Maharashtra", "Pune", "SPOKE Siddapura", " SPOKE", "mhsiddapurapns")]
+        [InlineData("Maharashtra", "Pune", "SPOKE Siddapura", "SPOKE ", "mhsiddapurapns")]
+        [InlineData("Maharashtra", "Pune", "SPOKE Siddapura", " SPOKE ", "mhsiddapurapns")]
+        [InlineData("Maharashtra", "Pune", " SPOKE Siddapura", " SPOKE ", "mhsiddapurapns")]
+        [InlineData("Maharashtra", "Pune", "SPOKE Siddapura ", " SPOKE ", "mhsiddapurapns")]
+        [InlineData("Maharashtra", "Pune", " SPOKE Siddapura ", " SPOKE ", "mhsiddapurapns")]
+        [InlineData("Haryana", "Palwal ", "SPOKE Rampur Khor", "SPOKE", "hrrampurkhorpwls")]
+        [InlineData("Haryana", "Palwal", "SPOKE Rampur Khor", "SPOKE", "hrrampurkhorpwls")]
+        [InlineData("Haryana ", "Palwal", "SPOKE Rampur Khor", "SPOKE", "hrrampurkhorpwls")]
+        [InlineData("Haryana ", "Palwal ", "SPOKE Rampur Khor", "SPOKE", "hrrampurkhorpwls")]
+        [InlineData(" Haryana ", " Palwal ", "SPOKE Rampur Khor", "SPOKE", "hrrampurkhorpwls")]
+        [InlineData("PUNJAB", "FAZILKA", "SPOKE ABOHAR1", "SPOKE", "pbabohar1fazs")]
+        [InlineData("", "FAZILKA", "SPOKE ABOHAR1", "SPOKE", "abohar1fazs")]
+        [InlineData("", "", "SPOKE ABOHAR1", "SPOKE", "abohar1s")]
+        [InlineData("", "", "", "SPOKE", "s")]
         [InlineData("", "", "", "", "")]
 
         public void GetUserName_Should_Give_Proper_UserName(string state, string district, string hfname, string type, string expected)
@@ -108,11 +108,11 @@ namespace UserManagement.Business.Tests
                 {
                     new MemberBulkValid()
                     {
-                        UserName="pbaboharfazsc",
+                        UserName="pbaboharfazs",
                         UserState="PUNJAB",
                         UserDistrict="FAZILKA",
-                        HFName="HSC ABOHAR",
-                        HFType="SubCentre"
+                        HFName="SPOKE ABOHAR",
+                        HFType="SPOKE"
 
                     }
                 }
@@ -143,8 +143,8 @@ namespace UserManagement.Business.Tests
             };
             var users = new List<string>()
             {
-                "pbaboharfazsc",
-                "mhsiddapurapnsc"
+                "pbaboharfazs",
+                "mhsiddapurapns"
             };
             var repoMock = new Mock<IMemberBulkInsertRepository>();
             var excelMock = new Mock<IExcelFileUtility<MemberBulkImportVM>>();
@@ -154,7 +154,7 @@ namespace UserManagement.Business.Tests
             var result =  await service.CreateUserName(validatedModels, users, states);
 
             Assert.NotNull(result.Value);
-            Assert.Contains(result.Value, x => x.UserName == "pbabohar1fazsc");
+            Assert.Contains(result.Value, x => x.UserName == "pbabohar1fazs");
 
         }
         [Fact]
@@ -166,11 +166,11 @@ namespace UserManagement.Business.Tests
                 {
                     new MemberBulkValid()
                     {
-                        UserName="pbaboharfazsc",
+                        UserName="pbaboharfazs",
                         UserState="PUNJAB",
                         UserDistrict="FAZILKA",
-                        HFName="HSC ABOHAR",
-                        HFType="SubCentre"
+                        HFName="SPOKE ABOHAR",
+                        HFType="SPOKE"
 
                     }
                 },
@@ -178,11 +178,11 @@ namespace UserManagement.Business.Tests
                 {
                     new MemberBulkValid()
                     {
-                        UserName="pbaboharfazsc",
+                        UserName="pbaboharfazs",
                         UserState="PUNJAB",
                         UserDistrict="FAZILKA",
-                        HFName="HSC ABOHAR",
-                        HFType="SubCentre"
+                        HFName="SPOKE ABOHAR",
+                        HFType="SPOKE"
 
                     }
                 },
@@ -190,11 +190,11 @@ namespace UserManagement.Business.Tests
                 {
                     new MemberBulkValid()
                     {
-                        UserName="pbaboharfazsc",
+                        UserName="pbaboharfazs",
                         UserState="PUNJAB",
                         UserDistrict="FAZILKA",
-                        HFName="HSC ABOHAR",
-                        HFType="SubCentre"
+                        HFName="SPOKE ABOHAR",
+                        HFType="SPOKE"
 
                     }
                 }
@@ -225,12 +225,12 @@ namespace UserManagement.Business.Tests
             };
             var users = new List<string>()
             {
-                "pbaboharfazsc",
-                "pbabohar1fazsc",
-                "pbabohar2fazsc",
-                "pbabohar3fazsc",
-                "pbabohar20fazsc",
-                "mhsiddapurapnsc"
+                "pbaboharfazs",
+                "pbaboharfazs",
+                "pbaboharfazs",
+                "pbabohar3fazs",
+                "pbabohar20fazs",
+                "mhsiddapurapns"
             };
             var repoMock = new Mock<IMemberBulkInsertRepository>();
             var excelMock = new Mock<IExcelFileUtility<MemberBulkImportVM>>();
@@ -240,9 +240,9 @@ namespace UserManagement.Business.Tests
             var result = await service.CreateUserName(validatedModels, users, states);
 
             Assert.NotNull(result.Value);
-            Assert.Contains(result.Value, x => x.UserName == "pbabohar21fazsc");
-            Assert.Contains(result.Value, x => x.UserName == "pbabohar22fazsc");
-            Assert.Contains(result.Value, x => x.UserName == "pbabohar23fazsc");
+            Assert.Contains(result.Value, x => x.UserName == "pbabohar21fazs");
+            Assert.Contains(result.Value, x => x.UserName == "pbabohar22fazs");
+            Assert.Contains(result.Value, x => x.UserName == "pbabohar23fazs");
            
         }
         [Fact]
@@ -254,11 +254,11 @@ namespace UserManagement.Business.Tests
                 
                     new MemberBulkValid()
                     {
-                        UserName="pbaboharfazsc",
+                        UserName="pbaboharfazs",
                         UserState="PUNJAB",
                         UserDistrict="FAZILKA",
-                        HFName="HSC ABOHAR",
-                        HFType="SubCentre"
+                        HFName="SPOKE ABOHAR",
+                        HFType="SPOKE"
 
                     
                 },
@@ -266,25 +266,25 @@ namespace UserManagement.Business.Tests
                 
                     new MemberBulkValid()
                     {
-                        UserName="pbaboharfazsc",
+                        UserName="pbaboharfazs",
                         UserState="PUNJAB",
                         UserDistrict="FAZILKA",
-                        HFName="HSC ABOHAR",
-                        HFType="SubCentre"
+                        HFName="SPOKE ABOHAR",
+                        HFType="SPOKE"
 
-                    
+
                 },
                   
                 
                     new MemberBulkValid()
                     {
-                        UserName="pbaboharfazsc",
+                        UserName="pbaboharfazs",
                         UserState="PUNJAB",
                         UserDistrict="FAZILKA",
-                        HFName="HSC ABOHAR",
-                        HFType="SubCentre"
+                        HFName="SPOKE ABOHAR",
+                        HFType="SPOKE"
 
-                    
+
                 }
             };
             var states = new List<StateDistrictCity>
@@ -313,8 +313,8 @@ namespace UserManagement.Business.Tests
             };
             var users = new List<string>()
             {
-                "pbaboharfazsc",
-                "mhsiddapurapnsc"
+                "pbaboharfazs",
+                "mhsiddapurapns"
             };
             var repoMock = new Mock<IMemberBulkInsertRepository>();
             var excelMock = new Mock<IExcelFileUtility<MemberBulkImportVM>>();
@@ -324,9 +324,9 @@ namespace UserManagement.Business.Tests
             var result = await service.CreateUserName(validatedModels, users, states);
 
             Assert.NotNull(result.Value);
-            Assert.Contains(result.Value, x => x.UserName == "pbabohar1fazsc");
-            Assert.Contains(result.Value, x => x.UserName == "pbabohar2fazsc");
-            Assert.Contains(result.Value, x => x.UserName == "pbabohar3fazsc");
+            Assert.Contains(result.Value, x => x.UserName == "pbabohar1fazs");
+            Assert.Contains(result.Value, x => x.UserName == "pbabohar2fazs");
+            Assert.Contains(result.Value, x => x.UserName == "pbabohar3fazs");
 
         }
         [Fact]
@@ -338,11 +338,11 @@ namespace UserManagement.Business.Tests
                 
                     new MemberBulkValid()
                     {
-                        UserName="pbaboharfazsc",
+                        UserName="pbaboharfazs",
                         UserState="PUNJAB",
                         UserDistrict="FAZILKA",
-                        HFName="HSC ABOHAR",
-                        HFType="SubCentre"
+                        HFName="SPOKE ABOHAR",
+                        HFType="SPOKE"
 
                     }
                 
@@ -373,12 +373,12 @@ namespace UserManagement.Business.Tests
             };
             var users = new List<string>()
             {
-                "pbaboharfazhub",
-                "pbaboharfazuphc",
-                "mhaboharfazsc",
-                "pbrameshfazsc",
-                "pbkapilfazsc",
-                "mhsiddapurapnsc"
+                "pbaboharfazh",
+                "pbaboharfazsch",
+                "mhaboharfazs",
+                "pbrameshfazs",
+                "pbkapilfazs",
+                "mhsiddapurapns"
             };
             var repoMock = new Mock<IMemberBulkInsertRepository>();
             var excelMock = new Mock<IExcelFileUtility<MemberBulkImportVM>>();
@@ -388,7 +388,7 @@ namespace UserManagement.Business.Tests
             var result = await service.CreateUserName(validatedModels, users, states);
 
             Assert.NotNull(result.Value);
-            Assert.Contains(result.Value, x => x.UserName == "pbaboharfazsc");
+            Assert.Contains(result.Value, x => x.UserName == "pbaboharfazs");
 
         }
         [Fact]
@@ -400,34 +400,34 @@ namespace UserManagement.Business.Tests
                
                     new MemberBulkValid()
                     {
-                        UserName="pbaboharfazsc",
+                        UserName="pbaboharfazs",
                         UserState="PUNJAB",
                         UserDistrict="FAZILKA",
-                        HFName="HSC ABOHAR",
-                        HFType="SubCentre"
+                        HFName="SPOKE ABOHAR",
+                        HFType="SPOKE"
 
                     },
                  
                
                     new MemberBulkValid()
                     {
-                        UserName="pbaboharfazsc",
+                        UserName="pbaboharfazs",
                         UserState="PUNJAB",
                         UserDistrict="FAZILKA",
-                        HFName="HSC ABOHAR",
-                        HFType="SubCentre"
+                        HFName="SPOKE ABOHAR",
+                        HFType="SPOKE"
 
-                   
+
                 },
                   
                
                     new MemberBulkValid()
                     {
-                        UserName="pbaboharfazsc",
+                        UserName="pbaboharfazs",
                         UserState="PUNJAB",
                         UserDistrict="FAZILKA",
-                        HFName="HSC ABOHAR",
-                        HFType="SubCentre"
+                        HFName="SPOKE ABOHAR",
+                        HFType="SPOKE"
 
                     }
                 
@@ -458,12 +458,12 @@ namespace UserManagement.Business.Tests
             };
             var users = new List<string>()
             {
-               "pbaboharfazhub",
-                "pbaboharfazuphc",
-                "mhaboharfazsc",
-                "pbrameshfazsc",
-                "pbkapilfazsc",
-                "mhsiddapurapnsc"
+               "pbaboharfazh",
+                "pbaboharfazsch",
+                "mhaboharfazs",
+                "pbrameshfazs",
+                "pbkapilfazs",
+                "mhsiddapurapns"
             };
             var repoMock = new Mock<IMemberBulkInsertRepository>();
             var excelMock = new Mock<IExcelFileUtility<MemberBulkImportVM>>();
@@ -473,9 +473,9 @@ namespace UserManagement.Business.Tests
             var result = await service.CreateUserName(validatedModels, users, states);
 
             Assert.NotNull(result.Value);
-            Assert.Contains(result.Value, x => x.UserName == "pbaboharfazsc");
-            Assert.Contains(result.Value, x => x.UserName == "pbabohar1fazsc");
-            Assert.Contains(result.Value, x => x.UserName == "pbabohar2fazsc");
+            Assert.Contains(result.Value, x => x.UserName == "pbaboharfazs");
+            Assert.Contains(result.Value, x => x.UserName == "pbabohar1fazs");
+            Assert.Contains(result.Value, x => x.UserName == "pbabohar2fazs");
 
         }
         [Fact]
@@ -487,11 +487,11 @@ namespace UserManagement.Business.Tests
                
                     new MemberBulkValid()
                     {
-                        UserName="pbaboharfazsc",
+                        UserName="pbaboharfazs",
                         UserState="PUNJAB",
                         UserDistrict="FAZILKA",
-                        HFName="HSC ABOHAR",
-                        HFType="SubCentre"
+                        HFName="SPOKE ABOHAR",
+                        HFType="SPOKE"
 
                     }
                
@@ -522,12 +522,12 @@ namespace UserManagement.Business.Tests
             };
             var users = new List<string>()
             {
-                "pbaboharfazsc",
-                "pbabohar1fazsc",
-                "pbabohar2fazsc",
-                "pbabohar3fazsc",
-                "pbabohar5fazsc",
-                "mhsiddapurapnsc"
+                "pbaboharfazs",
+                "pbabohar1fazs",
+                "pbabohar2fazs",
+                "pbabohar3fazs",
+                "pbabohar5fazs",
+                "mhsiddapurapns"
             };
             var repoMock = new Mock<IMemberBulkInsertRepository>();
             var excelMock = new Mock<IExcelFileUtility<MemberBulkImportVM>>();
@@ -537,7 +537,7 @@ namespace UserManagement.Business.Tests
             var result = await service.CreateUserName(validatedModels, users, states);
 
             Assert.NotNull(result.Value);
-            Assert.Contains(result.Value, x => x.UserName == "pbabohar6fazsc");
+            Assert.Contains(result.Value, x => x.UserName == "pbabohar6fazs");
 
         }
 

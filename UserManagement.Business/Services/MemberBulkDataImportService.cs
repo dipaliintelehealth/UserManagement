@@ -420,9 +420,17 @@ namespace UserManagement.Business.Services
         private static string GetHFTypeCode(string Type)
         {
             string strTypeShortCode;
-            if (Type?.Trim().ToUpper() == "SUBCENTRE")
+            if (Type?.Trim().ToUpper() == "SPOKE")
             {
-                strTypeShortCode = "SC";
+                strTypeShortCode = "S";
+            }
+            else if (Type?.Trim().ToUpper() == "HUB")
+            {
+                strTypeShortCode = "H";
+            }
+            else if (Type?.Trim().ToUpper() == "SPOKE CUM HUB")
+            {
+                strTypeShortCode = "SCH";
             }
             else
             {
@@ -436,7 +444,7 @@ namespace UserManagement.Business.Services
         {
             var hf = new List<string>()
             {
-                "UPHC","HSC","PHC","HUB","SC"
+                "SPOKE Cum HUB","SPOKE","HUB"
             };
 
             string strHFname = HFName;
