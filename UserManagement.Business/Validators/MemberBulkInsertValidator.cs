@@ -77,7 +77,7 @@ namespace UserManagement.Business.Validators
         {
             if (!string.IsNullOrEmpty(hfName))
             {
-                return !hfName.Contains(hfType);
+                return !hfName.ToLower().Contains(hfType.ToLower());
             }
             return true;
         }
