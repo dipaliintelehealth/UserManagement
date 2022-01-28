@@ -73,6 +73,10 @@ namespace UserManagement.Business.Validators
             }
             return !_hfTypes.Any(x =>  hfName.Trim().ToLower().Contains(x.ToLower()));
         }
+        private bool AreHFNameAndHFTypeDifferent(string hfName,string hfType)
+        {
+            return !hfName.Contains(hfType);
+        }
         private bool IsDuplicateEmail(string email, IEnumerable<string> emails)
         {
             return emails?.Where(x => x == email).Count() > 1;
@@ -141,6 +145,15 @@ namespace UserManagement.Business.Validators
                 var error = GetBulkInsertValidationFailure(index, "Invalid HF Name !", string.Empty,
                   nameof(model.HFName));
                 errors.Add(error);
+            }
+            if(AreHFNameAndHFTypeDifferent(model.HFName,model.HFType))
+            {
+                var error = GetBulkInsertValidationFailure(index, "Different institution type found in HF Type and HF Name !", string.Empty,
+                  nameof(model.HFName));
+                var error1 = GetBulkInsertValidationFailure(index, "Different institution type found in HF Type and HF Name !", string.Empty,
+                  nameof(model.HFType));
+                errors.Add(error);
+                errors.Add(error1);
             }
             if (!IsContainDistrictShortCode(model))
             {

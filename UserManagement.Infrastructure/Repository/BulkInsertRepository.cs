@@ -388,7 +388,7 @@ namespace UserManagement.Infrastructure.Repository
                       " INNER JOIN staggingdblive_jan_aws.mp_member_institution as mp " +
                       " ON m.MemberId = mp.MemberId " +
                       $" where mp.InstitutionId IN ( " + instituteString + ")" +
-                      "  group by mp.InstitutionId having m.IsMaster=0) as t " +
+                      "  group by mp.InstitutionId,m.IsMaster having m.IsMaster=0) as t " +
                       " on md.MemberId = t.FirstUser " +
                       " set md.IsMaster=1;";
             var result = await Connection.ExecuteAsync(sql);
