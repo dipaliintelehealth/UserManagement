@@ -75,7 +75,11 @@ namespace UserManagement.Business.Validators
         }
         private bool AreHFNameAndHFTypeDifferent(string hfName,string hfType)
         {
-            return !hfName.Contains(hfType);
+            if (!string.IsNullOrEmpty(hfName))
+            {
+                return !hfName.Contains(hfType);
+            }
+            return true;
         }
         private bool IsDuplicateEmail(string email, IEnumerable<string> emails)
         {
