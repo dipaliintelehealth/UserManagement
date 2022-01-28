@@ -341,7 +341,7 @@ namespace UserManagement.Infrastructure.Repository
         {
             var sql = "SELECT S.StateId AS Id, S.StateName AS Value" +
                          " FROM md_state AS S " +
-                         " WHERE S.CountryId = 1; ";
+                         " WHERE S.CountryId = 1 Order by S.StateName; ";
             var result = await Connection.QueryAsync<KeyValue<string, string>>(sql);
             return result;
         }
@@ -350,7 +350,7 @@ namespace UserManagement.Infrastructure.Repository
         {
             var sql = "SELECT D.DistrictId AS Id, D.DistrictName AS Value " +
                          " FROM  md_district AS D " +
-                         $" WHERE D.StateId = {stateId}; ";
+                         $" WHERE D.StateId = {stateId} Order by D.DistrictName; ";
             var result = await Connection.QueryAsync<KeyValue<string, string>>(sql);
             return result;
         }
@@ -359,21 +359,21 @@ namespace UserManagement.Infrastructure.Repository
         {
             var sql = "SELECT C.CityId AS Id, C.CityName AS Value " +
                         " FROM md_city AS C " +
-                        $" WHERE C.DistrictId = {districtId}; ";
+                        $" WHERE C.DistrictId = {districtId} Order by C.CityName; ";
             var result = await Connection.QueryAsync<KeyValue<string, string>>(sql);
             return result;
         }
 
         public async Task<IEnumerable<SpecializationModel>> GetSpecialities()
         {
-            var sql = "SELECT SpecialityId,SpecialityName FROM md_speciality;";
+            var sql = "SELECT SpecialityId,SpecialityName FROM md_speciality Order by SpecialityName;";
             var result = await Connection.QueryAsync<SpecializationModel>(sql);
             return result;
         }
 
         public async Task<IEnumerable<KeyValue<string, string>>> GetSpecility()
         {
-            var sql = "SELECT SpecialityId AS Id, SpecialityName AS Value FROM md_speciality;";
+            var sql = "SELECT SpecialityId AS Id, SpecialityName AS Value FROM md_speciality Order by SpecialityName;";
             var result = await Connection.QueryAsync<KeyValue<string, string>>(sql);
             return result;
         }

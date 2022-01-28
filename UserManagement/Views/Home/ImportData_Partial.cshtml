@@ -459,57 +459,69 @@
                 }
             }
         });
+        tblImportData.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            let row = this.node();
+            let state = $(row).find('.state');
+            let district = $(row).find('.district');
+            let checkbox = $(row).find('.chkSelected');
 
-        $('.state').change(function () {
-            let state = $(this);
-            let windowURL = window.location.href;
-            let url = windowURL.includes("Home") ? 'GetDistricts' : 'Home/GetDistricts';
-            $.ajax({
-                type: "post",
-                url: url,
-                data: { stateId: $(state).val() },
-                datatype: "json",
-                traditional: true,
-                success: function (data) {
-                    var options = getOptions(data);
+            $(checkbox).on('click', function () {
 
-                    let stateId = $(state).attr('id');
-                    let districtId = stateId.replace('State', 'District');
-                    //console.log('district', districtId);
-                    $('#' + districtId).empty().append(options);
-                    let cityId = districtId.replace('District', 'City');
-                    var cityOptions = getOptions(null);
-                    $('#' + cityId).empty().append(cityOptions);
+                var row = $(this).parents('tr');
+                if ($(this).is(':checked')) {
+                    $(row).addClass('selected');
+                }
+                else {
+                    $(row).removeClass('selected');
                 }
             });
-        });
-        $('.district').change(function () {
-            let district = $(this);
-            let windowURL = window.location.href;
-            let url = windowURL.includes("Home") ? 'GetCities' : 'Home/GetCities';
-            $.ajax({
-                type: "post",
-                url: url,
-                data: { stateId: 0, districtId: $(this).val() },
-                datatype: "json",
-                traditional: true,
-                success: function (data) {
-                    var options = getOptions(data);
-                    let districtId = $(district).attr('id');
-                    let cityId = districtId.replace('District', 'City');
-                    $('#' + cityId).empty().append(options);
-                }
-            });
-        });
-        $('.chkSelected').on('click', function () {
+            $(state).change(function () {
+                let innerState = $(this);
+                let windowURL = window.location.href;
+                let url = windowURL.includes("Home") ? 'GetDistricts' : 'Home/GetDistricts';
+                $.ajax({
+                    type: "post",
+                    url: url,
+                    data: { stateId: $(innerState).val() },
+                    datatype: "json",
+                    traditional: true,
+                    success: function (data) {
+                        var options = getOptions(data);
 
-            var row = $(this).parents('tr');
-            if ($(this).is(':checked')) {
-                $(row).addClass('selected');
-            }
-            else {
-                $(row).removeClass('selected');
-            }
+                        let stateId = $(innerState).attr('id');
+                        let districtId = stateId.replace('State', 'District');
+                        //console.log('district', districtId);
+                        $('#' + districtId).empty().append(options);
+                        let cityId = districtId.replace('District', 'City');
+                        var cityOptions = getOptions(null);
+                        $('#' + cityId).empty().append(cityOptions);
+                    }
+                });
+            });
+            $(district).change(function () {
+                let innerDistrict = $(this);
+                let windowURL = window.location.href;
+                let url = windowURL.includes("Home") ? 'GetCities' : 'Home/GetCities';
+                $.ajax({
+                    type: "post",
+                    url: url,
+                    data: { stateId: 0, districtId: $(innerDistrict).val() },
+                    datatype: "json",
+                    traditional: true,
+                    success: function (data) {
+                        var options = getOptions(data);
+                        let districtId = $(innerDistrict).attr('id');
+                        let cityId = districtId.replace('District', 'City');
+                        $('#' + cityId).empty().append(options);
+                    }
+                });
+            });
+
         });
+        /*$('#tblImportData').on('page.dt', function () {
+            addStateDistrictChange();
+        });*/
+
+        
     });
 </script>

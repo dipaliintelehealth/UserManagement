@@ -251,11 +251,11 @@ namespace UserManagement.Business.Services
         {
             _excelFileUtility.Configure(_excelConfiguration);
             var models = _excelFileUtility.Read(stream);
-            models = await NewMethod(models);
+            models = await GetModels(models);
             return models;
         }
 
-        private async Task<IEnumerable<MemberBulkImportVM>> NewMethod(IEnumerable<MemberBulkImportVM> models)
+        private async Task<IEnumerable<MemberBulkImportVM>> GetModels(IEnumerable<MemberBulkImportVM> models)
         {
             var results = Enumerable.Empty<ResultModel<MemberBulkImportVM>>();
             var institutions = await _bulkInsertRepository.GetInstitution();
@@ -372,7 +372,7 @@ namespace UserManagement.Business.Services
                 .Where(x => x.StateName.ToUpper() == state?.Trim().ToUpper() && x.DistrictName.ToUpper() == district?.Trim().ToUpper())
                 .Select(s => new KeyValue<string,string> {Id = s.CityId.ToString(), Value = s.CityName });
 
-            return cities.Distinct();
+            return cities.Distinct(new KeyValueStringComparer()).OrderBy(x => x.Value); 
         } 
         private IEnumerable<KeyValue<string, string>> GetDistricts(IEnumerable<StateDistrictCity> states, string state)
         {
@@ -380,7 +380,7 @@ namespace UserManagement.Business.Services
                 .Where(x => x.StateName.ToUpper() == state?.Trim().ToUpper())
                 .Select(s => new KeyValue<string, string> { Id = s.DistrictId.ToString(), Value = s.DistrictName });
 
-            return districts.Distinct();
+            return districts.Distinct(new KeyValueStringComparer()).OrderBy(x=> x.Value);
         }
         private string GetCityName(IEnumerable<StateDistrictCity> states, string state, string district, string city)
         {
@@ -467,13 +467,16 @@ namespace UserManagement.Business.Services
             var distShortCode = states.FirstOrDefault(x => x.DistrictName.ToUpper() == districtName?.Trim().ToUpper())?.DistrictShortCode;
             if (!string.IsNullOrWhiteSpace(districtName) && (string.IsNullOrEmpty(distShortCode) || distShortCode.Length < 2))
             {
-                if (districtName.Replace(" ", "").Length > 2)
+                var trimmedDistrict = districtName.Replace(" ", "");
+
+
+                if (trimmedDistrict.Length > 2)
                 {
-                    distShortCode = districtName.Replace(" ", "").Substring(0, districtName.Length - 1);
+                    distShortCode = trimmedDistrict.Substring(0, trimmedDistrict.Length - 1);
                 }
                 else
                 {
-                    distShortCode = districtName.Replace(" ", "");
+                    distShortCode = trimmedDistrict;
                 }
             }
 

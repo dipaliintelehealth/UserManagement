@@ -110,7 +110,8 @@ namespace UserManagement.Controllers
         {
             if (data is null || data.Count == 0)
             {
-                return FormResult.CreateErrorResult("No data to import !!! Please check your data");
+                ViewBag.Message = "No data to validate !!! Please check your data";
+                return View("~/Views/BulkInsert/Error.cshtml");
             }
 
             var result = await _bulkInsertValidator.ValidateAsync(data);
@@ -134,8 +135,8 @@ namespace UserManagement.Controllers
         {
             if (data is null || data.Count == 0)
             {
-
-                return FormResult.CreateErrorResult("No data to import !!! Please check your data");
+                ViewBag.Message = "No data to import !!! Please check your data";
+                return View("~/Views/BulkInsert/Error.cshtml");
             }
             var resultTemporaryStorage = await _bulkDataImportService.AddToTemporaryStorage(data);
             //  return View("BulkImport", data);

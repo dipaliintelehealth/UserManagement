@@ -1,6 +1,7 @@
 ﻿@model UserManagement.Domain.ViewModel.BulkInsertValidInvalidVM
 @using  UserManagement.Domain.ViewModel
 <div class="container">
+    <div class="text-sm-center"><a asp-action="BulkImport" asp-controller="Home">Back</a></div>
     @await Html.PartialAsync("BulkImportSucess_partial", Model.ValidModels)
     @await Html.PartialAsync("BulkImportError_partial", Model.InValidModels)
 </div>
