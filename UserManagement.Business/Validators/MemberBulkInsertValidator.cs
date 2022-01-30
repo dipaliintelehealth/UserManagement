@@ -63,7 +63,7 @@ namespace UserManagement.Business.Validators
         }
         private bool IsContainInValidHFType(string hfType)
         {
-            return !_hfTypes.Any(x => x.ToLower()== hfType.Trim().ToLower());
+            return !_hfTypes.Any(x => x.ToLower()== hfType?.Trim().ToLower());
         }
         private bool IsContainInValidHFName(string hfName)
         {

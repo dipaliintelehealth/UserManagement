@@ -437,8 +437,10 @@
         tblImportData = $('#tblImportData').DataTable({
             "ordering": false,
             "searching": false,
-            "paging": true,
+            "paging": false,
             "scrollX": true,
+            "scrollY": "400px",
+            "scrollCollapse": true,
             "info": true,
             dom: 'lBfrtip<"actions">',
             buttons: {
@@ -459,6 +461,7 @@
                 }
             }
         });
+
         tblImportData.rows().every(function (rowIdx, tableLoop, rowLoop) {
             let row = this.node();
             let state = $(row).find('.state');
@@ -518,10 +521,5 @@
             });
 
         });
-        /*$('#tblImportData').on('page.dt', function () {
-            addStateDistrictChange();
-        });*/
-
-        
     });
 </script>
