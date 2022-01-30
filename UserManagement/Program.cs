@@ -39,7 +39,7 @@ namespace UserManagement
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseSerilog()
-                .UseStartup<Startup>()
+                .UseStartup<Startup>();
                 //.UseKestrel(options =>
                 //{
                 //    options.Limits.MaxRequestBodySize = 209715200;

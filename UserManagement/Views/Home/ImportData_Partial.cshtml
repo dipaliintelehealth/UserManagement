@@ -1,8 +1,9 @@
-﻿@model IList<MemberBulkImportVM>
+﻿@model BulkImportWithValidationErrorVM
 @using UserManagement.Domain.ViewModel
-@if (Model != null && Model.Count() > 0)
+@using UserManagement.Extensions; 
+@if (Model != null && Model.Data.Count() > 0)
 {
-   
+
     <div class="card">
         <div class="card-header visible">
             <div class="text-info total-summary"></div>
@@ -23,104 +24,104 @@
                             </th>
 
                             <th>
-                                @Html.DisplayNameFor(model => model[0].HFName)
+                                @Html.DisplayNameFor(model => model.Data[0].HFName)
                             </th>
 
                             <th>
-                                @Html.DisplayNameFor(model => model[0].HFPhone)
+                                @Html.DisplayNameFor(model => model.Data[0].HFPhone)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model[0].HFType)
+                                @Html.DisplayNameFor(model => model.Data[0].HFType)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model[0].NIN)
+                                @Html.DisplayNameFor(model => model.Data[0].NIN)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model[0].HFEmail)
+                                @Html.DisplayNameFor(model => model.Data[0].HFEmail)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model[0].HFState)
+                                @Html.DisplayNameFor(model => model.Data[0].HFState)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model[0].HFDistrict)
+                                @Html.DisplayNameFor(model => model.Data[0].HFDistrict)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model[0].HFCity)
+                                @Html.DisplayNameFor(model => model.Data[0].HFCity)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model[0].Address)
+                                @Html.DisplayNameFor(model => model.Data[0].Address)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model[0].PIN)
+                                @Html.DisplayNameFor(model => model.Data[0].PIN)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model[0].FirstName)
+                                @Html.DisplayNameFor(model => model.Data[0].FirstName)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model[0].LastName)
+                                @Html.DisplayNameFor(model => model.Data[0].LastName)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model[0].UserMobile)
+                                @Html.DisplayNameFor(model => model.Data[0].UserMobile)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model[0].Gender)
+                                @Html.DisplayNameFor(model => model.Data[0].Gender)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model[0].Qualification)
+                                @Html.DisplayNameFor(model => model.Data[0].Qualification)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model[0].Experience)
+                                @Html.DisplayNameFor(model => model.Data[0].Experience)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model[0].DRRegNo)
+                                @Html.DisplayNameFor(model => model.Data[0].DRRegNo)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model[0].UserEmail)
+                                @Html.DisplayNameFor(model => model.Data[0].UserEmail)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model[0].Designation)
+                                @Html.DisplayNameFor(model => model.Data[0].Designation)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model[0].DOB)
+                                @Html.DisplayNameFor(model => model.Data[0].DOB)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model[0].UserState)
+                                @Html.DisplayNameFor(model => model.Data[0].UserState)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model[0].UserDistrict)
+                                @Html.DisplayNameFor(model => model.Data[0].UserDistrict)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model[0].UserCity)
+                                @Html.DisplayNameFor(model => model.Data[0].UserCity)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model[0].UserAddress)
+                                @Html.DisplayNameFor(model => model.Data[0].UserAddress)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model[0].UserPin)
+                                @Html.DisplayNameFor(model => model.Data[0].UserPin)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model[0].UserPrefix)
+                                @Html.DisplayNameFor(model => model.Data[0].UserPrefix)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model[0].UserAvailableDay)
+                                @Html.DisplayNameFor(model => model.Data[0].UserAvailableDay)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model[0].UserAvailableFromTime)
+                                @Html.DisplayNameFor(model => model.Data[0].UserAvailableFromTime)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model[0].UserAvailableToTime)
+                                @Html.DisplayNameFor(model => model.Data[0].UserAvailableToTime)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model[0].UserRole)
+                                @Html.DisplayNameFor(model => model.Data[0].UserRole)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model[0].AssignedHFType)
+                                @Html.DisplayNameFor(model => model.Data[0].AssignedHFType)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model[0].AssignHF)
+                                @Html.DisplayNameFor(model => model.Data[0].AssignHF)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model[0].SubMenuName)
+                                @Html.DisplayNameFor(model => model.Data[0].SubMenuName)
                             </th>
 
                         </tr>
@@ -128,151 +129,184 @@
                     <tbody>
 
 
-                        @for (var i = 0; i < Model.Count(); i++)
+                        @for (var i = 0; i < Model.Data.Count(); i++)
                         {
                             <tr>
                                 <td style="min-width: 28px; max-width:50px;">
                                     @Html.CheckBox($"[{i}].isActive", false, new { @class = "form-control chkSelected", @style = "max-width:25px;" })
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].HFName, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].HFName, "", new { @class = "text-danger" })
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].HFName, new { @class = "form-control" })
+                                    @*@Html.ValidationMessageFor(modelItem => Model.Data[i].HFName, "", new { @class = "text-danger" })*@
+                                    @Html.BulkValidationError("HFName", i, Model.Errors)
                                 </td>
 
                                 <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].HFPhone, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].HFPhone, "", new { @class = "text-danger" })
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].HFPhone, new { @class = "form-control" })
+                                    @*@Html.ValidationMessageFor(modelItem => Model.Data[i].HFPhone, "", new { @class = "text-danger" })*@
+                                    @Html.BulkValidationError("HFPhone", i, Model.Errors)
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].HFType, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].HFType, "", new { @class = "text-danger" })
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].HFType, new { @class = "form-control" })
+                                    @*@Html.ValidationMessageFor(modelItem => Model.Data[i].HFType, "", new { @class = "text-danger" })*@
+                                    @Html.BulkValidationError("HFType", i, Model.Errors)
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].NIN, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].NIN, "", new { @class = "text-danger" })
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].NIN, new { @class = "form-control" })
+                                    @*@Html.ValidationMessageFor(modelItem => Model.Data[i].NIN, "", new { @class = "text-danger" })*@
+                                    @Html.BulkValidationError("NIN", i, Model.Errors)
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].HFEmail, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].HFEmail, "", new { @class = "text-danger" })
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].HFEmail, new { @class = "form-control" })
+                                    @*@Html.ValidationMessageFor(modelItem => Model.Data[i].HFEmail, "", new { @class = "text-danger" })*@
+                                    @Html.BulkValidationError("HFEmail", i, Model.Errors)
                                 </td>
                                 <td>
-                                    @Html.DropDownListFor(model => Model[i].SelectedHFStateId,
+                                    @Html.DropDownListFor(model => Model.Data[i].SelectedHFStateId,
                                     new SelectList(ViewBag.States, "Id", "Value"), "--Select--", new { @class = "form-control state" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].SelectedHFStateId, "", new { @class = "text-danger" })
+                                    @*@Html.ValidationMessageFor(modelItem => Model.Data[i].SelectedHFStateId, "", new { @class = "text-danger" })*@
+                                    @Html.BulkValidationError("SelectedHFStateId", i, Model.Errors)
                                 </td>
                                 <td>
-                                    @Html.DropDownListFor(model => Model[i].SelectedHFDistrictId,
-                                    new SelectList(Model[i].HFDistricts, "Id", "Value"), "--Select--", new { @class = "form-control district" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].SelectedHFDistrictId, "", new { @class = "text-danger" })
+                                    @Html.DropDownListFor(model => Model.Data[i].SelectedHFDistrictId,
+                                    new SelectList(Model.Data[i].HFDistricts, "Id", "Value"), "--Select--", new { @class = "form-control district" })
+                                    @*@Html.ValidationMessageFor(modelItem => Model.Data[i].SelectedHFDistrictId, "", new { @class = "text-danger" })*@
+                                    @Html.BulkValidationError("SelectedHFDistrictId", i, Model.Errors)
                                 </td>
                                 <td>
-                                    @Html.DropDownListFor(model => Model[i].SelectedHFCityId,
-                                    new SelectList(Model[i].HFCities, "Id", "Value"), "--Select--", new { @class = "form-control city" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].SelectedHFCityId, "", new { @class = "text-danger" })
+                                    @Html.DropDownListFor(model => Model.Data[i].SelectedHFCityId,
+                                    new SelectList(Model.Data[i].HFCities, "Id", "Value"), "--Select--", new { @class = "form-control city" })
+                                    @*@Html.ValidationMessageFor(modelItem => Model.Data[i].SelectedHFCityId, "", new { @class = "text-danger" })*@
+                                    @Html.BulkValidationError("SelectedHFCityId", i, Model.Errors)
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].Address, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].Address, "", new { @class = "text-danger" })
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].Address, new { @class = "form-control" })
+                                    @*@Html.ValidationMessageFor(modelItem => Model.Data[i].Address, "", new { @class = "text-danger" })*@
+                                    @Html.BulkValidationError("Address", i, Model.Errors)
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].PIN, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].PIN, "", new { @class = "text-danger" })
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].PIN, new { @class = "form-control" })
+                                    @*@Html.ValidationMessageFor(modelItem => Model.Data[i].PIN, "", new { @class = "text-danger" })*@
+                                    @Html.BulkValidationError("PIN", i, Model.Errors)
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].FirstName, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].FirstName, "", new { @class = "text-danger" })
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].FirstName, new { @class = "form-control" })
+                                    @*@Html.ValidationMessageFor(modelItem => Model.Data[i].FirstName, "", new { @class = "text-danger" })*@
+                                    @Html.BulkValidationError("FirstName", i, Model.Errors)
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].LastName, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].LastName, "", new { @class = "text-danger" })
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].LastName, new { @class = "form-control" })
+                                    @*@Html.ValidationMessageFor(modelItem => Model.Data[i].LastName, "", new { @class = "text-danger" })*@
+                                    @Html.BulkValidationError("LastName", i, Model.Errors)
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].UserMobile, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].UserMobile, "", new { @class = "text-danger" })
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].UserMobile, new { @class = "form-control" })
+                                    @*@Html.ValidationMessageFor(modelItem => Model.Data[i].UserMobile, "", new { @class = "text-danger" })*@
+                                    @Html.BulkValidationError("UserMobile", i, Model.Errors)
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].Gender, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].Gender, "", new { @class = "text-danger" })
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].Gender, new { @class = "form-control" })
+                                    @*@Html.ValidationMessageFor(modelItem => Model.Data[i].Gender, "", new { @class = "text-danger" })*@
+                                    @Html.BulkValidationError("Gender", i, Model.Errors)
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].Qualification, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].Qualification, "", new { @class = "text-danger" })
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].Qualification, new { @class = "form-control" })
+                                    @*@Html.ValidationMessageFor(modelItem => Model.Data[i].Qualification, "", new { @class = "text-danger" })*@
+                                    @Html.BulkValidationError("Qualification", i, Model.Errors)
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].Experience, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].Experience, "", new { @class = "text-danger" })
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].Experience, new { @class = "form-control" })
+                                    @*@Html.ValidationMessageFor(modelItem => Model.Data[i].Experience, "", new { @class = "text-danger" })*@
+                                    @Html.BulkValidationError("Experience", i, Model.Errors)
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].DRRegNo, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].DRRegNo, "", new { @class = "text-danger" })
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].DRRegNo, new { @class = "form-control" })
+                                    @*@Html.ValidationMessageFor(modelItem => Model.Data[i].DRRegNo, "", new { @class = "text-danger" })*@
+                                    @Html.BulkValidationError("DRRegNo", i, Model.Errors)
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].UserEmail, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].UserEmail, "", new { @class = "text-danger" })
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].UserEmail, new { @class = "form-control" })
+                                    @*@Html.ValidationMessageFor(modelItem => Model.Data[i].UserEmail, "", new { @class = "text-danger" })*@
+                                    @Html.BulkValidationError("UserEmail", i, Model.Errors)
                                 </td>
                                 <td>
-                                    @Html.DropDownListFor(model => Model[i].SelectedSpecialityId,
+                                    @Html.DropDownListFor(model => Model.Data[i].SelectedSpecialityId,
                                     new SelectList(ViewBag.Specilization, "Id", "Value"), "--Select--", new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].SelectedSpecialityId, "", new { @class = "text-danger" })
+                                    @*@Html.ValidationMessageFor(modelItem => Model.Data[i].SelectedSpecialityId, "", new { @class = "text-danger" })*@
+                                    @Html.BulkValidationError("SelectedSpecialityId", i, Model.Errors)
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].DOB, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].DOB, "", new { @class = "text-danger" })
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].DOB, new { @class = "form-control" })
+                                    @*@Html.ValidationMessageFor(modelItem => Model.Data[i].DOB, "", new { @class = "text-danger" })*@
+                                    @Html.BulkValidationError("DOB", i, Model.Errors)
                                 </td>
                                 <td>
-                                    @Html.DropDownListFor(model => Model[i].SelectedUserStateId,
+                                    @Html.DropDownListFor(model => Model.Data[i].SelectedUserStateId,
                                     new SelectList(ViewBag.States, "Id", "Value"), "--Select--", new { @class = "form-control state" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].SelectedUserStateId, "", new { @class = "text-danger" })
+                                    @*@Html.ValidationMessageFor(modelItem => Model.Data[i].SelectedUserStateId, "", new { @class = "text-danger" })*@
+                                    @Html.BulkValidationError("SelectedUserStateId", i, Model.Errors)
                                 </td>
                                 <td>
-                                    @Html.DropDownListFor(model => Model[i].SelectedUserDistrictId,
-                                      new SelectList(Model[i].UserDistricts, "Id", "Value"), "--Select--", new { @class = "form-control district" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].SelectedUserDistrictId, "", new { @class = "text-danger" })
+                                    @Html.DropDownListFor(model => Model.Data[i].SelectedUserDistrictId,
+                                      new SelectList(Model.Data[i].UserDistricts, "Id", "Value"), "--Select--", new { @class = "form-control district" })
+                                    @*@Html.ValidationMessageFor(modelItem => Model.Data[i].SelectedUserDistrictId, "", new { @class = "text-danger" })*@
+                                    @Html.BulkValidationError("SelectedUserDistrictId", i, Model.Errors)
                                 </td>
                                 <td>
-                                    @Html.DropDownListFor(model => Model[i].SelectedUserCityId,
-                                      new SelectList(Model[i].UserCities, "Id", "Value"), "--Select--", new { @class = "form-control city" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].SelectedUserCityId, "", new { @class = "text-danger" })
+                                    @Html.DropDownListFor(model => Model.Data[i].SelectedUserCityId,
+                                      new SelectList(Model.Data[i].UserCities, "Id", "Value"), "--Select--", new { @class = "form-control city" })
+                                    @*@Html.ValidationMessageFor(modelItem => Model.Data[i].SelectedUserCityId, "", new { @class = "text-danger" })*@
+                                    @Html.BulkValidationError("SelectedUserCityId", i, Model.Errors)
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].UserAddress, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].UserAddress, "", new { @class = "text-danger" })
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].UserAddress, new { @class = "form-control" })
+                                    @*@Html.ValidationMessageFor(modelItem => Model.Data[i].UserAddress, "", new { @class = "text-danger" })*@
+                                    @Html.BulkValidationError("UserAddress", i, Model.Errors)
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].UserPin, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].UserPin, "", new { @class = "text-danger" })
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].UserPin, new { @class = "form-control" })
+                                    @*@Html.ValidationMessageFor(modelItem => Model.Data[i].UserPin, "", new { @class = "text-danger" })*@
+                                    @Html.BulkValidationError("UserPin", i, Model.Errors)
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].UserPrefix, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].UserPrefix, "", new { @class = "text-danger" })
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].UserPrefix, new { @class = "form-control" })
+                                    @*@Html.ValidationMessageFor(modelItem => Model.Data[i].UserPrefix, "", new { @class = "text-danger" })*@
+                                    @Html.BulkValidationError("UserPrefix", i, Model.Errors)
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].UserAvailableDay, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].UserAvailableDay, "", new { @class = "text-danger" })
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].UserAvailableDay, new { @class = "form-control" })
+                                    @*@Html.ValidationMessageFor(modelItem => Model.Data[i].UserAvailableDay, "", new { @class = "text-danger" })*@
+                                    @Html.BulkValidationError("UserAvailableDay", i, Model.Errors)
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].UserAvailableFromTime, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].UserAvailableFromTime, "", new { @class = "text-danger" })
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].UserAvailableFromTime, new { @class = "form-control" })
+                                    @*@Html.ValidationMessageFor(modelItem => Model.Data[i].UserAvailableFromTime, "", new { @class = "text-danger" })*@
+                                    @Html.BulkValidationError("UserAvailableFromTime", i, Model.Errors)
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].UserAvailableToTime, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].UserAvailableToTime, "", new { @class = "text-danger" })
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].UserAvailableToTime, new { @class = "form-control" })
+                                    @*@Html.ValidationMessageFor(modelItem => Model.Data[i].UserAvailableToTime, "", new { @class = "text-danger" })*@
+                                    @Html.BulkValidationError("UserAvailableToTime", i, Model.Errors)
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].UserRole, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].UserRole, "", new { @class = "text-danger" })
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].UserRole, new { @class = "form-control" })
+                                    @*@Html.ValidationMessageFor(modelItem => Model.Data[i].UserRole, "", new { @class = "text-danger" })*@
+                                    @Html.BulkValidationError("UserRole", i, Model.Errors)
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].AssignedHFType, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].AssignedHFType, "", new { @class = "text-danger" })
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].AssignedHFType, new { @class = "form-control" })
+                                    @*@Html.ValidationMessageFor(modelItem => Model.Data[i].AssignedHFType, "", new { @class = "text-danger" })*@
+                                    @Html.BulkValidationError("AssignedHFType", i, Model.Errors)
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].AssignHF, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].AssignHF, "", new { @class = "text-danger" })
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].AssignHF, new { @class = "form-control" })
+                                    @*@Html.ValidationMessageFor(modelItem => Model.Data[i].AssignHF, "", new { @class = "text-danger" })*@
+                                    @Html.BulkValidationError("AssignHF", i, Model.Errors)
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].SubMenuName, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].SubMenuName, "", new { @class = "text-danger" })
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].SubMenuName, new { @class = "form-control" })
+                                    @*@Html.ValidationMessageFor(modelItem => Model.Data[i].SubMenuName, "", new { @class = "text-danger" })*@
+                                    @Html.BulkValidationError("SubMenuName", i, Model.Errors)
                                 </td>
 
                             </tr>

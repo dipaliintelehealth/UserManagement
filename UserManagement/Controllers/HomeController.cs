@@ -15,6 +15,7 @@ using UserManagement.Domain;
 using UserManagement.Domain.ViewModel;
 using UserManagement.Extensions;
 using UserManagement.Infrastructure.Files;
+using UserManagement.Models;
 
 namespace UserManagement.Controllers
 {
@@ -71,9 +72,14 @@ namespace UserManagement.Controllers
 
             // Validation of models after XL reading
             var result = await _bulkInsertValidator.ValidateAsync(listModels);
-            result.UpdateModelState(ModelState);
+            //result.UpdateModelState(ModelState);
+            var model = new BulkImportWithValidationErrorVM()
+            {
+                Errors = result.Errors,
+                Data = listModels
+            };
 
-            return View(listModels);
+            return View(model);
         }
 
 
@@ -115,7 +121,7 @@ namespace UserManagement.Controllers
             }
 
             var result = await _bulkInsertValidator.ValidateAsync(data);
-            result.UpdateModelState(ModelState);
+           // result.UpdateModelState(ModelState);
                 var states = await _bulkDataImportService.GetStates();
                 ViewBag.States = states;
                 ViewBag.Specilization = await _bulkDataImportService.GetSpecialities();
@@ -127,7 +133,12 @@ namespace UserManagement.Controllers
                 item.HFCities = await _bulkDataImportService.GetCities(item.SelectedHFStateId.ToString(),item.SelectedHFDistrictId.ToString());
                 item.UserCities = await _bulkDataImportService.GetCities(item.SelectedUserStateId.ToString(),item.SelectedUserDistrictId.ToString());
             }
-                return View("BulkImport", data);
+            var model = new BulkImportWithValidationErrorVM()
+            {
+                Errors = result.Errors,
+                Data = data.ToList()
+            };
+            return View("BulkImport", model);
         }
 
         [HttpPost]
