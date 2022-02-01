@@ -138,7 +138,7 @@ namespace UserManagement.Business.Validators
                     nameof(model.SubMenuName));
                 errors.Add(error);
             }
-            if(IsContainInValidHFType(model.HFType))
+            /*if(IsContainInValidHFType(model.HFType))
             {
                 var error = GetBulkInsertValidationFailure(index, "Invalid HF Type !", string.Empty,
                    nameof(model.HFType));
@@ -158,7 +158,7 @@ namespace UserManagement.Business.Validators
                   nameof(model.HFType));
                 errors.Add(error);
                 errors.Add(error1);
-            }
+            }*/
             if (!IsContainDistrictShortCode(model))
             {
                 var districtName = _stateDistrictCities.FirstOrDefault(x => x.DistrictId == model.SelectedUserDistrictId)?.DistrictName;
@@ -179,7 +179,7 @@ namespace UserManagement.Business.Validators
             await SetMobilesForValidation(models);
             await SetMenusForValidation();
             await SetStateDistrictsForValidation();
-            await SetHFTypesForValidation();
+           // await SetHFTypesForValidation();
             var emails = models.Select(x => x.UserEmail);
             var mobiles = models.Select(x => x.UserMobile);
             for (var i = 0; i < models.Count; i++)
