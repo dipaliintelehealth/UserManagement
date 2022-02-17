@@ -257,14 +257,14 @@ namespace UserManagement.Business.Validators
                 var model = models[i];
                 if (IsDuplicateInstituteEmail(model, models))
                 {
-                    var error = GetBulkInsertValidationFailure(i, "Duplicate Institution Email Address !", string.Empty,
+                    var error = GetBulkInsertValidationFailure(i, "Already Exists / Duplicate Institution Email Address !", string.Empty,
                             nameof(model.HFEmail));
                     errors.Add(error);
                     //Institution Email Address or Mobile Number already exist
                 }
                 if (IsDuplicateInstituteMobile(model, models))
                 {
-                    var error = GetBulkInsertValidationFailure(i, "Duplicate Institution Mobile Number !", string.Empty,
+                    var error = GetBulkInsertValidationFailure(i, "Already Exists / Duplicate Institution Mobile Number !", string.Empty,
                             nameof(model.HFPhone));
                     errors.Add(error);
                     //Institution Email Address or Mobile Number already exist
