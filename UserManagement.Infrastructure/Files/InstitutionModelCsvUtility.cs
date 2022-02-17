@@ -25,7 +25,8 @@ namespace UserManagement.Infrastructure.Files
             csv.WriteRecords(data);
             writer.Flush();
             stream.Position = 0;
-            var fileName = $"{_configuration.CsvLogPath}\\InsituteModel_{DateTime.Now.ToString("ddMMyyyHHmmss")}.csv";
+            var id = Guid.NewGuid();
+            var fileName = $"{_configuration.CsvLogPath}\\InsituteModel_{id}.csv";
             Log(fileName, stream.ToArray());
             return new MemoryStream(stream.ToArray());
         }

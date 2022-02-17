@@ -119,24 +119,25 @@ namespace UserManagement.Controllers
                 ViewBag.Message = "No data to validate !!! Please check your data";
                 return View("~/Views/BulkInsert/Error.cshtml");
             }
+            var models = await _bulkDataImportService.GetModels(data);
+            var listModels = models.ToList();
+            var result = await _bulkInsertValidator.ValidateAsync(listModels);
 
-            var result = await _bulkInsertValidator.ValidateAsync(data);
-           // result.UpdateModelState(ModelState);
-                var states = await _bulkDataImportService.GetStates();
-                ViewBag.States = states;
-                ViewBag.Specilization = await _bulkDataImportService.GetSpecialities();
+            var states = await _bulkDataImportService.GetStates();
+            ViewBag.States = states;
+            ViewBag.Specilization = await _bulkDataImportService.GetSpecialities();
 
-            foreach (var item in data)
-            {
-                item.HFDistricts = await _bulkDataImportService.GetDistrict(item.SelectedHFStateId.ToString());
-                item.UserDistricts = await _bulkDataImportService.GetDistrict(item.SelectedUserStateId.ToString());
-                item.HFCities = await _bulkDataImportService.GetCities(item.SelectedHFStateId.ToString(),item.SelectedHFDistrictId.ToString());
-                item.UserCities = await _bulkDataImportService.GetCities(item.SelectedUserStateId.ToString(),item.SelectedUserDistrictId.ToString());
-            }
+            //foreach (var item in data)
+            //{
+            //    item.HFDistricts = await _bulkDataImportService.GetDistrict(item.SelectedHFStateId.ToString());
+            //    item.UserDistricts = await _bulkDataImportService.GetDistrict(item.SelectedUserStateId.ToString());
+            //    item.HFCities = await _bulkDataImportService.GetCities(item.SelectedHFStateId.ToString(),item.SelectedHFDistrictId.ToString());
+            //    item.UserCities = await _bulkDataImportService.GetCities(item.SelectedUserStateId.ToString(),item.SelectedUserDistrictId.ToString());
+            //}
             var model = new BulkImportWithValidationErrorVM()
             {
                 Errors = result.Errors,
-                Data = data.ToList()
+                Data = listModels
             };
             return View("BulkImport", model);
         }

@@ -69,11 +69,11 @@ namespace UserManagement.Domain
         public string RegistrationNumber { get; set; }
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
-        public int StateId { get; set; }
-        public int DistrictId { get; set; }
-        public int CityId { get; set; }
-        public int SpecializationId { get; set; }
-        public int QualificationId { get; set; }
+        public int? StateId { get; set; }
+        public int? DistrictId { get; set; }
+        public int? CityId { get; set; }
+        public int? SpecializationId { get; set; }
+        public int? QualificationId { get; set; }
         public string PinCode { get; set; }
         public string Fax { get; set; }
         public int LoginOTP { get; set; }

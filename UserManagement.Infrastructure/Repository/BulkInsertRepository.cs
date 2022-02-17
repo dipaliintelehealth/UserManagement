@@ -228,14 +228,18 @@ namespace UserManagement.Infrastructure.Repository
             //var sql = $"SELECT * FROM md_members where MemberId >= {minId} and MemberId <= {maxId};";
             var singleQuotedEmails = emails.Select(x => { return $"'{x}'"; });
             var emailString = string.Join(',', singleQuotedEmails);
-            var sql = "Select MemberId,Email from md_members where Email IN( " + emailString + ")";
+            var sql = "Select MemberId,Email from md_members where Email IN ( " + emailString + ")";
             var result = await Connection.QueryAsync<MembersModel>(sql);
             return result;
         }
 
-        public async Task<IEnumerable<InstitutionModel>> GetInstitution()
+        public async Task<IEnumerable<InstitutionModel>> FindInstitutions(IEnumerable<string> emails, IEnumerable<string> mobiles)
         {
-            var sql = "SELECT InstitutionId,Name FROM md_institution;";
+            var singleQuotedEmails = emails.Select(x => { return $"'{x}'"; });
+            var emailString = string.Join(',', singleQuotedEmails);
+            var singleQuotedMobiles = mobiles.Select(x => { return $"'{x}'"; });
+            var mobileString = string.Join(',', singleQuotedMobiles);
+            var sql = "SELECT InstitutionId,Name,Email,Mobile FROM md_institution where Email IN ( " + emailString + ") OR Mobile IN ( " + mobileString + ");";
             var result = await Connection.QueryAsync<InstitutionModel>(sql);
             return result;
         }

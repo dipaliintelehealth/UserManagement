@@ -20,7 +20,7 @@ namespace UserManagement.Contract.Repository
         Task<IEnumerable<string>> FindMobiles(IEnumerable<string> mobiles);
         Task<IEnumerable<string>> FindUsers(IEnumerable<string> users);
         Task<IEnumerable<MembersModel>> FindMembers(IEnumerable<string> emails);
-        Task<IEnumerable<InstitutionModel>> GetInstitution();
+        Task<IEnumerable<InstitutionModel>> FindInstitutions(IEnumerable<string> emails, IEnumerable<string> mobiles);
         Task<IEnumerable<QualificationModel>> GetQualification();
         Task<IEnumerable<SpecializationModel>> GetSpecialities();
         Task<int> GetMaxInstituteId();

@@ -82,7 +82,7 @@ namespace UserManagement.Business.Services
             var states = await _bulkInsertRepository.GetStateDistrictCities();
             var qualifications = await _bulkInsertRepository.GetQualification();
             var specilizations = await _bulkInsertRepository.GetSpecialities();
-            var institutions = await _bulkInsertRepository.GetInstitution();
+            var institutions = await _bulkInsertRepository.FindInstitutions(models.Select(x=>x.HFEmail), models.Select(x=>x.HFPhone));
             var data = models.Select(x =>
             {
                 x.HFState = states.FirstOrDefault(s => s.StateId == x.SelectedHFStateId)?.StateName;
@@ -255,10 +255,9 @@ namespace UserManagement.Business.Services
             return models;
         }
 
-        private async Task<IEnumerable<MemberBulkImportVM>> GetModels(IEnumerable<MemberBulkImportVM> models)
+        public async Task<IEnumerable<MemberBulkImportVM>> GetModels(IEnumerable<MemberBulkImportVM> models)
         {
-            var results = Enumerable.Empty<ResultModel<MemberBulkImportVM>>();
-            var institutions = await _bulkInsertRepository.GetInstitution();
+            var institutions = await _bulkInsertRepository.FindInstitutions(models.Select(x => x.HFEmail), models.Select(x => x.HFPhone));
             var states = await _bulkInsertRepository.GetStateDistrictCities();
             models = await GetModelsWithStateDistrictAndCityId(models, states, institutions);
             return models;
@@ -269,13 +268,13 @@ namespace UserManagement.Business.Services
             this._pathForCsv = pathForCsvLog;
             if (models.Any())
             {
-                var institutions = await _bulkInsertRepository.GetInstitution();
+                var institutions = await _bulkInsertRepository.FindInstitutions(models.Select(x => x.HFEmail), models.Select(x => x.HFPhone));
                 var states = await _bulkInsertRepository.GetStateDistrictCities();
                 var users = await _bulkInsertRepository.FindUsers(models.Select(x => GetHFNameForLogin(x.HFName)).Distinct());
                 var subMenu = await _bulkInsertRepository.GetSubMenu();
 
                 var result = await this.CreateUserName(models, users, states);
-                result = await this.CreateServiceProvider(result.Value, institutions);
+                result = await this.CreateInstitutes(result.Value, institutions);
                 result = await this.CreateMember(result.Value);
                 result = await this.CreateLogin(result.Value);
                 result = await this.CreateMemberSlot(result.Value);
@@ -341,15 +340,67 @@ namespace UserManagement.Business.Services
             var models = new List<MemberBulkImportVM>();
             foreach (var model in bulkImportVMs)
             {
-                model.SelectedHFStateId = GetStateId(states, model.HFState);
-                model.SelectedSpecialityId = GetSpecialityId(specializations, model.Designation);
-                model.SelectedHFDistrictId = GetDistrictId(states, model.HFState, model.HFDistrict);
-                model.SelectedHFCityId = GetCityId(states, model.HFState, model.HFDistrict, model.HFCity);
-                model.HFCity = GetCityName(states, model.HFState, model.HFDistrict, model.HFCity);
-                model.SelectedUserStateId = GetStateId(states, model.UserState);
-                model.SelectedUserDistrictId = GetDistrictId(states, model.UserState, model.UserDistrict);
-                model.SelectedUserCityId = GetCityId(states, model.UserState, model.UserDistrict, model.UserCity);
-                model.UserCity = GetCityName(states, model.UserState, model.UserDistrict, model.UserCity);
+                if (model.SelectedHFStateId != 0)
+                {
+                    model.HFState = states.FirstOrDefault(s => s.StateId == model.SelectedHFStateId)?.StateName;
+                }
+                else
+                {
+                    model.SelectedHFStateId = GetStateId(states, model.HFState);
+                }
+                if(model.SelectedHFDistrictId != 0)
+                {
+                    model.HFDistrict = states.FirstOrDefault(s => s.DistrictId == model.SelectedHFDistrictId)?.DistrictName;
+                }
+                else
+                {
+                    model.SelectedHFDistrictId = GetDistrictId(states, model.HFState, model.HFDistrict);
+                }
+                if (model.SelectedHFCityId != 0)
+                {
+                    model.HFCity = states.FirstOrDefault(s => s.CityId == model.SelectedHFCityId)?.CityName;
+                }
+                else
+                {
+                    model.HFCity = GetCityName(states, model.HFState, model.HFDistrict, model.HFCity);
+                    model.SelectedHFCityId = GetCityId(states, model.HFState, model.HFDistrict, model.HFCity);
+                }
+
+                if (model.SelectedUserStateId != 0)
+                {
+                    model.UserState = states.FirstOrDefault(s => s.StateId == model.SelectedUserStateId)?.StateName;
+                }
+                else
+                {
+                    model.SelectedUserStateId = GetStateId(states, model.UserState);
+                }
+                if (model.SelectedUserDistrictId != 0)
+                {
+                    model.UserDistrict = states.FirstOrDefault(s => s.DistrictId == model.SelectedUserDistrictId)?.DistrictName;
+                }
+                else
+                {
+                    model.SelectedUserDistrictId = GetDistrictId(states, model.UserState, model.UserDistrict);
+                }
+                if (model.SelectedUserCityId != 0)
+                {
+                    model.UserCity = states.FirstOrDefault(s => s.CityId == model.SelectedUserCityId)?.CityName;
+                }
+                else
+                {
+                    model.UserCity = GetCityName(states, model.UserState, model.UserDistrict, model.UserCity);
+                    model.SelectedUserCityId = GetCityId(states, model.UserState, model.UserDistrict, model.UserCity);
+                }
+                if(model.SelectedSpecialityId != 0)
+                {
+                    model.Designation = specializations?.FirstOrDefault(x => x.SpecialityId == model.SelectedSpecialityId)?.SpecialityName;
+                }
+                else
+                {
+                    model.SelectedSpecialityId = GetSpecializationId(specializations, model.Designation);
+                }
+
+                model.Designation = specializations.FirstOrDefault(d => d.SpecialityId == model.SelectedSpecialityId)?.SpecialityName;
                 model.UserDistrictShortCode = GetDistrictShortCode(states, model.UserState, model.UserDistrict);
                 model.UserName = GetUsersName(states, model.UserState, model.UserDistrict, model.HFName, model.HFType);
                 model.QualificationId = GetQualificationId(qualifications, model.Qualification);
@@ -360,6 +411,27 @@ namespace UserManagement.Business.Services
                 model.UserDistricts = GetDistricts(states, model.UserState);
                 model.HFCities = GetCities(states, model.HFState, model.HFDistrict);
                 model.UserCities = GetCities(states, model.UserState, model.UserDistrict);
+
+
+                //model.SelectedHFStateId = GetStateId(states, model.HFState);
+                //model.SelectedSpecialityId = GetSpecialityId(specializations, model.Designation);
+                //model.SelectedHFDistrictId = GetDistrictId(states, model.HFState, model.HFDistrict);
+                //model.SelectedHFCityId = GetCityId(states, model.HFState, model.HFDistrict, model.HFCity);
+                //model.HFCity = GetCityName(states, model.HFState, model.HFDistrict, model.HFCity);
+                //model.SelectedUserStateId = GetStateId(states, model.UserState);
+                //model.SelectedUserDistrictId = GetDistrictId(states, model.UserState, model.UserDistrict);
+                //model.SelectedUserCityId = GetCityId(states, model.UserState, model.UserDistrict, model.UserCity);
+                //model.UserCity = GetCityName(states, model.UserState, model.UserDistrict, model.UserCity);
+                //model.UserDistrictShortCode = GetDistrictShortCode(states, model.UserState, model.UserDistrict);
+                //model.UserName = GetUsersName(states, model.UserState, model.UserDistrict, model.HFName, model.HFType);
+                //model.QualificationId = GetQualificationId(qualifications, model.Qualification);
+                //model.SpecialityId = GetSpecializationId(specializations, model.Designation);
+                //model.InstituteID = GetInstitutionId(institutions, model.HFName);
+                //model.AssignedInstituteID = GetInstitutionId(institutions, model.AssignHF);
+                //model.HFDistricts = GetDistricts(states, model.HFState);
+                //model.UserDistricts = GetDistricts(states, model.UserState);
+                //model.HFCities = GetCities(states, model.HFState, model.HFDistrict);
+                //model.UserCities = GetCities(states, model.UserState, model.UserDistrict);
 
                 models.Add(model);
             }
@@ -605,17 +677,18 @@ namespace UserManagement.Business.Services
         }
         private int GetSpecializationId(IEnumerable<SpecializationModel> specializations, string specializationName)
         {
-            return specializations
+            var spl = specializations
                 .Where(x => x.SpecialityName.ToUpper() == specializationName?.Trim().ToUpper())
                 .Select(specialization => specialization.SpecialityId)
                 .FirstOrDefault();
+
+            return spl;
         }
-        private async Task<Result<IEnumerable<MemberBulkValid>>> CreateServiceProvider(IEnumerable<MemberBulkValid> models, IEnumerable<InstitutionModel> institutions)
+        private async Task<Result<IEnumerable<MemberBulkValid>>> CreateInstitutes(IEnumerable<MemberBulkValid> models, IEnumerable<InstitutionModel> institutions)
         {
             if (models == null) throw new ArgumentNullException(nameof(models));
-
-            var validModels = models?.Where(x => !institutions.Any(i => i.Name.ToLower().Equals(x.HFNameWithDistrictName?.ToLower())));
-            var institutes = validModels?.Distinct(new CompareHFNameWithDistrictName()).Where(x => string.IsNullOrWhiteSpace(x.InstituteID))
+            var validModels = models?.Where(x => !institutions.Any(t => string.Equals(x.HFEmail?.Trim().ToLower(), t.Email?.Trim().ToLower()) || string.Equals(x.HFPhone?.Trim(), t.Mobile?.Trim())));
+            var institutes = validModels?.Distinct(new CompareOnHFEmail())?.Distinct(new CompareOnHFPhone()).Where(x => string.IsNullOrWhiteSpace(x.InstituteID))
                  .Select(x => new InstitutionModelForCsv()
                  {
 
@@ -635,7 +708,7 @@ namespace UserManagement.Business.Services
                      CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                      SourceId = 99,
                      StatusId = 1
-                 });
+                 }).ToList();
             var records = 0;
             if (institutes != null && institutes.Count() > 0)
             {
@@ -646,26 +719,135 @@ namespace UserManagement.Business.Services
                 });
                 var stream = csvUtility.Write(institutes);
                 records = await _bulkInsertRepository.BulkInsertInstitution(stream);
-
+                
             }
-            /*var maxInstituteId = await _bulkInsertRepository.GetMaxInstituteId();
-            var max = Math.Max((maxInstituteId - records) + 1, maxInstituteId);
-            var min = Math.Min((maxInstituteId - records) + 1, maxInstituteId);
-            var dbInstitutions = await _bulkInsertRepository.GetInstituations(min,max);*/
-            var tempInstitutions = await _bulkInsertRepository.GetInstitution();
-            var results = models.Select(x =>
+            var tempInstitutions = await _bulkInsertRepository.FindInstitutions(models.Select(x=>x.HFEmail), models.Select(x => x.HFPhone));
+
+
+            var results = new List<MemberBulkValid>();
+            foreach (var item in models)
             {
-                var find = tempInstitutions.FirstOrDefault(r => r.Name?.Trim().ToLower() == x.HFNameWithDistrictName?.Trim().ToLower());
+                var find = tempInstitutions.FirstOrDefault(r => r.Email?.Trim().ToLower() == item.HFEmail?.Trim().ToLower() || r.Mobile?.Trim() == item.HFPhone?.Trim());
                 if (find != null)
                 {
-                    x.InstituteID = Convert.ToString(find.InstitutionId);
+                    item.InstituteID = Convert.ToString(find.InstitutionId);
                 }
-                return x;
-            });
-
+                results.Add(item);
+            }
+            if (institutes != null && institutes.Count() > 0)
+            {
+                var insertedInstitutionIds = results.Where(r => institutes.Any(t => t.Email?.Trim().ToLower() == r.HFEmail?.Trim().ToLower() && t.Mobile?.Trim() == r.HFPhone?.Trim()));
+                var result = await CreateMasterMember(insertedInstitutionIds);
+                var loginResult = await CreateMasterLogin(result.Value);
+                await CreateMemberInstitution(loginResult.Value);
+            }
             return Result.Success(results.Where(x => !string.IsNullOrEmpty(x.InstituteID)));
         }
 
+        private async Task<Result<Dictionary<int, MemberBulkValid>>> CreateMasterMember(IEnumerable<MemberBulkValid> models)
+        {
+            var data = models.ToList();
+            var dob = DateTime.Now.AddYears(-18).ToString("yyyy-MM-dd HH:mm:ss");
+            var createdDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            var members = data.Select(x => new MembersModelForCsv()
+            {
+
+                FirstName = x.HFNameWithDistrictName,
+                MiddleName = "MiddleName",
+                LastName = "LastName",
+                AgeType = 1,
+                DOB = dob,
+                Age = 0,
+                Mobile = x.HFPhone,
+                Email = x.HFEmail,
+                ImagePath = string.Empty,
+                CreatedBy = 10,
+                CreatedDate = createdDate,
+                IsActive = 1,
+                GenderId = 4,
+                RegistrationNumber = string.Empty,
+                AddressLine1 = string.Empty,
+                AddressLine2 = string.Empty,
+                StateId = null,
+                DistrictId = null,
+                CityId = null,
+                SpecializationId = null,
+                QualificationId = null,
+                PinCode = string.Empty,
+                Fax = string.Empty,
+                LoginOTP = 0,
+                IsLoginOTPActive = "0",
+                SignaturePath = string.Empty,
+                CountryId = 0,
+                StatusId = 2,
+                RatingMasterId =1,
+                SourceId = 99,
+                IsMaster = "1",
+                Prefix = null,
+                CreationRole = "1"
+            });
+
+            var csvUtility = new MembersModelForCsvUtility();
+            csvUtility.Configure(new CsvConfiguration()
+            {
+                CsvLogPath = this._pathForCsv
+            });
+            var stream = csvUtility.Write(members);
+            var records = await _bulkInsertRepository.BulkInsertMembers(stream);
+            var dbRecords = await _bulkInsertRepository.FindMembers(members.Select(x => x.Email));
+            Dictionary<int, MemberBulkValid> mdl = new Dictionary<int, MemberBulkValid>();
+            foreach (var item in data)
+            {
+                var find = dbRecords.FirstOrDefault(r => r.Email == item.HFEmail);
+                if (find != null && !mdl.ContainsKey(find.MemberId))
+                {
+                    mdl.Add(find.MemberId, item);
+                }
+            }
+            return Result.Success(mdl);
+        }
+
+        private async Task<Result<List<MemberBulkValid>>> CreateMasterLogin(Dictionary<int, MemberBulkValid> models)
+        {
+            var logins = new List<LoginModelForCsv>();
+            var result = new List<MemberBulkValid>();
+            foreach (var item in models)
+            {
+                var lg = new LoginModelForCsv()
+                {
+                    UserName = GetMastreUserName(item.Value),
+                    Password = "ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413",
+                    ReferenceId =Convert.ToString(item.Key),
+                    IsActive = 1,
+                    SourceId = "99"
+                };
+                logins.Add(lg);
+                var mdl = new MemberBulkValid()
+                {
+                    InstituteID = item.Value.InstituteID,
+                    MemberId = Convert.ToString(item.Key)
+                };
+                result.Add(mdl);
+            }
+           
+            if (logins != null && logins.Count() > 0)
+            {
+                var csvUtility = new LoginModelCsvUtility();
+                csvUtility.Configure(new CsvConfiguration()
+                {
+                    CsvLogPath = this._pathForCsv
+                });
+                var stream = csvUtility.Write(logins);
+                var records = await _bulkInsertRepository.BulkInsertLogin(stream);
+            }
+            return Result.Success(result);
+        }
+
+        private string GetMastreUserName(MemberBulkValid value)
+        {
+            var userName = "User" + (value.HFTypeId == 1 ? "HUB" : (value.HFTypeId == 2 ? "SPOKECumHUB" : "SPOKE")) + value.InstituteID;
+            return userName;
+        }
 
         private async Task<Result<IEnumerable<MemberBulkValid>>> CreateMember(IEnumerable<MemberBulkValid> models)
         {
@@ -804,7 +986,7 @@ namespace UserManagement.Business.Services
             });
             var stream = csvUtility.Write(memberInstitutions);
             await _bulkInsertRepository.BulkInsertMemberInstitution(stream);
-            await _bulkInsertRepository.SetMasterMember(models.Select(x => x.InstituteID));
+            //await _bulkInsertRepository.SetMasterMember(models.Select(x => x.InstituteID));
             return Result.Success(modelReturns);
         }
 

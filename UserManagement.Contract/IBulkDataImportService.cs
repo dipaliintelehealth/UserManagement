@@ -27,6 +27,7 @@ namespace UserManagement.Contract
         Task<Result<IEnumerable<MemberBulkValid>>> ImportData(IEnumerable<MemberBulkValid> models,string pathForCsvLog);
         Task<Result<string>> AddToTemporaryStorage(IEnumerable<MemberBulkImportVM> models);
         Task<IEnumerable<T>> CreateModels(Stream stream);
+        Task<IEnumerable<T>> GetModels(IEnumerable<T> models);
         Task<IEnumerable<KeyValue<string,string>>> GetStates();
         Task<IEnumerable<KeyValue<string, string>>> GetDistrict(string stateId);
         Task<IEnumerable<KeyValue<string, string>>> GetCities(string stateId,string districtId);

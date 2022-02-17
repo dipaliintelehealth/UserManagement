@@ -137,20 +137,32 @@ namespace UserManagement.Domain.ViewModel
         [Display(Name = "Sub Menu")]
         public string SubMenuName { get; set; }
     }
-    public class CompareHFNameWithDistrictName : IEqualityComparer<MemberBulkValid>
+    public class CompareOnHFEmail : IEqualityComparer<MemberBulkValid>
     {
         public bool Equals(MemberBulkValid x, MemberBulkValid y)
         {
             if (x == null && y == null) return true;
             if (y == null || x == null) return false;
-
-            return string.Equals(x.HFNameWithDistrictName?.Trim().ToLower(),
-                y.HFNameWithDistrictName?.Trim().ToLower());
+            return string.Equals(x.HFEmail?.Trim().ToLower(), y.HFEmail?.Trim().ToLower());
         }
 
         public int GetHashCode(MemberBulkValid obj)
         {
-            return obj.HFNameWithDistrictName.Trim().ToLower().GetHashCode();
+           return obj.HFEmail.Trim().ToLower().GetHashCode();
+        }
+    }
+    public class CompareOnHFPhone : IEqualityComparer<MemberBulkValid>
+    {
+        public bool Equals(MemberBulkValid x, MemberBulkValid y)
+        {
+            if (x == null && y == null) return true;
+            if (y == null || x == null) return false;
+            return string.Equals(x.HFPhone?.Trim(), y.HFPhone?.Trim());
+        }
+
+        public int GetHashCode(MemberBulkValid obj)
+        {
+            return obj.HFPhone.Trim().GetHashCode();
         }
     }
 }
