@@ -776,7 +776,7 @@ namespace UserManagement.Business.Services
                 PinCode = string.Empty,
                 Fax = string.Empty,
                 LoginOTP = 0,
-                IsLoginOTPActive = "0",
+                IsLoginOTPActive = "",
                 SignaturePath = string.Empty,
                 CountryId = 0,
                 StatusId = 2,
