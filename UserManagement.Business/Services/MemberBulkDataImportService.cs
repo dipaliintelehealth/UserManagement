@@ -875,7 +875,7 @@ namespace UserManagement.Business.Services
 
         private async Task<Result<List<MemberBulkValid>>> CreateMasterLogin(Dictionary<int, MemberBulkValid> models)
         {
-            if (models == null || models.Count() == 0) { return Result.Success(models); }
+            if (models == null || models.Count() == 0) { return Result.Success(new List<MemberBulkValid>()); }
             var logins = new List<LoginModelForCsv>();
             var result = new List<MemberBulkValid>();
             foreach (var item in models)
