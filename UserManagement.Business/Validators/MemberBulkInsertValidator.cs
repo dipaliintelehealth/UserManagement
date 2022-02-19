@@ -17,7 +17,7 @@ namespace UserManagement.Business.Validators
         private readonly IMemberBulkInsertRepository _repository;
         private IEnumerable<string> _mobiles = Enumerable.Empty<string>();
         private IEnumerable<string> _emails = Enumerable.Empty<string>();
-        private IEnumerable<string> _hfTypes = Enumerable.Empty<string>();
+        private IEnumerable<KeyValue<string, string>> _hfTypes = Enumerable.Empty<KeyValue<string, string>>();
         private IEnumerable<string> _menus = Enumerable.Empty<string>();
         private IEnumerable<StateDistrictCity> _stateDistrictCities = Enumerable.Empty<StateDistrictCity>();
         private IEnumerable<InstitutionModel> _institutions = Enumerable.Empty<InstitutionModel>();
@@ -76,7 +76,7 @@ namespace UserManagement.Business.Validators
         }
         private bool IsContainInValidHFType(string hfType)
         {
-            return !_hfTypes.Any(x => x.ToLower()== hfType?.Trim().ToLower());
+            return !_hfTypes.Any(x => x.Value.ToLower()== hfType?.Trim().ToLower());
         }
         private bool IsContainInValidHFName(string hfName)
         {
@@ -84,7 +84,7 @@ namespace UserManagement.Business.Validators
             {
                 return false;
             }
-            return !_hfTypes.Any(x =>  hfName.Trim().ToLower().Contains(x.ToLower()));
+            return !_hfTypes.Any(x =>  hfName.Trim().ToLower().Contains(x.Value.ToLower()));
         }
         private bool AreHFNameAndHFTypeDifferent(string hfName,string hfType)
         {

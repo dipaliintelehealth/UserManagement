@@ -89,11 +89,11 @@ namespace UserManagement.Domain.ViewModel
             get
 
             {
-                if (this.Gender == "Female")
+                if (this.Gender?.ToLower() == "Female".ToLower())
                 {
                     return 2;
                 }
-                else if (this.Gender == "Male")
+                else if (this.Gender.ToLower() == "Male".ToLower())
                 {
                     return 1;
                 }
@@ -106,18 +106,19 @@ namespace UserManagement.Domain.ViewModel
 
         public int HFTypeId
         {
-            get
-            {
-                if (HFType?.Replace(" ", "")?.Replace("-", "")?.ToLower() == "hub")
-                {
-                    return 1;
-                }
-                else if (HFType?.Replace(" ", "")?.Replace("-", "")?.ToLower() == "phc")
-                {
-                    return 2;
-                }
-                return 3;
-            }
+            get;set;
+            //get
+            //{
+            //    if (HFType?.Replace(" ", "")?.Replace("-", "")?.ToLower() == "hub")
+            //    {
+            //        return 1;
+            //    }
+            //    else if (HFType?.Replace(" ", "")?.Replace("-", "")?.ToLower() == "phc")
+            //    {
+            //        return 2;
+            //    }
+            //    return 3;
+            //}
         }
         public string AssignedInstituteID { get; set; }
         public string InstituteID { get; set; }
@@ -161,6 +162,35 @@ namespace UserManagement.Domain.ViewModel
         }
 
         public int GetHashCode(MemberBulkValid obj)
+        {
+            return obj.HFPhone.Trim().GetHashCode();
+        }
+    }
+
+    public class CompareOnHFEmailMemberBulkImportVM : IEqualityComparer<MemberBulkImportVM>
+    {
+        public bool Equals(MemberBulkImportVM x, MemberBulkImportVM y)
+        {
+            if (x == null && y == null) return true;
+            if (y == null || x == null) return false;
+            return string.Equals(x.HFEmail?.Trim().ToLower(), y.HFEmail?.Trim().ToLower());
+        }
+
+        public int GetHashCode(MemberBulkImportVM obj)
+        {
+            return obj.HFEmail.Trim().ToLower().GetHashCode();
+        }
+    }
+    public class CompareOnHFPhoneMemberBulkImportVM : IEqualityComparer<MemberBulkImportVM>
+    {
+        public bool Equals(MemberBulkImportVM x, MemberBulkImportVM y)
+        {
+            if (x == null && y == null) return true;
+            if (y == null || x == null) return false;
+            return string.Equals(x.HFPhone?.Trim(), y.HFPhone?.Trim());
+        }
+
+        public int GetHashCode(MemberBulkImportVM obj)
         {
             return obj.HFPhone.Trim().GetHashCode();
         }

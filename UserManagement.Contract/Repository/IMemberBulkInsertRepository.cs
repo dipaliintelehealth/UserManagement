@@ -37,6 +37,6 @@ namespace UserManagement.Contract.Repository
 
         Task<IEnumerable<KeyValue<string, string>>> GetCities(string stateId, string districtId);
         Task<int> SetMasterMember(IEnumerable<string> instituteIds );
-        Task<IEnumerable<string>> GetHFTypes();
+        Task<IEnumerable<KeyValue<string, string>>> GetHFTypes();
     }
 }

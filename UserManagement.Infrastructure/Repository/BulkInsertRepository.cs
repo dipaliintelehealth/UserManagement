@@ -239,7 +239,12 @@ namespace UserManagement.Infrastructure.Repository
             var emailString = string.Join(',', singleQuotedEmails);
             var singleQuotedMobiles = mobiles.Select(x => { return $"'{x}'"; });
             var mobileString = string.Join(',', singleQuotedMobiles);
-            var sql = "SELECT InstitutionId,Name,Email,Mobile FROM md_institution where Email IN ( " + emailString + ") OR Mobile IN ( " + mobileString + ");";
+            var sql = "SELECT InstitutionId,Name,AddressLine1, " +
+                "AddressLine2,ReferenceNumber," +
+                "CountryId,StateId,DistrictId,CityId,PinCode," +
+                "Email,Mobile,ImagePath,InstitutionTypeId," +
+                "Fax,SourceId,IsActive,StatusId " +
+                "FROM md_institution where Email IN ( " + emailString + ") OR Mobile IN ( " + mobileString + ");";
             var result = await Connection.QueryAsync<InstitutionModel>(sql);
             return result;
         }
@@ -399,10 +404,10 @@ namespace UserManagement.Infrastructure.Repository
             return result;
         }
 
-        public async Task<IEnumerable<string>> GetHFTypes()
+        public async Task<IEnumerable<KeyValue<string, string>>> GetHFTypes()
         {
-            var sql = "Select TypeName from md_institutiontype; ";
-            var result = await Connection.QueryAsync<string>(sql);
+            var sql = "Select InstitutionTypeId AS Id, TypeName AS Value from md_institutiontype; ";
+            var result = await Connection.QueryAsync<KeyValue<string, string>>(sql);
             return result;
         }
     }

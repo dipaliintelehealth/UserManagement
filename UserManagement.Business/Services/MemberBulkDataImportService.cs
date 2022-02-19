@@ -81,29 +81,78 @@ namespace UserManagement.Business.Services
             const string folderPath = "Logs/Csv";
             var states = await _bulkInsertRepository.GetStateDistrictCities();
             var qualifications = await _bulkInsertRepository.GetQualification();
-            var specilizations = await _bulkInsertRepository.GetSpecialities();
+            var specializations = await _bulkInsertRepository.GetSpecialities();
             var institutions = await _bulkInsertRepository.FindInstitutions(models.Select(x=>x.HFEmail), models.Select(x=>x.HFPhone));
-            var data = models.Select(x =>
+            var hfTypes = await _bulkInsertRepository.GetHFTypes();
+
+            var data = MapDuplicateInstituteData(models, states, institutions,hfTypes);
+            foreach (var x in data)
             {
+                x.HFTypeId = GetHFtypeId(hfTypes, x.HFType);
                 x.HFState = states.FirstOrDefault(s => s.StateId == x.SelectedHFStateId)?.StateName;
                 x.HFDistrict = states.FirstOrDefault(s => s.DistrictId == x.SelectedHFDistrictId)?.DistrictName;
                 x.HFCity = states.FirstOrDefault(s => s.CityId == x.SelectedHFCityId)?.CityName;
                 x.UserState = states.FirstOrDefault(s => s.StateId == x.SelectedUserStateId)?.StateName;
                 x.UserDistrict = states.FirstOrDefault(s => s.DistrictId == x.SelectedUserDistrictId)?.DistrictName;
                 x.UserCity = states.FirstOrDefault(s => s.CityId == x.SelectedUserCityId)?.CityName;
-                x.Designation = specilizations.FirstOrDefault(d => d.SpecialityId == x.SelectedSpecialityId)?.SpecialityName;
+                x.Designation = specializations.FirstOrDefault(d => d.SpecialityId == x.SelectedSpecialityId)?.SpecialityName;
                 x.UserDistrictShortCode = GetDistrictShortCode(states, x.UserState, x.UserDistrict);
                 x.UserName = GetUsersName(states, x.UserState, x.UserDistrict, x.HFName, x.HFType);
                 x.QualificationId = GetQualificationId(qualifications, x.Qualification);
-                x.SpecialityId = GetSpecializationId(specilizations, x.Designation);
-                x.InstituteID = GetInstitutionId(institutions, x.HFName);
+                x.SpecialityId = GetSpecializationId(specializations, x.Designation);
+                x.InstituteID = GetInstitutionId(institutions, x.HFNameWithDistrictName);
                 x.AssignedInstituteID = GetInstitutionId(institutions, x.AssignHF);
-                return x;
-            });
-            var (resultValid, resultInvalid) = await GetValidInvalidData(data.ToList());
+            }
+            var (resultValid, resultInvalid) = await GetValidInvalidData(data);
             WriteToCSV(new MemberBulkValidCsvUtility(sessionIdInString), folderPath, resultValid);
             WriteToCSV(new MemberBulkInvalidCsvUtility(sessionIdInString), folderPath, resultInvalid);
             return Result.Success(sessionIdInString);
+        }
+
+        private List<MemberBulkImportVM> MapDuplicateInstituteData(IEnumerable<MemberBulkImportVM> models, IEnumerable<StateDistrictCity> states, IEnumerable<InstitutionModel> institutions, IEnumerable<KeyValue<string,string>> hfTypes)
+        {
+            var data = models.ToList();
+            var distinctinstitutes = data?.Distinct(new CompareOnHFEmailMemberBulkImportVM())?.Distinct(new CompareOnHFPhoneMemberBulkImportVM()).Where(x => string.IsNullOrWhiteSpace(x.InstituteID));
+            foreach (var item in distinctinstitutes)
+            {
+                var found = institutions.FirstOrDefault(t => string.Equals(item.HFEmail?.Trim().ToLower(), t.Email?.Trim().ToLower()) || string.Equals(item.HFPhone?.Trim(), t.Mobile?.Trim()));
+                if(found != null)
+                {
+                    item.InstituteID = Convert.ToString(found.InstitutionId);
+                    item.Address = found.AddressLine1;
+                    item.HFName = found.Name.Substring(0,found.Name.LastIndexOf(" ")); // HF name
+                    item.SelectedHFStateId = found.StateId;
+                    item.SelectedHFDistrictId = found.DistrictId;
+                    item.SelectedHFCityId = found.CityId;
+                    item.HFEmail = found.Email;
+                    item.HFPhone = found.Mobile;
+                    item.HFTypeId = found.InstitutionTypeId;
+                    item.HFType = hfTypes?.FirstOrDefault(t => t.Id == found.InstitutionTypeId.ToString())?.Value;
+                    item.NIN = found.ReferenceNumber;
+                }
+
+            }
+            foreach (var item in data)
+            {
+                var found = distinctinstitutes.FirstOrDefault(t => string.Equals(item.HFEmail?.Trim().ToLower(), t.HFEmail?.Trim().ToLower()) || string.Equals(item.HFPhone?.Trim(), t.HFPhone?.Trim()));
+                if (found != null)
+                {
+                    item.InstituteID = Convert.ToString(found.InstituteID);
+                    item.HFName =found.HFName; // HF name
+                    item.SelectedHFStateId = found.SelectedHFStateId;
+                    item.SelectedHFDistrictId = found.SelectedHFDistrictId;
+                    item.SelectedHFCityId = found.SelectedHFCityId;
+                    item.HFEmail = found.HFEmail;
+                    item.HFPhone = found.HFPhone;
+                    item.HFTypeId = found.HFTypeId;
+                    item.AssignedHFType = found.AssignedHFType;
+                    item.AssignHF = found.AssignHF;
+                    item.NIN = found.NIN;
+                    item.Address = found.Address;
+                }
+
+            }
+            return data;
         }
 
         private  void WriteToCSV<T>(ICsvFileUtility<T> csvFileUtility, string folderPath, IList<T> data)
@@ -154,6 +203,7 @@ namespace UserManagement.Business.Services
                 HFPhone = data.HFPhone,
                 HFState = data.HFState,
                 HFType = data.HFType,
+                HFTypeId = data.HFTypeId,
                 InstituteID = data.InstituteID,
                 LastName = data.LastName,
                 MemberId = data.MemberId,
@@ -212,6 +262,7 @@ namespace UserManagement.Business.Services
                 HFPhone = data.HFPhone,
                 HFState = data.HFState,
                 HFType = data.HFType,
+                HFTypeId = data.HFTypeId,
                 InstituteID = data.InstituteID,
                 LastName = data.LastName,
                 MemberId = data.MemberId,
@@ -316,7 +367,7 @@ namespace UserManagement.Business.Services
                 if (users.Contains(duplicateUserGroup.Key))
                 {
                     initialCount = 1;
-                    var numberToincrement = users.Where(x => Regex.IsMatch(x, pattern))?.Select(x => { var number = x.Replace(firstpart, string.Empty).Replace(secondpart, string.Empty); return int.Parse(number); }).OrderByDescending(x => x).FirstOrDefault();
+                    var numberToincrement = users.Where(x => Regex.IsMatch(x, pattern))?.Select(x => { var number = x.Replace(firstpart, string.Empty).Replace(secondpart, string.Empty); return (!string.IsNullOrWhiteSpace(number) ? int.Parse(number) :0); }).OrderByDescending(x => x).FirstOrDefault();
                     initialCount = numberToincrement != null ? Convert.ToInt32(numberToincrement) + 1 : initialCount;
                 }
                 foreach (var item in duplicateUserGroup)
@@ -337,6 +388,7 @@ namespace UserManagement.Business.Services
         {
             var qualifications = await _bulkInsertRepository.GetQualification();
             var specializations = await _bulkInsertRepository.GetSpecialities();
+            var hfTypes = await _bulkInsertRepository.GetHFTypes();
             var models = new List<MemberBulkImportVM>();
             foreach (var model in bulkImportVMs)
             {
@@ -399,7 +451,7 @@ namespace UserManagement.Business.Services
                 {
                     model.SelectedSpecialityId = GetSpecializationId(specializations, model.Designation);
                 }
-
+                model.HFTypeId = GetHFtypeId(hfTypes, model.HFType);
                 model.Designation = specializations.FirstOrDefault(d => d.SpecialityId == model.SelectedSpecialityId)?.SpecialityName;
                 model.UserDistrictShortCode = GetDistrictShortCode(states, model.UserState, model.UserDistrict);
                 model.UserName = GetUsersName(states, model.UserState, model.UserDistrict, model.HFName, model.HFType);
@@ -436,6 +488,17 @@ namespace UserManagement.Business.Services
                 models.Add(model);
             }
             return models;
+        }
+        private int  GetHFtypeId(IEnumerable<KeyValue<string, string>> hfTypes, string hfType)
+        {
+            var tempHfType = hfType?.Replace(" ", "")?.Replace("-", "")?.ToLower();
+            var found = hfTypes.FirstOrDefault(t => t.Value.Replace(" ", "")?.Replace("-", "").ToLower() == tempHfType);
+            int hfTypeId = 3;
+            if(found != null)
+            {
+                hfTypeId = Convert.ToInt32(found.Id);
+            }
+            return hfTypeId;
         }
 
         private IEnumerable<KeyValue<string,string>> GetCities(IEnumerable<StateDistrictCity> states, string state, string district)
@@ -686,7 +749,7 @@ namespace UserManagement.Business.Services
         }
         private async Task<Result<IEnumerable<MemberBulkValid>>> CreateInstitutes(IEnumerable<MemberBulkValid> models, IEnumerable<InstitutionModel> institutions)
         {
-            if (models == null) throw new ArgumentNullException(nameof(models));
+            if (models == null || models.Count() == 0) { return Result.Success(models); }
             var validModels = models?.Where(x => !institutions.Any(t => string.Equals(x.HFEmail?.Trim().ToLower(), t.Email?.Trim().ToLower()) || string.Equals(x.HFPhone?.Trim(), t.Mobile?.Trim())));
             var institutes = validModels?.Distinct(new CompareOnHFEmail())?.Distinct(new CompareOnHFPhone()).Where(x => string.IsNullOrWhiteSpace(x.InstituteID))
                  .Select(x => new InstitutionModelForCsv()
@@ -731,10 +794,11 @@ namespace UserManagement.Business.Services
                 if (find != null)
                 {
                     item.InstituteID = Convert.ToString(find.InstitutionId);
+                    results.Add(item);
                 }
-                results.Add(item);
+                
             }
-            if (institutes != null && institutes.Count() > 0)
+            if (institutes != null && institutes.Count() > 0 && results.Count > 0)
             {
                 var insertedInstitutionIds = results.Where(r => institutes.Any(t => t.Email?.Trim().ToLower() == r.HFEmail?.Trim().ToLower() && t.Mobile?.Trim() == r.HFPhone?.Trim()));
                 var result = await CreateMasterMember(insertedInstitutionIds);
@@ -746,6 +810,8 @@ namespace UserManagement.Business.Services
 
         private async Task<Result<Dictionary<int, MemberBulkValid>>> CreateMasterMember(IEnumerable<MemberBulkValid> models)
         {
+            Dictionary<int, MemberBulkValid> mdl = new Dictionary<int, MemberBulkValid>();
+            if (models == null || models.Count() == 0) { return  Result.Success(mdl); }
             var data = models.ToList();
             var dob = DateTime.Now.AddYears(-18).ToString("yyyy-MM-dd HH:mm:ss");
             var createdDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
@@ -795,7 +861,7 @@ namespace UserManagement.Business.Services
             var stream = csvUtility.Write(members);
             var records = await _bulkInsertRepository.BulkInsertMembers(stream);
             var dbRecords = await _bulkInsertRepository.FindMembers(members.Select(x => x.Email));
-            Dictionary<int, MemberBulkValid> mdl = new Dictionary<int, MemberBulkValid>();
+           
             foreach (var item in data)
             {
                 var find = dbRecords.FirstOrDefault(r => r.Email == item.HFEmail);
@@ -809,13 +875,14 @@ namespace UserManagement.Business.Services
 
         private async Task<Result<List<MemberBulkValid>>> CreateMasterLogin(Dictionary<int, MemberBulkValid> models)
         {
+            if (models == null || models.Count() == 0) { return Result.Success(models); }
             var logins = new List<LoginModelForCsv>();
             var result = new List<MemberBulkValid>();
             foreach (var item in models)
             {
                 var lg = new LoginModelForCsv()
                 {
-                    UserName = GetMastreUserName(item.Value),
+                    UserName = GetMasterUserName(item.Value),
                     Password = "ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413",
                     ReferenceId =Convert.ToString(item.Key),
                     IsActive = 1,
@@ -843,7 +910,7 @@ namespace UserManagement.Business.Services
             return Result.Success(result);
         }
 
-        private string GetMastreUserName(MemberBulkValid value)
+        private string GetMasterUserName(MemberBulkValid value)
         {
             var userName = "User" + (value.HFTypeId == 1 ? "HUB" : (value.HFTypeId == 2 ? "SPOKECumHUB" : "SPOKE")) + value.InstituteID;
             return userName;
@@ -851,6 +918,7 @@ namespace UserManagement.Business.Services
 
         private async Task<Result<IEnumerable<MemberBulkValid>>> CreateMember(IEnumerable<MemberBulkValid> models)
         {
+            if (models == null || models.Count() == 0) { return Result.Success(models); }
             var members = models.Select(x => new MembersModelForCsv()
             {
 
@@ -916,6 +984,7 @@ namespace UserManagement.Business.Services
 
         private async Task<Result<IEnumerable<MemberBulkValid>>> CreateLogin(IEnumerable<MemberBulkValid> models)
         {
+            if (models == null || models.Count() == 0) { return Result.Success(models); }
             var modelReturns = models;
             var logins = models.Select(x => new LoginModelForCsv()
             {
@@ -940,8 +1009,8 @@ namespace UserManagement.Business.Services
         }
         private async Task<Result<IEnumerable<MemberBulkValid>>> CreateMemberSlot(IEnumerable<MemberBulkValid> models)
         {
-            if (models == null) throw new ArgumentNullException(nameof(models));
-            
+            if (models == null || models.Count() == 0) { return Result.Success(models); }
+           
             var modelReturns = models;
             var memberSlots = models.Select(x => new MemberSlotModelForCsv()
             {
@@ -968,8 +1037,8 @@ namespace UserManagement.Business.Services
         }
         private async Task<Result<IEnumerable<MemberBulkValid>>> CreateMemberInstitution(IEnumerable<MemberBulkValid> models)
         {
-            if (models == null) throw new ArgumentNullException(nameof(models));
-            
+            if (models == null || models.Count() == 0) { return Result.Success(models); }
+
             var modelReturns = models;
             var memberInstitutions = models.Select(x => new MemberInstitutionModel()
             {
@@ -992,6 +1061,7 @@ namespace UserManagement.Business.Services
 
         private async Task<Result<IEnumerable<MemberBulkValid>>> CreateMemberMenu(IEnumerable<MemberBulkValid> models, IEnumerable<SubMenuModel> subMenu)
         {
+            if (models == null || models.Count() == 0) { return Result.Success(models); }
             var modelReturns = models;
             IEnumerable<MemberMenuModelForCsv> memberMenus = GetMemberMenus(models, subMenu);
 
@@ -1034,6 +1104,7 @@ namespace UserManagement.Business.Services
         }
       private async Task<Result<IEnumerable<MemberBulkValid>>> CreateAuditTrail(IEnumerable<MemberBulkValid> models)
         {
+            if (models == null || models.Count() == 0) { return Result.Success(models); }
             var modelReturns = models;
             var members = models.Select(x => new AuditTrailModel()
             {

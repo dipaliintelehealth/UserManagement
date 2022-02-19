@@ -92,11 +92,11 @@ namespace UserManagement.Models
             get
 
             {
-                if (this.Gender == "Female")
+                if (this.Gender?.ToLower() == "Female".ToLower())
                 {
                     return 2;
                 }
-                else if (this.Gender == "Male")
+                else if (this.Gender?.ToLower() == "Male".ToLower())
                 {
                     return 1;
                 }
@@ -109,18 +109,18 @@ namespace UserManagement.Models
 
         public int HFTypeId
         {
-            get
-            {
-                if (HFType?.Replace(" ", "")?.Replace("-", "")?.ToLower() == "hub")
-                {
-                    return 1;
-                }
-                else if (HFType?.Replace(" ", "")?.Replace("-", "")?.ToLower() == "phc")
-                {
-                    return 2;
-                }
-                return 3;
-            }
+            get;set;
+            //{
+            //    if (HFType?.Replace(" ", "")?.Replace("-", "")?.ToLower() == "hub")
+            //    {
+            //        return 1;
+            //    }
+            //    else if (HFType?.Replace(" ", "")?.Replace("-", "")?.ToLower() == "phc")
+            //    {
+            //        return 2;
+            //    }
+            //    return 3;
+            //}
         }
         public string AssignedInstituteID { get; set; }
         public string InstituteID { get; set; }
