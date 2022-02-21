@@ -233,18 +233,20 @@ namespace UserManagement.Infrastructure.Repository
             return result;
         }
 
-        public async Task<IEnumerable<InstitutionModel>> FindInstitutions(IEnumerable<string> emails, IEnumerable<string> mobiles)
+        public async Task<IEnumerable<InstitutionModel>> FindInstitutions(IEnumerable<string> emails, IEnumerable<string> mobiles, IEnumerable<string> hfNameWithDistrict)
         {
             var singleQuotedEmails = emails.Select(x => { return $"'{x}'"; });
             var emailString = string.Join(',', singleQuotedEmails);
             var singleQuotedMobiles = mobiles.Select(x => { return $"'{x}'"; });
             var mobileString = string.Join(',', singleQuotedMobiles);
+            var singleQuotedhfNames = hfNameWithDistrict.Select(x => { return $"'{x}'"; });
+            var hfnameString = string.Join(',', singleQuotedhfNames);
             var sql = "SELECT InstitutionId,Name,AddressLine1, " +
                 "AddressLine2,ReferenceNumber," +
                 "CountryId,StateId,DistrictId,CityId,PinCode," +
                 "Email,Mobile,ImagePath,InstitutionTypeId," +
                 "Fax,SourceId,IsActive,StatusId " +
-                "FROM md_institution where Email IN ( " + emailString + ") OR Mobile IN ( " + mobileString + ");";
+                "FROM md_institution where  Name IN ( " + hfnameString + ") OR Email IN ( " + emailString + ") OR Mobile IN ( " + mobileString + ");";
             var result = await Connection.QueryAsync<InstitutionModel>(sql);
             return result;
         }

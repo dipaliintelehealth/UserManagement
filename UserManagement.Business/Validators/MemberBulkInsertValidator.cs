@@ -40,7 +40,8 @@ namespace UserManagement.Business.Validators
         {
             var hfEmails = models.Select(model => model.HFEmail);
             var hfMobiles = models.Select(model => model.HFPhone);
-            this._institutions = await _repository.FindInstitutions(hfEmails, hfMobiles);
+            var hfnames = models.Select(model => model.HFNameWithDistrictName);
+            this._institutions = await _repository.FindInstitutions(hfEmails, hfMobiles, hfnames);
         }
         private async Task SetHFTypesForValidation()
         {
@@ -120,14 +121,30 @@ namespace UserManagement.Business.Validators
         }
         private bool IsInvalidHFNameWithDistrict(MemberBulkImportVM model, IEnumerable<MemberBulkImportVM> list)
         {
-            var hfEmailsFromList = list.Select(x => x.HFEmail);
-            var hfEmailsFromDb = this._institutions.Select(x => x.Email);
-            var hfEmails = Enumerable.Concat(hfEmailsFromList, hfEmailsFromDb);
-            var hfMobilesFromList = list.Select(x => x.HFPhone);
-            var hfMobilesFromDb = this._institutions.Select(x => x.Mobile);
-            var hfMobiles = Enumerable.Concat(hfMobilesFromList, hfMobilesFromDb);
+            var isInvalid = false;
+            //var hfEmailsFromList = list.Select(x => x.HFEmail);
+            //var hfEmailsFromDb = this._institutions.Select(x => x.Email);
+            //var hfEmails = Enumerable.Concat(hfEmailsFromList, hfEmailsFromDb);
+            //var hfMobilesFromList = list.Select(x => x.HFPhone);
+            //var hfMobilesFromDb = this._institutions.Select(x => x.Mobile);
+            //var hfMobiles = Enumerable.Concat(hfMobilesFromList, hfMobilesFromDb);
 
-            return !IsDuplicateMobile(model.HFPhone, hfMobiles) && !IsDuplicateEmail(model.HFEmail, hfEmails) && IsDuplicateHfName(model.HFNameWithDistrictName, list.Select(x => x.HFNameWithDistrictName));
+            //return !IsDuplicateMobile(model.HFPhone, hfMobiles) && !IsDuplicateEmail(model.HFEmail, hfEmails) && IsDuplicateHfName(model.HFNameWithDistrictName, list.Select(x => x.HFNameWithDistrictName));
+             if(list.Any(t => String.Equals(t.HFNameWithDistrictName.Trim(), model.HFNameWithDistrictName) 
+                    && (!string.Equals(t.HFPhone, model.HFPhone) 
+                    || !string.Equals(t.HFEmail.Trim().ToLower(), model.HFEmail.Trim().ToLower()))))
+            {
+                isInvalid = true;
+            }
+            
+             if(this._institutions.Any(t => String.Equals(t.Name.Trim(), model.HFNameWithDistrictName)
+                    && (!string.Equals(t.Mobile, model.HFPhone)
+                    || !string.Equals(t.Email.Trim().ToLower(), model.HFEmail.Trim().ToLower()))))
+            {
+                isInvalid = true;
+            }
+
+            return isInvalid;
         }
         private bool IsInvalidInstituteMobile(MemberBulkImportVM model, IEnumerable<MemberBulkImportVM> list)
         { 

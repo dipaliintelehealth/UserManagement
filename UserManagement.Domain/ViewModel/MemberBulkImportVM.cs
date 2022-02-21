@@ -152,6 +152,21 @@ namespace UserManagement.Domain.ViewModel
            return obj.HFEmail.Trim().ToLower().GetHashCode();
         }
     }
+
+    public class CompareOnHFNameWithDistrict : IEqualityComparer<MemberBulkValid>
+    {
+        public bool Equals(MemberBulkValid x, MemberBulkValid y)
+        {
+            if (x == null && y == null) return true;
+            if (y == null || x == null) return false;
+            return string.Equals(x.HFNameWithDistrictName?.Trim().ToLower(), y.HFNameWithDistrictName?.Trim().ToLower());
+        }
+
+        public int GetHashCode(MemberBulkValid obj)
+        {
+            return obj.HFNameWithDistrictName.Trim().ToLower().GetHashCode();
+        }
+    }
     public class CompareOnHFPhone : IEqualityComparer<MemberBulkValid>
     {
         public bool Equals(MemberBulkValid x, MemberBulkValid y)
@@ -181,6 +196,23 @@ namespace UserManagement.Domain.ViewModel
             return obj.HFEmail.Trim().ToLower().GetHashCode();
         }
     }
+
+    public class CompareOnHFNameWithDistrictMemberBulkImportVM : IEqualityComparer<MemberBulkImportVM>
+    {
+        public bool Equals(MemberBulkImportVM x, MemberBulkImportVM y)
+        {
+            if (x == null && y == null) return true;
+            if (y == null || x == null) return false;
+            return string.Equals(x.HFNameWithDistrictName?.Trim().ToLower(), y.HFNameWithDistrictName?.Trim().ToLower());
+        }
+
+        public int GetHashCode(MemberBulkImportVM obj)
+        {
+            return obj.HFNameWithDistrictName.Trim().ToLower().GetHashCode();
+        }
+    }
+
+
     public class CompareOnHFPhoneMemberBulkImportVM : IEqualityComparer<MemberBulkImportVM>
     {
         public bool Equals(MemberBulkImportVM x, MemberBulkImportVM y)

@@ -82,7 +82,7 @@ namespace UserManagement.Business.Services
             var states = await _bulkInsertRepository.GetStateDistrictCities();
             var qualifications = await _bulkInsertRepository.GetQualification();
             var specializations = await _bulkInsertRepository.GetSpecialities();
-            var institutions = await _bulkInsertRepository.FindInstitutions(models.Select(x=>x.HFEmail), models.Select(x=>x.HFPhone));
+            var institutions = await _bulkInsertRepository.FindInstitutions(models.Select(x=>x.HFEmail), models.Select(x=>x.HFPhone), models.Select(x => x.HFNameWithDistrictName.Trim()));
             var hfTypes = await _bulkInsertRepository.GetHFTypes();
 
             var data = MapDuplicateInstituteData(models, states, institutions,hfTypes);
@@ -112,10 +112,15 @@ namespace UserManagement.Business.Services
         private List<MemberBulkImportVM> MapDuplicateInstituteData(IEnumerable<MemberBulkImportVM> models, IEnumerable<StateDistrictCity> states, IEnumerable<InstitutionModel> institutions, IEnumerable<KeyValue<string,string>> hfTypes)
         {
             var data = models.ToList();
-            var distinctinstitutes = data?.Distinct(new CompareOnHFEmailMemberBulkImportVM())?.Distinct(new CompareOnHFPhoneMemberBulkImportVM()).Where(x => string.IsNullOrWhiteSpace(x.InstituteID));
+            var distinctinstitutes = data?.Distinct(new CompareOnHFEmailMemberBulkImportVM())
+                                         ?.Distinct(new CompareOnHFPhoneMemberBulkImportVM())
+                                         ?.Distinct(new CompareOnHFNameWithDistrictMemberBulkImportVM())
+                                         ?.Where(x => string.IsNullOrWhiteSpace(x.InstituteID));
             foreach (var item in distinctinstitutes)
             {
-                var found = institutions.FirstOrDefault(t => string.Equals(item.HFEmail?.Trim().ToLower(), t.Email?.Trim().ToLower()) || string.Equals(item.HFPhone?.Trim(), t.Mobile?.Trim()));
+                var found = institutions.FirstOrDefault(t => string.Equals(item.HFEmail?.Trim().ToLower(), t.Email?.Trim().ToLower()) 
+                                && string.Equals(item.HFPhone?.Trim(), t.Mobile?.Trim())
+                                && string.Equals(item.HFNameWithDistrictName?.Trim().ToLower(), t.Name?.Trim().ToLower()));
                 if(found != null)
                 {
                     item.InstituteID = Convert.ToString(found.InstitutionId);
@@ -134,7 +139,9 @@ namespace UserManagement.Business.Services
             }
             foreach (var item in data)
             {
-                var found = distinctinstitutes.FirstOrDefault(t => string.Equals(item.HFEmail?.Trim().ToLower(), t.HFEmail?.Trim().ToLower()) || string.Equals(item.HFPhone?.Trim(), t.HFPhone?.Trim()));
+                var found = distinctinstitutes.FirstOrDefault(t => string.Equals(item.HFEmail?.Trim().ToLower(), t.HFEmail?.Trim().ToLower()) 
+                            && string.Equals(item.HFPhone?.Trim(), t.HFPhone?.Trim()) 
+                            && string.Equals(item.HFNameWithDistrictName?.Trim().ToLower(), t.HFNameWithDistrictName?.Trim().ToLower()));
                 if (found != null)
                 {
                     item.InstituteID = Convert.ToString(found.InstituteID);
@@ -308,7 +315,7 @@ namespace UserManagement.Business.Services
 
         public async Task<IEnumerable<MemberBulkImportVM>> GetModels(IEnumerable<MemberBulkImportVM> models)
         {
-            var institutions = await _bulkInsertRepository.FindInstitutions(models.Select(x => x.HFEmail), models.Select(x => x.HFPhone));
+            var institutions = await _bulkInsertRepository.FindInstitutions(models.Select(x => x.HFEmail), models.Select(x => x.HFPhone), models.Select(x => x.HFNameWithDistrictName.Trim()));
             var states = await _bulkInsertRepository.GetStateDistrictCities();
             models = await GetModelsWithStateDistrictAndCityId(models, states, institutions);
             return models;
@@ -319,7 +326,7 @@ namespace UserManagement.Business.Services
             this._pathForCsv = pathForCsvLog;
             if (models.Any())
             {
-                var institutions = await _bulkInsertRepository.FindInstitutions(models.Select(x => x.HFEmail), models.Select(x => x.HFPhone));
+                var institutions = await _bulkInsertRepository.FindInstitutions(models.Select(x => x.HFEmail), models.Select(x => x.HFPhone), models.Select(x => x.HFNameWithDistrictName.Trim()));
                 var states = await _bulkInsertRepository.GetStateDistrictCities();
                 var users = await _bulkInsertRepository.FindUsers(models.Select(x => GetHFNameForLogin(x.HFName)).Distinct());
                 var subMenu = await _bulkInsertRepository.GetSubMenu();
@@ -750,9 +757,15 @@ namespace UserManagement.Business.Services
         private async Task<Result<IEnumerable<MemberBulkValid>>> CreateInstitutes(IEnumerable<MemberBulkValid> models, IEnumerable<InstitutionModel> institutions)
         {
             if (models == null || models.Count() == 0) { return Result.Success(models); }
-            var validModels = models?.Where(x => !institutions.Any(t => string.Equals(x.HFEmail?.Trim().ToLower(), t.Email?.Trim().ToLower()) || string.Equals(x.HFPhone?.Trim(), t.Mobile?.Trim())));
-            var institutes = validModels?.Distinct(new CompareOnHFEmail())?.Distinct(new CompareOnHFPhone()).Where(x => string.IsNullOrWhiteSpace(x.InstituteID))
-                 .Select(x => new InstitutionModelForCsv()
+            var validModels = models?.Where(x => !institutions.Any(t => string.Equals(x.HFEmail?.Trim().ToLower(), t.Email?.Trim().ToLower()) 
+                              || string.Equals(x.HFPhone?.Trim(), t.Mobile?.Trim())
+                              || string.Equals(x.HFNameWithDistrictName?.Trim().ToLower(), t.Name?.Trim().ToLower())));
+
+            var institutes = validModels?.Distinct(new CompareOnHFEmail())?
+                .Distinct(new CompareOnHFPhone())?
+                .Distinct(new CompareOnHFNameWithDistrict())
+                .Where(x => string.IsNullOrWhiteSpace(x.InstituteID))
+                .Select(x => new InstitutionModelForCsv()
                  {
 
                      Name = x.HFNameWithDistrictName,
@@ -784,13 +797,15 @@ namespace UserManagement.Business.Services
                 records = await _bulkInsertRepository.BulkInsertInstitution(stream);
                 
             }
-            var tempInstitutions = await _bulkInsertRepository.FindInstitutions(models.Select(x=>x.HFEmail), models.Select(x => x.HFPhone));
+            var tempInstitutions = await _bulkInsertRepository.FindInstitutions(models.Select(x=>x.HFEmail), models.Select(x => x.HFPhone), models.Select(x => x.HFNameWithDistrictName.Trim()));
 
 
             var results = new List<MemberBulkValid>();
             foreach (var item in models)
             {
-                var find = tempInstitutions.FirstOrDefault(r => r.Email?.Trim().ToLower() == item.HFEmail?.Trim().ToLower() || r.Mobile?.Trim() == item.HFPhone?.Trim());
+                var find = tempInstitutions.FirstOrDefault(r => r.Email?.Trim().ToLower() == item.HFEmail?.Trim().ToLower()
+                && r.Mobile?.Trim() == item.HFPhone?.Trim() 
+                && r.Name?.Trim().ToLower() == item.HFNameWithDistrictName?.Trim().ToLower());
                 if (find != null)
                 {
                     item.InstituteID = Convert.ToString(find.InstitutionId);
