@@ -11,7 +11,20 @@
             <table class="table table-striped" id="tblError">
                 <thead>
                     <tr>
-                        <th>Errors</th>
+                        <th colspan="11" class="d-none">
+                            Registration Form for Health facility in eSanjeevaniAB
+                            (TO BE FILLED IN BLOCK LETTERS)
+                        </th>
+                        <th colspan="23" class="d-none">
+                            Registration Form for User (cho/doctor/specialist) eSanjeevaniAB
+                            (TO BE FILLED IN BLOCK LETTERS)
+                        </th>
+                        <th class="d-none"></th>
+                    </tr>
+                    <tr>
+                        <th class="d-none">
+                            Sr. No.
+                        </th>
                         <th>
                             @Html.DisplayNameFor(model => model.HFName)
                         </th>
@@ -112,21 +125,17 @@
                         <th class="d-none">
                             @Html.DisplayNameFor(model => model.SubMenuName)
                         </th>
-
+                        <th>Errors</th>
                     </tr>
                 </thead>
                 <tbody>
+                    @{int index = 0;
+                    }
                     @foreach (var item in Model)
                     {
                     <tr>
-                        <td>
-                            <ul>
-                                @foreach (var message in item.ErrorMessage?.Split(","))
-                                {
-                                   <li>@message</li>
-                                }
-                            </ul>
-                            @*@Html.DisplayFor(modelItem => item.ErrorMessage)*@
+                        <td th class="d-none">
+                            @(++index)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.HFName)
@@ -228,7 +237,14 @@
                         <td class="d-none">
                             @Html.DisplayFor(modelItem => item.SubMenuName)
                         </td>
-
+                        <td>
+                            <ul>
+                                @foreach (var message in item.ErrorMessage?.Split(","))
+                                {
+                                    <li>@message</li>
+                                }
+                            </ul>
+                        </td>
                     </tr>
                     }
                 </tbody>

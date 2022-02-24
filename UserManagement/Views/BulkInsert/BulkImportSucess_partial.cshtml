@@ -12,6 +12,9 @@
             <table class="table table-striped" id="tblSucess">
                 <thead>
                     <tr>
+                        <th th class="d-none">
+                            Sr. No.
+                        </th>
                         <th>
                             @Html.DisplayNameFor(model => model.HFNameWithDistrictName)
                         </th>
@@ -115,13 +118,20 @@
                         <th>
                             @Html.DisplayNameFor(model => model.UserName)
                         </th>
-
+                        <th th class="d-none">
+                           Password
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
+                    @{int index = 0;
+                    }
                     @foreach (var item in Model)
-                    {
+                    { 
                     <tr>
+                        <td th class="d-none">
+                            @(++index)
+                        </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.HFNameWithDistrictName)
                         </td>
@@ -224,6 +234,9 @@
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.UserName)
+                        </td>
+                        <td class="d-none">
+                            123456
                         </td>
                     </tr>
                     }
