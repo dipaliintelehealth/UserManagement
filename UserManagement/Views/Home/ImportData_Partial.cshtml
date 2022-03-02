@@ -427,7 +427,7 @@
     function SelectAllValidOrInValidRows(ctrl, isValid) {
         let validRowOrInvalidRow = '.table-danger';
         if (isValid) {
-            validRowOrInvalidRow = '.table-sucess';
+            validRowOrInvalidRow = '.table-success';
         }
         let tblRows = tblImportData.rows(validRowOrInvalidRow);
         if (tblRows) {
@@ -491,14 +491,14 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                        <div class="form-check">
-                                          <input class="form-check-input" type="checkbox" onclick="SelectAllValidOrInValidRows(this,true)" value="" id="flexCheckDefault">
-                                          <label class="form-check-label" for="flexCheckDefault">
+                                          <input class="form-check-input" type="checkbox" onclick="SelectAllValidOrInValidRows(this,true)" value="" id="chkSelectValid">
+                                          <label class="form-check-label" for="chkSelectValid">
                                             Select All Valid Rows
                                           </label>
                                       </div>
                                       <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" onclick="SelectAllValidOrInValidRows(this,false)" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
+                                        <input class="form-check-input" type="checkbox" onclick="SelectAllValidOrInValidRows(this,false)" value="" id="chkSelectInValid">
+                                        <label class="form-check-label" for="chkSelectInValid">
                                           Select All Invalid Rows
                                         </label>
                                        </div>
