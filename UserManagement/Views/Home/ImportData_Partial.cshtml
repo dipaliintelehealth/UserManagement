@@ -291,24 +291,12 @@
 
 <script type="text/javascript">
     var tblImportData;
-    /*function onSubmitClick(url) {
-        let form = $("#bulkform");
-        $(form).attr('action', url);
-        console.log("form action : ", form.action);
-        setTimeout(function () { $(form).submit(); },100);
-    }*/
-    function formValidationCallback(response, statusText, xhr, $form) {
+
+    function formValidationCallback() {
 
         setTimeout(function () {
             updateValidationSummary();
-            if (response && !response.isSucceed) {
-                $("#btnformhelper").removeAttr('disabled');
-            }
         }, 200);
-    }
-    function formValidationBeforeSubmit(rr, $form, options) {
-        $("#btnformhelper").attr('disabled', 'disabled');
-
     }
     function setRowBorderColor(validRows, inValidRows) {
         if (validRows) {
@@ -421,8 +409,11 @@
         }
     }
     function deleteRows() {
-        tblImportData.rows('.selected').remove().draw(true);
-        formValidationCallback();
+        if (confirm('Are you sure you want to delete selected rows ?')) {
+            tblImportData.rows('.selected').remove().draw(true);
+            formValidationCallback();
+        }
+      
     }
     function getOptions(data) {
         var options = '<option value="0">--Select--</option>';
@@ -433,9 +424,58 @@
         }
         return options;
     }
+    function SelectAllValidOrInValidRows(ctrl, isValid) {
+        let validRowOrInvalidRow = '.table-danger';
+        if (isValid) {
+            validRowOrInvalidRow = '.table-success';
+        }
+        let tblRows = tblImportData.rows(validRowOrInvalidRow);
+        if (tblRows) {
+            let nodes = tblRows.nodes();
+            var checks = $(nodes).find(".chkSelected");
+            if ($(ctrl).is(':checked')) {
+                $(nodes).addClass('selected');
+                $(checks).attr('checked', 'checked');
+            }
+            else {
+                $(nodes).removeClass('selected');
+                $(checks).removeAttr('checked');
+            }
+        }
+    }
     $(document).ready(function () {
 
         formValidationCallback();
+        $("#chkSelectAllInvalid").on('click', function () {
+            let invalidRows = tblImportData.rows('.table-danger');
+            if (invalidRows) {
+                let nodes = invalidRows.nodes();
+                var checks = $(nodes).find(".chkSelected");
+                if ($(this).is(':checked')) {
+                    $(nodes).addClass('selected');
+                    $(checks).attr('checked', 'checked');
+                }
+                else {
+                    $(nodes).removeClass('selected');
+                    $(checks).removeAttr('checked');
+                }
+            }
+        });
+        $("#chkSelectAllValid").on('click', function () {
+            let validRows = tblImportData.rows('.table-sucess');
+            if (validRows) {
+                let nodes = invalidRows.nodes();
+                var checks = $(nodes).find(".chkSelected");
+                if ($(this).is(':checked')) {
+                    $(nodes).addClass('selected');
+                    $(checks).attr('checked', 'checked');
+                }
+                else {
+                    $(nodes).removeClass('selected');
+                    $(checks).removeAttr('checked');
+                }
+            }
+        });
 
         tblImportData = $('#tblImportData').DataTable({
             "ordering": false,
@@ -445,26 +485,29 @@
             "scrollY": "400px",
             "scrollCollapse": true,
             "info": true,
-            dom: 'lBfrtip<"actions">',
-            buttons: {
-                buttons: [
-                    {
-                        text: 'Delete',
-                        className: 'btn btn-outline-danger ml-2',
-                        action: function (e, dt, node, config) {
-                            if (confirm('Are you sure you want to delete the data ?')) {
-                                deleteRows();
-                            }
-                        }
-                    }
-                ],
-                dom: {
-                    button: { className: "btn" },
-                    buttonLiner: { tag: null }
-                }
-            }
+            "dom": '<"toolbar">frtip',
         });
-
+        $("div.toolbar").html(`<div class="container">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                       <div class="form-check">
+                                          <input class="form-check-input" type="checkbox" onclick="SelectAllValidOrInValidRows(this,true)" value="" id="chkSelectValid">
+                                          <label class="form-check-label" for="chkSelectValid">
+                                            Select All Valid Rows
+                                          </label>
+                                      </div>
+                                      <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" onclick="SelectAllValidOrInValidRows(this,false)" value="" id="chkSelectInValid">
+                                        <label class="form-check-label" for="chkSelectInValid">
+                                          Select All Invalid Rows
+                                        </label>
+                                       </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button type="button" class="btn btn-outline-danger" onclick="deleteRows()"> Delete Selected </button>
+                                    </div>
+                                </div>
+                            </div>`);
         tblImportData.rows().every(function (rowIdx, tableLoop, rowLoop) {
             let row = this.node();
             let state = $(row).find('.state');
