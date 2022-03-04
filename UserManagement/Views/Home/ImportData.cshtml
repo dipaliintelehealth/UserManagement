@@ -49,6 +49,9 @@
                                 @Html.DisplayNameFor(model => model[0].PIN)
                             </th>
                             <th>
+                                @Html.DisplayNameFor(model => model[0].UserPrefix)
+                            </th>
+                            <th>
                                 @Html.DisplayNameFor(model => model[0].FirstName)
                             </th>
                             <th>
@@ -93,9 +96,7 @@
                             <th>
                                 @Html.DisplayNameFor(model => model[0].UserPin)
                             </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model[0].UserPrefix)
-                            </th>
+
                             <th>
                                 @Html.DisplayNameFor(model => model[0].UserAvailableDay)
                             </th>
@@ -125,150 +126,151 @@
 
                         @for (var i = 0; i < Model.Count(); i++)
                         {
-                            <tr>
+                        <tr>
 
-                                <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].HFName, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].HFName, "", new { @class = "text-danger" })
-                                </td>
+                            <td>
+                                @Html.TextBoxFor(modelItem => Model[i].HFName, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(modelItem => Model[i].HFName, "", new { @class = "text-danger" })
+                            </td>
 
-                                <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].HFPhone, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].HFPhone, "", new { @class = "text-danger" })
-                                </td>
-                                <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].HFType, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].HFType, "", new { @class = "text-danger" })
-                                </td>
-                                <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].NIN, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].NIN, "", new { @class = "text-danger" })
-                                </td>
-                                <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].HFEmail, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].HFEmail, "", new { @class = "text-danger" })
-                                </td>
-                                <td>
-                                    @Html.HiddenFor(modelItem => Model[i].SelectedHFStateId)
-                                    @Html.TextBoxFor(modelItem => Model[i].HFState, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].SelectedHFStateId, "", new { @class = "text-danger" })
-                                </td>
-                                <td>
-                                    @Html.HiddenFor(modelItem => Model[i].SelectedHFDistrictId)
-                                    @Html.TextBoxFor(modelItem => Model[i].HFDistrict, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].SelectedHFDistrictId, "", new { @class = "text-danger" })
-                                </td>
-                                <td>
-                                    @Html.HiddenFor(modelItem => Model[i].SelectedHFCityId)
-                                    @Html.TextBoxFor(modelItem => Model[i].HFCity, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].SelectedHFCityId, "", new { @class = "text-danger" })
-                                </td>
-                                <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].Address, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].Address, "", new { @class = "text-danger" })
-                                </td>
-                                <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].PIN, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].PIN, "", new { @class = "text-danger" })
-                                </td>
-                                <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].FirstName, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].FirstName, "", new { @class = "text-danger" })
-                                </td>
-                                <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].LastName, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].LastName, "", new { @class = "text-danger" })
-                                </td>
-                                <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].UserMobile, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].UserMobile, "", new { @class = "text-danger" })
-                                </td>
-                                <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].Gender, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].Gender, "", new { @class = "text-danger" })
-                                </td>
-                                <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].Qualification, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].Qualification, "", new { @class = "text-danger" })
-                                </td>
-                                <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].Experience, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].Experience, "", new { @class = "text-danger" })
-                                </td>
-                                <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].DRRegNo, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].DRRegNo, "", new { @class = "text-danger" })
-                                </td>
-                                <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].UserEmail, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].UserEmail, "", new { @class = "text-danger" })
-                                </td>
-                                <td>
-                                    @Html.HiddenFor(modelItem => Model[i].SelectedSpecialityId)
-                                    @Html.TextBoxFor(modelItem => Model[i].Designation, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].Designation, "", new { @class = "text-danger" })
-                                </td>
-                                <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].DOB, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].DOB, "", new { @class = "text-danger" })
-                                </td>
-                                <td>
-                                    @Html.HiddenFor(modelItem => Model[i].SelectedUserStateId)
-                                    @Html.TextBoxFor(modelItem => Model[i].UserState, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].UserState, "", new { @class = "text-danger" })
-                                </td>
-                                <td>
-                                    @Html.HiddenFor(modelItem => Model[i].SelectedUserDistrictId)
-                                    @Html.TextBoxFor(modelItem => Model[i].UserDistrict, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].UserDistrict, "", new { @class = "text-danger" })
-                                </td>
-                                <td>
-                                    @Html.HiddenFor(modelItem => Model[i].SelectedUserCityId)
-                                    @Html.TextBoxFor(modelItem => Model[i].UserCity, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].UserCity, "", new { @class = "text-danger" })
-                                </td>
-                                <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].UserAddress, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].UserAddress, "", new { @class = "text-danger" })
-                                </td>
-                                <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].UserPin, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].UserPin, "", new { @class = "text-danger" })
-                                </td>
-                                <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].UserPrefix, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].UserPrefix, "", new { @class = "text-danger" })
-                                </td>
-                                <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].UserAvailableDay, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].UserAvailableDay, "", new { @class = "text-danger" })
-                                </td>
-                                <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].UserAvailableFromTime, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].UserAvailableFromTime, "", new { @class = "text-danger" })
-                                </td>
-                                <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].UserAvailableToTime, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].UserAvailableToTime, "", new { @class = "text-danger" })
-                                </td>
-                                <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].UserRole, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].UserRole, "", new { @class = "text-danger" })
-                                </td>
-                                <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].AssignedHFType, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].AssignedHFType, "", new { @class = "text-danger" })
-                                </td>
-                                <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].AssignHF, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].AssignHF, "", new { @class = "text-danger" })
-                                </td>
-                                <td>
-                                    @Html.TextBoxFor(modelItem => Model[i].SubMenuName, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(modelItem => Model[i].SubMenuName, "", new { @class = "text-danger" })
-                                </td>
+                            <td>
+                                @Html.TextBoxFor(modelItem => Model[i].HFPhone, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(modelItem => Model[i].HFPhone, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(modelItem => Model[i].HFType, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(modelItem => Model[i].HFType, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(modelItem => Model[i].NIN, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(modelItem => Model[i].NIN, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(modelItem => Model[i].HFEmail, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(modelItem => Model[i].HFEmail, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.HiddenFor(modelItem => Model[i].SelectedHFStateId)
+                                @Html.TextBoxFor(modelItem => Model[i].HFState, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(modelItem => Model[i].SelectedHFStateId, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.HiddenFor(modelItem => Model[i].SelectedHFDistrictId)
+                                @Html.TextBoxFor(modelItem => Model[i].HFDistrict, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(modelItem => Model[i].SelectedHFDistrictId, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.HiddenFor(modelItem => Model[i].SelectedHFCityId)
+                                @Html.TextBoxFor(modelItem => Model[i].HFCity, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(modelItem => Model[i].SelectedHFCityId, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(modelItem => Model[i].Address, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(modelItem => Model[i].Address, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(modelItem => Model[i].PIN, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(modelItem => Model[i].PIN, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(modelItem => Model[i].UserPrefix, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(modelItem => Model[i].UserPrefix, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(modelItem => Model[i].FirstName, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(modelItem => Model[i].FirstName, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(modelItem => Model[i].LastName, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(modelItem => Model[i].LastName, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(modelItem => Model[i].UserMobile, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(modelItem => Model[i].UserMobile, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(modelItem => Model[i].Gender, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(modelItem => Model[i].Gender, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(modelItem => Model[i].Qualification, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(modelItem => Model[i].Qualification, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(modelItem => Model[i].Experience, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(modelItem => Model[i].Experience, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(modelItem => Model[i].DRRegNo, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(modelItem => Model[i].DRRegNo, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(modelItem => Model[i].UserEmail, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(modelItem => Model[i].UserEmail, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.HiddenFor(modelItem => Model[i].SelectedSpecialityId)
+                                @Html.TextBoxFor(modelItem => Model[i].Designation, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(modelItem => Model[i].Designation, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(modelItem => Model[i].DOB, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(modelItem => Model[i].DOB, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.HiddenFor(modelItem => Model[i].SelectedUserStateId)
+                                @Html.TextBoxFor(modelItem => Model[i].UserState, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(modelItem => Model[i].UserState, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.HiddenFor(modelItem => Model[i].SelectedUserDistrictId)
+                                @Html.TextBoxFor(modelItem => Model[i].UserDistrict, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(modelItem => Model[i].UserDistrict, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.HiddenFor(modelItem => Model[i].SelectedUserCityId)
+                                @Html.TextBoxFor(modelItem => Model[i].UserCity, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(modelItem => Model[i].UserCity, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(modelItem => Model[i].UserAddress, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(modelItem => Model[i].UserAddress, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(modelItem => Model[i].UserPin, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(modelItem => Model[i].UserPin, "", new { @class = "text-danger" })
+                            </td>
 
-                            </tr>
+                            <td>
+                                @Html.TextBoxFor(modelItem => Model[i].UserAvailableDay, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(modelItem => Model[i].UserAvailableDay, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(modelItem => Model[i].UserAvailableFromTime, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(modelItem => Model[i].UserAvailableFromTime, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(modelItem => Model[i].UserAvailableToTime, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(modelItem => Model[i].UserAvailableToTime, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(modelItem => Model[i].UserRole, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(modelItem => Model[i].UserRole, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(modelItem => Model[i].AssignedHFType, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(modelItem => Model[i].AssignedHFType, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(modelItem => Model[i].AssignHF, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(modelItem => Model[i].AssignHF, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(modelItem => Model[i].SubMenuName, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(modelItem => Model[i].SubMenuName, "", new { @class = "text-danger" })
+                            </td>
+
+                        </tr>
 }
 
                     </tbody>

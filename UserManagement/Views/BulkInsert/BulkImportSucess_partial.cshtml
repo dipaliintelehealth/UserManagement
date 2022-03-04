@@ -47,6 +47,9 @@
                             @Html.DisplayNameFor(model => model.PIN)
                         </th>
                         <th class="d-none">
+                            @Html.DisplayNameFor(model => model.UserPrefix)
+                        </th>
+                        <th class="d-none">
                             @Html.DisplayNameFor(model => model.FirstName)
                         </th>
                         <th class="d-none">
@@ -92,9 +95,6 @@
                             @Html.DisplayNameFor(model => model.UserPin)
                         </th>
                         <th class="d-none">
-                            @Html.DisplayNameFor(model => model.UserPrefix)
-                        </th>
-                        <th class="d-none">
                             @Html.DisplayNameFor(model => model.UserAvailableDay)
                         </th>
                         <th class="d-none">
@@ -119,7 +119,7 @@
                             @Html.DisplayNameFor(model => model.UserName)
                         </th>
                         <th th class="d-none">
-                           Password
+                            Password
                         </th>
                     </tr>
                 </thead>
@@ -162,6 +162,9 @@
                         </td>
                         <td class="d-none">
                             @Html.DisplayFor(modelItem => item.PIN)
+                        </td>
+                        <td class="d-none">
+                            @Html.DisplayFor(modelItem => item.UserPrefix)
                         </td>
                         <td class="d-none">
                             @Html.DisplayFor(modelItem => item.FirstName)
@@ -207,9 +210,6 @@
                         </td>
                         <td class="d-none">
                             @Html.DisplayFor(modelItem => item.UserPin)
-                        </td>
-                        <td class="d-none">
-                            @Html.DisplayFor(modelItem => item.UserPrefix)
                         </td>
                         <td class="d-none">
                             @Html.DisplayFor(modelItem => item.UserAvailableDay)
