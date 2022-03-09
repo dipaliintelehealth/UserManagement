@@ -153,8 +153,8 @@ namespace UserManagement.Business.Tests
 
             var result =  await service.CreateUserName(validatedModels, users, states);
 
-            Assert.NotNull(result.Value);
-            Assert.Contains(result.Value, x => x.UserName == "pbabohar1fazs");
+            Assert.NotNull(result);
+            Assert.Contains(result, x => x.Value.UserName == "pbabohar1fazs");
 
         }
         [Fact]
@@ -239,10 +239,10 @@ namespace UserManagement.Business.Tests
 
             var result = await service.CreateUserName(validatedModels, users, states);
 
-            Assert.NotNull(result.Value);
-            Assert.Contains(result.Value, x => x.UserName == "pbabohar21fazs");
-            Assert.Contains(result.Value, x => x.UserName == "pbabohar22fazs");
-            Assert.Contains(result.Value, x => x.UserName == "pbabohar23fazs");
+            Assert.NotNull(result);
+            Assert.Contains(result, x => x.Value.UserName == "pbabohar21fazs");
+            Assert.Contains(result, x => x.Value.UserName == "pbabohar22fazs");
+            Assert.Contains(result, x => x.Value.UserName == "pbabohar23fazs");
            
         }
         [Fact]
@@ -323,10 +323,10 @@ namespace UserManagement.Business.Tests
 
             var result = await service.CreateUserName(validatedModels, users, states);
 
-            Assert.NotNull(result.Value);
-            Assert.Contains(result.Value, x => x.UserName == "pbabohar1fazs");
-            Assert.Contains(result.Value, x => x.UserName == "pbabohar2fazs");
-            Assert.Contains(result.Value, x => x.UserName == "pbabohar3fazs");
+            Assert.NotNull(result);
+            Assert.Contains(result, x => x.Value.UserName == "pbabohar1fazs");
+            Assert.Contains(result, x => x.Value.UserName == "pbabohar2fazs");
+            Assert.Contains(result, x => x.Value.UserName == "pbabohar3fazs");
 
         }
         [Fact]
@@ -387,8 +387,8 @@ namespace UserManagement.Business.Tests
 
             var result = await service.CreateUserName(validatedModels, users, states);
 
-            Assert.NotNull(result.Value);
-            Assert.Contains(result.Value, x => x.UserName == "pbaboharfazs");
+            Assert.NotNull(result);
+            Assert.Contains(result, x => x.Value.UserName == "pbaboharfazs");
 
         }
         [Fact]
@@ -472,10 +472,10 @@ namespace UserManagement.Business.Tests
 
             var result = await service.CreateUserName(validatedModels, users, states);
 
-            Assert.NotNull(result.Value);
-            Assert.Contains(result.Value, x => x.UserName == "pbaboharfazs");
-            Assert.Contains(result.Value, x => x.UserName == "pbabohar1fazs");
-            Assert.Contains(result.Value, x => x.UserName == "pbabohar2fazs");
+            Assert.NotNull(result);
+            Assert.Contains(result, x => x.Value.UserName == "pbaboharfazs");
+            Assert.Contains(result, x => x.Value.UserName == "pbabohar1fazs");
+            Assert.Contains(result, x => x.Value.UserName == "pbabohar2fazs");
 
         }
         [Fact]
@@ -536,8 +536,8 @@ namespace UserManagement.Business.Tests
 
             var result = await service.CreateUserName(validatedModels, users, states);
 
-            Assert.NotNull(result.Value);
-            Assert.Contains(result.Value, x => x.UserName == "pbabohar6fazs");
+            Assert.NotNull(result);
+            Assert.Contains(result, x => x.Value.UserName == "pbabohar6fazs");
 
         }
 

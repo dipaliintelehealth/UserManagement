@@ -139,5 +139,6 @@ namespace UserManagement.Models
         }
         [Display(Name = "Sub Menu")]
         public string SubMenuName { get; set; }
+        public bool IsInstituteInserted { get; set; }
     }
 }
