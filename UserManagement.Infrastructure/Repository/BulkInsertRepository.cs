@@ -412,5 +412,66 @@ namespace UserManagement.Infrastructure.Repository
             var result = await Connection.QueryAsync<KeyValue<string, string>>(sql);
             return result;
         }
+
+        public async Task<int> RemoveInstitutions(IEnumerable<string> emails, IEnumerable<string> mobiles)
+        {
+            var singleQuotedEmails = emails.Select(x => { return $"'{x}'"; });
+            var emailString = string.Join(',', singleQuotedEmails);
+            var singleQuotedMobiles = mobiles.Select(x => { return $"'{x}'"; });
+            var mobileString = string.Join(',', singleQuotedMobiles);
+            var sql = "DELETE " +
+                "FROM md_institution where Email IN ( " + emailString + ") AND Mobile IN ( " + mobileString + ");";
+            var result = await Connection.ExecuteAsync(sql);
+            return result;
+        }
+
+        public async Task<int> RemoveMembers(IEnumerable<string> emails, IEnumerable<string> mobiles)
+        {
+            var singleQuotedEmails = emails.Select(x => { return $"'{x}'"; });
+            var emailString = string.Join(',', singleQuotedEmails);
+            var singleQuotedMobiles = mobiles.Select(x => { return $"'{x}'"; });
+            var mobileString = string.Join(',', singleQuotedMobiles);
+            var sql = "DELETE " +
+                "FROM md_members where Email IN ( " + emailString + ") AND Mobile IN ( " + mobileString + ");";
+            var result = await Connection.ExecuteAsync(sql);
+            return result;
+        }
+
+        public async Task<int> RemoveMemberMenus(IEnumerable<string> memberIds)
+        {
+            var memberIdString = string.Join(',', memberIds);
+            var sql = "DELETE " +
+                "FROM mp_member_menu where MemberId IN ( " + memberIdString + ");";
+            var result = await Connection.ExecuteAsync(sql);
+            return result;
+        }
+
+        public async Task<int> RemoveMemberSlots(IEnumerable<string> memberIds)
+        {
+            var memberIdString = string.Join(',', memberIds);
+            var sql = "DELETE " +
+                "FROM md_members_slot where MemberId IN ( " + memberIdString + ");";
+            var result = await Connection.ExecuteAsync(sql);
+            return result;
+        }
+
+        public async Task<int> RemoveLogins(IEnumerable<string> memberIds)
+        {
+            var memberIdString = string.Join(',', memberIds);
+            var sql = "DELETE " +
+                "FROM md_login where ReferenceId IN ( " + memberIdString + ");";
+            var result = await Connection.ExecuteAsync(sql);
+            return result;
+        }
+
+        public async Task<int> RemoveMemberInstitution(IEnumerable<string> instituteIds, IEnumerable<string> memberIds)
+        {
+            var memberIdString = string.Join(',', memberIds);
+            var instituteIdString = string.Join(',', instituteIds);
+            var sql = "DELETE " +
+                "FROM mp_member_institution where MemberId IN ( " + memberIdString + ") OR IN InstituteId("+ instituteIdString + ");";
+            var result = await Connection.ExecuteAsync(sql);
+            return result;
+        }
     }
 }

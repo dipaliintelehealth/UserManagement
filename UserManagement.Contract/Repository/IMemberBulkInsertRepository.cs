@@ -38,5 +38,11 @@ namespace UserManagement.Contract.Repository
         Task<IEnumerable<KeyValue<string, string>>> GetCities(string stateId, string districtId);
         Task<int> SetMasterMember(IEnumerable<string> instituteIds );
         Task<IEnumerable<KeyValue<string, string>>> GetHFTypes();
+        Task<int> RemoveInstitutions(IEnumerable<string> emails, IEnumerable<string> mobiles);
+        Task<int> RemoveMembers(IEnumerable<string> emails, IEnumerable<string> mobiles);
+        Task<int> RemoveMemberMenus(IEnumerable<string> memberIds);
+        Task<int> RemoveMemberSlots(IEnumerable<string> memberIds);
+        Task<int> RemoveLogins(IEnumerable<string> memberIds);
+        Task<int> RemoveMemberInstitution(IEnumerable<string> instituteIds, IEnumerable<string> memberIds);
     }
 }

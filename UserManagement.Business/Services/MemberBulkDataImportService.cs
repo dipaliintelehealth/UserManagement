@@ -324,6 +324,7 @@ namespace UserManagement.Business.Services
         public async Task<IEnumerable<ResultModel<MemberBulkValid>>> ImportData(IEnumerable<MemberBulkValid> models, string pathForCsvLog)
         {
             this._pathForCsv = pathForCsvLog;
+            var result = Enumerable.Empty<ResultModel<MemberBulkValid>>();
             if (!models.Any())
             {
                 return Enumerable.Empty<ResultModel<MemberBulkValid>>();
@@ -333,14 +334,23 @@ namespace UserManagement.Business.Services
             var users = await _bulkInsertRepository.FindUsers(models.Select(x => GetHFNameForLogin(x.HFName)).Distinct());
             var subMenu = await _bulkInsertRepository.GetSubMenu();
 
-            var result = await this.CreateUserName(models, users, states);
-            result = await this.CreateInstitutes(result, institutions);
-            result = await this.CreateMember(result);
-            result = await this.CreateLogin(result);
-            result = await this.CreateMemberSlot(result);
-            result = await this.CreateMemberInstitution(result);
-            result = await this.CreateMemberMenu(result, subMenu);
-            result = await this.CreateAuditTrail(result);
+            result = await this.CreateUserName(models, users, states);
+            try
+            {
+                result = await this.CreateInstitutes(result, institutions);
+                result = await this.CreateMember(result);
+                result = await this.CreateLogin(result);
+                result = await this.CreateMemberSlot(result);
+                result = await this.CreateMemberInstitution(result);
+                result = await this.CreateMemberMenu(result, subMenu);
+                result = await this.CreateAuditTrail(result);
+             
+            }
+            catch(Exception ex)
+            {
+                await RevertInsertedData(result.Select(t => t.Value));
+                throw ex;
+            }
             return result;
         }
         public Task<IEnumerable<ResultModel<MemberBulkValid>>> CreateUserName(IEnumerable<MemberBulkValid> validatedModels, IEnumerable<string> users, IEnumerable<StateDistrictCity> states)
@@ -746,9 +756,13 @@ namespace UserManagement.Business.Services
         }
         private async Task<IEnumerable<ResultModel<MemberBulkValid>>> CreateInstitutes(IEnumerable<ResultModel<MemberBulkValid>> models, IEnumerable<InstitutionModel> institutions)
         {
-            if (models == null || models.Count() == 0) { return models; }
+            var allValidModels = models?.Where(x => x.IsSuccess).Select(x => x.Value);
+            if (allValidModels.Count() == 0)
+            {
+                return models;
+            }
             var invalidResults = models?.Where(t => !t.IsSuccess);
-            var allValidModels = models.Where(t => t.IsSuccess).Select(t => t.Value);
+            
             var NotInDBModels = allValidModels?.Where(x => !institutions.Any(t => string.Equals(x.HFEmail?.Trim().ToLower(), t.Email?.Trim().ToLower())
                                || string.Equals(x.HFPhone?.Trim(), t.Mobile?.Trim())
                                || string.Equals(x.HFNameWithDistrictName?.Trim().ToLower(), t.Name?.Trim().ToLower())));
@@ -802,19 +816,20 @@ namespace UserManagement.Business.Services
                 if (find != null)
                 {
                     item.InstituteID = Convert.ToString(find.InstitutionId);
+                    item.IsInstituteInserted = institutesToInsert.Any(t => t.Email?.Trim().ToLower() == item.HFEmail?.Trim().ToLower()
+                                                                        && t.Mobile?.Trim() == item.HFPhone?.Trim());
                     results.Add(ResultModel<MemberBulkValid>.Success(item));
                 }
                 else
                 {
-                    results.Add(ResultModel<MemberBulkValid>.Failure(item, "Database Error"));
+                    results.Add(ResultModel<MemberBulkValid>.Failure(item, "Database Error For Institute"));
                 }
             }
             if (institutesToInsert != null && institutesToInsert.Count() > 0 && results.Count > 0)
             {
                 var insertedInstitutions = results
-                                            .Where(r => institutesToInsert.Any(t => t.Email?.Trim().ToLower() == r.Value.HFEmail?.Trim().ToLower()
-                                                                        && t.Mobile?.Trim() == r.Value.HFPhone?.Trim()))
-                                            .Select(r => { r.Value.IsInstituteInserted = true; return r.Value; });
+                                            .Where(r => r.IsSuccess && r.Value.IsInstituteInserted)
+                                            .Select(r => r.Value);
 
                 var result = await CreateMasterMember(insertedInstitutions);
                 var loginResult = await CreateMasterLogin(result.Value);
@@ -888,7 +903,69 @@ namespace UserManagement.Business.Services
             }
             return ResultModel<Dictionary<int, MemberBulkValid>>.Success(mdl);
         }
-
+        private async Task<bool> RevertInsertedData(IEnumerable<MemberBulkValid> models)
+        {
+            await this.RevertMemberSlotData(models);
+            await this.RevertMemberMenuData(models);
+            await this.RevertMemberInstituteData(models);
+            await this.RevertLoginData(models);
+            await this.RevertMemberData(models);
+            await this.RevertInstituteData(models);
+            return true;
+        }
+        private async Task<bool> RevertInstituteData(IEnumerable<MemberBulkValid> models)
+        {
+            if (models == null || models.Count() == 0) return true;
+            var hfemails =  models?.Select(t => t.HFEmail);
+            var hfMobiles = models?.Select(t => t.HFPhone);
+            await _bulkInsertRepository.RemoveInstitutions(hfemails, hfMobiles);
+            return true;
+        }
+        private async Task<bool> RevertMemberData(IEnumerable<MemberBulkValid> models)
+        {
+            if (models == null || models.Count() == 0) { return true; }
+            var hfemails = models.Where(t=> t.IsInstituteInserted)?.Select(t => t.HFEmail);
+            var hfMobiles = models.Where(t => t.IsInstituteInserted).Select(t => t.HFPhone);
+            var userMobiles = models.Select(t => t.UserMobile);
+            var userEmails = models.Select(t => t.UserEmail);
+            userEmails = userEmails.Concat(hfemails);
+            userMobiles = userMobiles.Concat(hfMobiles);
+            await _bulkInsertRepository.RemoveMembers(userEmails, userMobiles);
+            return true;
+        }
+        private async  Task<bool> RevertMemberInstituteData(IEnumerable<MemberBulkValid> models)
+        {
+            if (models == null || models.Count() == 0) return true;
+            var memberIds = models?.Where(t => !string.IsNullOrWhiteSpace(t.MemberId)).Select(t => t.MemberId);
+            var instituteIds = models?.Where(t => t.IsInstituteInserted && !string.IsNullOrWhiteSpace(t.InstituteID)).Select(t => t.InstituteID);
+            if (memberIds == null || memberIds.Count() == 0 || instituteIds == null || instituteIds.Count() == 0) return true;
+            await _bulkInsertRepository.RemoveMemberInstitution(instituteIds, memberIds);
+            return true;
+        }
+        private async Task<bool> RevertLoginData(IEnumerable<MemberBulkValid> models)
+        {
+            if (models == null || models.Count() == 0) return true;
+            var memberIds = models?.Where(t => !string.IsNullOrWhiteSpace(t.MemberId)).Select(t => t.MemberId);
+            if (memberIds == null || memberIds.Count() == 0) return true;
+            await _bulkInsertRepository.RemoveLogins(memberIds);
+            return true;
+        }
+        private async Task<bool> RevertMemberMenuData(IEnumerable<MemberBulkValid> models)
+        {
+            if (models == null || models.Count() == 0) return true;
+            var memberIds = models?.Where(t => !string.IsNullOrWhiteSpace(t.MemberId)).Select(t => t.MemberId);
+            if (memberIds == null || memberIds.Count() == 0) return true;
+            await _bulkInsertRepository.RemoveMemberMenus(memberIds);
+            return true;
+        }
+        private async Task<bool> RevertMemberSlotData(IEnumerable<MemberBulkValid> models)
+        {
+            if (models == null || models.Count() == 0) return true;
+            var memberIds = models?.Where(t => !string.IsNullOrWhiteSpace(t.MemberId)).Select(t => t.MemberId);
+            if (memberIds ==  null || memberIds.Count() == 0) return true;
+            await _bulkInsertRepository.RemoveMemberSlots(memberIds);
+            return true;
+        }
         private async Task<List<ResultModel<MemberBulkValid>>> CreateMasterLogin(Dictionary<int, MemberBulkValid> models)
         {
             if (models == null || models.Count() == 0) { return (new List<ResultModel<MemberBulkValid>>()); }
@@ -934,9 +1011,13 @@ namespace UserManagement.Business.Services
 
         private async Task<IEnumerable<ResultModel<MemberBulkValid>>> CreateMember(IEnumerable<ResultModel<MemberBulkValid>> models)
         {
-            if (models == null || models.Count() == 0) { return models; }
-            var invalidResults = models.Where(x => !x.IsSuccess);
-            var allValidModels = models.Where(x => x.IsSuccess).Select(x => x.Value);
+            var allValidModels = models?.Where(x => x.IsSuccess).Select(x => x.Value);
+            if (allValidModels.Count() == 0)
+            {
+                return models;
+            }
+            var invalidResults = models?.Where(x => !x.IsSuccess);
+         
             var members = allValidModels.Select(x => new MembersModelForCsv()
             {
 
@@ -1004,10 +1085,13 @@ namespace UserManagement.Business.Services
 
         private async Task<IEnumerable<ResultModel<MemberBulkValid>>> CreateLogin(IEnumerable<ResultModel<MemberBulkValid>> models)
         {
-            if (models == null || models.Count() == 0) { return models; }
-            var inValidResults = models.Where(x => !x.IsSuccess);
-            var allValidModels = models.Where(x => x.IsSuccess).Select(x => x.Value);
-
+            var allValidModels = models?.Where(x => x.IsSuccess).Select(x => x.Value);
+            if (allValidModels.Count() == 0)
+            {
+                return models;
+            }
+            var inValidResults = models?.Where(x => !x.IsSuccess);
+           
             var logins = allValidModels.Select(x => new LoginModelForCsv()
             {
                 UserName = x.UserName,
@@ -1039,10 +1123,13 @@ namespace UserManagement.Business.Services
         }
         private async Task<IEnumerable<ResultModel<MemberBulkValid>>> CreateMemberSlot(IEnumerable<ResultModel<MemberBulkValid>> models)
         {
-            if (models == null || models.Count() == 0) { return models; }
+            var allValidModels = models?.Where(x => x.IsSuccess).Select(x => x.Value);
+            if (allValidModels.Count() == 0)
+            {
+                return models;
+            }
 
-            var inValidResults = models.Where(x => !x.IsSuccess);
-            var allValidModels = models.Where(x => x.IsSuccess).Select(x => x.Value);
+            var inValidResults = models?.Where(x => !x.IsSuccess);
 
             var memberSlots = allValidModels?.Select(x => new MemberSlotModelForCsv()
             {
@@ -1076,10 +1163,14 @@ namespace UserManagement.Business.Services
         }
         private async Task<IEnumerable<ResultModel<MemberBulkValid>>> CreateMemberInstitution(IEnumerable<ResultModel<MemberBulkValid>> models)
         {
-            if (models == null || models.Count() == 0) { return models; }
+            var allValidModels = models?.Where(x => x.IsSuccess).Select(x => x.Value);
+            if (allValidModels.Count() == 0)
+            {
+                return models;
+            }
 
-            var inValidResults = models.Where(x => !x.IsSuccess);
-            var allValidModels = models.Where(x => x.IsSuccess).Select(x => x.Value);
+            var inValidResults = models?.Where(x => !x.IsSuccess);
+          
 
             var memberInstitutions = allValidModels?.Select(x => new MemberInstitutionModel()
             {
@@ -1111,11 +1202,14 @@ namespace UserManagement.Business.Services
 
         private async Task<IEnumerable<ResultModel<MemberBulkValid>>> CreateMemberMenu(IEnumerable<ResultModel<MemberBulkValid>> models, IEnumerable<SubMenuModel> subMenu)
         {
-            if (models == null || models.Count() == 0) { return models; }
+            var allValidModels = models?.Where(x => x.IsSuccess).Select(x => x.Value);
+            if (allValidModels.Count() == 0)
+            {
+                return models;
+            }
 
-            var inValidResults = models.Where(x => !x.IsSuccess);
-            var allValidModels = models.Where(x => x.IsSuccess).Select(x => x.Value);
-
+            var inValidResults = models?.Where(x => !x.IsSuccess);
+        
             IEnumerable<MemberMenuModelForCsv> memberMenus = GetMemberMenus(allValidModels, subMenu);
 
             if (memberMenus != null && memberMenus.Any())
@@ -1164,10 +1258,13 @@ namespace UserManagement.Business.Services
         }
         private async Task<IEnumerable<ResultModel<MemberBulkValid>>> CreateAuditTrail(IEnumerable<ResultModel<MemberBulkValid>> models)
         {
-            if (models == null || models.Count() == 0) { return models; }
-
-            var inValidResults = models.Where(x => !x.IsSuccess);
-            var allValidModels = models.Where(x => x.IsSuccess).Select(x => x.Value);
+            var allValidModels = models?.Where(x => x.IsSuccess).Select(x => x.Value);
+            if(allValidModels.Count() == 0)
+            {
+                return models;
+            }
+            var inValidResults = models?.Where(x => !x.IsSuccess);
+           
 
             var members = allValidModels?.Select(x => new AuditTrailModel()
             {
