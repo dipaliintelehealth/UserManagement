@@ -420,7 +420,7 @@ namespace UserManagement.Infrastructure.Repository
             var singleQuotedMobiles = mobiles.Select(x => { return $"'{x}'"; });
             var mobileString = string.Join(',', singleQuotedMobiles);
             var sql = "DELETE " +
-                "FROM md_institution where Email IN ( " + emailString + ") AND Mobile IN ( " + mobileString + ");";
+                "FROM md_institution where Email IN (" + emailString + ") AND Mobile IN (" + mobileString + ");";
             var result = await Connection.ExecuteAsync(sql);
             return result;
         }
@@ -432,7 +432,7 @@ namespace UserManagement.Infrastructure.Repository
             var singleQuotedMobiles = mobiles.Select(x => { return $"'{x}'"; });
             var mobileString = string.Join(',', singleQuotedMobiles);
             var sql = "DELETE " +
-                "FROM md_members where Email IN ( " + emailString + ") AND Mobile IN ( " + mobileString + ");";
+                "FROM md_members where Email IN (" + emailString + ") AND Mobile IN (" + mobileString + ");";
             var result = await Connection.ExecuteAsync(sql);
             return result;
         }
@@ -441,7 +441,7 @@ namespace UserManagement.Infrastructure.Repository
         {
             var memberIdString = string.Join(',', memberIds);
             var sql = "DELETE " +
-                "FROM mp_member_menu where MemberId IN ( " + memberIdString + ");";
+                "FROM mp_member_menu where MemberId IN (" + memberIdString + ");";
             var result = await Connection.ExecuteAsync(sql);
             return result;
         }
@@ -450,7 +450,7 @@ namespace UserManagement.Infrastructure.Repository
         {
             var memberIdString = string.Join(',', memberIds);
             var sql = "DELETE " +
-                "FROM md_members_slot where MemberId IN ( " + memberIdString + ");";
+                "FROM md_members_slot where MemberId IN (" + memberIdString + ");";
             var result = await Connection.ExecuteAsync(sql);
             return result;
         }
@@ -459,7 +459,7 @@ namespace UserManagement.Infrastructure.Repository
         {
             var memberIdString = string.Join(',', memberIds);
             var sql = "DELETE " +
-                "FROM md_login where ReferenceId IN ( " + memberIdString + ");";
+                "FROM md_login where ReferenceId IN (" + memberIdString + ");";
             var result = await Connection.ExecuteAsync(sql);
             return result;
         }
@@ -469,7 +469,7 @@ namespace UserManagement.Infrastructure.Repository
             var memberIdString = string.Join(',', memberIds);
             var instituteIdString = string.Join(',', instituteIds);
             var sql = "DELETE " +
-                "FROM mp_member_institution where MemberId IN ( " + memberIdString + ") OR IN InstituteId("+ instituteIdString + ");";
+                "FROM mp_member_institution where MemberId IN (" + memberIdString + ") OR  InstitutionId IN (" + instituteIdString + ");";
             var result = await Connection.ExecuteAsync(sql);
             return result;
         }

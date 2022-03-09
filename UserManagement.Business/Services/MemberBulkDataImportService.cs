@@ -1080,6 +1080,7 @@ namespace UserManagement.Business.Services
                 }
             }
             results.AddRange(invalidResults);
+            throw new ArgumentNullException();
             return results;
         }
 
