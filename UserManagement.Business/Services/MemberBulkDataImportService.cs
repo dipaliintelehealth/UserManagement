@@ -803,7 +803,7 @@ namespace UserManagement.Business.Services
                 var stream = csvUtility.Write(institutesToInsert);
                 records = await _bulkInsertRepository.BulkInsertInstitution(stream);
             }
-            var tempInstitutions = await _bulkInsertRepository.FindInstitutions(allValidModels.Select(x => x.HFEmail), NotInDBModels.Select(x => x.HFPhone), NotInDBModels.Select(x => x.HFNameWithDistrictName.Trim()));
+            var tempInstitutions = await _bulkInsertRepository.FindInstitutions(allValidModels.Select(x => x.HFEmail), allValidModels.Select(x => x.HFPhone), allValidModels.Select(x => x.HFNameWithDistrictName.Trim()));
 
 
             var results = new List<ResultModel<MemberBulkValid>>();
@@ -922,7 +922,7 @@ namespace UserManagement.Business.Services
             return true;
         }
         private async Task<bool> RevertMemberData(IEnumerable<MemberBulkValid> models)
-        {
+         {
             if (models == null || models.Count() == 0) { return true; }
             var hfemails = models.Where(t=> t.IsInstituteInserted)?.Select(t => t.HFEmail);
             var hfMobiles = models.Where(t => t.IsInstituteInserted).Select(t => t.HFPhone);
@@ -1080,7 +1080,6 @@ namespace UserManagement.Business.Services
                 }
             }
             results.AddRange(invalidResults);
-            throw new ArgumentNullException();
             return results;
         }
 
@@ -1120,6 +1119,7 @@ namespace UserManagement.Business.Services
                 results.Add(ResultModel<MemberBulkValid>.Success(item));
             }
             results.AddRange(inValidResults);
+            throw new ArgumentNullException();
             return results;
         }
         private async Task<IEnumerable<ResultModel<MemberBulkValid>>> CreateMemberSlot(IEnumerable<ResultModel<MemberBulkValid>> models)
