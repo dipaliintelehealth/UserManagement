@@ -1119,7 +1119,6 @@ namespace UserManagement.Business.Services
                 results.Add(ResultModel<MemberBulkValid>.Success(item));
             }
             results.AddRange(inValidResults);
-            throw new ArgumentNullException();
             return results;
         }
         private async Task<IEnumerable<ResultModel<MemberBulkValid>>> CreateMemberSlot(IEnumerable<ResultModel<MemberBulkValid>> models)
