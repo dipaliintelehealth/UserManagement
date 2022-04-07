@@ -22,7 +22,7 @@ namespace UserManagement.Domain
             var result = new ResultModel<T>()
             {
                 Value = model,
-                IsSuccess = true
+                IsSuccess = false
             };
             result.Messages.Add(message);
             return result;

@@ -250,6 +250,20 @@ namespace UserManagement.Infrastructure.Repository
             var result = await Connection.QueryAsync<InstitutionModel>(sql);
             return result;
         }
+        public async Task<IEnumerable<InstitutionModel>> FindInstitutions(IEnumerable<string> hfNameWithDistrict)
+        {
+           
+            var singleQuotedhfNames = hfNameWithDistrict.Select(x => { return $"'{x}'"; });
+            var hfnameString = string.Join(',', singleQuotedhfNames);
+            var sql = "SELECT InstitutionId,Name,AddressLine1, " +
+                "AddressLine2,ReferenceNumber," +
+                "CountryId,StateId,DistrictId,CityId,PinCode," +
+                "Email,Mobile,ImagePath,InstitutionTypeId," +
+                "Fax,SourceId,IsActive,StatusId " +
+                "FROM md_institution where  Name IN ( " + hfnameString + ");";
+            var result = await Connection.QueryAsync<InstitutionModel>(sql);
+            return result;
+        }
 
         public Task<int> GetMaxInstituteId()
         {

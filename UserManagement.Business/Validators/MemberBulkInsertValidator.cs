@@ -300,7 +300,7 @@ namespace UserManagement.Business.Validators
                     errors.Add(error);
                     //Institution Email Address or Mobile Number already exist
                 }
-                if (IsInvalidHFNameWithDistrict(model, models))
+               /* if (IsInvalidHFNameWithDistrict(model, models))
                 {
                     var error1 = GetBulkInsertValidationFailure(i, "Duplicate HF Name with District !", string.Empty,
                           nameof(model.HFName));
@@ -308,7 +308,7 @@ namespace UserManagement.Business.Validators
                           nameof(model.HFDistrict));
                     errors.Add(error1);
                     errors.Add(error2);
-                }
+                }*/
                 if (IsDuplicateEmail(models[i].UserEmail, emails))
                 {
                     

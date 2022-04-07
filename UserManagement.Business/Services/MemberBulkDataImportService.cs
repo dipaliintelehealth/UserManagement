@@ -82,7 +82,7 @@ namespace UserManagement.Business.Services
             var states = await _bulkInsertRepository.GetStateDistrictCities();
             var qualifications = await _bulkInsertRepository.GetQualification();
             var specializations = await _bulkInsertRepository.GetSpecialities();
-            var institutions = await _bulkInsertRepository.FindInstitutions(models.Select(x => x.HFEmail), models.Select(x => x.HFPhone), models.Select(x => x.HFNameWithDistrictName.Trim()));
+            var institutions = await _bulkInsertRepository.FindInstitutions(models.Select(x => x.HFNameWithDistrictName.Trim()));
             var hfTypes = await _bulkInsertRepository.GetHFTypes();
 
             var data = MapDuplicateInstituteData(models, states, institutions, hfTypes);
@@ -315,7 +315,7 @@ namespace UserManagement.Business.Services
 
         public async Task<IEnumerable<MemberBulkImportVM>> GetModels(IEnumerable<MemberBulkImportVM> models)
         {
-            var institutions = await _bulkInsertRepository.FindInstitutions(models.Select(x => x.HFEmail), models.Select(x => x.HFPhone), models.Select(x => x.HFNameWithDistrictName.Trim()));
+            var institutions = await _bulkInsertRepository.FindInstitutions(models.Select(x => x.HFNameWithDistrictName.Trim()));
             var states = await _bulkInsertRepository.GetStateDistrictCities();
             models = await GetModelsWithStateDistrictAndCityId(models, states, institutions);
             return models;
@@ -329,7 +329,7 @@ namespace UserManagement.Business.Services
             {
                 return Enumerable.Empty<ResultModel<MemberBulkValid>>();
             }
-            var institutions = await _bulkInsertRepository.FindInstitutions(models.Select(x => x.HFEmail), models.Select(x => x.HFPhone), models.Select(x => x.HFNameWithDistrictName.Trim()));
+            var institutions = await _bulkInsertRepository.FindInstitutions(models.Select(x => x.HFNameWithDistrictName.Trim()));
             var states = await _bulkInsertRepository.GetStateDistrictCities();
             var users = await _bulkInsertRepository.FindUsers(models.Select(x => GetHFNameForLogin(x.HFName)).Distinct());
             var subMenu = await _bulkInsertRepository.GetSubMenu();
@@ -763,9 +763,7 @@ namespace UserManagement.Business.Services
             }
             var invalidResults = models?.Where(t => !t.IsSuccess);
             
-            var NotInDBModels = allValidModels?.Where(x => !institutions.Any(t => string.Equals(x.HFEmail?.Trim().ToLower(), t.Email?.Trim().ToLower())
-                               || string.Equals(x.HFPhone?.Trim(), t.Mobile?.Trim())
-                               || string.Equals(x.HFNameWithDistrictName?.Trim().ToLower(), t.Name?.Trim().ToLower())));
+            var NotInDBModels = allValidModels?.Where(x => !institutions.Any(t => string.Equals(x.HFNameWithDistrictName?.Trim().ToLower(), t.Name?.Trim().ToLower())));
 
 
             var institutesToInsert = NotInDBModels?.Distinct(new CompareOnHFEmail())?
@@ -803,21 +801,20 @@ namespace UserManagement.Business.Services
                 var stream = csvUtility.Write(institutesToInsert);
                 records = await _bulkInsertRepository.BulkInsertInstitution(stream);
             }
-            var tempInstitutions = await _bulkInsertRepository.FindInstitutions(allValidModels.Select(x => x.HFEmail), allValidModels.Select(x => x.HFPhone), allValidModels.Select(x => x.HFNameWithDistrictName.Trim()));
+            var tempInstitutions = await _bulkInsertRepository.FindInstitutions(allValidModels.Select(x => x.HFNameWithDistrictName.Trim()));
 
 
             var results = new List<ResultModel<MemberBulkValid>>();
             foreach (var item in allValidModels)
             {
                 var find = tempInstitutions
-                            .FirstOrDefault(r => r.Email?.Trim().ToLower() == item.HFEmail?.Trim().ToLower()
-                                             && r.Mobile?.Trim() == item.HFPhone?.Trim()
-                                             && r.Name?.Trim().ToLower() == item.HFNameWithDistrictName?.Trim().ToLower());
+                            .FirstOrDefault(r => r.Name?.Trim().ToLower() == item.HFNameWithDistrictName?.Trim().ToLower());
                 if (find != null)
                 {
                     item.InstituteID = Convert.ToString(find.InstitutionId);
-                    item.IsInstituteInserted = institutesToInsert.Any(t => t.Email?.Trim().ToLower() == item.HFEmail?.Trim().ToLower()
-                                                                        && t.Mobile?.Trim() == item.HFPhone?.Trim());
+                    /*item.IsInstituteInserted = institutesToInsert.Any(t => t.Name?.Trim().ToLower() == item.HFNameWithDistrictName?.Trim().ToLower()
+                                                                        && t.Email?.Trim().ToLower() == item.HFEmail?.Trim().ToLower()
+                                                                        && t.Mobile?.Trim() == item.HFPhone?.Trim());*/
                     results.Add(ResultModel<MemberBulkValid>.Success(item));
                 }
                 else
@@ -827,9 +824,12 @@ namespace UserManagement.Business.Services
             }
             if (institutesToInsert != null && institutesToInsert.Count() > 0 && results.Count > 0)
             {
-                var insertedInstitutions = results
-                                            .Where(r => r.IsSuccess && r.Value.IsInstituteInserted)
-                                            .Select(r => r.Value);
+                var insertedInstitutions = results?.Where(r => r.IsSuccess)
+                                            ?.Select(r => r.Value)
+                                            ?.Distinct(new CompareOnHFEmail())
+                                            ?.Distinct(new CompareOnHFPhone())
+                                            ?.Distinct(new CompareOnHFNameWithDistrict());
+                                            
 
                 var result = await CreateMasterMember(insertedInstitutions);
                 var loginResult = await CreateMasterLogin(result.Value);

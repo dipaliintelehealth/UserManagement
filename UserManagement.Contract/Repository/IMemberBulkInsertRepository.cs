@@ -21,6 +21,7 @@ namespace UserManagement.Contract.Repository
         Task<IEnumerable<string>> FindUsers(IEnumerable<string> users);
         Task<IEnumerable<MembersModel>> FindMembers(IEnumerable<string> emails);
         Task<IEnumerable<InstitutionModel>> FindInstitutions(IEnumerable<string> emails, IEnumerable<string> mobiles, IEnumerable<string> hfNameWithDistrict);
+        Task<IEnumerable<InstitutionModel>> FindInstitutions(IEnumerable<string> hfNameWithDistrict);
         Task<IEnumerable<QualificationModel>> GetQualification();
         Task<IEnumerable<SpecializationModel>> GetSpecialities();
         Task<int> GetMaxInstituteId();
