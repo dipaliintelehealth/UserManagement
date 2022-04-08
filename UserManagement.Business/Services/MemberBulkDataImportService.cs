@@ -102,6 +102,7 @@ namespace UserManagement.Business.Services
                 x.SpecialityId = GetSpecializationId(specializations, x.Designation);
                 x.InstituteID = GetInstitutionId(institutions, x.HFNameWithDistrictName);
                 x.AssignedInstituteID = GetInstitutionId(institutions, x.AssignHF);
+                x.UserPrefix = GetUserPrefix(x.UserPrefix);
             }
             var (resultValid, resultInvalid) = await GetValidInvalidData(data);
             WriteToCSV(new MemberBulkValidCsvUtility(sessionIdInString), folderPath, resultValid);
@@ -1008,6 +1009,20 @@ namespace UserManagement.Business.Services
             var userName = "User" + (value.HFTypeId == 1 ? "HUB" : (value.HFTypeId == 2 ? "SPOKECumHUB" : "SPOKE")) + value.InstituteID;
             return userName;
         }
+        private string GetUserPrefix(string prefix)
+        {
+            var _userPrefix = new Dictionary<string, string>() {
+                {"Ms","Mrs."},
+                {"Mrs","Mrs."},
+                {"Ms.","Mrs."},
+                {"Mrs.","Mrs."},
+                {"Mr","Mr."},
+                {"Mr.","Mr."},
+                {"Dr","Dr."},
+                {"Dr.","Dr."}
+            };
+            return _userPrefix.FirstOrDefault(x => string.Equals(x.Key, prefix, StringComparison.InvariantCultureIgnoreCase)).Value;
+        }
 
         private async Task<IEnumerable<ResultModel<MemberBulkValid>>> CreateMember(IEnumerable<ResultModel<MemberBulkValid>> models)
         {
@@ -1052,7 +1067,7 @@ namespace UserManagement.Business.Services
                 RatingMasterId = 0,
                 SourceId = 99,
                 IsMaster = "",
-                Prefix = x.UserPrefix,
+                Prefix = GetUserPrefix(x.UserPrefix),
                 CreationRole = x.UserRole
             });
 
