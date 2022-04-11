@@ -422,7 +422,7 @@ namespace UserManagement.Infrastructure.Repository
 
         public async Task<IEnumerable<KeyValue<string, string>>> GetHFTypes()
         {
-            var sql = "Select InstitutionTypeId AS Id, TypeName AS Value from md_institutiontype; ";
+            var sql = "Select InstitutionTypeId AS Id, TypeName AS Value from md_institutiontype;";
             var result = await Connection.QueryAsync<KeyValue<string, string>>(sql);
             return result;
         }

@@ -77,7 +77,7 @@ namespace UserManagement.Business.Validators
         }
         private bool IsContainInValidHFType(string hfType)
         {
-            return !_hfTypes.Any(x => x.Value.ToLower()== hfType?.Trim().ToLower());
+            return !_hfTypes.Any(x => string.Equals(x.Value,hfType?.Trim(),StringComparison.InvariantCultureIgnoreCase));
         }
         private bool IsContainInValidHFName(string hfName)
         {
@@ -222,13 +222,13 @@ namespace UserManagement.Business.Validators
                     nameof(model.SubMenuName));
                 errors.Add(error);
             }
-            /*if(IsContainInValidHFType(model.HFType))
+            if(IsContainInValidHFType(model.HFType))
             {
                 var error = GetBulkInsertValidationFailure(index, "Invalid HF Type !", string.Empty,
                    nameof(model.HFType));
                 errors.Add(error);
             }
-            if(IsContainInValidHFName(model.HFName))
+            /*if(IsContainInValidHFName(model.HFName))
             {
                 var error = GetBulkInsertValidationFailure(index, "Invalid HF Name !", string.Empty,
                   nameof(model.HFName));
@@ -264,7 +264,7 @@ namespace UserManagement.Business.Validators
             await SetInstitutionsForValidation(models);
             await SetMenusForValidation();
             await SetStateDistrictsForValidation();
-           // await SetHFTypesForValidation();
+            await SetHFTypesForValidation();
 
             var emails = models.Select(x => x.UserEmail);
             var mobiles = models.Select(x => x.UserMobile);
