@@ -70,10 +70,10 @@ namespace UserManagement.Models
         public string UserAvailableToTime { get; set; }
         [Display(Name = "Role")]
         public string UserRole { get; set; }
-        [Display(Name = "Assign Type")]
+       /* [Display(Name = "Assign Type")]
         public string AssignedHFType { get; set; }
         [Display(Name = "Assign PHC Or Hub")]
-        public string AssignHF { get; set; }
+        public string AssignHF { get; set; }*/
         public IEnumerable<KeyValue<string, string>> HFDistricts { get; set; }
         public IEnumerable<KeyValue<string, string>> HFCities { get; set; }
         public IEnumerable<KeyValue<string, string>> UserDistricts { get; set; }
@@ -110,17 +110,7 @@ namespace UserManagement.Models
         public int HFTypeId
         {
             get; set;
-            //{
-                //if (HFType?.Replace(" ", "")?.Replace("-", "")?.ToLower() == "hub")
-                //{
-                //    return 1;
-                //}
-                //else if (HFType?.Replace(" ", "")?.Replace("-", "")?.ToLower() == "phc")
-                //{
-                //    return 2;
-                //}
-                //return 3;
-            //}
+         
         }
         public string AssignedInstituteID { get; set; }
         public string InstituteID { get; set; }

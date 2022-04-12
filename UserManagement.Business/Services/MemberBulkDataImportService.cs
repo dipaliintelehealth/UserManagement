@@ -64,8 +64,6 @@ namespace UserManagement.Business.Services
                     { "FromTime", nameof(_obj.UserAvailableFromTime) },
                     { "To Time", nameof(_obj.UserAvailableToTime) },
                     { "Role", nameof(_obj.UserRole)},
-                    { "Assign Type", nameof(_obj.AssignedHFType) },
-                    { "Assign PHC Or Hub", nameof(_obj.AssignHF) },
                     { "Sub Menu", nameof (_obj.SubMenuName)}
                 }
                 ,
@@ -101,7 +99,7 @@ namespace UserManagement.Business.Services
                 x.QualificationId = GetQualificationId(qualifications, x.Qualification);
                 x.SpecialityId = GetSpecializationId(specializations, x.Designation);
                 x.InstituteID = GetInstitutionId(institutions, x.HFNameWithDistrictName);
-                x.AssignedInstituteID = GetInstitutionId(institutions, x.AssignHF);
+               // x.AssignedInstituteID = GetInstitutionId(institutions, x.AssignHF);
                 x.UserPrefix = GetUserPrefix(x.UserPrefix);
             }
             var (resultValid, resultInvalid) = await GetValidInvalidData(data);
@@ -153,8 +151,8 @@ namespace UserManagement.Business.Services
                     item.HFEmail = found.HFEmail;
                     item.HFPhone = found.HFPhone;
                     item.HFTypeId = found.HFTypeId;
-                    item.AssignedHFType = found.AssignedHFType;
-                    item.AssignHF = found.AssignHF;
+                  //  item.AssignedHFType = found.AssignedHFType;
+                    //item.AssignHF = found.AssignHF;
                     item.NIN = found.NIN;
                     item.Address = found.Address;
                 }
@@ -194,9 +192,9 @@ namespace UserManagement.Business.Services
             {
                 HFName = data.HFName,
                 Address = data.Address,
-                AssignedHFType = data.AssignedHFType,
+               /* AssignedHFType = data.AssignedHFType,
                 AssignedInstituteID = data.AssignedInstituteID,
-                AssignHF = data.AssignHF,
+                AssignHF = data.AssignHF,*/
                 Designation = data.Designation,
                 DOB = data.DOB,
                 DRRegNo = data.DRRegNo,
@@ -253,9 +251,9 @@ namespace UserManagement.Business.Services
                 ErrorMessage = string.Join(",", errors),
                 HFName = data.HFName,
                 Address = data.Address,
-                AssignedHFType = data.AssignedHFType,
+                /*AssignedHFType = data.AssignedHFType,
                 AssignedInstituteID = data.AssignedInstituteID,
-                AssignHF = data.AssignHF,
+                AssignHF = data.AssignHF,*/
                 Designation = data.Designation,
                 DOB = data.DOB,
                 DRRegNo = data.DRRegNo,
@@ -466,7 +464,7 @@ namespace UserManagement.Business.Services
                 model.QualificationId = GetQualificationId(qualifications, model.Qualification);
                 model.SpecialityId = GetSpecializationId(specializations, model.Designation);
                 model.InstituteID = GetInstitutionId(institutions, model.HFName);
-                model.AssignedInstituteID = GetInstitutionId(institutions, model.AssignHF);
+               // model.AssignedInstituteID = GetInstitutionId(institutions, model.AssignHF);
                 model.HFDistricts = GetDistricts(states, model.HFState);
                 model.UserDistricts = GetDistricts(states, model.UserState);
                 model.HFCities = GetCities(states, model.HFState, model.HFDistrict);

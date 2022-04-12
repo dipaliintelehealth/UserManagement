@@ -109,12 +109,12 @@
                             <th>
                                 @Html.DisplayNameFor(model => model[0].UserRole)
                             </th>
-                            <th>
+                            @*<th>
                                 @Html.DisplayNameFor(model => model[0].AssignedHFType)
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model[0].AssignHF)
-                            </th>
+                            </th>*@
                             <th>
                                 @Html.DisplayNameFor(model => model[0].SubMenuName)
                             </th>
@@ -257,14 +257,14 @@
                                 @Html.TextBoxFor(modelItem => Model[i].UserRole, new { @class = "form-control" })
                                 @Html.ValidationMessageFor(modelItem => Model[i].UserRole, "", new { @class = "text-danger" })
                             </td>
-                            <td>
+                            @*<td>
                                 @Html.TextBoxFor(modelItem => Model[i].AssignedHFType, new { @class = "form-control" })
                                 @Html.ValidationMessageFor(modelItem => Model[i].AssignedHFType, "", new { @class = "text-danger" })
                             </td>
                             <td>
                                 @Html.TextBoxFor(modelItem => Model[i].AssignHF, new { @class = "form-control" })
                                 @Html.ValidationMessageFor(modelItem => Model[i].AssignHF, "", new { @class = "text-danger" })
-                            </td>
+                            </td>*@
                             <td>
                                 @Html.TextBoxFor(modelItem => Model[i].SubMenuName, new { @class = "form-control" })
                                 @Html.ValidationMessageFor(modelItem => Model[i].SubMenuName, "", new { @class = "text-danger" })

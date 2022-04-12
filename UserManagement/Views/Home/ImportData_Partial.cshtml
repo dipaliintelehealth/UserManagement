@@ -115,12 +115,12 @@
                             <th>
                                 @Html.DisplayNameFor(model => model.Data[0].UserRole)
                             </th>
-                            <th>
+                            @*<th>
                                 @Html.DisplayNameFor(model => model.Data[0].AssignedHFType)
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.Data[0].AssignHF)
-                            </th>
+                            </th>*@
                             <th>
                                 @Html.DisplayNameFor(model => model.Data[0].SubMenuName)
                             </th>
@@ -268,14 +268,14 @@
                                 @Html.TextBoxFor(modelItem => Model.Data[i].UserRole, new { @class = "form-control" })
                                 @Html.BulkValidationError(nameof(mdl.UserRole), i, Model.Errors)
                             </td>
-                            <td>
+                            @*<td>
                                 @Html.TextBoxFor(modelItem => Model.Data[i].AssignedHFType, new { @class = "form-control" })
                                 @Html.BulkValidationError(nameof(mdl.AssignedHFType), i, Model.Errors)
                             </td>
                             <td>
                                 @Html.TextBoxFor(modelItem => Model.Data[i].AssignHF, new { @class = "form-control" })
                                 @Html.BulkValidationError(nameof(mdl.AssignHF), i, Model.Errors)
-                            </td>
+                            </td>*@
                             <td>
                                 @Html.TextBoxFor(modelItem => Model.Data[i].SubMenuName, new { @class = "form-control" })
                                 @Html.BulkValidationError(nameof(mdl.SubMenuName), i, Model.Errors)

@@ -35,9 +35,9 @@ namespace UserManagement.Domain
            return new MemberBulkInvalid()
             {
                 Address = model.Value.Address,
-                AssignedHFType = model.Value.AssignedHFType,
-                AssignedInstituteID = model.Value.AssignedInstituteID,
-                AssignHF = model.Value.AssignHF,
+               // AssignedHFType = model.Value.AssignedHFType,
+               // AssignedInstituteID = model.Value.AssignedInstituteID,
+               // AssignHF = model.Value.AssignHF,
                 Designation = model.Value.Designation,
                 DOB = model.Value.DOB,
                 DRRegNo = model.Value.DRRegNo,
