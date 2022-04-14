@@ -5,6 +5,7 @@ using System.Text;
 using UserManagement.Domain.ViewModel;
 using UserManagement.Contract.User;
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace UserManagement.Business.Validators
 {
@@ -17,6 +18,18 @@ namespace UserManagement.Business.Validators
             RuleFor(x => x.HFName)
                 .NotEmpty()
                 .WithMessage("HF Name can not be blank !");
+            
+            RuleFor(x => x.HFName)
+                .Must(t => Regex.IsMatch(t, @"^[\w\s]*$"))
+                .WithMessage("Invalid character in HF name!");
+
+            RuleFor(x => x.HFShortName)
+                .NotEmpty()
+                .WithMessage("HF Short Name can not be blank !");
+
+            RuleFor(x => x.HFShortName)
+             .Must(t => Regex.IsMatch(t, @"^[a-zA-Z\s]*$"))
+             .WithMessage("Invalid character in HF Short Name !");
 
             RuleFor(x => x.HFPhone)
                 .NotEmpty()

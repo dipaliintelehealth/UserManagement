@@ -50,8 +50,8 @@
                         <th class="d-none"></th>
                         <th class="d-none"></th>
                         <th class="d-none"></th>
-                        @*<th class="d-none"></th>
-                        <th class="d-none"></th>*@
+                        <th class="d-none"></th>
+                        @*<th class="d-none"></th>*@
                     </tr>
 
                 </thead>
@@ -59,230 +59,236 @@
                     @{
                         int index = 0;
 
-                                        <tr class="odd">
-                                            <td class="d-none text-center font-weight-bold">
-                                                Sr. No.
-                                            </td>
-                                            <td class="text-center font-weight-bold">
-                                                @Html.DisplayNameFor(model => model.HFName)
-                                            </td>
+                        <tr class="odd">
+                            <td class="d-none text-center font-weight-bold">
+                                Sr. No.
+                            </td>
+                            <td class="text-center font-weight-bold">
+                                @Html.DisplayNameFor(model => model.HFName)
+                            </td>
 
-                                            <td class="d-none text-center font-weight-bold">
-                                                @Html.DisplayNameFor(model => model.HFPhone)
-                                            </td>
-                                            <td class="d-none text-center font-weight-bold">
-                                                @Html.DisplayNameFor(model => model.HFType)
-                                            </td>
-                                            <td class="d-none text-center font-weight-bold">
-                                                @Html.DisplayNameFor(model => model.NIN)
-                                            </td>
-                                            <td class="text-center font-weight-bold">
-                                                @Html.DisplayNameFor(model => model.HFEmail)
-                                            </td>
-                                            <td class="d-none text-center font-weight-bold">
-                                                @Html.DisplayNameFor(model => model.HFState)
-                                            </td>
-                                            <td class="d-none text-center font-weight-bold">
-                                                @Html.DisplayNameFor(model => model.HFDistrict)
-                                            </td>
-                                            <td class="d-none text-center font-weight-bold">
-                                                @Html.DisplayNameFor(model => model.HFCity)
-                                            </td>
-                                            <td class="d-none text-center font-weight-bold">
-                                                @Html.DisplayNameFor(model => model.Address)
-                                            </td>
-                                            <td class="d-none text-center font-weight-bold">
-                                                @Html.DisplayNameFor(model => model.PIN)
-                                            </td>
-                                            <td class="d-none text-center font-weight-bold">
-                                                @Html.DisplayNameFor(model => model.UserPrefix)
-                                            </td>
-                                            <td class="d-none text-center font-weight-bold">
-                                                @Html.DisplayNameFor(model => model.FirstName)
-                                            </td>
-                                            <td class="d-none text-center font-weight-bold">
-                                                @Html.DisplayNameFor(model => model.LastName)
-                                            </td>
-                                            <td class="d-none text-center font-weight-bold">
-                                                @Html.DisplayNameFor(model => model.UserMobile)
-                                            </td>
-                                            <td class="d-none text-center font-weight-bold">
-                                                @Html.DisplayNameFor(model => model.Gender)
-                                            </td>
-                                            <td class="d-none text-center font-weight-bold">
-                                                @Html.DisplayNameFor(model => model.Qualification)
-                                            </td>
-                                            <td class="d-none text-center font-weight-bold">
-                                                @Html.DisplayNameFor(model => model.Experience)
-                                            </td>
-                                            <td class="d-none text-center font-weight-bold">
-                                                @Html.DisplayNameFor(model => model.DRRegNo)
-                                            </td>
-                                            <td class="d-none text-center font-weight-bold">
-                                                @Html.DisplayNameFor(model => model.UserEmail)
-                                            </td>
-                                            <td class="d-none text-center font-weight-bold">
-                                                @Html.DisplayNameFor(model => model.Designation)
-                                            </td>
-                                            <td class="d-none text-center font-weight-bold">
-                                                @Html.DisplayNameFor(model => model.DOB)
-                                            </td>
-                                            <td class="d-none text-center font-weight-bold">
-                                                @Html.DisplayNameFor(model => model.UserState)
-                                            </td>
-                                            <td class="d-none text-center font-weight-bold">
-                                                @Html.DisplayNameFor(model => model.UserDistrict)
-                                            </td>
-                                            <td class="d-none text-center font-weight-bold">
-                                                @Html.DisplayNameFor(model => model.UserCity)
-                                            </td>
-                                            <td class="d-none text-center font-weight-bold">
-                                                @Html.DisplayNameFor(model => model.UserAddress)
-                                            </td>
-                                            <td class="d-none text-center font-weight-bold">
-                                                @Html.DisplayNameFor(model => model.UserPin)
-                                            </td>
+                            <td class="d-none text-center font-weight-bold">
+                                @Html.DisplayNameFor(model => model.HFPhone)
+                            </td>
+                            <td class="d-none text-center font-weight-bold">
+                                @Html.DisplayNameFor(model => model.HFType)
+                            </td>
+                            <td class="d-none text-center font-weight-bold">
+                                @Html.DisplayNameFor(model => model.NIN)
+                            </td>
+                            <td class="text-center font-weight-bold">
+                                @Html.DisplayNameFor(model => model.HFEmail)
+                            </td>
+                            <td class="d-none text-center font-weight-bold">
+                                @Html.DisplayNameFor(model => model.HFState)
+                            </td>
+                            <td class="d-none text-center font-weight-bold">
+                                @Html.DisplayNameFor(model => model.HFDistrict)
+                            </td>
+                            <td class="d-none text-center font-weight-bold">
+                                @Html.DisplayNameFor(model => model.HFCity)
+                            </td>
+                            <td class="d-none text-center font-weight-bold">
+                                @Html.DisplayNameFor(model => model.Address)
+                            </td>
+                            <td class="d-none text-center font-weight-bold">
+                                @Html.DisplayNameFor(model => model.PIN)
+                            </td>
+                            <td class="d-none text-center font-weight-bold">
+                                @Html.DisplayNameFor(model => model.UserPrefix)
+                            </td>
+                            <td class="d-none text-center font-weight-bold">
+                                @Html.DisplayNameFor(model => model.FirstName)
+                            </td>
+                            <td class="d-none text-center font-weight-bold">
+                                @Html.DisplayNameFor(model => model.LastName)
+                            </td>
+                            <td class="d-none text-center font-weight-bold">
+                                @Html.DisplayNameFor(model => model.UserMobile)
+                            </td>
+                            <td class="d-none text-center font-weight-bold">
+                                @Html.DisplayNameFor(model => model.Gender)
+                            </td>
+                            <td class="d-none text-center font-weight-bold">
+                                @Html.DisplayNameFor(model => model.Qualification)
+                            </td>
+                            <td class="d-none text-center font-weight-bold">
+                                @Html.DisplayNameFor(model => model.Experience)
+                            </td>
+                            <td class="d-none text-center font-weight-bold">
+                                @Html.DisplayNameFor(model => model.DRRegNo)
+                            </td>
+                            <td class="d-none text-center font-weight-bold">
+                                @Html.DisplayNameFor(model => model.UserEmail)
+                            </td>
+                            <td class="d-none text-center font-weight-bold">
+                                @Html.DisplayNameFor(model => model.Designation)
+                            </td>
+                            <td class="d-none text-center font-weight-bold">
+                                @Html.DisplayNameFor(model => model.DOB)
+                            </td>
+                            <td class="d-none text-center font-weight-bold">
+                                @Html.DisplayNameFor(model => model.UserState)
+                            </td>
+                            <td class="d-none text-center font-weight-bold">
+                                @Html.DisplayNameFor(model => model.UserDistrict)
+                            </td>
+                            <td class="d-none text-center font-weight-bold">
+                                @Html.DisplayNameFor(model => model.UserCity)
+                            </td>
+                            <td class="d-none text-center font-weight-bold">
+                                @Html.DisplayNameFor(model => model.UserAddress)
+                            </td>
+                            <td class="d-none text-center font-weight-bold">
+                                @Html.DisplayNameFor(model => model.UserPin)
+                            </td>
 
-                                            <td class="d-none text-center font-weight-bold">
-                                                @Html.DisplayNameFor(model => model.UserAvailableDay)
-                                            </td>
-                                            <td class="d-none text-center font-weight-bold">
-                                                @Html.DisplayNameFor(model => model.UserAvailableFromTime)
-                                            </td>
-                                            <td class="d-none text-center font-weight-bold">
-                                                @Html.DisplayNameFor(model => model.UserAvailableToTime)
-                                            </td>
-                                            <td class="d-none text-center font-weight-bold">
-                                                @Html.DisplayNameFor(model => model.UserRole)
-                                            </td>
-                                            @*<td class="d-none text-center font-weight-bold">
-                                                @Html.DisplayNameFor(model => model.AssignedHFType)
-                                            </td>
-                                            <td class="d-none text-center font-weight-bold">
-                                                @Html.DisplayNameFor(model => model.AssignHF)
-                                            </td>*@
-                                            <td class="d-none text-center font-weight-bold">
-                                                @Html.DisplayNameFor(model => model.SubMenuName)
-                                            </td>
-                                            <td class="text-center font-weight-bold">Errors</td>
-                                        </tr>
+                            <td class="d-none text-center font-weight-bold">
+                                @Html.DisplayNameFor(model => model.UserAvailableDay)
+                            </td>
+                            <td class="d-none text-center font-weight-bold">
+                                @Html.DisplayNameFor(model => model.UserAvailableFromTime)
+                            </td>
+                            <td class="d-none text-center font-weight-bold">
+                                @Html.DisplayNameFor(model => model.UserAvailableToTime)
+                            </td>
+                            <td class="d-none text-center font-weight-bold">
+                                @Html.DisplayNameFor(model => model.UserRole)
+                            </td>
+                            @*<td class="d-none text-center font-weight-bold">
+                                    @Html.DisplayNameFor(model => model.AssignedHFType)
+                                </td>
+                                <td class="d-none text-center font-weight-bold">
+                                    @Html.DisplayNameFor(model => model.AssignHF)
+                                </td>*@
+                            <td class="d-none text-center font-weight-bold">
+                                @Html.DisplayNameFor(model => model.HFShortName)
+                            </td>
+                            <td class="d-none text-center font-weight-bold">
+                                @Html.DisplayNameFor(model => model.SubMenuName)
+                            </td>
+                            <td class="text-center font-weight-bold">Errors</td>
+                        </tr>
 
                         @foreach (var item in Model)
                         {
-                <tr>
-                    <td th class="d-none">
-                        @(++index)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.HFName)
-                    </td>
+                            <tr>
+                                <td th class="d-none">
+                                    @(++index)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.HFName)
+                                </td>
 
-                    <td class="d-none">
-                        @Html.DisplayFor(modelItem => item.HFPhone)
-                    </td>
-                    <td class="d-none">
-                        @Html.DisplayFor(modelItem => item.HFType)
-                    </td>
-                    <td class="d-none">
-                        @Html.DisplayFor(modelItem => item.NIN)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.HFEmail)
-                    </td>
-                    <td class="d-none">
-                        @Html.DisplayFor(modelItem => item.HFState)
-                    </td>
-                    <td class="d-none">
-                        @Html.DisplayFor(modelItem => item.HFDistrict)
-                    </td>
-                    <td class="d-none">
-                        @Html.DisplayFor(modelItem => item.HFCity)
-                    </td>
-                    <td class="d-none">
-                        @Html.DisplayFor(modelItem => item.Address)
-                    </td>
-                    <td class="d-none">
-                        @Html.DisplayFor(modelItem => item.PIN)
-                    </td>
-                    <td class="d-none">
-                        @Html.DisplayFor(modelItem => item.UserPrefix)
-                    </td>
-                    <td class="d-none">
-                        @Html.DisplayFor(modelItem => item.FirstName)
-                    </td>
-                    <td class="d-none">
-                        @Html.DisplayFor(modelItem => item.LastName)
-                    </td>
-                    <td class="d-none">
-                        @Html.DisplayFor(modelItem => item.UserMobile)
-                    </td>
-                    <td class="d-none">
-                        @Html.DisplayFor(modelItem => item.Gender)
-                    </td>
-                    <td class="d-none">
-                        @Html.DisplayFor(modelItem => item.Qualification)
-                    </td>
-                    <td class="d-none">
-                        @Html.DisplayFor(modelItem => item.Experience)
-                    </td>
-                    <td class="d-none">
-                        @Html.DisplayFor(modelItem => item.DRRegNo)
-                    </td>
-                    <td class="d-none">
-                        @Html.DisplayFor(modelItem => item.UserEmail)
-                    </td>
-                    <td class="d-none">
-                        @Html.DisplayFor(modelItem => item.Designation)
-                    </td>
-                    <td class="d-none">
-                        @Html.DisplayFor(modelItem => item.DOB)
-                    </td>
-                    <td class="d-none">
-                        @Html.DisplayFor(modelItem => item.UserState)
-                    </td>
-                    <td class="d-none">
-                        @Html.DisplayFor(modelItem => item.UserDistrict)
-                    </td>
-                    <td class="d-none">
-                        @Html.DisplayFor(modelItem => item.UserCity)
-                    </td>
-                    <td class="d-none">
-                        @Html.DisplayFor(modelItem => item.UserAddress)
-                    </td>
-                    <td class="d-none">
-                        @Html.DisplayFor(modelItem => item.UserPin)
-                    </td>
+                                <td class="d-none">
+                                    @Html.DisplayFor(modelItem => item.HFPhone)
+                                </td>
+                                <td class="d-none">
+                                    @Html.DisplayFor(modelItem => item.HFType)
+                                </td>
+                                <td class="d-none">
+                                    @Html.DisplayFor(modelItem => item.NIN)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.HFEmail)
+                                </td>
+                                <td class="d-none">
+                                    @Html.DisplayFor(modelItem => item.HFState)
+                                </td>
+                                <td class="d-none">
+                                    @Html.DisplayFor(modelItem => item.HFDistrict)
+                                </td>
+                                <td class="d-none">
+                                    @Html.DisplayFor(modelItem => item.HFCity)
+                                </td>
+                                <td class="d-none">
+                                    @Html.DisplayFor(modelItem => item.Address)
+                                </td>
+                                <td class="d-none">
+                                    @Html.DisplayFor(modelItem => item.PIN)
+                                </td>
+                                <td class="d-none">
+                                    @Html.DisplayFor(modelItem => item.UserPrefix)
+                                </td>
+                                <td class="d-none">
+                                    @Html.DisplayFor(modelItem => item.FirstName)
+                                </td>
+                                <td class="d-none">
+                                    @Html.DisplayFor(modelItem => item.LastName)
+                                </td>
+                                <td class="d-none">
+                                    @Html.DisplayFor(modelItem => item.UserMobile)
+                                </td>
+                                <td class="d-none">
+                                    @Html.DisplayFor(modelItem => item.Gender)
+                                </td>
+                                <td class="d-none">
+                                    @Html.DisplayFor(modelItem => item.Qualification)
+                                </td>
+                                <td class="d-none">
+                                    @Html.DisplayFor(modelItem => item.Experience)
+                                </td>
+                                <td class="d-none">
+                                    @Html.DisplayFor(modelItem => item.DRRegNo)
+                                </td>
+                                <td class="d-none">
+                                    @Html.DisplayFor(modelItem => item.UserEmail)
+                                </td>
+                                <td class="d-none">
+                                    @Html.DisplayFor(modelItem => item.Designation)
+                                </td>
+                                <td class="d-none">
+                                    @Html.DisplayFor(modelItem => item.DOB)
+                                </td>
+                                <td class="d-none">
+                                    @Html.DisplayFor(modelItem => item.UserState)
+                                </td>
+                                <td class="d-none">
+                                    @Html.DisplayFor(modelItem => item.UserDistrict)
+                                </td>
+                                <td class="d-none">
+                                    @Html.DisplayFor(modelItem => item.UserCity)
+                                </td>
+                                <td class="d-none">
+                                    @Html.DisplayFor(modelItem => item.UserAddress)
+                                </td>
+                                <td class="d-none">
+                                    @Html.DisplayFor(modelItem => item.UserPin)
+                                </td>
 
-                    <td class="d-none">
-                        @Html.DisplayFor(modelItem => item.UserAvailableDay)
-                    </td>
-                    <td class="d-none">
-                        @Html.DisplayFor(modelItem => item.UserAvailableFromTime)
-                    </td>
-                    <td class="d-none">
-                        @Html.DisplayFor(modelItem => item.UserAvailableToTime)
-                    </td>
-                    <td class="d-none">
-                        @Html.DisplayFor(modelItem => item.UserRole)
-                    </td>
-                    @*<td class="d-none">
-                        @Html.DisplayFor(modelItem => item.AssignedHFType)
-                    </td>
-                    <td class="d-none">
-                        @Html.DisplayFor(modelItem => item.AssignHF)
-                    </td>*@
-                    <td class="d-none">
-                        @Html.DisplayFor(modelItem => item.SubMenuName)
-                    </td>
-                    <td>
-                        <ul>
-                            @foreach (var message in item.ErrorMessage?.Split(","))
-                            {
-                                <li>@message</li>
-                            }
-                        </ul>
-                    </td>
-                </tr>
+                                <td class="d-none">
+                                    @Html.DisplayFor(modelItem => item.UserAvailableDay)
+                                </td>
+                                <td class="d-none">
+                                    @Html.DisplayFor(modelItem => item.UserAvailableFromTime)
+                                </td>
+                                <td class="d-none">
+                                    @Html.DisplayFor(modelItem => item.UserAvailableToTime)
+                                </td>
+                                <td class="d-none">
+                                    @Html.DisplayFor(modelItem => item.UserRole)
+                                </td>
+                                @*<td class="d-none">
+                                        @Html.DisplayFor(modelItem => item.AssignedHFType)
+                                    </td>
+                                    <td class="d-none">
+                                        @Html.DisplayFor(modelItem => item.AssignHF)
+                                    </td>*@
+                                <td class="d-none">
+                                    @Html.DisplayFor(modelItem => item.HFShortName)
+                                </td>
+                                <td class="d-none">
+                                    @Html.DisplayFor(modelItem => item.SubMenuName)
+                                </td>
+                                <td>
+                                    <ul>
+                                        @foreach (var message in item.ErrorMessage?.Split(","))
+                                        {
+                                            <li>@message</li>
+                                        }
+                                    </ul>
+                                </td>
+                            </tr>
                         }
                     }
                 </tbody>

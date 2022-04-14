@@ -64,6 +64,7 @@ namespace UserManagement.Business.Services
                     { "FromTime", nameof(_obj.UserAvailableFromTime) },
                     { "To Time", nameof(_obj.UserAvailableToTime) },
                     { "Role", nameof(_obj.UserRole)},
+                    { "HF Short Name", nameof(_obj.HFShortName)},
                     { "Sub Menu", nameof (_obj.SubMenuName)}
                 }
                 ,
@@ -95,7 +96,7 @@ namespace UserManagement.Business.Services
                 x.UserCity = states.FirstOrDefault(s => s.CityId == x.SelectedUserCityId)?.CityName;
                 x.Designation = specializations.FirstOrDefault(d => d.SpecialityId == x.SelectedSpecialityId)?.SpecialityName;
                 x.UserDistrictShortCode = GetDistrictShortCode(states, x.UserState, x.UserDistrict);
-                x.UserName = GetUsersName(states, x.UserState, x.UserDistrict, x.HFName, x.HFType);
+                x.UserName = GetUsersName(states, x.UserState, x.UserDistrict, x.HFShortName, x.HFType);
                 x.QualificationId = GetQualificationId(qualifications, x.Qualification);
                 x.SpecialityId = GetSpecializationId(specializations, x.Designation);
                 x.InstituteID = GetInstitutionId(institutions, x.HFNameWithDistrictName);
@@ -191,6 +192,7 @@ namespace UserManagement.Business.Services
             return new MemberBulkValid()
             {
                 HFName = data.HFName,
+                HFShortName = data.HFShortName,
                 Address = data.Address,
                /* AssignedHFType = data.AssignedHFType,
                 AssignedInstituteID = data.AssignedInstituteID,
@@ -250,6 +252,7 @@ namespace UserManagement.Business.Services
             {
                 ErrorMessage = string.Join(",", errors),
                 HFName = data.HFName,
+                HFShortName = data.HFShortName,
                 Address = data.Address,
                 /*AssignedHFType = data.AssignedHFType,
                 AssignedInstituteID = data.AssignedInstituteID,
@@ -330,7 +333,7 @@ namespace UserManagement.Business.Services
             }
             var institutions = await _bulkInsertRepository.FindInstitutions(models.Select(x => x.HFNameWithDistrictName.Trim()));
             var states = await _bulkInsertRepository.GetStateDistrictCities();
-            var users = await _bulkInsertRepository.FindUsers(models.Select(x => GetHFNameForLogin(x.HFName)).Distinct());
+            var users = await _bulkInsertRepository.FindUsers(models.Select(x => GetHFNameForLogin(x.HFShortName)).Distinct());
             var subMenu = await _bulkInsertRepository.GetSubMenu();
 
             result = await this.CreateUserName(models, users, states);
@@ -363,7 +366,7 @@ namespace UserManagement.Business.Services
                 string stateShortCode = GetStateShortCode(user.UserState);
 
                 string distShortCode = GetDistrictShortCode(states, user.UserDistrict);
-                string strHFname = GetHFNameForLogin(user.HFName);
+                string strHFname = GetHFNameForLogin(user.HFShortName);
                 var strTypeShortCode = GetHFTypeCode(user.HFType);
                 var firstpart = $"{stateShortCode}{strHFname}";
                 var secondpart = $"{distShortCode}{strTypeShortCode}";
@@ -460,37 +463,14 @@ namespace UserManagement.Business.Services
                 model.HFTypeId = GetHFtypeId(hfTypes, model.HFType);
                 model.Designation = specializations.FirstOrDefault(d => d.SpecialityId == model.SelectedSpecialityId)?.SpecialityName;
                 model.UserDistrictShortCode = GetDistrictShortCode(states, model.UserState, model.UserDistrict);
-                model.UserName = GetUsersName(states, model.UserState, model.UserDistrict, model.HFName, model.HFType);
+                model.UserName = GetUsersName(states, model.UserState, model.UserDistrict, model.HFShortName, model.HFType);
                 model.QualificationId = GetQualificationId(qualifications, model.Qualification);
                 model.SpecialityId = GetSpecializationId(specializations, model.Designation);
                 model.InstituteID = GetInstitutionId(institutions, model.HFName);
-               // model.AssignedInstituteID = GetInstitutionId(institutions, model.AssignHF);
                 model.HFDistricts = GetDistricts(states, model.HFState);
                 model.UserDistricts = GetDistricts(states, model.UserState);
                 model.HFCities = GetCities(states, model.HFState, model.HFDistrict);
                 model.UserCities = GetCities(states, model.UserState, model.UserDistrict);
-
-
-                //model.SelectedHFStateId = GetStateId(states, model.HFState);
-                //model.SelectedSpecialityId = GetSpecialityId(specializations, model.Designation);
-                //model.SelectedHFDistrictId = GetDistrictId(states, model.HFState, model.HFDistrict);
-                //model.SelectedHFCityId = GetCityId(states, model.HFState, model.HFDistrict, model.HFCity);
-                //model.HFCity = GetCityName(states, model.HFState, model.HFDistrict, model.HFCity);
-                //model.SelectedUserStateId = GetStateId(states, model.UserState);
-                //model.SelectedUserDistrictId = GetDistrictId(states, model.UserState, model.UserDistrict);
-                //model.SelectedUserCityId = GetCityId(states, model.UserState, model.UserDistrict, model.UserCity);
-                //model.UserCity = GetCityName(states, model.UserState, model.UserDistrict, model.UserCity);
-                //model.UserDistrictShortCode = GetDistrictShortCode(states, model.UserState, model.UserDistrict);
-                //model.UserName = GetUsersName(states, model.UserState, model.UserDistrict, model.HFName, model.HFType);
-                //model.QualificationId = GetQualificationId(qualifications, model.Qualification);
-                //model.SpecialityId = GetSpecializationId(specializations, model.Designation);
-                //model.InstituteID = GetInstitutionId(institutions, model.HFName);
-                //model.AssignedInstituteID = GetInstitutionId(institutions, model.AssignHF);
-                //model.HFDistricts = GetDistricts(states, model.HFState);
-                //model.UserDistricts = GetDistricts(states, model.UserState);
-                //model.HFCities = GetCities(states, model.HFState, model.HFDistrict);
-                //model.UserCities = GetCities(states, model.UserState, model.UserDistrict);
-
                 models.Add(model);
             }
             return models;
@@ -539,13 +519,13 @@ namespace UserManagement.Business.Services
             return cityName;
         }
 
-        public string GetUsersName(IEnumerable<StateDistrictCity> states, string StateName, string DistrictName, string HFName, string Type)
+        public string GetUsersName(IEnumerable<StateDistrictCity> states, string StateName, string DistrictName, string HFShortName, string Type)
         {
             //State Code (2 alphabet)______Name of HF_____District Code (3 alphabet)______Type of HF (hub/phc/uphc/sc)
             string StateShortCode = GetStateShortCode(StateName);
 
             string DistShortCode = GetDistrictShortCode(states, DistrictName);
-            string strHFname = GetHFNameForLogin(HFName);
+            string strHFname = GetHFNameForLogin(HFShortName);
             var strTypeShortCode = "";
             string stRes = "";
 

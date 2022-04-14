@@ -51,6 +51,7 @@ namespace UserManagement.Domain
                 HFDistricts = model.Value.HFDistricts,
                 HFEmail = model.Value.HFEmail,
                 HFName = model.Value.HFName,
+                HFShortName = model.Value.HFShortName,
                 HFPhone = model.Value.HFPhone,
                 HFState = model.Value.HFState,
                 HFType = model.Value.HFType,

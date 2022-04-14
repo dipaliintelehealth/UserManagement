@@ -239,7 +239,7 @@ namespace UserManagement.Infrastructure.Repository
             var emailString = string.Join(',', singleQuotedEmails);
             var singleQuotedMobiles = mobiles.Select(x => { return $"'{x}'"; });
             var mobileString = string.Join(',', singleQuotedMobiles);
-            var singleQuotedhfNames = hfNameWithDistrict.Select(x => { return $"'{x}'"; });
+            var singleQuotedhfNames = hfNameWithDistrict.Select(x => { return $"'{x.Replace("'","''")}'"; });
             var hfnameString = string.Join(',', singleQuotedhfNames);
             var sql = "SELECT InstitutionId,Name,AddressLine1, " +
                 "AddressLine2,ReferenceNumber," +
@@ -253,7 +253,7 @@ namespace UserManagement.Infrastructure.Repository
         public async Task<IEnumerable<InstitutionModel>> FindInstitutions(IEnumerable<string> hfNameWithDistrict)
         {
            
-            var singleQuotedhfNames = hfNameWithDistrict.Select(x => { return $"'{x}'"; });
+            var singleQuotedhfNames = hfNameWithDistrict.Select(x => { return $"'{x.Replace("'","''")}'"; });
             var hfnameString = string.Join(',', singleQuotedhfNames);
             var sql = "SELECT InstitutionId,Name,AddressLine1, " +
                 "AddressLine2,ReferenceNumber," +

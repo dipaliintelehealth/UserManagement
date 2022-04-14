@@ -111,7 +111,7 @@ namespace UserManagement.Business.Tests
                         UserName="pbaboharfazs",
                         UserState="PUNJAB",
                         UserDistrict="FAZILKA",
-                        HFName="SPOKE ABOHAR",
+                        HFShortName="SPOKE ABOHAR",
                         HFType="SPOKE"
 
                     }
@@ -169,7 +169,7 @@ namespace UserManagement.Business.Tests
                         UserName="pbaboharfazs",
                         UserState="PUNJAB",
                         UserDistrict="FAZILKA",
-                        HFName="SPOKE ABOHAR",
+                        HFShortName="SPOKE ABOHAR",
                         HFType="SPOKE"
 
                     }
@@ -181,7 +181,7 @@ namespace UserManagement.Business.Tests
                         UserName="pbaboharfazs",
                         UserState="PUNJAB",
                         UserDistrict="FAZILKA",
-                        HFName="SPOKE ABOHAR",
+                        HFShortName="SPOKE ABOHAR",
                         HFType="SPOKE"
 
                     }
@@ -193,7 +193,7 @@ namespace UserManagement.Business.Tests
                         UserName="pbaboharfazs",
                         UserState="PUNJAB",
                         UserDistrict="FAZILKA",
-                        HFName="SPOKE ABOHAR",
+                        HFShortName="ABOHAR",
                         HFType="SPOKE"
 
                     }
@@ -257,7 +257,7 @@ namespace UserManagement.Business.Tests
                         UserName="pbaboharfazs",
                         UserState="PUNJAB",
                         UserDistrict="FAZILKA",
-                        HFName="SPOKE ABOHAR",
+                        HFShortName="SPOKE ABOHAR",
                         HFType="SPOKE"
 
                     
@@ -269,7 +269,7 @@ namespace UserManagement.Business.Tests
                         UserName="pbaboharfazs",
                         UserState="PUNJAB",
                         UserDistrict="FAZILKA",
-                        HFName="SPOKE ABOHAR",
+                        HFShortName="SPOKE ABOHAR",
                         HFType="SPOKE"
 
 
@@ -281,7 +281,7 @@ namespace UserManagement.Business.Tests
                         UserName="pbaboharfazs",
                         UserState="PUNJAB",
                         UserDistrict="FAZILKA",
-                        HFName="SPOKE ABOHAR",
+                        HFShortName="SPOKE ABOHAR",
                         HFType="SPOKE"
 
 
@@ -403,7 +403,7 @@ namespace UserManagement.Business.Tests
                         UserName="pbaboharfazs",
                         UserState="PUNJAB",
                         UserDistrict="FAZILKA",
-                        HFName="SPOKE ABOHAR",
+                        HFShortName="SPOKE ABOHAR",
                         HFType="SPOKE"
 
                     },
@@ -414,7 +414,7 @@ namespace UserManagement.Business.Tests
                         UserName="pbaboharfazs",
                         UserState="PUNJAB",
                         UserDistrict="FAZILKA",
-                        HFName="SPOKE ABOHAR",
+                        HFShortName="SPOKE ABOHAR",
                         HFType="SPOKE"
 
 
@@ -490,7 +490,7 @@ namespace UserManagement.Business.Tests
                         UserName="pbaboharfazs",
                         UserState="PUNJAB",
                         UserDistrict="FAZILKA",
-                        HFName="SPOKE ABOHAR",
+                        HFShortName="SPOKE ABOHAR",
                         HFType="SPOKE"
 
                     }

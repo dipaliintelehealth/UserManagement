@@ -1,6 +1,6 @@
 ﻿@model BulkImportWithValidationErrorVM
 @using UserManagement.Domain.ViewModel
-@using UserManagement.Extensions; 
+@using UserManagement.Extensions;
 @if (Model != null && Model.Data.Count() > 0)
 {
 
@@ -116,11 +116,14 @@
                                 @Html.DisplayNameFor(model => model.Data[0].UserRole)
                             </th>
                             @*<th>
-                                @Html.DisplayNameFor(model => model.Data[0].AssignedHFType)
-                            </th>
+                                    @Html.DisplayNameFor(model => model.Data[0].AssignedHFType)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Data[0].AssignHF)
+                                </th>*@
                             <th>
-                                @Html.DisplayNameFor(model => model.Data[0].AssignHF)
-                            </th>*@
+                                @Html.DisplayNameFor(model => model.Data[0].HFShortName)
+                            </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.Data[0].SubMenuName)
                             </th>
@@ -133,155 +136,159 @@
                         @for (var i = 0; i < Model.Data.Count(); i++)
                         {
                             var mdl = Model.Data[i];
-                        <tr>
-                            <td style="min-width: 28px; max-width:50px;">
-                                @Html.CheckBox($"[{i}].isActive", false, new { @class = "form-control chkSelected", @style = "max-width:25px;" })
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(modelItem => Model.Data[i].HFName, new { @class = "form-control" })
-                                @Html.BulkValidationError(nameof(mdl.HFName), i, Model.Errors)
-                            </td>
+                            <tr>
+                                <td style="min-width: 28px; max-width:50px;">
+                                    @Html.CheckBox($"[{i}].isActive", false, new { @class = "form-control chkSelected", @style = "max-width:25px;" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].HFName, new { @class = "form-control" })
+                                    @Html.BulkValidationError(nameof(mdl.HFName), i, Model.Errors)
+                                </td>
 
-                            <td>
-                                @Html.TextBoxFor(modelItem => Model.Data[i].HFPhone, new { @class = "form-control" })
-                                @Html.BulkValidationError(nameof(mdl.HFPhone), i, Model.Errors)
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(modelItem => Model.Data[i].HFType, new { @class = "form-control" })
-                                @Html.BulkValidationError(nameof(mdl.HFType), i, Model.Errors)
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(modelItem => Model.Data[i].NIN, new { @class = "form-control" })
-                                @Html.BulkValidationError(nameof(mdl.NIN), i, Model.Errors)
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(modelItem => Model.Data[i].HFEmail, new { @class = "form-control" })
-                                @Html.BulkValidationError(nameof(mdl.HFEmail), i, Model.Errors)
-                            </td>
-                            <td>
-                                @Html.DropDownListFor(model => Model.Data[i].SelectedHFStateId,
-                                new SelectList(ViewBag.States, "Id", "Value"), "--Select--", new { @class = "form-control state" })
-                                @Html.BulkValidationError(nameof(mdl.SelectedHFStateId), i, Model.Errors)
-                            </td>
-                            <td>
-                                @Html.DropDownListFor(model => Model.Data[i].SelectedHFDistrictId,
-                                new SelectList(Model.Data[i].HFDistricts, "Id", "Value"), "--Select--", new { @class = "form-control district" })
-                                @Html.BulkValidationError(nameof(mdl.SelectedHFDistrictId), i, Model.Errors)
-                                @Html.BulkValidationError(nameof(mdl.HFDistrict), i, Model.Errors)
-                            </td>
-                            <td>
-                                @Html.DropDownListFor(model => Model.Data[i].SelectedHFCityId,
-                                new SelectList(Model.Data[i].HFCities, "Id", "Value"), "--Select--", new { @class = "form-control city" })
-                                @Html.BulkValidationError(nameof(mdl.SelectedHFCityId), i, Model.Errors)
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(modelItem => Model.Data[i].Address, new { @class = "form-control" })
-                                @Html.BulkValidationError(nameof(mdl.Address), i, Model.Errors)
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(modelItem => Model.Data[i].PIN, new { @class = "form-control" })
-                                @Html.BulkValidationError(nameof(mdl.PIN), i, Model.Errors)
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(modelItem => Model.Data[i].UserPrefix, new { @class = "form-control" })
-                                @Html.BulkValidationError(nameof(mdl.UserPrefix), i, Model.Errors)
-                            </td>
+                                <td>
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].HFPhone, new { @class = "form-control" })
+                                    @Html.BulkValidationError(nameof(mdl.HFPhone), i, Model.Errors)
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].HFType, new { @class = "form-control" })
+                                    @Html.BulkValidationError(nameof(mdl.HFType), i, Model.Errors)
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].NIN, new { @class = "form-control" })
+                                    @Html.BulkValidationError(nameof(mdl.NIN), i, Model.Errors)
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].HFEmail, new { @class = "form-control" })
+                                    @Html.BulkValidationError(nameof(mdl.HFEmail), i, Model.Errors)
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(model => Model.Data[i].SelectedHFStateId,
+                                    new SelectList(ViewBag.States, "Id", "Value"), "--Select--", new { @class = "form-control state" })
+                                    @Html.BulkValidationError(nameof(mdl.SelectedHFStateId), i, Model.Errors)
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(model => Model.Data[i].SelectedHFDistrictId,
+                                    new SelectList(Model.Data[i].HFDistricts, "Id", "Value"), "--Select--", new { @class = "form-control district" })
+                                    @Html.BulkValidationError(nameof(mdl.SelectedHFDistrictId), i, Model.Errors)
+                                    @Html.BulkValidationError(nameof(mdl.HFDistrict), i, Model.Errors)
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(model => Model.Data[i].SelectedHFCityId,
+                                    new SelectList(Model.Data[i].HFCities, "Id", "Value"), "--Select--", new { @class = "form-control city" })
+                                    @Html.BulkValidationError(nameof(mdl.SelectedHFCityId), i, Model.Errors)
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].Address, new { @class = "form-control" })
+                                    @Html.BulkValidationError(nameof(mdl.Address), i, Model.Errors)
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].PIN, new { @class = "form-control" })
+                                    @Html.BulkValidationError(nameof(mdl.PIN), i, Model.Errors)
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].UserPrefix, new { @class = "form-control" })
+                                    @Html.BulkValidationError(nameof(mdl.UserPrefix), i, Model.Errors)
+                                </td>
 
-                            <td>
-                                @Html.TextBoxFor(modelItem => Model.Data[i].FirstName, new { @class = "form-control" })
-                                @Html.BulkValidationError(nameof(mdl.FirstName), i, Model.Errors)
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(modelItem => Model.Data[i].LastName, new { @class = "form-control" })
-                                @Html.BulkValidationError(nameof(mdl.LastName), i, Model.Errors)
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(modelItem => Model.Data[i].UserMobile, new { @class = "form-control" })
-                                @Html.BulkValidationError(nameof(mdl.UserMobile), i, Model.Errors)
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(modelItem => Model.Data[i].Gender, new { @class = "form-control" })
-                                @Html.BulkValidationError(nameof(mdl.Gender), i, Model.Errors)
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(modelItem => Model.Data[i].Qualification, new { @class = "form-control" })
-                                @Html.BulkValidationError(nameof(mdl.Qualification), i, Model.Errors)
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(modelItem => Model.Data[i].Experience, new { @class = "form-control" })
-                                @Html.BulkValidationError(nameof(mdl.Experience), i, Model.Errors)
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(modelItem => Model.Data[i].DRRegNo, new { @class = "form-control" })
-                                @Html.BulkValidationError(nameof(mdl.DRRegNo), i, Model.Errors)
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(modelItem => Model.Data[i].UserEmail, new { @class = "form-control" })
-                                @Html.BulkValidationError(nameof(mdl.UserEmail), i, Model.Errors)
-                            </td>
-                            <td>
-                                @Html.DropDownListFor(model => Model.Data[i].SelectedSpecialityId,
-                                new SelectList(ViewBag.Specilization, "Id", "Value"), "--Select--", new { @class = "form-control" })
-                                @Html.BulkValidationError(nameof(mdl.SelectedSpecialityId), i, Model.Errors)
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(modelItem => Model.Data[i].DOB, new { @class = "form-control" })
-                                @Html.BulkValidationError(nameof(mdl.DOB), i, Model.Errors)
-                            </td>
-                            <td>
-                                @Html.DropDownListFor(model => Model.Data[i].SelectedUserStateId,
-                                new SelectList(ViewBag.States, "Id", "Value"), "--Select--", new { @class = "form-control state" })
-                                @Html.BulkValidationError(nameof(mdl.SelectedUserStateId), i, Model.Errors)
-                            </td>
-                            <td>
-                                @Html.DropDownListFor(model => Model.Data[i].SelectedUserDistrictId,
-                                  new SelectList(Model.Data[i].UserDistricts, "Id", "Value"), "--Select--", new { @class = "form-control district" })
-                                @Html.BulkValidationError(nameof(mdl.SelectedUserDistrictId), i, Model.Errors)
-                            </td>
-                            <td>
-                                @Html.DropDownListFor(model => Model.Data[i].SelectedUserCityId,
-                                  new SelectList(Model.Data[i].UserCities, "Id", "Value"), "--Select--", new { @class = "form-control city" })
-                                @Html.BulkValidationError(nameof(mdl.SelectedUserCityId), i, Model.Errors)
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(modelItem => Model.Data[i].UserAddress, new { @class = "form-control" })
-                                @Html.BulkValidationError(nameof(mdl.UserAddress), i, Model.Errors)
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(modelItem => Model.Data[i].UserPin, new { @class = "form-control" })
-                                @Html.BulkValidationError(nameof(mdl.UserPin), i, Model.Errors)
-                            </td>
+                                <td>
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].FirstName, new { @class = "form-control" })
+                                    @Html.BulkValidationError(nameof(mdl.FirstName), i, Model.Errors)
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].LastName, new { @class = "form-control" })
+                                    @Html.BulkValidationError(nameof(mdl.LastName), i, Model.Errors)
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].UserMobile, new { @class = "form-control" })
+                                    @Html.BulkValidationError(nameof(mdl.UserMobile), i, Model.Errors)
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].Gender, new { @class = "form-control" })
+                                    @Html.BulkValidationError(nameof(mdl.Gender), i, Model.Errors)
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].Qualification, new { @class = "form-control" })
+                                    @Html.BulkValidationError(nameof(mdl.Qualification), i, Model.Errors)
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].Experience, new { @class = "form-control" })
+                                    @Html.BulkValidationError(nameof(mdl.Experience), i, Model.Errors)
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].DRRegNo, new { @class = "form-control" })
+                                    @Html.BulkValidationError(nameof(mdl.DRRegNo), i, Model.Errors)
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].UserEmail, new { @class = "form-control" })
+                                    @Html.BulkValidationError(nameof(mdl.UserEmail), i, Model.Errors)
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(model => Model.Data[i].SelectedSpecialityId,
+                                    new SelectList(ViewBag.Specilization, "Id", "Value"), "--Select--", new { @class = "form-control" })
+                                    @Html.BulkValidationError(nameof(mdl.SelectedSpecialityId), i, Model.Errors)
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].DOB, new { @class = "form-control" })
+                                    @Html.BulkValidationError(nameof(mdl.DOB), i, Model.Errors)
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(model => Model.Data[i].SelectedUserStateId,
+                                    new SelectList(ViewBag.States, "Id", "Value"), "--Select--", new { @class = "form-control state" })
+                                    @Html.BulkValidationError(nameof(mdl.SelectedUserStateId), i, Model.Errors)
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(model => Model.Data[i].SelectedUserDistrictId,
+                                      new SelectList(Model.Data[i].UserDistricts, "Id", "Value"), "--Select--", new { @class = "form-control district" })
+                                    @Html.BulkValidationError(nameof(mdl.SelectedUserDistrictId), i, Model.Errors)
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(model => Model.Data[i].SelectedUserCityId,
+                                      new SelectList(Model.Data[i].UserCities, "Id", "Value"), "--Select--", new { @class = "form-control city" })
+                                    @Html.BulkValidationError(nameof(mdl.SelectedUserCityId), i, Model.Errors)
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].UserAddress, new { @class = "form-control" })
+                                    @Html.BulkValidationError(nameof(mdl.UserAddress), i, Model.Errors)
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].UserPin, new { @class = "form-control" })
+                                    @Html.BulkValidationError(nameof(mdl.UserPin), i, Model.Errors)
+                                </td>
 
-                            <td>
-                                @Html.TextBoxFor(modelItem => Model.Data[i].UserAvailableDay, new { @class = "form-control" })
-                                @Html.BulkValidationError(nameof(mdl.UserAvailableDay), i, Model.Errors)
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(modelItem => Model.Data[i].UserAvailableFromTime, new { @class = "form-control" })
-                                @Html.BulkValidationError(nameof(mdl.UserAvailableFromTime), i, Model.Errors)
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(modelItem => Model.Data[i].UserAvailableToTime, new { @class = "form-control" })
-                                @Html.BulkValidationError(nameof(mdl.UserAvailableToTime), i, Model.Errors)
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(modelItem => Model.Data[i].UserRole, new { @class = "form-control" })
-                                @Html.BulkValidationError(nameof(mdl.UserRole), i, Model.Errors)
-                            </td>
-                            @*<td>
-                                @Html.TextBoxFor(modelItem => Model.Data[i].AssignedHFType, new { @class = "form-control" })
-                                @Html.BulkValidationError(nameof(mdl.AssignedHFType), i, Model.Errors)
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(modelItem => Model.Data[i].AssignHF, new { @class = "form-control" })
-                                @Html.BulkValidationError(nameof(mdl.AssignHF), i, Model.Errors)
-                            </td>*@
-                            <td>
-                                @Html.TextBoxFor(modelItem => Model.Data[i].SubMenuName, new { @class = "form-control" })
-                                @Html.BulkValidationError(nameof(mdl.SubMenuName), i, Model.Errors)
-                            </td>
+                                <td>
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].UserAvailableDay, new { @class = "form-control" })
+                                    @Html.BulkValidationError(nameof(mdl.UserAvailableDay), i, Model.Errors)
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].UserAvailableFromTime, new { @class = "form-control" })
+                                    @Html.BulkValidationError(nameof(mdl.UserAvailableFromTime), i, Model.Errors)
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].UserAvailableToTime, new { @class = "form-control" })
+                                    @Html.BulkValidationError(nameof(mdl.UserAvailableToTime), i, Model.Errors)
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].UserRole, new { @class = "form-control" })
+                                    @Html.BulkValidationError(nameof(mdl.UserRole), i, Model.Errors)
+                                </td>
+                                @*<td>
+                                        @Html.TextBoxFor(modelItem => Model.Data[i].AssignedHFType, new { @class = "form-control" })
+                                        @Html.BulkValidationError(nameof(mdl.AssignedHFType), i, Model.Errors)
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(modelItem => Model.Data[i].AssignHF, new { @class = "form-control" })
+                                        @Html.BulkValidationError(nameof(mdl.AssignHF), i, Model.Errors)
+                                    </td>*@
+                                <td>
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].HFShortName, new { @class = "form-control" })
+                                    @Html.BulkValidationError(nameof(mdl.HFShortName), i, Model.Errors)
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(modelItem => Model.Data[i].SubMenuName, new { @class = "form-control" })
+                                    @Html.BulkValidationError(nameof(mdl.SubMenuName), i, Model.Errors)
+                                </td>
 
-                        </tr>
+                            </tr>
                         }
 
                     </tbody>
@@ -416,7 +423,7 @@
             tblImportData.rows('.selected').remove().draw(true);
             formValidationCallback();
         }
-      
+
     }
     function getOptions(data) {
         var options = '<option value="0">--Select--</option>';

@@ -70,10 +70,12 @@ namespace UserManagement.Models
         public string UserAvailableToTime { get; set; }
         [Display(Name = "Role")]
         public string UserRole { get; set; }
-       /* [Display(Name = "Assign Type")]
-        public string AssignedHFType { get; set; }
-        [Display(Name = "Assign PHC Or Hub")]
-        public string AssignHF { get; set; }*/
+        [Display(Name = "HF Short Name")]
+        public string HFShortName { get; set; }
+        /* [Display(Name = "Assign Type")]
+         public string AssignedHFType { get; set; }
+         [Display(Name = "Assign PHC Or Hub")]
+         public string AssignHF { get; set; }*/
         public IEnumerable<KeyValue<string, string>> HFDistricts { get; set; }
         public IEnumerable<KeyValue<string, string>> HFCities { get; set; }
         public IEnumerable<KeyValue<string, string>> UserDistricts { get; set; }
