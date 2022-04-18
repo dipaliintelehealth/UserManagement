@@ -146,15 +146,34 @@ namespace UserManagement.Business.Validators
 
             return isInvalid;
         }
-        private bool IsInvalidInstituteMobile(MemberBulkImportVM model, IEnumerable<MemberBulkImportVM> list)
-        { 
-            // check mobile in md_member for master member creation
-            return IsDuplicateMobile(model.HFPhone) && !IsDuplicateHfName(model.HFNameWithDistrictName, list.Select(x => x.HFNameWithDistrictName));
-        }
-        private bool IsInvalidInstituteEmail(MemberBulkImportVM model, IEnumerable<MemberBulkImportVM> list)
+        private bool IsInstituteMobileExistInUserDB(MemberBulkImportVM model, IEnumerable<MemberBulkImportVM> list)
         {
             // check mobile in md_member for master member creation
-            return IsDuplicateEmail(model.HFEmail) && !IsDuplicateHfName(model.HFNameWithDistrictName, list.Select(x => x.HFNameWithDistrictName));
+            var mobilesFromList = list.Select(t => t.UserMobile).ToList();
+            mobilesFromList?.Add(model.HFPhone);
+            var mobiles = Enumerable.Concat(mobilesFromList, _mobiles);
+            var mobilesCount = mobiles.Where(t => t.Equals(model.HFPhone)).Count();
+            var hfNames = list.Select(t => t.HFNameWithDistrictName);
+            var hfNamesFromDb = this._institutions?.Select(x => x.Name);
+            var allHfNames = Enumerable.Concat(hfNamesFromDb, hfNames);
+
+            var hfnameCount = allHfNames?.Where(x => x == model.HFNameWithDistrictName).Count();
+            return mobilesCount > hfnameCount;
+            //return IsDuplicateMobile(model.HFPhone, mobiles) && !IsDuplicateHfName(model.HFNameWithDistrictName, list.Select(x => x.HFNameWithDistrictName));
+        }
+        private bool IsInstituteEmailExistInUserDB(MemberBulkImportVM model, IEnumerable<MemberBulkImportVM> list)
+        {
+            // check mobile in md_member for master member creation
+            var emailsFromList = list.Select(t => t.UserEmail).ToList();
+            emailsFromList?.Add(model.HFEmail);
+            var emails = Enumerable.Concat(emailsFromList, _emails);
+            var emailsCount = emails.Where(t => t.Equals(model.HFEmail)).Count();
+            var hfNames = list.Select(t => t.HFNameWithDistrictName);
+            var hfNamesFromDb = this._institutions?.Select(x => x.Name);
+            var allHfNames = Enumerable.Concat(hfNamesFromDb, hfNames);
+
+            var hfnameCount = allHfNames?.Where(x => x == model.HFNameWithDistrictName).Count();
+            return emailsCount > hfnameCount;
         }
 
         private bool IsContainsInValidMenu(string menuString)
@@ -286,14 +305,14 @@ namespace UserManagement.Business.Validators
                     errors.Add(error);
                     //Institution Email Address or Mobile Number already exist
                 }
-                if (IsInvalidInstituteEmail(model, models))
+                if (IsInstituteEmailExistInUserDB(model, models))
                 {
                     var error = GetBulkInsertValidationFailure(i, "Institution Email Address already exist !", string.Empty,
                             nameof(model.HFEmail));
                     errors.Add(error);
                     //Institution Email Address or Mobile Number already exist
                 }
-                if (IsInvalidInstituteMobile(model, models))
+                if (IsInstituteMobileExistInUserDB(model, models))
                 {
                     var error = GetBulkInsertValidationFailure(i, "Institution Mobile Number already exist !", string.Empty,
                             nameof(model.HFPhone));

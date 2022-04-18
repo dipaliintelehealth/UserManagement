@@ -35,6 +35,10 @@ namespace UserManagement.Business.Validators
                 .NotEmpty()
                 .WithMessage("HF Phone can not be blank !");
 
+            RuleFor(x => x.HFPhone)
+                .NotEqual(x => x.UserMobile)
+                .WithMessage("HF Phone can not be same as User Mobile !");
+
             RuleFor(x => x.HFType)
                 .NotEmpty()
                 .WithMessage("HF Type can not be blank !");
@@ -51,6 +55,10 @@ namespace UserManagement.Business.Validators
                 .EmailAddress()
                 .WithMessage("Invalid HF Email !");
 
+            RuleFor(x => x.HFEmail)
+                .NotEqual(x => x.UserEmail)
+                .WithMessage("HF Email can not be same as User Email !");
+
             RuleFor(x => x.SelectedHFStateId)
                 .NotEmpty()
                 .WithMessage("Invalid HF State Name !");
@@ -60,12 +68,9 @@ namespace UserManagement.Business.Validators
                 .NotEmpty()
                 .WithMessage("Invalid HF District Name !");
 
-
             RuleFor(x => x.SelectedHFCityId)
                 .NotEmpty()
                 .WithMessage("Invalid HF City Name !");
-
-          
 
             RuleFor(x => x.Address)
                             .NotEmpty()

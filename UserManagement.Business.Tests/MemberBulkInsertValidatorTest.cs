@@ -84,6 +84,8 @@ namespace UserManagement.Business.Tests
                      HFCity ="Pune",
                      SelectedHFCityId=1,
                      HFState ="Maharashtra",
+                     HFName = "Hub Ramesh Mulani",
+                     HFShortName = "Rameshm",
                      SelectedHFStateId = 123,
                      SubMenuName = "User Dashboard"
                  },
@@ -91,7 +93,7 @@ namespace UserManagement.Business.Tests
                  {
                      UserEmail = "xyz@gmail.com",
                      UserMobile = "45678901234",
-                    UserDistrict = "Test",
+                     UserDistrict = "Test",
                      SelectedUserDistrictId =0,
                      UserCity ="Pune",
                      SelectedUserCityId=1,
@@ -102,6 +104,8 @@ namespace UserManagement.Business.Tests
                      HFCity ="Pune",
                      SelectedHFCityId=1,
                      HFState ="Maharashtra",
+                     HFName = "Hub Ramesh Mulani",
+                     HFShortName = "Rameshm",
                      SelectedHFStateId = 123,
                      SubMenuName = "Patient List"
                  },
@@ -109,7 +113,7 @@ namespace UserManagement.Business.Tests
                  {
                      UserEmail = "abc@gmail.com",
                      UserMobile = "2424242424",
-                    UserDistrict = "Pune",
+                     UserDistrict = "Pune",
                      SelectedUserDistrictId =123,
                      UserCity ="Pune",
                      SelectedUserCityId=1,
@@ -120,13 +124,15 @@ namespace UserManagement.Business.Tests
                      HFCity ="Pune",
                      SelectedHFCityId=1,
                      HFState ="Maharashtra",
+                     HFName = "Hub Ramesh Mulani",
+                     HFShortName = "Rameshm",
                      SelectedHFStateId = 123,
                      SubMenuName = "Add Patient"
                  },
                   new MemberBulkImportVM()
                  {
                      UserEmail = "abc1@gmail.com",
-                   UserDistrict = "Pune",
+                     UserDistrict = "Pune",
                      SelectedUserDistrictId =123,
                      UserCity ="Pune",
                      SelectedUserCityId=1,
@@ -137,6 +143,8 @@ namespace UserManagement.Business.Tests
                      HFCity ="Pune",
                      SelectedHFCityId=1,
                      HFState ="HR",
+                     HFName = "Hub Ramesh Mulani",
+                     HFShortName = "Rameshm",
                      SelectedHFStateId = 0,
                      SubMenuName = ""
                  }
@@ -223,6 +231,7 @@ namespace UserManagement.Business.Tests
                  new MemberBulkImportVM()
                  {
                      HFName = "Hub Ramesh Mulani",
+                     HFShortName = "Rameshm",
                      HFPhone = "1446875567",
                      HFType = "HUB",
                      NIN = "4877253429",
@@ -288,6 +297,7 @@ namespace UserManagement.Business.Tests
                         UserState="PUNJAB",
                         UserDistrict="FAZILKA",
                         HFName="HSC ABOHAR",
+                        HFShortName = "ABOHAR",
                         HFType="SubCentre",
                         SubMenuName="User Dashboard,Patient List"
 
@@ -342,6 +352,7 @@ namespace UserManagement.Business.Tests
                         UserState="PUNJAB",
                         UserDistrict="FAZILKA",
                         HFName="HSC ABOHAR",
+                        HFShortName = "ABOHAR",
                         HFType="SubCentre",
                         SubMenuName="Doctor List"
 
@@ -394,6 +405,7 @@ namespace UserManagement.Business.Tests
                         UserState="PUNJAB",
                         UserDistrict="FAZILKA",
                         HFName="HSC ABOHAR",
+                        HFShortName = "ABOHAR",
                         HFType="SubCentre",
                         SubMenuName=" "
 
@@ -407,6 +419,7 @@ namespace UserManagement.Business.Tests
                         UserState="PUNJAB",
                         UserDistrict="FAZILKA",
                         HFName="HSC ABOHAR",
+                        HFShortName = "ABOHAR",
                         HFType="SubCentre",
                         SubMenuName="User Dashboard"
 
