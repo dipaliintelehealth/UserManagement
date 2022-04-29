@@ -619,7 +619,7 @@ namespace UserManagement.Business.Services
                     {"HARYANA","HR"},
                     {"HIMACHAL PRADESH","HP"},
                     {"JAMMU & KASHMIR","JK"},
-                    {"JHARKHAND","JS"},
+                    {"JHARKHAND","JH"},
                     {"KARNATAKA","KA"},
                     {"KERALA","KL"},
                     {"MADHYA PRADESH","MP"},
@@ -645,7 +645,8 @@ namespace UserManagement.Business.Services
                     {"LAKSHADWEEP","LD"},
                     {"PONDICHERRY","PY"},
                     {"PUDUCHERRY","PY"},
-                    {"ODISHA","OD"}
+                    {"ODISHA","OR"},
+                    {"DADRA AND NAGAR HAVELI AND DAMAN AND DIU","DN"}
 
             };
 
