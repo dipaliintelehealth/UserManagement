@@ -96,7 +96,7 @@ namespace UserManagement.Business.Services
                 x.UserCity = states.FirstOrDefault(s => s.CityId == x.SelectedUserCityId)?.CityName;
                 x.Designation = specializations.FirstOrDefault(d => d.SpecialityId == x.SelectedSpecialityId)?.SpecialityName;
                 x.UserDistrictShortCode = GetDistrictShortCode(states, x.UserState, x.UserDistrict);
-                x.UserName = GetUsersName(states, x.UserState, x.UserDistrict, x.HFShortName, x.HFType);
+                x.UserName = GetUsersName(states, x.HFState, x.HFDistrict, x.HFShortName, x.HFType);
                 x.QualificationId = GetQualificationId(qualifications, x.Qualification);
                 x.SpecialityId = GetSpecializationId(specializations, x.Designation);
                 x.InstituteID = GetInstitutionId(institutions, x.HFNameWithDistrictName);
@@ -463,7 +463,7 @@ namespace UserManagement.Business.Services
                 model.HFTypeId = GetHFtypeId(hfTypes, model.HFType);
                 model.Designation = specializations.FirstOrDefault(d => d.SpecialityId == model.SelectedSpecialityId)?.SpecialityName;
                 model.UserDistrictShortCode = GetDistrictShortCode(states, model.UserState, model.UserDistrict);
-                model.UserName = GetUsersName(states, model.UserState, model.UserDistrict, model.HFShortName, model.HFType);
+                model.UserName = GetUsersName(states, model.HFState, model.HFDistrict, model.HFShortName, model.HFType);
                 model.QualificationId = GetQualificationId(qualifications, model.Qualification);
                 model.SpecialityId = GetSpecializationId(specializations, model.Designation);
                 model.InstituteID = GetInstitutionId(institutions, model.HFName);

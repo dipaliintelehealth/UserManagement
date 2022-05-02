@@ -187,8 +187,8 @@ namespace UserManagement.Business.Validators
         }
         private bool IsContainDistrictShortCode(MemberBulkImportVM model)
         {
-            if (model.SelectedUserDistrictId == 0) return true;
-            return _stateDistrictCities.Any(x => x.StateId == model.SelectedUserStateId && x.DistrictId == model.SelectedUserDistrictId && !string.IsNullOrWhiteSpace(x.DistrictShortCode));
+            if (model.SelectedHFDistrictId == 0) return true;
+            return _stateDistrictCities.Any(x => x.StateId == model.SelectedHFStateId && x.DistrictId == model.SelectedHFDistrictId && !string.IsNullOrWhiteSpace(x.DistrictShortCode));
         }
         private static BulkInsertValidationFailure GetBulkInsertValidationFailure(int index, string errorMessage,
             string errorCode, string propertyName)
@@ -268,9 +268,9 @@ namespace UserManagement.Business.Validators
             }*/
             if (!IsContainDistrictShortCode(model))
             {
-                var districtName = _stateDistrictCities.FirstOrDefault(x => x.DistrictId == model.SelectedUserDistrictId)?.DistrictName;
+                var districtName = _stateDistrictCities.FirstOrDefault(x => x.DistrictId == model.SelectedHFDistrictId)?.DistrictName;
                 var error = GetBulkInsertValidationFailure(index, $"No District code found for {districtName}. Please Contact the Admin !", string.Empty,
-                    nameof(model.SelectedUserDistrictId));
+                    nameof(model.SelectedHFDistrictId));
                 errors.Add(error);
             }
 
