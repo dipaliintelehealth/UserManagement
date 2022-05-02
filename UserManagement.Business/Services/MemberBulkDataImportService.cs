@@ -363,9 +363,9 @@ namespace UserManagement.Business.Services
             {
                 var initialCount = 0;
                 var user = duplicateUserGroup.FirstOrDefault();
-                string stateShortCode = GetStateShortCode(user.UserState);
+                string stateShortCode = GetStateShortCode(user.HFState);
 
-                string distShortCode = GetDistrictShortCode(states, user.UserDistrict);
+                string distShortCode = GetDistrictShortCode(states, user.HFDistrict);
                 string strHFname = GetHFNameForLogin(user.HFShortName);
                 var strTypeShortCode = GetHFTypeCode(user.HFType);
                 var firstpart = $"{stateShortCode}{strHFname}";

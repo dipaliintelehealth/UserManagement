@@ -294,8 +294,8 @@ namespace UserManagement.Business.Tests
                     new MemberBulkImportVM()
                     {
                         UserName="pbaboharfazsc",
-                        UserState="PUNJAB",
-                        UserDistrict="FAZILKA",
+                        HFState="PUNJAB",
+                        HFDistrict="FAZILKA",
                         HFName="HSC ABOHAR",
                         HFShortName = "ABOHAR",
                         HFType="SubCentre",
@@ -349,15 +349,14 @@ namespace UserManagement.Business.Tests
                     new MemberBulkImportVM()
                     {
                         UserName="pbaboharfazsc",
-                        UserState="PUNJAB",
-                        UserDistrict="FAZILKA",
+                        HFState="PUNJAB",
+                        HFDistrict="FAZILKA",
                         HFName="HSC ABOHAR",
                         HFShortName = "ABOHAR",
                         HFType="SubCentre",
-                        SubMenuName="Doctor List"
-
+                        SubMenuName="Doctor List",
+                        HFEmail = "faz@gmail.com"
                     }
-
             };
 
             var subMenus = new List<SubMenuModel>()
@@ -402,11 +401,12 @@ namespace UserManagement.Business.Tests
                     new MemberBulkImportVM()
                     {
                         UserName="pbaboharfazsc",
-                        UserState="PUNJAB",
-                        UserDistrict="FAZILKA",
+                        HFState="PUNJAB",
+                        HFDistrict="FAZILKA",
                         HFName="HSC ABOHAR",
                         HFShortName = "ABOHAR",
                         HFType="SubCentre",
+                        HFEmail = "faz@gmail.com",
                         SubMenuName=" "
 
 
@@ -416,11 +416,12 @@ namespace UserManagement.Business.Tests
                     new MemberBulkImportVM()
                     {
                         UserName="pbaboharfazsc",
-                        UserState="PUNJAB",
-                        UserDistrict="FAZILKA",
+                        HFState="PUNJAB",
+                        HFDistrict="FAZILKA",
                         HFName="HSC ABOHAR",
                         HFShortName = "ABOHAR",
                         HFType="SubCentre",
+                        HFEmail = "faz@gmail.com",
                         SubMenuName="User Dashboard"
 
                     }

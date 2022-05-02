@@ -149,10 +149,12 @@ namespace UserManagement.Business.Validators
         private bool IsInstituteMobileExistInUserDB(MemberBulkImportVM model, IEnumerable<MemberBulkImportVM> list)
         {
             // check mobile in md_member for master member creation
-            var mobilesFromList = list.Select(t => t.UserMobile).ToList();
+            if (string.IsNullOrEmpty(model.HFPhone))
+                return false;
+            var mobilesFromList = list?.Where(x=>string.IsNullOrEmpty(x.UserMobile)).Select(t => t.UserMobile).ToList();
             mobilesFromList?.Add(model.HFPhone);
             var mobiles = Enumerable.Concat(mobilesFromList, _mobiles);
-            var mobilesCount = mobiles.Where(t => t.Equals(model.HFPhone)).Count();
+            var mobilesCount = mobiles?.Where(t => t.Equals(model.HFPhone)).Count();
             var hfNames = list.Select(t => t.HFNameWithDistrictName);
             var hfNamesFromDb = this._institutions?.Select(x => x.Name);
             var allHfNames = Enumerable.Concat(hfNamesFromDb, hfNames);
@@ -164,11 +166,13 @@ namespace UserManagement.Business.Validators
         private bool IsInstituteEmailExistInUserDB(MemberBulkImportVM model, IEnumerable<MemberBulkImportVM> list)
         {
             // check mobile in md_member for master member creation
-            var emailsFromList = list.Select(t => t.UserEmail).ToList();
+            if (string.IsNullOrEmpty(model.HFEmail))
+                return false;
+            var emailsFromList = list?.Where(x => !string.IsNullOrEmpty(x.UserEmail)).Select(t => t.UserEmail).ToList();
             emailsFromList?.Add(model.HFEmail);
             var emails = Enumerable.Concat(emailsFromList, _emails);
-            var emailsCount = emails.Where(t => t.Equals(model.HFEmail)).Count();
-            var hfNames = list.Select(t => t.HFNameWithDistrictName);
+            var emailsCount = emails?.Where(t => t.Equals(model.HFEmail)).Count();
+            var hfNames = list?.Select(t => t.HFNameWithDistrictName);
             var hfNamesFromDb = this._institutions?.Select(x => x.Name);
             var allHfNames = Enumerable.Concat(hfNamesFromDb, hfNames);
 

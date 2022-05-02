@@ -109,8 +109,8 @@ namespace UserManagement.Business.Tests
                     new MemberBulkValid()
                     {
                         UserName="pbaboharfazs",
-                        UserState="PUNJAB",
-                        UserDistrict="FAZILKA",
+                        HFState="PUNJAB",
+                        HFDistrict="FAZILKA",
                         HFShortName="SPOKE ABOHAR",
                         HFType="SPOKE"
 
@@ -167,8 +167,8 @@ namespace UserManagement.Business.Tests
                     new MemberBulkValid()
                     {
                         UserName="pbaboharfazs",
-                        UserState="PUNJAB",
-                        UserDistrict="FAZILKA",
+                        HFState="PUNJAB",
+                        HFDistrict="FAZILKA",
                         HFShortName="SPOKE ABOHAR",
                         HFType="SPOKE"
 
@@ -179,8 +179,8 @@ namespace UserManagement.Business.Tests
                     new MemberBulkValid()
                     {
                         UserName="pbaboharfazs",
-                        UserState="PUNJAB",
-                        UserDistrict="FAZILKA",
+                        HFState="PUNJAB",
+                        HFDistrict="FAZILKA",
                         HFShortName="SPOKE ABOHAR",
                         HFType="SPOKE"
 
@@ -191,8 +191,8 @@ namespace UserManagement.Business.Tests
                     new MemberBulkValid()
                     {
                         UserName="pbaboharfazs",
-                        UserState="PUNJAB",
-                        UserDistrict="FAZILKA",
+                        HFState="PUNJAB",
+                        HFDistrict="FAZILKA",
                         HFShortName="ABOHAR",
                         HFType="SPOKE"
 
@@ -255,8 +255,8 @@ namespace UserManagement.Business.Tests
                     new MemberBulkValid()
                     {
                         UserName="pbaboharfazs",
-                        UserState="PUNJAB",
-                        UserDistrict="FAZILKA",
+                        HFState="PUNJAB",
+                        HFDistrict="FAZILKA",
                         HFShortName="SPOKE ABOHAR",
                         HFType="SPOKE"
 
@@ -267,8 +267,8 @@ namespace UserManagement.Business.Tests
                     new MemberBulkValid()
                     {
                         UserName="pbaboharfazs",
-                        UserState="PUNJAB",
-                        UserDistrict="FAZILKA",
+                        HFState="PUNJAB",
+                        HFDistrict="FAZILKA",
                         HFShortName="SPOKE ABOHAR",
                         HFType="SPOKE"
 
@@ -279,8 +279,8 @@ namespace UserManagement.Business.Tests
                     new MemberBulkValid()
                     {
                         UserName="pbaboharfazs",
-                        UserState="PUNJAB",
-                        UserDistrict="FAZILKA",
+                        HFState="PUNJAB",
+                        HFDistrict="FAZILKA",
                         HFShortName="SPOKE ABOHAR",
                         HFType="SPOKE"
 
@@ -339,8 +339,8 @@ namespace UserManagement.Business.Tests
                     new MemberBulkValid()
                     {
                         UserName="pbaboharfazs",
-                        UserState="PUNJAB",
-                        UserDistrict="FAZILKA",
+                        HFState="PUNJAB",
+                        HFDistrict="FAZILKA",
                         HFName="SPOKE ABOHAR",
                         HFType="SPOKE"
 
@@ -401,8 +401,8 @@ namespace UserManagement.Business.Tests
                     new MemberBulkValid()
                     {
                         UserName="pbaboharfazs",
-                        UserState="PUNJAB",
-                        UserDistrict="FAZILKA",
+                        HFState="PUNJAB",
+                        HFDistrict="FAZILKA",
                         HFShortName="SPOKE ABOHAR",
                         HFType="SPOKE"
 
@@ -412,8 +412,8 @@ namespace UserManagement.Business.Tests
                     new MemberBulkValid()
                     {
                         UserName="pbaboharfazs",
-                        UserState="PUNJAB",
-                        UserDistrict="FAZILKA",
+                        HFState="PUNJAB",
+                        HFDistrict="FAZILKA",
                         HFShortName="SPOKE ABOHAR",
                         HFType="SPOKE"
 
@@ -424,8 +424,8 @@ namespace UserManagement.Business.Tests
                     new MemberBulkValid()
                     {
                         UserName="pbaboharfazs",
-                        UserState="PUNJAB",
-                        UserDistrict="FAZILKA",
+                        HFState="PUNJAB",
+                        HFDistrict="FAZILKA",
                         HFName="SPOKE ABOHAR",
                         HFType="SPOKE"
 
@@ -488,8 +488,8 @@ namespace UserManagement.Business.Tests
                     new MemberBulkValid()
                     {
                         UserName="pbaboharfazs",
-                        UserState="PUNJAB",
-                        UserDistrict="FAZILKA",
+                        HFState="PUNJAB",
+                        HFDistrict="FAZILKA",
                         HFShortName="SPOKE ABOHAR",
                         HFType="SPOKE"
 
