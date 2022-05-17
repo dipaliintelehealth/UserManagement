@@ -8,13 +8,34 @@
         <div class="card-header visible">
             <div class="text-info total-summary"></div>
         </div>
-        <div class="card-body">
+        <div class="card-body" style="overflow: auto; height: 500px;">
             <form id="bulkform" asp-action="Index">
                 <div class="text-danger mb-2 validation-summary"></div>
 
                 <div class="text-center mb-2">
                     <button id="btnformhelper" class="btn btn-info" asp-action="ValidateData" asp-controller="Home">Validate</button>
                     <button id="btnformhelper1" class="btn btn-info" asp-action="InsertData" asp-controller="Home">Insert</button>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" onclick="SelectAllValidOrInValidRows(this,true)" value="" id="chkSelectValid">
+                                <label class="form-check-label" for="chkSelectValid">
+                                    Select All Valid Rows
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" onclick="SelectAllValidOrInValidRows(this,false)" value="" id="chkSelectInValid">
+                                <label class="form-check-label" for="chkSelectInValid">
+                                    Select All Invalid Rows
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <button type="button" class="btn btn-outline-danger" onclick="deleteRows()"> Delete Selected </button>
+                        </div>
+                    </div>
                 </div>
                 <table class="bulkupload table" id="tblImportData">
                     <thead>
@@ -116,11 +137,11 @@
                                 @Html.DisplayNameFor(model => model.Data[0].UserRole)
                             </th>
                             @*<th>
-                                    @Html.DisplayNameFor(model => model.Data[0].AssignedHFType)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Data[0].AssignHF)
-                                </th>*@
+                        @Html.DisplayNameFor(model => model.Data[0].AssignedHFType)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Data[0].AssignHF)
+                    </th>*@
                             <th>
                                 @Html.DisplayNameFor(model => model.Data[0].HFShortName)
                             </th>
@@ -272,13 +293,13 @@
                                     @Html.BulkValidationError(nameof(mdl.UserRole), i, Model.Errors)
                                 </td>
                                 @*<td>
-                                        @Html.TextBoxFor(modelItem => Model.Data[i].AssignedHFType, new { @class = "form-control" })
-                                        @Html.BulkValidationError(nameof(mdl.AssignedHFType), i, Model.Errors)
-                                    </td>
-                                    <td>
-                                        @Html.TextBoxFor(modelItem => Model.Data[i].AssignHF, new { @class = "form-control" })
-                                        @Html.BulkValidationError(nameof(mdl.AssignHF), i, Model.Errors)
-                                    </td>*@
+                            @Html.TextBoxFor(modelItem => Model.Data[i].AssignedHFType, new { @class = "form-control" })
+                            @Html.BulkValidationError(nameof(mdl.AssignedHFType), i, Model.Errors)
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(modelItem => Model.Data[i].AssignHF, new { @class = "form-control" })
+                            @Html.BulkValidationError(nameof(mdl.AssignHF), i, Model.Errors)
+                        </td>*@
                                 <td>
                                     @Html.TextBoxFor(modelItem => Model.Data[i].HFShortName, new { @class = "form-control" })
                                     @Html.BulkValidationError(nameof(mdl.HFShortName), i, Model.Errors)
@@ -305,6 +326,7 @@
     function formValidationCallback() {
 
         setTimeout(function () {
+            console.log('inside formvalidation callback');
             updateValidationSummary();
         }, 200);
     }
@@ -326,6 +348,7 @@
         $('.total-summary').html(totalhtml);
     }
     function updateValidationSummary() {
+        console.log('inside updateValidationSummary');
         let validInvalid = getValidInvalidRows();
 
         setRowBorderColor(validInvalid.validRows, validInvalid.inValidRows);
@@ -340,8 +363,11 @@
             inValidRows: [],
             errorFields: []
         };
-        tblImportData.rows().every(function (rowIdx, tableLoop, rowLoop) {
-            let row = this.node();
+        console.log('inside getValidInvalidRows');
+        //tblImportData.rows().every(function (rowIdx, tableLoop, rowLoop) {
+        $('table > tbody  > tr').each(function (rowIdx, row) {
+            console.log("table row index",rowIdx);
+           // let row = this.node();
             let errorField = $(row).find('.field-validation-error');
             if (errorField && errorField.length > 0) {
                 //console.log('error Field found', errorField, row);
@@ -453,9 +479,7 @@
             }
         }
     }
-    $(document).ready(function () {
-
-        formValidationCallback();
+    function LoadCheckBoxEvent() {
         $("#chkSelectAllInvalid").on('click', function () {
             let invalidRows = tblImportData.rows('.table-danger');
             if (invalidRows) {
@@ -486,43 +510,13 @@
                 }
             }
         });
-
-        tblImportData = $('#tblImportData').DataTable({
-            "ordering": false,
-            "searching": false,
-            "paging": false,
-            "scrollX": true,
-            "scrollY": "400px",
-            "scrollCollapse": true,
-            "info": true,
-            "dom": '<"toolbar">frtip',
-        });
-        $("div.toolbar").html(`<div class="container">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                       <div class="form-check">
-                                          <input class="form-check-input" type="checkbox" onclick="SelectAllValidOrInValidRows(this,true)" value="" id="chkSelectValid">
-                                          <label class="form-check-label" for="chkSelectValid">
-                                            Select All Valid Rows
-                                          </label>
-                                      </div>
-                                      <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" onclick="SelectAllValidOrInValidRows(this,false)" value="" id="chkSelectInValid">
-                                        <label class="form-check-label" for="chkSelectInValid">
-                                          Select All Invalid Rows
-                                        </label>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <button type="button" class="btn btn-outline-danger" onclick="deleteRows()"> Delete Selected </button>
-                                    </div>
-                                </div>
-                            </div>`);
-        tblImportData.rows().every(function (rowIdx, tableLoop, rowLoop) {
-            let row = this.node();
-            let state = $(row).find('.state');
-            let district = $(row).find('.district');
-            let checkbox = $(row).find('.chkSelected');
+    }
+    function LoadDropDownEvents() {
+        //tblImportData.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            // let row = this.node();
+        let state = $('.state');
+        let district = $('.district');
+        let checkbox = $('.chkSelected');
 
             $(checkbox).on('click', function () {
 
@@ -576,6 +570,52 @@
                 });
             });
 
-        });
+        // });
+    }
+    $(document).ready(function () {
+
+        // tblImportData = $('#tblImportData');
+        LoadDropDownEvents();
+        formValidationCallback();
+        LoadCheckBoxEvent
+            /* $('#tblImportData').DataTable({
+            "ordering": false,
+            "searching": false,
+            "paging": false,
+            "scrollX": true,
+            "scrollY": "400px",
+            "scrollCollapse": true,
+            "info": true,
+            "dom": '<"toolbar">frtip',
+            "fnInitComplete": function (oSettings, json) {
+                alert('DataTables has finished its initialisation.');
+                LoadCheckBoxEvent();
+                LoadDropDownEvents();
+                formValidationCallback();
+            }*/
+        // });
+        /* $("div.toolbar").html(`<div class="container">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                       <div class="form-check">
+                                          <input class="form-check-input" type="checkbox" onclick="SelectAllValidOrInValidRows(this,true)" value="" id="chkSelectValid">
+                                          <label class="form-check-label" for="chkSelectValid">
+                                            Select All Valid Rows
+                                          </label>
+                                      </div>
+                                      <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" onclick="SelectAllValidOrInValidRows(this,false)" value="" id="chkSelectInValid">
+                                        <label class="form-check-label" for="chkSelectInValid">
+                                          Select All Invalid Rows
+                                        </label>
+                                       </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button type="button" class="btn btn-outline-danger" onclick="deleteRows()"> Delete Selected </button>
+                                    </div>
+                                </div>
+                            </div>`);
+                            */
+       
     });
 </script>

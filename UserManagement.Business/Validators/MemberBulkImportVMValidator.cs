@@ -29,6 +29,7 @@ namespace UserManagement.Business.Validators
 
             RuleFor(x => x.HFShortName)
              .Must(t => Regex.IsMatch(t, @"^[a-zA-Z\s]*$"))
+             .When(t => !string.IsNullOrWhiteSpace(t.HFShortName))
              .WithMessage("Invalid character in HF Short Name !");
 
             RuleFor(x => x.HFPhone)
