@@ -1,6 +1,12 @@
 ﻿@model BulkImportWithValidationErrorVM
 @using UserManagement.Domain.ViewModel
 @using UserManagement.Extensions;
+
+<div id="inteleoverlay">
+    <div class="intelespinner"></div>
+    <br />
+    Loading...
+</div>
 @if (Model != null && Model.Data.Count() > 0)
 {
 
@@ -13,8 +19,8 @@
                 <div class="text-danger mb-2 validation-summary"></div>
 
                 <div class="text-center mb-2">
-                    <button id="btnformhelper" class="btn btn-info" asp-action="ValidateData" asp-controller="Home">Validate</button>
-                    <button id="btnformhelper1" class="btn btn-info" asp-action="InsertData" asp-controller="Home">Insert</button>
+                    <button id="btnformhelper" class="btn btn-info submit" asp-action="ValidateData" asp-controller="Home">Validate</button>
+                    <button id="btnformhelper1" class="btn btn-info submit" asp-action="InsertData" asp-controller="Home">Insert</button>
                 </div>
                 <table class="bulkupload table" id="tblImportData">
                     <thead>
@@ -306,6 +312,7 @@
 
         setTimeout(function () {
             updateValidationSummary();
+            stopSpinner();
         }, 200);
     }
     function setRowBorderColor(validRows, inValidRows) {
@@ -454,7 +461,6 @@
         }
     }
     $(document).ready(function () {
-
         formValidationCallback();
         $("#chkSelectAllInvalid").on('click', function () {
             let invalidRows = tblImportData.rows('.table-danger');

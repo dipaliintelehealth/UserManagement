@@ -1,6 +1,7 @@
 ﻿@model BulkImportWithValidationErrorVM
 @using  UserManagement.Domain.ViewModel
 @{ ViewData["Title"] = "Bulk import"; }
+
 <div class="container">
     <div class="card mb-2">
         <div class="card-header">
@@ -15,8 +16,8 @@
                     </div>
                     <div class="form-group col-md-4">
                         <label for="SelectRecord">Select Records To Upload</label>
-                        @Html.DropDownList("SelectRecord",new List<SelectListItem>() { new SelectListItem("3","3"), new SelectListItem("200", "200"), new SelectListItem("300", "300") })
-                      
+                        @Html.DropDownList("SelectRecord", new List<SelectListItem>() { new SelectListItem("500", "500"), new SelectListItem("1000", "1000"), new SelectListItem("1500", "1500"), new SelectListItem("2000", "2000") })
+
                     </div>
                     <div class="form-group col-md-2">
                         <a href="~/RegistrationTemplate.xlsx" Target="_blank">Download Template</a>
@@ -24,7 +25,7 @@
                 </div>
                 <div class="form-row">
                     <div class="col text-center">
-                        <input type="submit" value="Upload" class="btn btn-info">
+                        <input type="submit" value="Upload" class="btn btn-info submit">
                     </div>
 
                 </div>
@@ -36,6 +37,19 @@
 
     @await Html.PartialAsync("ImportData_Partial", Model)
 </div>
+<script>
+    function showSpinner() {
+        $('#inteleoverlay').fadeIn();
+    }
+    function stopSpinner() {
+        $('#inteleoverlay').fadeOut();
+    }
+    $(document).ready(function () {
+        $(".submit").click(function () {
+            showSpinner();
+        });
+    });
+</script>
 
 
 
