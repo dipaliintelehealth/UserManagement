@@ -151,7 +151,7 @@ namespace UserManagement.Business.Validators
             // check mobile in md_member for master member creation
             if (string.IsNullOrEmpty(model.HFPhone))
                 return false;
-            var mobilesFromList = list?.Where(x=>string.IsNullOrEmpty(x.UserMobile)).Select(t => t.UserMobile).ToList();
+            var mobilesFromList = list?.Where(x=>!string.IsNullOrWhiteSpace(x.UserMobile)).Select(t => t.UserMobile).ToList();
             mobilesFromList?.Add(model.HFPhone);
             var mobiles = Enumerable.Concat(mobilesFromList, _mobiles);
             var mobilesCount = mobiles?.Where(t => t.Equals(model.HFPhone)).Count();

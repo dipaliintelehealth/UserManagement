@@ -373,18 +373,20 @@ namespace UserManagement.Infrastructure.Repository
 
         public async Task<IEnumerable<KeyValue<string, string>>> GetDistrict(string stateId)
         {
+            int stateID = string.IsNullOrWhiteSpace(stateId) ? 0 : Convert.ToInt32(stateId);
             var sql = "SELECT D.DistrictId AS Id, D.DistrictName AS Value " +
                          " FROM  md_district AS D " +
-                         $" WHERE D.StateId = {stateId} Order by D.DistrictName; ";
+                         $" WHERE D.StateId = {stateID} Order by D.DistrictName; ";
             var result = await Connection.QueryAsync<KeyValue<string, string>>(sql);
             return result;
         }
 
         public async Task<IEnumerable<KeyValue<string, string>>> GetCities(string stateId, string districtId)
         {
+            int districtID = string.IsNullOrWhiteSpace(districtId) ? 0 : Convert.ToInt32(districtId);
             var sql = "SELECT C.CityId AS Id, C.CityName AS Value " +
                         " FROM md_city AS C " +
-                        $" WHERE C.DistrictId = {districtId} Order by C.CityName; ";
+                        $" WHERE C.DistrictId = {districtID} Order by C.CityName; ";
             var result = await Connection.QueryAsync<KeyValue<string, string>>(sql);
             return result;
         }

@@ -21,6 +21,7 @@ namespace UserManagement.Business.Validators
             
             RuleFor(x => x.HFName)
                 .Must(t => Regex.IsMatch(t, @"^[\w\s]*$"))
+                .When(t => !string.IsNullOrWhiteSpace(t.HFName))
                 .WithMessage("Invalid character in HF name!");
 
             RuleFor(x => x.HFShortName)

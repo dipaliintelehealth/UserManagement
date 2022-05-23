@@ -95,7 +95,7 @@ namespace UserManagement.Domain.ViewModel
                 {
                     return 2;
                 }
-                else if (this.Gender.ToLower() == "Male".ToLower())
+                else if (this.Gender?.ToLower() == "Male".ToLower())
                 {
                     return 1;
                 }
