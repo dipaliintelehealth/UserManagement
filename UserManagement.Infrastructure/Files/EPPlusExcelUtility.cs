@@ -139,7 +139,7 @@ namespace UserManagement.Infrastructure.Files
                     {
                         var excelHeaderColumnIndex = excelColumnHeaders.IndexOf(mappedPair.Key);
                         var property = properties.FirstOrDefault(x => x.Name == mappedPair.Value);
-                        var excelCellText = Convert.ToString(ws.Cells[rowNum, excelHeaderColumnIndex + 1].Value)?.Trim();
+                        var excelCellText = ws.Cells[rowNum, excelHeaderColumnIndex + 1].Text?.Trim();
                         if (property != null)
                         {
                             if (property.PropertyType == typeof(DateTime))

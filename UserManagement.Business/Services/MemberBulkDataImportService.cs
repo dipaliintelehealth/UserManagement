@@ -461,6 +461,12 @@ namespace UserManagement.Business.Services
                 {
                     model.SelectedSpecialityId = GetSpecializationId(specializations, model.Designation);
                 }
+                DateTime dt;
+                
+               if(DateTime.TryParseExact(model.DOB, DOBFormats.Formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out dt))
+                {
+                    model.DOB = dt.ToString("dd-MM-yyyy");
+                }
                 model.HFTypeId = GetHFtypeId(hfTypes, model.HFType);
                 model.Designation = specializations.FirstOrDefault(d => d.SpecialityId == model.SelectedSpecialityId)?.SpecialityName;
                 model.UserDistrictShortCode = GetDistrictShortCode(states, model.UserState, model.UserDistrict);
