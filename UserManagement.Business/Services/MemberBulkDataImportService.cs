@@ -11,6 +11,7 @@ using UserManagement.Contract.Repository;
 using UserManagement.Contract.Utility;
 using UserManagement.Contract.Validator;
 using UserManagement.Domain;
+using UserManagement.Domain.Models;
 using UserManagement.Domain.ViewModel;
 using UserManagement.Infrastructure.Files;
 using UserManagement.Models;
@@ -1006,6 +1007,7 @@ namespace UserManagement.Business.Services
 
         private async Task<IEnumerable<ResultModel<MemberBulkValid>>> CreateMember(IEnumerable<ResultModel<MemberBulkValid>> models)
         {
+           
             var allValidModels = models?.Where(x => x.IsSuccess).Select(x => x.Value);
             if (allValidModels.Count() == 0)
             {
@@ -1020,7 +1022,7 @@ namespace UserManagement.Business.Services
                 MiddleName = string.Empty,
                 LastName = x.LastName,
                 AgeType = 1,
-                DOB = DateTime.ParseExact(x.DOB, "dd-MM-yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd HH:mm:ss"),
+                DOB = DateTime.ParseExact(x.DOB, DOBFormats.Formats, CultureInfo.InvariantCulture, DateTimeStyles.None).ToString("yyyy-MM-dd HH:mm:ss"),
                 Age = 0,
                 Mobile = x.UserMobile,
                 Email = x.UserEmail,

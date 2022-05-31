@@ -6,6 +6,7 @@ using UserManagement.Domain.ViewModel;
 using UserManagement.Contract.User;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using UserManagement.Domain.Models;
 
 namespace UserManagement.Business.Validators
 {
@@ -124,9 +125,9 @@ namespace UserManagement.Business.Validators
                 .WithMessage("User Date of Birth can not be blank !");
 
             RuleFor(x => x.DOB)
-                .Must(x => DateTime.TryParseExact(x, "dd-MM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out dt))
+                .Must(x => DateTime.TryParseExact(x, DOBFormats.Formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out dt))
                 .When(x => !string.IsNullOrWhiteSpace(x.DOB))
-                .WithMessage("Invalid Date of Birth it should be in DD-MM-YYYY !");
+                .WithMessage("Invalid Date of Birth !");
 
             RuleFor(x => x.SelectedUserStateId)
                 .NotEmpty()
