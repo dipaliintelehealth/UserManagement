@@ -17,7 +17,9 @@ namespace UserManagement.Domain.Models
                                 "yyyy/MM/dd","yyyy-MM-dd","yyyy.MM.dd",
                                 "yyyy/d/MM", "yyyy-d-MM","yyyy.d.MM",
                                 "yyyy/M/dd","yyyy-M-dd","yyyy.M.dd",
-                                "yyyy/d/M","yyyy-M-d","yyyy.M.d"
+                                "yyyy/d/M","yyyy-M-d","yyyy.M.d",
+                                "dd-MMM-yyyy","dd-MMMM-yyyy",
+                                "dd/MMM/yyyy","dd/MMMM/yyyy"
                         };
     }
 }
