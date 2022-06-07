@@ -39,6 +39,11 @@ namespace UserManagement.Business.Validators
                 .WithMessage("HF Phone can not be blank !");
 
             RuleFor(x => x.HFPhone)
+                .Matches("^[0-9]{10}$")
+                .When(x => !string.IsNullOrWhiteSpace(x.HFPhone))
+                .WithMessage("Invalid HF Phone !");
+
+            RuleFor(x => x.HFPhone)
                 .NotEqual(x => x.UserMobile)
                 .WithMessage("HF Phone can not be same as User Mobile !");
 
@@ -56,6 +61,7 @@ namespace UserManagement.Business.Validators
 
             RuleFor(x => x.HFEmail)
                 .EmailAddress()
+                .When(x => !string.IsNullOrWhiteSpace(x.HFEmail))
                 .WithMessage("Invalid HF Email !");
 
             RuleFor(x => x.HFEmail)
@@ -98,6 +104,7 @@ namespace UserManagement.Business.Validators
 
             RuleFor(x => x.UserMobile)
                 .Matches("^[0-9]{10}$")
+                .When(x => !string.IsNullOrWhiteSpace(x.UserMobile))
                 .WithMessage("Invalid User Mobile !");
 
             RuleFor(x => x.Gender)
@@ -114,6 +121,7 @@ namespace UserManagement.Business.Validators
 
             RuleFor(x => x.UserEmail)
                 .EmailAddress()
+                .When(x => !string.IsNullOrWhiteSpace(x.UserEmail))
                 .WithMessage("Invalid User Email !");
 
             //RuleFor(x => x.Designation)
