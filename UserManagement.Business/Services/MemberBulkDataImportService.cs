@@ -374,7 +374,7 @@ namespace UserManagement.Business.Services
 
                 var pattern = $"{firstpart}[0-9]+{secondpart}";
 
-                if (users.Contains(duplicateUserGroup.Key))
+                if (users.Any(x => Regex.IsMatch(x,pattern)))
                 {
                     initialCount = 1;
                     var numberToincrement = users.Where(x => Regex.IsMatch(x, pattern))?.Select(x => { var number = x.Replace(firstpart, string.Empty).Replace(secondpart, string.Empty); return (!string.IsNullOrWhiteSpace(number) ? int.Parse(number) : 0); }).OrderByDescending(x => x).FirstOrDefault();
