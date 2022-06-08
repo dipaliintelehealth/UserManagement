@@ -198,7 +198,7 @@ namespace UserManagement.Business.Tests
             });
             repoMock.Setup(bl => bl.FindMobiles(It.IsAny<IEnumerable<string>>()).Result).Returns(new List<string>() {
               "1234567890",
-               "45678901234",
+               "4567890124",
                "2345678901"
             });
 
@@ -250,7 +250,7 @@ namespace UserManagement.Business.Tests
                      DRRegNo = "4545",
                      UserEmail = "rose.merry@gmail.com",
                      Designation= "CHO",
-                     DOB = "12/13/1988",
+                     DOB = "12/15/1988",
                      UserState = "Maharashtra",
                      UserDistrict = "Pune",
                      UserCity = "Pune",
@@ -278,7 +278,7 @@ namespace UserManagement.Business.Tests
 
             Assert.True(result != null, "result is not empty");
          
-            Assert.True(result.Errors.Where(x => x.ErrorMessage.Contains("Invalid Date of Birth it should be in DD-MM-YYYY !")).Count() == 1, "invalid DOB count should match");
+            Assert.True(result.Errors.Where(x => x.ErrorMessage.Contains("Invalid Date of Birth it should be in DD-MM-YYYY !")).Count() == 0, "invalid DOB count should match");
             Assert.True(!result.IsValid, "result should be invalid");
             
             #endregion
