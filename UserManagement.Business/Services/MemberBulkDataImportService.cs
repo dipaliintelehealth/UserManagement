@@ -194,10 +194,7 @@ namespace UserManagement.Business.Services
             {
                 HFName = data.HFName,
                 HFShortName = data.HFShortName,
-                Address = data.Address,
-               /* AssignedHFType = data.AssignedHFType,
-                AssignedInstituteID = data.AssignedInstituteID,
-                AssignHF = data.AssignHF,*/
+                Address = data.HFName + " " + data.HFDistrict,
                 Designation = data.Designation,
                 DOB = data.DOB,
                 DRRegNo = data.DRRegNo,
@@ -254,10 +251,7 @@ namespace UserManagement.Business.Services
                 ErrorMessage = string.Join(",", errors),
                 HFName = data.HFName,
                 HFShortName = data.HFShortName,
-                Address = data.Address,
-                /*AssignedHFType = data.AssignedHFType,
-                AssignedInstituteID = data.AssignedInstituteID,
-                AssignHF = data.AssignHF,*/
+                Address = data.HFName +" "+ data.HFDistrict,
                 Designation = data.Designation,
                 DOB = data.DOB,
                 DRRegNo = data.DRRegNo,
