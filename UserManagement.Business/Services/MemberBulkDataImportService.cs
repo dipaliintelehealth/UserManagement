@@ -194,7 +194,7 @@ namespace UserManagement.Business.Services
             {
                 HFName = data.HFName,
                 HFShortName = data.HFShortName,
-                Address = data.HFName + " " + data.HFDistrict.ToUpper(),
+                Address = data.Address,
                 Designation = data.Designation,
                 DOB = data.DOB,
                 DRRegNo = data.DRRegNo,
@@ -251,7 +251,7 @@ namespace UserManagement.Business.Services
                 ErrorMessage = string.Join(",", errors),
                 HFName = data.HFName,
                 HFShortName = data.HFShortName,
-                Address = data.HFName +" "+ data.HFDistrict.ToUpper(),
+                Address = data.Address,
                 Designation = data.Designation,
                 DOB = data.DOB,
                 DRRegNo = data.DRRegNo,
@@ -472,6 +472,7 @@ namespace UserManagement.Business.Services
                 model.UserDistricts = GetDistricts(states, model.UserState);
                 model.HFCities = GetCities(states, model.HFState, model.HFDistrict);
                 model.UserCities = GetCities(states, model.UserState, model.UserDistrict);
+                model.Address = model.HFName?.Trim() + " " + model.HFDistrict?.Trim();
                 models.Add(model);
             }
             return models;
