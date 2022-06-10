@@ -89,6 +89,11 @@ namespace UserManagement.Business.Validators
                 .NotEmpty()
                 .WithMessage("HF PIN can not be blank !");
 
+            RuleFor(x => x.PIN)
+              .Matches("^[0-9]{6}$")
+              .When(x => !string.IsNullOrWhiteSpace(x.PIN))
+              .WithMessage("Invalid HF PIN !");
+
             //User Validation 
             RuleFor(x => x.FirstName)
                 .NotEmpty()
