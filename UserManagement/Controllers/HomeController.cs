@@ -67,7 +67,9 @@ namespace UserManagement.Controllers
 
 
             ViewBag.States = await _bulkDataImportService.GetStates();
+            ViewBag.Qualification = await _bulkDataImportService.GetQualifications();
             ViewBag.Specilization = await _bulkDataImportService.GetSpecialities();
+            
             var listModels = models.Take(Convert.ToInt32(selectedRecords)).ToList();
 
             // Validation of models after XL reading
@@ -103,6 +105,7 @@ namespace UserManagement.Controllers
 
                 ViewBag.States = await _bulkDataImportService.GetStates();
                 ViewBag.Specilization = await _bulkDataImportService.GetSpecialities();
+                ViewBag.Qualification = await _bulkDataImportService.GetQualifications();
                 var formResult = result.ToFormResult();
                 return new JsonResult(formResult);
             }
@@ -126,6 +129,7 @@ namespace UserManagement.Controllers
             var states = await _bulkDataImportService.GetStates();
             ViewBag.States = states;
             ViewBag.Specilization = await _bulkDataImportService.GetSpecialities();
+            ViewBag.Qualification = await _bulkDataImportService.GetQualifications();
 
             var model = new BulkImportWithValidationErrorVM()
             {

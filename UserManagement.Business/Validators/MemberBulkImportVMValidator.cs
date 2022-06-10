@@ -158,6 +158,10 @@ namespace UserManagement.Business.Validators
                  .NotEmpty()
                  .WithMessage("Invalid User Specialization / Designation !");
 
+            RuleFor(x => x.SelectedQualificationId)
+                .NotEmpty()
+                .WithMessage("Invalid User Qualification !");
+
             RuleFor(x => x.UserAddress)
                .NotEmpty()
                .WithMessage("User Address can not be blank !");

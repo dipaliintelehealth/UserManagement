@@ -213,8 +213,9 @@
                                     @Html.BulkValidationError(nameof(mdl.Gender), i, Model.Errors)
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(modelItem => Model.Data[i].Qualification, new { @class = "form-control" })
-                                    @Html.BulkValidationError(nameof(mdl.Qualification), i, Model.Errors)
+                                    @Html.DropDownListFor(model => Model.Data[i].SelectedQualificationId,
+                                    new SelectList(ViewBag.Qualification, "Id", "Value"), "--Select--", new { @class = "form-control" })
+                                    @Html.BulkValidationError(nameof(mdl.SelectedQualificationId), i, Model.Errors)
                                 </td>
                                 <td>
                                     @Html.TextBoxFor(modelItem => Model.Data[i].Experience, new { @class = "form-control" })

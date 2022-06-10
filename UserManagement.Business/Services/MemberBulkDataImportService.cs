@@ -98,7 +98,9 @@ namespace UserManagement.Business.Services
                 x.Designation = specializations.FirstOrDefault(d => d.SpecialityId == x.SelectedSpecialityId)?.SpecialityName;
                 x.UserDistrictShortCode = GetDistrictShortCode(states, x.UserState, x.UserDistrict);
                 x.UserName = GetUsersName(states, x.HFState, x.HFDistrict, x.HFShortName, x.HFType);
+                x.Qualification = qualifications.FirstOrDefault(d => d.QualificationId == x.SelectedQualificationId)?.QualificationName;
                 x.QualificationId = GetQualificationId(qualifications, x.Qualification);
+                x.Qualification = qualifications.FirstOrDefault(d => d.QualificationId == x.SelectedQualificationId)?.QualificationName;
                 x.SpecialityId = GetSpecializationId(specializations, x.Designation);
                 x.InstituteID = GetInstitutionId(institutions, x.HFNameWithDistrictName);
                // x.AssignedInstituteID = GetInstitutionId(institutions, x.AssignHF);
@@ -217,6 +219,7 @@ namespace UserManagement.Business.Services
                 PIN = data.PIN,
                 Qualification = data.Qualification,
                 QualificationId = data.QualificationId,
+                SelectedQualificationId = data.SelectedQualificationId,
                 SelectedHFCityId = data.SelectedHFCityId,
                 SelectedHFDistrictId = data.SelectedHFDistrictId,
                 SelectedHFStateId = data.SelectedHFStateId,
@@ -274,6 +277,7 @@ namespace UserManagement.Business.Services
                 PIN = data.PIN,
                 Qualification = data.Qualification,
                 QualificationId = data.QualificationId,
+                SelectedQualificationId = data.SelectedQualificationId,
                 SelectedHFCityId = data.SelectedHFCityId,
                 SelectedHFDistrictId = data.SelectedHFDistrictId,
                 SelectedHFStateId = data.SelectedHFStateId,
@@ -454,6 +458,14 @@ namespace UserManagement.Business.Services
                 else
                 {
                     model.SelectedSpecialityId = GetSpecializationId(specializations, model.Designation);
+                }
+                if (model.SelectedQualificationId != 0)
+                {
+                    model.Qualification = qualifications?.FirstOrDefault(x => x.QualificationId == model.SelectedQualificationId)?.QualificationName;
+                }
+                else
+                {
+                    model.SelectedQualificationId = GetQualificationId(qualifications, model.Qualification);
                 }
                 DateTime dt;
                 
@@ -1311,10 +1323,14 @@ namespace UserManagement.Business.Services
         {
             return await _bulkInsertRepository.GetCities(stateId, districtId);
         }
-
+        
         public async Task<IEnumerable<KeyValue<string, string>>> GetSpecialities()
         {
             return await _bulkInsertRepository.GetSpecility();
+        }
+        public async Task<IEnumerable<KeyValue<string, string>>> GetQualifications()
+        {
+            return await _bulkInsertRepository.GetQualifications();
         }
 
         public async Task<Result<BulkInsertValidInvalidVM>> AddDataFromTemporaryStorage(string sessionID)

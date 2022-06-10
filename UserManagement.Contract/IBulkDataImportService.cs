@@ -33,6 +33,7 @@ namespace UserManagement.Contract
         Task<IEnumerable<KeyValue<string, string>>> GetCities(string stateId,string districtId);
 
         Task<IEnumerable<KeyValue<string, string>>> GetSpecialities();
+        Task<IEnumerable<KeyValue<string, string>>> GetQualifications();
 
 
     }

@@ -196,6 +196,7 @@
                                     @Html.ValidationMessageFor(modelItem => Model[i].Gender, "", new { @class = "text-danger" })
                                 </td>
                                 <td>
+                                    @Html.HiddenFor(modelItem => Model[i].SelectedQualificationId)
                                     @Html.TextBoxFor(modelItem => Model[i].Qualification, new { @class = "form-control" })
                                     @Html.ValidationMessageFor(modelItem => Model[i].Qualification, "", new { @class = "text-danger" })
                                 </td>
