@@ -82,35 +82,6 @@ namespace UserManagement.Controllers
             return View(model);
         }
 
-
-        /// <summary>
-        /// This method is used to call from ajax through formhelper library
-        /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public async Task<IActionResult> ImportData(IList<MemberBulkImportVM> data)
-        {
-            if (data is null || data.Count == 0)
-            {
-                return FormResult.CreateErrorResult("No data to import !!! Please check your data");
-            }
-
-            var result = await _bulkInsertValidator.ValidateAsync(data);
-
-            if (!result.IsValid)
-            {
-
-                ViewBag.States = await _bulkDataImportService.GetStates();
-                ViewBag.Specilization = await _bulkDataImportService.GetSpecialities();
-                var formResult = result.ToFormResult();
-                return new JsonResult(formResult);
-            }
-
-            var resultTemporaryStorage = await _bulkDataImportService.AddToTemporaryStorage(data);
-            return resultTemporaryStorage.IsFailure ? FormResult.CreateErrorResult(resultTemporaryStorage.Error)
-                : FormResult.CreateSuccessResult("Validation Successful...", $"BulkInsert/Index/{resultTemporaryStorage.Value}", 100);
-        }
         [HttpPost]
         public async Task<IActionResult> ValidateData(IList<MemberBulkImportVM> data)
         {
