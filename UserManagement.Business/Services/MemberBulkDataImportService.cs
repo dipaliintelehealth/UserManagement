@@ -366,12 +366,12 @@ namespace UserManagement.Business.Services
                 var firstpart = $"{stateShortCode}{strHFname}";
                 var secondpart = $"{distShortCode}{strTypeShortCode}";
 
-                var pattern = $"{firstpart}[0-9]+{secondpart}";
+                var pattern = $"^{firstpart}[0-9]*{secondpart}$";
 
-                if (users.Any(x => Regex.IsMatch(x,pattern)))
+                if (users.Any(x => Regex.IsMatch(x, pattern, RegexOptions.IgnoreCase)))
                 {
                     initialCount = 1;
-                    var numberToincrement = users.Where(x => Regex.IsMatch(x, pattern))?.Select(x => { var number = x.Replace(firstpart, string.Empty).Replace(secondpart, string.Empty); return (!string.IsNullOrWhiteSpace(number) ? int.Parse(number) : 0); }).OrderByDescending(x => x).FirstOrDefault();
+                    var numberToincrement = users.Where(x => Regex.IsMatch(x, pattern, RegexOptions.IgnoreCase))?.Select(x => { var number = x.Replace(firstpart, string.Empty).Replace(secondpart, string.Empty); return (!string.IsNullOrWhiteSpace(number) ? int.Parse(number) : 0); }).OrderByDescending(x => x).FirstOrDefault();
                     initialCount = numberToincrement != null ? Convert.ToInt32(numberToincrement) + 1 : initialCount;
                 }
                 foreach (var item in duplicateUserGroup)

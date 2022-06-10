@@ -226,7 +226,8 @@ namespace UserManagement.Business.Tests
             var users = new List<string>()
             {
                 "pbaboharfazs",
-                "pbaboharfazs",
+                "apbabohar1fazs",
+                "pbaboharfazsap",
                 "pbaboharfazs",
                 "pbabohar3fazs",
                 "pbabohar20fazs",
