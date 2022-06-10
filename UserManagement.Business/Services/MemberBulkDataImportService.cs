@@ -226,7 +226,7 @@ namespace UserManagement.Business.Services
                 SelectedUserDistrictId = data.SelectedUserDistrictId,
                 SelectedUserStateId = data.SelectedUserStateId,
                 SubMenuName = data.SubMenuName,
-                UserAddress = data.HFName + " " + data.HFDistrict.ToUpper(),
+                UserAddress = data.UserAddress,
                 UserAvailableDay = data.UserAvailableDay,
                 UserAvailableFromTime = data.UserAvailableFromTime,
                 UserAvailableToTime = data.UserAvailableToTime,
@@ -283,7 +283,7 @@ namespace UserManagement.Business.Services
                 SelectedUserDistrictId = data.SelectedUserDistrictId,
                 SelectedUserStateId = data.SelectedUserStateId,
                 SubMenuName = data.SubMenuName,
-                UserAddress = data.HFName + " " + data.HFDistrict.ToUpper(),
+                UserAddress = data.UserAddress,
                 UserAvailableDay = data.UserAvailableDay,
                 UserAvailableFromTime = data.UserAvailableFromTime,
                 UserAvailableToTime = data.UserAvailableToTime,
@@ -472,6 +472,7 @@ namespace UserManagement.Business.Services
                 model.UserDistricts = GetDistricts(states, model.UserState);
                 model.HFCities = GetCities(states, model.HFState, model.HFDistrict);
                 model.UserCities = GetCities(states, model.UserState, model.UserDistrict);
+                model.UserAddress = model.HFName?.Trim() + " " + model.HFDistrict?.Trim();
                 models.Add(model);
             }
             return models;
