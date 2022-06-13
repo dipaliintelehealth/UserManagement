@@ -166,6 +166,11 @@ namespace UserManagement.Business.Validators
                 .NotEmpty()
                 .WithMessage("User PIN can not be blank !");
 
+            RuleFor(x => x.UserPin)
+              .Matches("^[0-9]{6}$")
+              .When(x => !string.IsNullOrWhiteSpace(x.UserPin))
+              .WithMessage("Invalid User PIN !");
+
             RuleFor(x => x.UserAvailableDay)
                 .NotEmpty()
                 .WithMessage("Invalid Day and Time (Availability)!");
