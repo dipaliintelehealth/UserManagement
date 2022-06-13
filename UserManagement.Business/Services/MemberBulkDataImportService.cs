@@ -103,6 +103,8 @@ namespace UserManagement.Business.Services
                 x.InstituteID = GetInstitutionId(institutions, x.HFNameWithDistrictName);
                // x.AssignedInstituteID = GetInstitutionId(institutions, x.AssignHF);
                 x.UserPrefix = GetUserPrefix(x.UserPrefix);
+                x.UserAddress = x.HFName?.Trim() + " " + x.HFDistrict?.Trim();
+                x.Address = x.HFName?.Trim() + " " + x.HFDistrict?.Trim();
             }
             var (resultValid, resultInvalid) = await GetValidInvalidData(data);
             WriteToCSV(new MemberBulkValidCsvUtility(sessionIdInString), folderPath, resultValid);
