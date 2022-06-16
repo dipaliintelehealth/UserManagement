@@ -105,6 +105,7 @@ namespace UserManagement.Business.Services
                 x.UserPrefix = GetUserPrefix(x.UserPrefix);
                 x.UserAddress = x.HFName?.Trim() + " " + x.HFDistrict?.Trim();
                 x.Address = x.HFName?.Trim() + " " + x.HFDistrict?.Trim();
+                x.UserAvailableDay = Regex.Replace(x.UserAvailableDay, "\\s+", "");
             }
             var (resultValid, resultInvalid) = await GetValidInvalidData(data);
             WriteToCSV(new MemberBulkValidCsvUtility(sessionIdInString), folderPath, resultValid);
@@ -476,6 +477,7 @@ namespace UserManagement.Business.Services
                 model.UserCities = GetCities(states, model.UserState, model.UserDistrict);
                 model.UserAddress = model.HFName?.Trim() + " " + model.HFDistrict?.Trim();
                 model.Address = model.HFName?.Trim() + " " + model.HFDistrict?.Trim();
+                model.UserAvailableDay = Regex.Replace(model.UserAvailableDay, "\\s+", "");
                 models.Add(model);
             }
             return models;
