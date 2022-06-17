@@ -88,6 +88,7 @@ namespace UserManagement.Models
         public int SelectedUserCityId { get; set; }
         public int SelectedSpecialityId { get; set; }
         public int QualificationId { get; set; }
+        public int SelectedQualificationId { get; set; }
         public int SpecialityId { get; set; }
         public int GenderId
         {

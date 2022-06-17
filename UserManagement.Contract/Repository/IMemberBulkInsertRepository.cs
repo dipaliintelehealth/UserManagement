@@ -32,8 +32,9 @@ namespace UserManagement.Contract.Repository
         Task<int> BulkInsertMemberMenu(Stream stream);
         Task<int> BulkInsertAuditTrail(Stream stream);
         Task<IEnumerable<SubMenuModel>> GetSubMenu();
-        Task<IEnumerable<KeyValue<string, string>>> GetStates();
+        Task<IEnumerable<KeyValue<string, string>>> GetStates(); 
         Task<IEnumerable<KeyValue<string, string>>> GetSpecility();
+        Task<IEnumerable<KeyValue<string, string>>> GetQualifications();
         Task<IEnumerable<KeyValue<string, string>>> GetDistrict(string stateId);
 
         Task<IEnumerable<KeyValue<string, string>>> GetCities(string stateId, string districtId);

@@ -283,6 +283,12 @@ namespace UserManagement.Infrastructure.Repository
             var result = await Connection.QueryAsync<QualificationModel>(sql);
             return result;
         }
+        public async Task<IEnumerable<KeyValue<string, string>>> GetQualifications()
+        {
+            var sql = "SELECT QualificationId AS Id, QualificationName AS Value FROM md_qualification Order by QualificationName;";
+            var result = await Connection.QueryAsync<KeyValue<string, string>>(sql);
+            return result;
+        }
         public async Task<IEnumerable<StateDistrictCity>> GetStateDistrictCities()
         {
             var sql = "SELECT S.StateId, S.StateName,S.StateCode " +
